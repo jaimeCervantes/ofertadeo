@@ -36,16 +36,32 @@ function index() {
   router.get('/home', function(req, res) {
     var iterable = [
       crudInst.getItems({ collection: 'categories', items_per_page: 20}),
-      crudInst.getItems({ collection: 'stores', items_per_page: 20, projection: {name: 1, slug: 1} })
+      crudInst.getItems({ collection: 'stores', items_per_page: 20, projection: {name: 1, slug: 1 } }),
+      crudInst.aggregation(
+          { collection: 'stores', 
+          aggregation: [
+            { $match: { "catalogs.0": { $exists: true}} },
+            { $sort: { name: 1} },
+            { $limit: 5 },
+            { $project: { _id: 0, catalogs: 1}},
+            { $unwind: "$catalogs" },
+            { $project: { "catalogs.title": 1, "catalogs.thumbnail": 1}}
+          ]
+      })
     ];
 
     Promise.all(iterable)
-    .then(function(results){
+    .then(function(results) {
       res.json({
           categories: results[0],
           stores: results[1],
+          catalogs: results[2],
           routes: conf.routes
         });
+    })
+    .catch(function(error) {
+      console.log(error)
+      res.json(error);
     });
   });
 }

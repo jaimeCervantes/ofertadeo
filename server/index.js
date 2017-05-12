@@ -22,6 +22,7 @@ nuxtConfig.dev = !(process.env.NODE_ENV === 'production')
 // Init Nuxt.js
 const nuxt = new Nuxt(nuxtConfig)
 //before nuxt render to compress data
+app.set('view cache', true);//Cache template compilation
 app.use(compression());//Compress all the data that the server response
 
 //At the end because it won't call next()

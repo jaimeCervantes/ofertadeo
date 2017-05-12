@@ -12,7 +12,8 @@ module.exports = function(params) {
   return {
     getPagination: getPagination,
     getItems: getItems,
-    searchItems: searchItems
+    searchItems: searchItems,
+    aggregation: aggregation
   };
 };
 
@@ -67,5 +68,18 @@ function getPagination(params) {
     })
     .catch(function(err){
       return err;
+    });
+}
+
+function aggregation(params) {
+  var db = DATABASE || params.db;
+  return db.collection(COLLECTION || params.collection)
+    .aggregate(params.aggregation)
+    .toArray()
+    .then(function(data){
+      return data
+    })
+    .catch(function(err){
+      return err
     });
 }
