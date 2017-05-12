@@ -5,10 +5,10 @@ node_modules
 npm-debug.log
 
 # Nuxt build
-.nuxt
+#.nuxt
 
 # Nuxt generate
 dist
 
 # Backpack build
-build
+#build
