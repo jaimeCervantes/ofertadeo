@@ -34,3 +34,11 @@
 
 a:hover,
 a:not(.md-button):not(.md-bottom-bar-item):hover { text-decoration: none;}
+
+.content {
+  padding: 1rem;
+}
+
+.card__row--actions {
+  background-color: rgba(0,0,0,0.5);
+}

@@ -13,6 +13,8 @@ module.exports = {
   },
   routes: {
     categories: '/categorias',
-    stores: '/folletos-catalogos'
+    categoriesList: '/categorias',
+    stores: '/folletos-catalogos',
+    storeList: '/stores'
   }
 };

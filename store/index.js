@@ -2,20 +2,18 @@ import Vuex from 'vuex'
 
 const store = new Vuex.Store({
   state: {
-    sidenav: true,
-    counter: 0
+    openedCats: false,
+    openedStores: false
   },
   mutations: {
-    toggleSideNav (state) {
-      console.log(state.sidenav)
-      if (state.sidenav) {
-        state.sidenav = false
-      } else {
-        state.sidenav = true
-      }
+    toggleCategoriesNav (state) {
+      console.log(state.openedCats)
+      state.openedCats = !state.openedCats
+      state.openedStores = false
     },
-    increment (state) {
-      state.counter++
+    toggleStoresNav (state) {
+      state.openedStores = !state.openedStores
+      state.openedCats = false
     }
   }
 })
