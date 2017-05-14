@@ -12,7 +12,7 @@
   <main>
     <ofer-sidebar :path="routes.categories" :items="categories" opened="openedCats" />
     <ofer-sidebar :path="routes.stores" :items="stores" opened="openedStores" />
-    <ofer-content :routes="routes" :catalogs="catalogs" :breadcrumbs="breadcrumbs"/>
+    <ofer-content :routes="routes" :items="catalogs" :breadcrumbs="breadcrumbs"/>
   </main>
 </v-app>
 </template>
@@ -26,7 +26,7 @@ export default {
   async asyncData ({ params }) {
     let { data } = await axios.get('/api/stores/' + params.id)
     return Object.assign({
-      breadcrumbs: [{ text: data.routes.stores, disabled: true }, { text: params.id, disabled: true }],
+      breadcrumbs: [{ text: data.routes.stores.split('/')[1], disabled: true }, { text: params.id, disabled: true }],
       current: params.id
     },
     data)

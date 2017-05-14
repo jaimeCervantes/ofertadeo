@@ -10,7 +10,7 @@
   <main>
     <ofer-sidebar :path="routes.categories" :items="categories" opened="openedCats" />
     <ofer-sidebar :path="routes.stores" :items="stores" opened="openedStores" />
-    <ofer-content :routes="routes" :catalogs="catalogs" />
+    <ofer-content :routes="routes" :items="catalogs" />
   </main>
 </v-app>
 </template>
