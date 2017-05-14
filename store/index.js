@@ -7,7 +7,6 @@ const store = new Vuex.Store({
   },
   mutations: {
     toggleCategoriesNav (state) {
-      console.log(state.openedCats)
       state.openedCats = !state.openedCats
       state.openedStores = false
     },
