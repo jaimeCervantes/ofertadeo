@@ -1,6 +1,6 @@
 <template>
 <v-app top-toolbar>
-  <ofer-toolbar :title="current"></ofer-toolbar>
+  <ofer-toolbar></ofer-toolbar>
   <main>
     <ofer-sidebar :path="routes.categories" :items="categories" opened="openedCats" title="Categorías"/>
     <ofer-sidebar :path="routes.stores" :items="stores" opened="openedStores" title="Tiendas"/>

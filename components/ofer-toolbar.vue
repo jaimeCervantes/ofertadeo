@@ -8,7 +8,7 @@
     </slot>
     <slot name="left-items">
       <v-toolbar-items>
-        <v-toolbar-item>{{title.split('-').join(' ')}}</v-toolbar-item>
+        <v-toolbar-item>Ofertadeo</v-toolbar-item>
       </v-toolbar-items>
     </slot>
 
