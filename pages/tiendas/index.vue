@@ -39,7 +39,7 @@ export default {
   async asyncData ({ params }) {
     let { data } = await axios.get('/api/stores/' + params.id)
     return Object.assign({
-      breadcrumbs: [{ text: data.routes.storeList, disabled: true }]
+      breadcrumbs: [{ text: data.routes.storeList.split('/')[1], disabled: true }]
     },
     data)
   },
