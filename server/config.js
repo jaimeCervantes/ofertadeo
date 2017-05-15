@@ -15,6 +15,6 @@ module.exports = {
     categories: '/categorias',
     categoriesList: '/categorias',
     stores: '/folletos-catalogos',
-    storeList: '/stores'
+    storeList: '/tiendas'
   }
 };

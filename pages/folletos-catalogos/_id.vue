@@ -1,14 +1,6 @@
 <template>
 <v-app top-toolbar>
-  <v-toolbar>
-    <v-toolbar-side-icon @click.native.stop="$store.commit('toggleCategoriesNav')"></v-toolbar-side-icon>
-    <v-btn icon @click.native.stop="$store.commit('toggleStoresNav')">
-      <v-icon>store</v-icon>
-    </v-btn>
-    <v-toolbar-items>
-      <v-toolbar-item>{{current}}</v-toolbar-item>
-    </v-toolbar-items>
-  </v-toolbar>
+  <ofer-toolbar :title="current"></ofer-toolbar>
   <main>
     <ofer-sidebar :path="routes.categories" :items="categories" opened="openedCats" />
     <ofer-sidebar :path="routes.stores" :items="stores" opened="openedStores" />
@@ -19,6 +11,7 @@
 
 <script>
 import axios from '~plugins/axios'
+import OferToolbar from '~components/ofer-toolbar.vue'
 import OferSidebar from '~components/ofer-sidebar.vue'
 import OferContent from '~components/ofer-content.vue'
 
@@ -26,7 +19,10 @@ export default {
   async asyncData ({ params }) {
     let { data } = await axios.get('/api/stores/' + params.id)
     return Object.assign({
-      breadcrumbs: [{ text: data.routes.stores.split('/')[1], disabled: true }, { text: params.id, disabled: true }],
+      breadcrumbs: [
+        { text: data.routes.stores.split('/')[1], disabled: false, href: data.routes.stores },
+        { text: params.id, disabled: true }
+      ],
       current: params.id
     },
     data)
@@ -38,7 +34,8 @@ export default {
   },
   components: {
     OferSidebar,
-    OferContent
+    OferContent,
+    OferToolbar
   }
 }
 </script>

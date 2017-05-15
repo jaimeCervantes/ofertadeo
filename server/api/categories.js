@@ -22,7 +22,8 @@ module.exports = function(wagner, params) {
   })
   .then(function(){
     if(crudInst) {
-      index();  
+      _id();
+      index()
     } else {
       indexNoDB();
     }
@@ -32,14 +33,41 @@ module.exports = function(wagner, params) {
   return router;
 };
 
-function index() {
-  router.get('/categorias/:_id', function(req, res) {
+function _id() {
+  router.get('/categories/:_id', function(req, res) {
     var iterable = [
       crudInst.getItems({ collection: 'categories', items_per_page: 20}),
       crudInst.getItems({ collection: 'stores', query: { categories: req.params._id}, items_per_page: 20, projection: {name: 1, slug: 1 } }),
       crudInst.getItems({
         collection: 'catalogs',
         query: { categories: req.params._id },
+        items_per_page: 6, 
+        projection: {title: 1, thumbnail: 1, store_id: 1 } })
+    ];
+
+    Promise.all(iterable)
+    .then(function(results) {
+      res.json({
+          categories: results[0],
+          stores: results[1],
+          catalogs: results[2],
+          routes: conf.routes
+        });
+    })
+    .catch(function(error) {
+      console.log(error)
+      res.json(error);
+    });
+  });
+}
+
+function index() {
+  router.get('/categories', function(req, res) {
+    var iterable = [
+      crudInst.getItems({ collection: 'categories', items_per_page: 20}),
+      crudInst.getItems({ collection: 'stores', items_per_page: 20, projection: {name: 1, slug: 1 } }),
+      crudInst.getItems({
+        collection: 'catalogs',
         items_per_page: 6, 
         projection: {title: 1, thumbnail: 1, store_id: 1 } })
     ];

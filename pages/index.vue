@@ -1,12 +1,10 @@
 <template>
 <v-app top-toolbar>
-  <v-toolbar>
-    <v-toolbar-side-icon @click.native.stop="$store.commit('toggleCategoriesNav')"></v-toolbar-side-icon>
-    <v-btn icon @click.native.stop="$store.commit('toggleStoresNav')">
-      <v-icon>store</v-icon>
-    </v-btn>
-    <v-toolbar-title>Ofertadeo</v-toolbar-title>
-  </v-toolbar>
+  <ofer-toolbar>
+    <template slot="left-items">
+      <v-toolbar-title>Ofertadeo</v-toolbar-title>      
+    </template>
+  </ofer-toolbar>
   <main>
     <ofer-sidebar :path="routes.categories" :items="categories" opened="openedCats" />
     <ofer-sidebar :path="routes.stores" :items="stores" opened="openedStores" />
@@ -17,6 +15,7 @@
 
 <script>
 import axios from '~plugins/axios'
+import OferToolbar from '~components/ofer-toolbar.vue'
 import OferSidebar from '~components/ofer-sidebar.vue'
 import OferContent from '~components/ofer-content.vue'
 
@@ -36,7 +35,8 @@ export default {
   },
   components: {
     OferSidebar,
-    OferContent
+    OferContent,
+    OferToolbar
   }
 }
 </script>
