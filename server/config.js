@@ -14,7 +14,7 @@ module.exports = {
   routes: {
     categories: '/categorias',
     categoriesList: '/categorias',
-    stores: '/folletos-catalogos',
+    stores: '/promociones',
     storeList: '/tiendas'
   }
 };

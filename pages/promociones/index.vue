@@ -8,8 +8,8 @@
     </template>
   </ofer-toolbar>
   <main>
-    <ofer-sidebar :path="routes.categories" :items="categories" opened="openedCats" />
-    <ofer-sidebar :path="routes.stores" :items="stores" opened="openedStores" />
+    <ofer-sidebar :path="routes.categories" :items="categories" opened="openedCats" title="Categorías" />
+    <ofer-sidebar :path="routes.stores" :items="stores" opened="openedStores" title="Tiendas" />
     <ofer-content :routes="routes" :breadcrumbs="breadcrumbs">
       <template slot="items">
         <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in stores" :key="i">

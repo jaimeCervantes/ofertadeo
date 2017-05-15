@@ -37,7 +37,7 @@ function _id() {
   router.get('/categories/:_id', function(req, res) {
     var iterable = [
       crudInst.getItems({ collection: 'categories', items_per_page: 20}),
-      crudInst.getItems({ collection: 'stores', query: { categories: req.params._id}, items_per_page: 20, projection: {name: 1, slug: 1 } }),
+      crudInst.getItems({ collection: 'stores', items_per_page: 20, projection: {name: 1, slug: 1 } }),
       crudInst.getItems({
         collection: 'catalogs',
         query: { categories: req.params._id },
