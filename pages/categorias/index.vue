@@ -3,19 +3,21 @@
   <ofer-toolbar></ofer-toolbar>
   <main>
     <ofer-sidebar :path="routes.categories" :items="categories" opened="openedCats" title="Categorías" />
-    <ofer-sidebar :path="routes.stores" :items="stores" opened="openedStores" title="Tiendas" />
+    <ofer-sidebar :path="routes.storeList" :items="stores" opened="openedStores" title="Tiendas" />
     <ofer-content :routes="routes" :breadcrumbs="breadcrumbs">
       <template slot="items">
         <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in categories" :key="i">
-          <v-card hover raised>
-            <v-card-row v-if="item.thumbnail" v-bind:img="item.thumbnail" height="162px"></v-card-row>
-            <v-card-row v-if="item.name">
-              <div class="pa-2">{{item.name}}</div>
-            </v-card-row>
-            <v-card-row class="actions">
-                <a :href="routes.categories + '/' + item._id"><v-btn primary>Ver</v-btn></a>  
-            </v-card-row>
-          </v-card>
+          <nuxt-link :to="routes.categories + '/' + item._id">
+            <v-card hover raised>
+              <v-card-row v-if="item.thumbnail" v-bind:img="item.thumbnail" height="162px"></v-card-row>
+              <v-card-row v-if="item.name">
+                <div class="pa-2">{{item.name}}</div>
+              </v-card-row>
+              <v-card-row class="actions">
+                <v-btn primary>Ver</v-btn>
+              </v-card-row>
+            </v-card>
+          </nuxt-link>
         </v-col>
       </template>
     </ofer-content>

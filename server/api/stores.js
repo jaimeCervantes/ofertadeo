@@ -41,7 +41,7 @@ function index() {
         collection: 'catalogs',
         query: { store_id: req.params._id },
         items_per_page: 6, 
-        projection: {title: 1, thumbnail: 1, store_id: 1 } })
+        projection: {title: 1, thumbnail: 1, store_id: 1, slug: 1 } })
     ];
 
     Promise.all(iterable)

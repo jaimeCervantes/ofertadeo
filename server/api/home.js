@@ -37,7 +37,7 @@ function index() {
     var iterable = [
       crudInst.getItems({ collection: 'categories', items_per_page: 20}),
       crudInst.getItems({ collection: 'stores', items_per_page: 20, projection: {name: 1, slug: 1 } }),
-      crudInst.getItems({ collection: 'catalogs', items_per_page: 6, projection: {title: 1, thumbnail: 1, store_id: 1 } })
+      crudInst.getItems({ collection: 'catalogs', items_per_page: 6, projection: {title: 1, thumbnail: 1, store_id: 1, slug: 1 } })
     ];
 
     Promise.all(iterable)

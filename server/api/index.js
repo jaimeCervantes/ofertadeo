@@ -5,6 +5,7 @@ var config = require('../config.js');
 var home = require('./home');
 var categories = require('./categories');
 var stores = require('./stores');
+var promotions = require('./promotions');
 
 wagner.factory('config', function(){
   return config;
@@ -16,5 +17,6 @@ var router = Router()
 router.use(home(wagner))
 router.use(categories(wagner))
 router.use(stores(wagner))
+router.use(promotions(wagner))
 
 export default router
