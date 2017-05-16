@@ -1,24 +1,14 @@
 <template>
 <v-app top-toolbar>
-  <ofer-toolbar></ofer-toolbar>
+  <ofer-toolbar>
+    <template slot="left-items">
+      <v-toolbar-title>Ofertadeo</v-toolbar-title>      
+    </template>
+  </ofer-toolbar>
   <main>
     <ofer-sidebar :path="routes.categories" :items="categories" opened="openedCats" title="Categorías" />
-    <ofer-sidebar :path="routes.stores" :items="stores" opened="openedStores" title="Tiendas" />
-    <ofer-content :routes="routes" :breadcrumbs="breadcrumbs">
-      <template slot="items">
-        <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in stores" :key="i">
-          <v-card hover raised>
-            <v-card-row v-if="item.thumbnail" v-bind:img="item.thumbnail" height="162px"></v-card-row>
-            <v-card-row v-if="item.name">
-              <div class="pa-2">{{item.name}}</div>
-            </v-card-row>
-            <v-card-row class="actions">
-                <a :href="routes.stores + '/' + item._id"><v-btn primary>Ver</v-btn></a>  
-            </v-card-row>
-          </v-card>
-        </v-col>
-      </template>
-    </ofer-content>
+    <ofer-sidebar :path="routes.stores" :items="stores" opened="openedStores"  title="Tiendas" />
+    <ofer-content :routes="routes" :items="catalogs" />
   </main>
 </v-app>
 </template>
@@ -30,17 +20,18 @@ import OferSidebar from '~components/ofer-sidebar.vue'
 import OferContent from '~components/ofer-content.vue'
 
 export default {
-  async asyncData ({ params }) {
-    let { data } = await axios.get('/api/stores/' + params.id)
-    return Object.assign({
-      breadcrumbs: [{ text: data.routes.stores.split('/')[1], disabled: true }]
-    },
-    data)
+  async asyncData () {
+    let { data } = await axios.get('/api/home')
+    return Object.assign({ categoriesOpened: false, storesOpened: false }, data)
   },
   head () {
     return {
-      title: 'Ofertadeo Folletos, Catalogos.'
+      title: 'Ofertadeo'
     }
+  },
+  computed: {
+    openedCats () { return this.$store.state.openedCats },
+    openedStores () { return this.$store.state.openedStores }
   },
   components: {
     OferSidebar,

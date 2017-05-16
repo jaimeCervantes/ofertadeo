@@ -22,7 +22,7 @@
               <div class="pa-2">{{item.name}}</div>
             </v-card-row>
             <v-card-row class="actions">
-                <a :href="routes.stores + '/' + item.store_id + '/' + item._id"><v-btn primary>Ver</v-btn></a>  
+                <a :href="routes.stores + '/' + item._id"><v-btn primary>Ver</v-btn></a>  
             </v-card-row>
           </v-card>
         </v-col>
