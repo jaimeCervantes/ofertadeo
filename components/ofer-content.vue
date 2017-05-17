@@ -16,7 +16,7 @@
     <v-row>
       <slot name="items">
         <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-          <nuxt-link :to="routes.stores + '/' + item.slug">
+          <nuxt-link :to="$store.state.routes.stores + '/' + item.slug">
             <v-card hover raised>
               <v-card-row v-if="item.thumbnail" v-bind:img="item.thumbnail" height="162px"></v-card-row>
               <v-card-row v-if="item.name">

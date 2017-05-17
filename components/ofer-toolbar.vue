@@ -1,10 +1,7 @@
 <template>
   <v-toolbar>
     <slot name="left-icons">
-      <v-toolbar-side-icon @click.native.stop="$store.commit('toggleCategoriesNav')"></v-toolbar-side-icon>
-      <v-btn icon @click.native.stop="$store.commit('toggleStoresNav')">
-        <v-icon>store</v-icon>
-      </v-btn>
+      <v-toolbar-side-icon @click.native.stop="$store.commit('toggleSidebar')"></v-toolbar-side-icon>
     </slot>
     <slot name="left-items">
       <v-toolbar-items>
