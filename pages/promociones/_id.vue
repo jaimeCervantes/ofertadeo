@@ -17,16 +17,14 @@
 <script>
 import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
+import OferPaths from '~components/mixins/ofer-paths.vue'
 
 export default {
-  async asyncData ({ params }) {
+  mixins: [OferPaths],
+  async asyncData ({ params, route }) {
     let { data } = await axios.get('/api/promotions/' + params.id)
     return Object.assign({
-      breadcrumbs: [
-        { text: data.routes.stores.split('/')[1], disabled: false, href: data.routes.stores },
-        { text: params.id, disabled: true }
-      ],
-      current: params.id
+      path: route.path
     },
     data)
   },
