@@ -1,7 +1,7 @@
 <template>
 <ofer-content :breadcrumbs="breadcrumbs">
   <template slot="items">
-    <v-col class="pa-3" xs12 sm12 md9 lg9 xl9 v-for="(item,i) in catalogs" :key="i">
+    <v-col class="pa-3" xs12 sm12 md9 lg9 xl9 v-for="(item,i) in items" :key="i">
       <div class="promotion">
         <h1 class="display-1">{{item.title}}</h1>
         <div class="thumbnail">

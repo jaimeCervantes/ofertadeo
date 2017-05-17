@@ -1,20 +1,22 @@
 <template>
-  <ofer-content :items="catalogs" :breadcrumbs="breadcrumbs"/>
+<div>
+  <ofer-content :items="items" :breadcrumbs="breadcrumbs"/>
+  {{JSON.stringify(breadcrumbs)}}
+</div>
 </template>
 
 <script>
 import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
+import OferPaths from '~components/mixins/ofer-paths.vue'
 
 export default {
-  async asyncData ({ params }) {
-    let { data } = await axios.get('/api/categories/' + params.id)
+  mixins: [OferPaths],
+  async asyncData (context) {
+    let { data } = await axios.get('/api/categories/' + context.params.id)
     return Object.assign({
-      breadcrumbs: [
-        { text: data.routes.categories.split('/')[1], href: data.routes.categories, disabled: false, target: '_self' },
-        { text: params.id.split('-').join(' '), disabled: true }
-      ],
-      current: params.id
+      current: context.params.id,
+      path: context.req.url
     },
     data)
   },

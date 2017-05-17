@@ -1,5 +1,5 @@
 <template>
-  <ofer-content :items="catalogs" />
+  <ofer-content :items="items" />
 </template>
 
 <script>

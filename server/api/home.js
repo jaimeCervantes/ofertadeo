@@ -48,7 +48,6 @@ function index() {
         });
     })
     .catch(function(error) {
-      console.log(error)
       res.json(error);
     });
   });

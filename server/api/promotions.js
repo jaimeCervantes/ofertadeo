@@ -35,8 +35,6 @@ module.exports = function(wagner, params) {
 function slug() {
   router.get('/promotions/:slug', function(req, res) {
     var iterable = [
-      crudInst.getItems({ collection: 'categories', items_per_page: 20}),
-      crudInst.getItems({ collection: 'stores', items_per_page: 20, projection: {name: 1, slug: 1 } }),
       crudInst.getItems({
         collection: 'catalogs',
         query: { slug: req.params.slug },
@@ -47,14 +45,10 @@ function slug() {
     Promise.all(iterable)
     .then(function(results) {
       res.json({
-          categories: results[0],
-          stores: results[1],
-          catalogs: results[2],
-          routes: conf.routes
+          items: results[0]
         });
     })
     .catch(function(error) {
-      console.log(error)
       res.json(error);
     });
   });

@@ -22,7 +22,7 @@ module.exports = function(wagner, params) {
   })
   .then(function(){
     if(crudInst) {
-      index();  
+      _id();  
     } else {
       indexNoDB();
     }
@@ -32,11 +32,9 @@ module.exports = function(wagner, params) {
   return router;
 };
 
-function index() {
+function _id() {
   router.get('/stores/:_id', function(req, res) {
     var iterable = [
-      crudInst.getItems({ collection: 'categories', items_per_page: 20}),
-      crudInst.getItems({ collection: 'stores', items_per_page: 20, projection: {name: 1, slug: 1 } }),
       crudInst.getItems({
         collection: 'catalogs',
         query: { store_id: req.params._id },
@@ -47,14 +45,28 @@ function index() {
     Promise.all(iterable)
     .then(function(results) {
       res.json({
-          categories: results[0],
-          stores: results[1],
-          catalogs: results[2],
-          routes: conf.routes
+          items: results[0]
         });
     })
     .catch(function(error) {
-      console.log(error)
+      res.json(error);
+    });
+  });
+}
+
+function _id() {
+  router.get('/stores', function(req, res) {
+    var iterable = [
+      crudInst.getItems({ collection: 'stores', items_per_page: 20, projection: {name: 1, slug: 1, thumbnail: 1 } }),
+    ];
+
+    Promise.all(iterable)
+    .then(function(results) {
+      res.json({
+          items: results[0]
+        });
+    })
+    .catch(function(error) {
       res.json(error);
     });
   });
