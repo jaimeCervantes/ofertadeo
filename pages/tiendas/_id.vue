@@ -1,17 +1,18 @@
 <template>
-  <ofer-content :items="catalogs" :breadcrumbs="breadcrumbs"/>
+  <ofer-content :items="items" :breadcrumbs="breadcrumbs"/>
 </template>
 
 <script>
 import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
+import OferPaths from '~components/mixins/ofer-paths.vue'
 
 export default {
-  async asyncData ({ params }) {
+  mixins: [OferPaths],
+  async asyncData ({ params, route }) {
     let { data } = await axios.get('/api/stores/' + params.id)
     return Object.assign({
-      breadcrumbs: [{ text: data.routes.storeList.split('/')[1], disabled: false, href: data.routes.storeList }, { text: params.id, disabled: true }],
-      current: params.id
+      path: route.path
     },
     data)
   },
