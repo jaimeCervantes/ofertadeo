@@ -1,7 +1,7 @@
 <template>
   <div>
     <nuxt/>
-    <my-footer/>
+    <ofer-footer/>
   </div>
 </template>
 

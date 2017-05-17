@@ -1,16 +1,5 @@
 <template>
-<v-app top-toolbar>
-  <ofer-toolbar>
-    <template slot="left-items">
-      <v-toolbar-title>Ofertadeo</v-toolbar-title>      
-    </template>
-  </ofer-toolbar>
-  <main>
-    <ofer-sidebar :path="routes.categories" :items="categories" opened="openedCats" title="Categorías" />
-    <ofer-sidebar :path="routes.storeList" :items="stores" opened="openedStores"  title="Tiendas" />
-    <ofer-content :routes="routes" :items="catalogs" />
-  </main>
-</v-app>
+  <ofer-content :routes="routes" :items="catalogs" />
 </template>
 
 <script>
@@ -34,9 +23,7 @@ export default {
     openedStores () { return this.$store.state.openedStores }
   },
   components: {
-    OferSidebar,
-    OferContent,
-    OferToolbar
+    OferContent
   }
 }
 </script>
