@@ -1,8 +1,5 @@
 <template>
-<div>
   <ofer-content :items="items" :breadcrumbs="breadcrumbs"/>
-  {{JSON.stringify(breadcrumbs)}}
-</div>
 </template>
 
 <script>
@@ -13,7 +10,6 @@ import OferPaths from '~components/mixins/ofer-paths.vue'
 export default {
   mixins: [OferPaths],
   async asyncData (context) {
-    console.log(context.route)
     let { data } = await axios.get('/api/categories/' + context.params.id)
     return Object.assign({
       path: context.route.path
