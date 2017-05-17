@@ -13,10 +13,10 @@ import OferPaths from '~components/mixins/ofer-paths.vue'
 export default {
   mixins: [OferPaths],
   async asyncData (context) {
+    console.log(context.route)
     let { data } = await axios.get('/api/categories/' + context.params.id)
     return Object.assign({
-      current: context.params.id,
-      path: context.req.url
+      path: context.route.path
     },
     data)
   },

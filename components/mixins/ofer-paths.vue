@@ -5,12 +5,13 @@ export default {
       return this.path.split('/')
       .filter(elem => { return elem })
       .map((elem, index, array) => {
-        var previousPaths = array.slice(0, index - 1)
+        var previousPaths = array.slice(0, index)
         var href = `/${elem}`
         if (previousPaths.length > 0) {
-          href = previousPaths.reduce((prev, current) => {
-            return `${prev}/${current}`
-          })
+          href = previousPaths.reduce((accum, current) => {
+            return accum + current + '/'
+          }, '/')
+          href += `${elem}`
         }
 
         return {

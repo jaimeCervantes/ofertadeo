@@ -22,7 +22,8 @@ module.exports = function(wagner, params) {
   })
   .then(function(){
     if(crudInst) {
-      _id();  
+      _id();
+      index();
     } else {
       indexNoDB();
     }
@@ -54,7 +55,7 @@ function _id() {
   });
 }
 
-function _id() {
+function index() {
   router.get('/stores', function(req, res) {
     var iterable = [
       crudInst.getItems({ collection: 'stores', items_per_page: 20, projection: {name: 1, slug: 1, thumbnail: 1 } }),

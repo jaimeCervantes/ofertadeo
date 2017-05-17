@@ -64,7 +64,7 @@ function index() {
     Promise.all(iterable)
     .then(function(results) {
       res.json({
-          categories: results[0]
+          items: results[0]
         });
     })
     .catch(function(error) {
