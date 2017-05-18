@@ -2,9 +2,15 @@
   <ofer-content :items="items" :breadcrumbs="breadcrumbs">
     <template slot="info-section">
       <div v-if="info" class="content__info-section">
-        <img :src="info.img" :alt="info.img_alt" :title="info.img_title" />
-        <h2 class="title content__title">{{info.name}}</h2>
+        <div class="img-container">
+          <img :src="info.img" :alt="info.img_alt" :title="info.img_title" />  
+        </div>
+        <div>
+          <h1 class="title content__title">{{info.name}}</h1>
+          <v-btn tag="a" :href="info.url_site" target="_blank" light primary>Visitar</v-btn>
+        </div>
       </div>
+      <h2 class="title">Lista de ofertas, promociones y descuentos en {{info.name}}</h2>
     </template>
   </ofer-content>
 </template>

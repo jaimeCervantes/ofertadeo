@@ -41,7 +41,7 @@ function _id() {
       crudInst.getItem({
         collection: 'stores',
         query: {_id: req.params._id},
-        projection: {name:1, img: 1, slug: 1} })
+        projection: {name:1, img: 1, slug: 1, url_site: 1} })
     ];
 
     Promise.all(iterable)

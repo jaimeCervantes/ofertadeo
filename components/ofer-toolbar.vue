@@ -22,3 +22,18 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .toolbar {
+    padding:1rem;
+    .toolbar__side-icon {
+      padding-left:0;
+      margin-left:0
+    }
+  }
+
+  .toolbar__items a {
+    padding-left:0.5rem;
+    padding-right:0.5rem;
+  }
+</style>
