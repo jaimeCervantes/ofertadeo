@@ -1,5 +1,5 @@
 <template>
-  <ofer-content :items="items" :breadcrumbs="breadcrumbs"/>
+  <ofer-content :items="items" :breadcrumbs="breadcrumbs" :info-section="info"/>
 </template>
 
 <script>

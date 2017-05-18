@@ -40,13 +40,18 @@ function _id() {
         collection: 'catalogs',
         query: { categories: req.params._id },
         items_per_page: 6, 
-        projection: {title: 1, thumbnail: 1, store_id: 1, slug: 1 } })
+        projection: {title: 1, thumbnail: 1, store_id: 1, slug: 1 } }),
+      crudInst.getItem({
+        collection: 'categories',
+        query: {_id: req.params._id},
+        projection: {name:1, img: 1, slug: 1} })
     ];
 
     Promise.all(iterable)
     .then(function(results) {
       res.json({
-          items: results[0]
+          items: results[0],
+          info: results[1]
         });
     })
     .catch(function(error) {

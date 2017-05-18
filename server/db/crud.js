@@ -12,6 +12,7 @@ module.exports = function(params) {
   return {
     getPagination: getPagination,
     getItems: getItems,
+    getItem: getItem,
     searchItems: searchItems,
     aggregation: aggregation
   };
@@ -26,11 +27,20 @@ function getItems(params) {
     .limit(params.items_per_page || ITEMS_PER_PAGE)
     .toArray()
     .then(function(docs) {
-      return docs;
+      if (params.items_per_page > 1) {
+        return docs;
+      } else {
+        return docs[0];
+      }
     })
     .catch(function(err) {
       return err;
     });
+}
+
+function getItem(params) {
+  params.item_per_page = 1;
+  return getItems(params);
 }
 
 function searchItems(params) {

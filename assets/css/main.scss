@@ -1,3 +1,7 @@
+body {
+  word-wrap: break-word;
+}
+
 .md-sidenav {
   .md-sidenav-content {
     width: 256px;
@@ -41,11 +45,4 @@ a:not(.md-button):not(.md-bottom-bar-item):hover { text-decoration: none;}
 
 .card__row--actions {
   background-color: rgba(0,0,0,0.5);
-}
-
-
-.promotion {
-  .thumbnail img {
-    float:left;
-  }
 }

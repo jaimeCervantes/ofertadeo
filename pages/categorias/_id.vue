@@ -1,5 +1,5 @@
 <template>
-  <ofer-content :items="items" :breadcrumbs="breadcrumbs"/>
+  <ofer-content :items="items" :breadcrumbs="breadcrumbs" :info-section="info"/>
 </template>
 
 <script>
@@ -9,10 +9,10 @@ import OferPaths from '~components/mixins/ofer-paths.vue'
 
 export default {
   mixins: [OferPaths],
-  async asyncData (context) {
-    let { data } = await axios.get('/api/categories/' + context.params.id)
+  async asyncData ({ params, route }) {
+    let { data } = await axios.get('/api/categories/' + params.id)
     return Object.assign({
-      path: context.route.path
+      path: route.path
     },
     data)
   },

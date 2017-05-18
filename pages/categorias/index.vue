@@ -1,5 +1,5 @@
 <template>
-  <ofer-content  :breadcrumbs="breadcrumbs">
+  <ofer-content :breadcrumbs="breadcrumbs">
     <template slot="items">
       <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
         <nuxt-link :to="$store.state.routes.categories + '/' + item._id">

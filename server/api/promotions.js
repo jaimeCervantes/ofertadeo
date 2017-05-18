@@ -23,10 +23,7 @@ module.exports = function(wagner, params) {
   .then(function(){
     if(crudInst) {
       slug();  
-    } else {
-      indexNoDB();
-    }
-    
+    }    
   });
 
   return router;
@@ -35,7 +32,7 @@ module.exports = function(wagner, params) {
 function slug() {
   router.get('/promotions/:slug', function(req, res) {
     var iterable = [
-      crudInst.getItems({
+      crudInst.getItem({
         collection: 'catalogs',
         query: { slug: req.params.slug },
         items_per_page: 1, 
@@ -45,7 +42,7 @@ function slug() {
     Promise.all(iterable)
     .then(function(results) {
       res.json({
-          items: results[0]
+          item: results[0]
         });
     })
     .catch(function(error) {

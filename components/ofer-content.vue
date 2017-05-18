@@ -2,17 +2,25 @@
 <v-content>
   <v-container fluid>
     <v-row>
-      <v-breadcrumbs divider="/">
-      <v-breadcrumbs-item 
-        v-for="item in breadcrumbs" :key="item"
-        :disabled="item.disabled"
-        :href="item.href"
-        :target="item.target || '_self'"
-      >
-        {{ item.text }}
-      </v-breadcrumbs-item>
-    </v-breadcrumbs>
+      <div class="header">
+        <v-breadcrumbs divider="/">
+          <v-breadcrumbs-item 
+            v-for="item in breadcrumbs" :key="item"
+            :disabled="item.disabled"
+            :href="item.href"
+            :target="item.target || '_self'"
+          >
+            {{ item.text }}
+          </v-breadcrumbs-item>
+        </v-breadcrumbs>
+        <div v-if="infoSection" class="content__info-section">
+          <v-icon v-if="infoSection.icon" x-large>{{infoSection.icon || 'label'}}</v-icon>
+          <img v-if="infoSection.img" :src="infoSection.img" :alt="infoSection.img_alt">
+          <h2 class="title content__title">{{infoSection.name}}</h2>
+        </div>
+      </div>
     </v-row>
+    <v-divider v-if="infoSection"></v-divider>
     <v-row>
       <slot name="items">
         <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
@@ -36,6 +44,19 @@
 
 <script>
 export default {
-  props: ['items', 'routes', 'breadcrumbs']
+  props: ['items', 'routes', 'breadcrumbs', 'infoSection']
 }
 </script>
+<style lang="scss">
+  .content__title {
+    margin-bottom: 0;
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+  
+  .content__info-section {
+    display: flex;
+    align-items: center;
+  }
+</style>
