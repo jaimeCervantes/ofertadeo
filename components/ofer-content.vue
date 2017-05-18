@@ -60,6 +60,7 @@ export default {
     display: flex;
     align-items: center;
     padding: 0 1rem;
+    padding-bottom: 0.5rem;
     img {
       margin-right: 1rem;
     }
@@ -67,5 +68,8 @@ export default {
 
   .section-divider {
     padding: 0 1rem;
+  }
+  .content .breadcrumbs {
+    justify-content:left;
   }
 </style>
