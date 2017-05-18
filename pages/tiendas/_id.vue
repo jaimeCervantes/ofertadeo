@@ -2,7 +2,7 @@
   <ofer-content :items="items" :breadcrumbs="breadcrumbs">
     <template slot="info-section">
       <div v-if="info" class="content__info-section">
-        <img height="56" width="56":src="info.img" :alt="info.img_alt" :title="info.img_title" />
+        <img :src="info.img" :alt="info.img_alt" :title="info.img_title" />
         <h2 class="title content__title">{{info.name}}</h2>
       </div>
     </template>
