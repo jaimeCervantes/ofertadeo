@@ -13,11 +13,12 @@
             {{ item.text }}
           </v-breadcrumbs-item>
         </v-breadcrumbs>
-        <div v-if="infoSection" class="content__info-section">
-          <v-icon v-if="infoSection.icon" x-large>{{infoSection.icon || 'label'}}</v-icon>
-          <img v-if="infoSection.img" :src="infoSection.img" :alt="infoSection.img_alt">
+        <slot name="info-section">
+          <div v-if="infoSection" class="content__info-section">
+          <v-icon x-large>{{infoSection.img || 'label'}}</v-icon>
           <h2 class="title content__title">{{infoSection.name}}</h2>
-        </div>
+        </div>          
+        </slot>
       </div>
     </v-row>
     <v-divider v-if="infoSection"></v-divider>
