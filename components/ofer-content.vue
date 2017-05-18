@@ -15,13 +15,13 @@
         </v-breadcrumbs>
         <slot name="info-section">
           <div v-if="infoSection" class="content__info-section">
-          <v-icon x-large>{{infoSection.img || 'label'}}</v-icon>
-          <h2 class="title content__title">{{infoSection.name}}</h2>
-        </div>          
+            <v-icon x-large>{{infoSection.img || 'label'}}</v-icon>
+            <h2 class="title content__title">{{infoSection.name}}</h2>
+          </div>
         </slot>
       </div>
     </v-row>
-    <v-divider v-if="infoSection"></v-divider>
+    <v-divider class="section-divider"></v-divider>
     <v-row>
       <slot name="items">
         <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
@@ -59,5 +59,13 @@ export default {
   .content__info-section {
     display: flex;
     align-items: center;
+    padding: 0 1rem;
+    img {
+      margin-right: 1rem;
+    }
+  }
+
+  .section-divider {
+    padding: 0 1rem;
   }
 </style>
