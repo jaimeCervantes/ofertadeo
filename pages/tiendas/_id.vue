@@ -1,5 +1,5 @@
 <template>
-  <ofer-content :items="items" :breadcrumbs="breadcrumbs">
+  <ofer-content :breadcrumbs="breadcrumbs">
     <template slot="info-section">
       <div v-if="info" class="content__info-section">
         <div class="img-container">
@@ -7,10 +7,26 @@
         </div>
         <div>
           <h1 class="title content__title">{{info.name}}</h1>
-          <v-btn tag="a" :href="info.url_site" target="_blank" primary>Visitar</v-btn>
+          <v-btn tag="a" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Visitar</v-btn>
         </div>
       </div>
       <h2 class="title">Lista de ofertas, promociones y descuentos en {{info.name}}</h2>
+    </template>
+    <template slot="content">
+      <v-row>
+        <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
+          <nuxt-link :to="$store.state.routes.stores + '/' + item.slug">
+            <v-card hover raised>
+              <v-card-row v-if="item.thumbnail">
+                <img :src="item.thumbnail" alt="">
+              </v-card-row>
+              <v-card-row v-if="item.name">
+                <div class="pa-2">{{item.name}}</div>
+              </v-card-row>
+            </v-card>
+          </nuxt-link>
+        </v-col>
+      </v-row>
     </template>
   </ofer-content>
 </template>

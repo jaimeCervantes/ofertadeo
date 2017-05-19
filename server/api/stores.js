@@ -3,6 +3,8 @@
 var express = require('express');
 var router = express.Router();
 var crudFn = require('../db/crud.js');
+var ITEMS_PER_PAGE = 6;
+var COLLECTION = 'stores';
 
 var crudInst;
 var conf;
@@ -59,8 +61,14 @@ function _id() {
 
 function index() {
   router.get('/stores', function(req, res) {
+    var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [
-      crudInst.getItems({ collection: 'stores', items_per_page: 20, projection: {name: 1, slug: 1, thumbnail: 1, img: 1 } }),
+      crudInst.getItems({
+        collection: COLLECTION,
+        items_per_page: ITEMS_PER_PAGE, 
+        skip: ITEMS_PER_PAGE*page,
+        projection: { name: 1, slug: 1, thumbnail: 1, img: 1 } 
+      })
     ];
 
     Promise.all(iterable)
@@ -70,6 +78,7 @@ function index() {
         });
     })
     .catch(function(error) {
+      console.log(error);
       res.json(error);
     });
   });

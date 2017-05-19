@@ -1,18 +1,20 @@
 <template>
   <ofer-content :breadcrumbs="breadcrumbs">
-    <template slot="items">
-      <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-        <nuxt-link :to="$store.state.routes.categories + '/' + item._id">
-          <v-card hover raised>
-            <v-card-row v-if="item.img" class="category_img">
-              <v-icon x-large>{{item.img || 'label'}}</v-icon>
-            </v-card-row>
-            <v-card-row v-if="item.name">
-              <div class="pa-2">{{item.name}}</div>
-            </v-card-row>
-          </v-card>
-        </nuxt-link>
-      </v-col>
+    <template slot="content">
+      <v-row>
+        <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
+          <nuxt-link :to="$store.state.routes.categories + '/' + item._id">
+            <v-card hover raised>
+              <v-card-row v-if="item.img" class="category_img">
+                <v-icon x-large>{{item.img || 'label'}}</v-icon>
+              </v-card-row>
+              <v-card-row v-if="item.name">
+                <div class="pa-2">{{item.name}}</div>
+              </v-card-row>
+            </v-card>
+          </nuxt-link>
+        </v-col>
+      </v-row>
     </template>
   </ofer-content>
 </template>
@@ -42,7 +44,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .card__row {
     justify-content: center;
   }

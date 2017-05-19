@@ -51,3 +51,15 @@ a:not(.md-button):not(.md-bottom-bar-item):hover { text-decoration: none;}
 .card__row--actions {
   background-color: rgba(0,0,0,0.5);
 }
+
+  .item {
+    &__img {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      display: flex;
+      justify-content: center;
+    }
+    &__name {
+      justify-content: center;
+    }
+  }

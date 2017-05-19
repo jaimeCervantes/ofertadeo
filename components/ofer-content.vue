@@ -23,20 +23,8 @@
       </div>
     </v-row>
     <v-divider class="section-divider"></v-divider>
-    <v-row>
-      <slot name="items">
-        <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-          <nuxt-link :to="$store.state.routes.stores + '/' + item.slug">
-            <v-card hover raised>
-              <v-card-row v-if="item.thumbnail" v-bind:img="item.thumbnail" height="162px"></v-card-row>
-              <v-card-row v-if="item.name">
-                <div class="pa-2">{{item.name}}</div>
-              </v-card-row>
-            </v-card>
-          </nuxt-link>
-        </v-col>
-      </slot>
-    </v-row>
+    <slot name="content"></slot>
+    <slot name="more-content"></slot>
   </v-container>
 </v-content>
 </template>
@@ -46,7 +34,7 @@ export default {
   props: ['items', 'routes', 'breadcrumbs', 'infoSection']
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   .content__title {
     margin-bottom: 0;
     &::first-letter {
