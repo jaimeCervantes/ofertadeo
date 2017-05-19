@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar>
+  <v-toolbar fixed>
     <slot name="left-icons">
       <v-toolbar-side-icon @click.native.stop="$store.commit('toggleSidebar')"></v-toolbar-side-icon>
     </slot>

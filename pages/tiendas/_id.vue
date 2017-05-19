@@ -7,7 +7,7 @@
         </div>
         <div>
           <h1 class="title content__title">{{info.name}}</h1>
-          <v-btn tag="a" :href="info.url_site" target="_blank" light primary>Visitar</v-btn>
+          <v-btn tag="a" :href="info.url_site" target="_blank" primary>Visitar</v-btn>
         </div>
       </div>
       <h2 class="title">Lista de ofertas, promociones y descuentos en {{info.name}}</h2>

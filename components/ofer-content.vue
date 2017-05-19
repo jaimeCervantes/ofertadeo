@@ -31,9 +31,6 @@
               <v-card-row v-if="item.name">
                 <div class="pa-2">{{item.name}}</div>
               </v-card-row>
-              <v-card-row class="actions">
-                <v-btn primary>Ver</v-btn>
-              </v-card-row>
             </v-card>
           </nuxt-link>
         </v-col>
@@ -60,7 +57,7 @@ export default {
     padding: 0 1rem;
     h2 {
       font-weight:400;
-      font-size: 1rem;
+      font-size: 1.2rem;
       margin-top: 1rem;
       line-height: 1.3;
     }

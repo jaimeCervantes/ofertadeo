@@ -3,13 +3,12 @@
     <template slot="items">
       <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
         <nuxt-link :to="$store.state.routes.storeList + '/' + item._id">
-          <v-card hover raised>
-            <v-card-row v-if="item.thumbnail" v-bind:img="item.thumbnail" height="162px"></v-card-row>
-            <v-card-row v-if="item.name">
-              <div class="pa-2">{{item.name}}</div>
+          <v-card hover raised class="store">
+            <v-card-row v-if="item.img" class="store__img">
+              <img :src="item.img" alt="">
             </v-card-row>
-            <v-card-row class="actions">
-              <v-btn primary>Ver</v-btn>
+            <v-card-row class="name" v-if="item.name">
+              <div class="pl-2 pr-2">{{item.name}}</div>
             </v-card-row>
           </v-card>
         </nuxt-link>
@@ -42,3 +41,18 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .store {
+    .store__img {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .name {
+      justify-content: center;
+    }
+  }  
+</style>
