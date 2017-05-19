@@ -82,10 +82,4 @@ export default {
   .section-divider {
     padding: 0;
   }
-  .content .breadcrumbs {
-    justify-content:left;
-    li:first-child a {
-      padding-left:0;
-    }
-  }
 </style>

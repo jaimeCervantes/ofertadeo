@@ -15,16 +15,7 @@
     <template slot="content">
       <v-row>
         <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-          <nuxt-link :to="$store.state.routes.stores + '/' + item.slug">
-            <v-card hover raised>
-              <v-card-row v-if="item.thumbnail">
-                <img :src="item.thumbnail" alt="">
-              </v-card-row>
-              <v-card-row v-if="item.name">
-                <div class="pa-2">{{item.name}}</div>
-              </v-card-row>
-            </v-card>
-          </nuxt-link>
+          <ofer-item :item="item" :to-link="$store.state.routes.stores + '/' + item.slug"></ofer-item>
         </v-col>
       </v-row>
     </template>
@@ -35,6 +26,7 @@
 import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
 import OferPaths from '~components/mixins/ofer-paths.vue'
+import OferItem from '~components/ofer-item.vue'
 
 export default {
   mixins: [OferPaths],
@@ -51,7 +43,8 @@ export default {
     }
   },
   components: {
-    OferContent
+    OferContent,
+    OferItem
   }
 }
 </script>

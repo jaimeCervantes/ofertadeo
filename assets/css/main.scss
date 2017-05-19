@@ -7,6 +7,13 @@ a {
   text-decoration: none;
 }
 
+.header .breadcrumbs {
+  justify-content:left;
+  li:first-child a {
+    padding-left:0;
+  }
+}
+
 .md-sidenav {
   .md-sidenav-content {
     width: 256px;
