@@ -18,6 +18,7 @@
             <v-icon x-large class="info-section__icon">{{infoSection.img || 'label'}}</v-icon>
             <h1 class="title content__title">{{infoSection.name}}</h1>
           </div>
+          <h2 class="title" v-if="infoSection">Lista de ofertas, promociones y descuentos en {{infoSection.name}}</h2>
         </slot>
       </div>
     </v-row>
