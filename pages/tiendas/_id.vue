@@ -10,12 +10,12 @@
           <v-btn tag="a" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Visitar</v-btn>
         </div>
       </div>
-      <v-expansion-panel class="store-content-panel">
-          <v-expansion-panel-content>
-            <div slot="header" v-html="slicePanelHeader(info.content)"></div>
-            <div v-html="slicePanelBody(info.content)"></div>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+      <v-expansion-panel v-if="info.description" class="store-content-panel">
+        <v-expansion-panel-content>
+          <div slot="header" v-text="headerDescription"></div>
+          <div v-text="bodyDescription"></div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
       <h2 class="title">Lista de ofertas, promociones y descuentos en {{info.name}}</h2>
     </template>
     <template slot="content">
@@ -36,6 +36,9 @@ import OferItem from '~components/ofer-item.vue'
 
 export default {
   mixins: [OferPaths],
+  data () {
+    return { indexDescription: 110 }
+  },
   async asyncData ({ params, route }) {
     let { data } = await axios.get('/api/stores/' + params.id)
     return Object.assign({
@@ -53,11 +56,16 @@ export default {
     OferItem
   },
   methods: {
-    slicePanelHeader (content) {
-      return content.slice(0, 65) + '...'
+  },
+  computed: {
+    headerDescription () {
+      var nextString = this.info.description.slice(this.indexDescription)
+      var index = nextString.indexOf(' ')
+      this.indexDescription += index
+      return this.info.description ? this.info.description.slice(0, this.indexDescription) + '...' : ''
     },
-    slicePanelBody (content) {
-      return content.slice(60)
+    bodyDescription () {
+      return '...' + this.info.description.slice(this.indexDescription)
     }
   }
 }
@@ -68,15 +76,20 @@ export default {
   box-shadow: none;
   li {
     border: none;
+    position: relative;
+    .expansion-panel__header {
+      &:after {
+        font-size: 2rem;
+      }
+    }
     .expansion-panel__header,
     .expansion-panel__header--active {
       padding-left:0 !important;
     }
 
     .expansion-panel__body {
-      border-bottom: none;
       background-color: #fff;
-      padding-top:0.5rem;
+      border: none;
     }
   }
 }
