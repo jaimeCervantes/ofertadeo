@@ -74,6 +74,8 @@ export default {
 <style lang="scss">
 .store-content-panel.expansion-panel {
   box-shadow: none;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
   li {
     border: none;
     position: relative;
@@ -90,6 +92,7 @@ export default {
     .expansion-panel__body {
       background-color: #fff;
       border: none;
+      padding-top:0.9rem;
     }
   }
 }
