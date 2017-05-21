@@ -63,7 +63,7 @@ function searchItems(params) {
 function getPagination(params) {
   var db = DATABASE || params.db;
   return db.collection(COLLECTION || params.collection)
-    .find(params.query)
+    .find(params.query || {})
     .count()
     .then(function(numItems){
       var items_per_page = params.items_per_page || ITEMS_PER_PAGE;

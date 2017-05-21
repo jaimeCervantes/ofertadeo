@@ -1,6 +1,11 @@
 <template>
   <div class="actions">
-    <v-btn primary large v-bind:loading="loading" v-on:click.native="getMore">Cargar más tiendas</v-btn>
+    <v-btn primary large 
+      :disabled="disabled" 
+      v-bind:loading="loading"
+      v-on:click.native="getMore">
+      {{txt}}
+    </v-btn>
   </div>
 </template>
 
@@ -12,6 +17,12 @@ export default {
     url: {
       type: String,
       default: ''
+    },
+    pagination: {
+      type: Object
+    },
+    txt: {
+      type: String
     }
   },
   data () {
@@ -29,6 +40,14 @@ export default {
       }).then(function () {
         that.loading = false
       })
+    }
+  },
+  computed: {
+    disabled () {
+      if (this.pagination.pages === 0) {
+        return true
+      }
+      return (this.pagination.pages - 1) === this.reqCounter
     }
   }
 }

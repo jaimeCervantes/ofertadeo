@@ -34,23 +34,30 @@ module.exports = function(wagner, params) {
 
 function _id() {
   router.get('/stores/:_id', function(req, res) {
+    var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [
       crudInst.getItems({
         collection: 'catalogs',
         query: { store_id: req.params._id },
-        items_per_page: 6, 
+        items_per_page: ITEMS_PER_PAGE,
+        skip: ITEMS_PER_PAGE*page,
         projection: {title: 1, thumbnail: 1, store_id: 1, slug: 1 } }),
       crudInst.getItem({
-        collection: 'stores',
+        collection:  COLLECTION,
         query: {_id: req.params._id},
-        projection: {name:1, img: 1, slug: 1, url_site: 1, description: 1} })
+        projection: {name:1, img: 1, slug: 1, url_site: 1, description: 1} }),
+      crudInst.getPagination({
+        query: { store_id: req.params._id },
+        collection: 'catalogs'
+      })
     ];
 
     Promise.all(iterable)
     .then(function(results) {
       res.json({
           items: results[0],
-          info: results[1]
+          info: results[1],
+          pagination: results[2]
         });
     })
     .catch(function(error) {
@@ -67,14 +74,18 @@ function index() {
         collection: COLLECTION,
         items_per_page: ITEMS_PER_PAGE, 
         skip: ITEMS_PER_PAGE*page,
-        projection: { name: 1, slug: 1, thumbnail: 1, img: 1 } 
+        projection: { name: 1, slug: 1, thumbnail: 1 } 
+      }),
+      crudInst.getPagination({
+        collection: COLLECTION
       })
     ];
 
     Promise.all(iterable)
     .then(function(results) {
       res.json({
-          items: results[0]
+          items: results[0],
+          pagination: results[1]
         });
     })
     .catch(function(error) {
