@@ -37,7 +37,7 @@ import OferItem from '~components/ofer-item.vue'
 export default {
   mixins: [OferPaths],
   data () {
-    return { indexDescription: 110 }
+    return { indexDescription: 65 }
   },
   async asyncData ({ params, route }) {
     let { data } = await axios.get('/api/stores/' + params.id)
@@ -75,7 +75,7 @@ export default {
 .store-content-panel.expansion-panel {
   box-shadow: none;
   margin-top: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   li {
     border: none;
     position: relative;
@@ -92,7 +92,6 @@ export default {
     .expansion-panel__body {
       background-color: #fff;
       border: none;
-      padding-top:0.9rem;
     }
   }
 }
