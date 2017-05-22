@@ -5,9 +5,13 @@
         <v-col class="mt-3 mb-3" xs12 sm12 md9 lg9 xl9>
           <div class="promotion">
             <p class="promotion__data">
-              <span class="promotion__category" v-text="item.categories[0].split('-').join(' ')"></span> 
-              Ofertas, promociones y descuentos de
-              <span class="promotion__store">{{item.store_id.split('-').join(' ')}}</span>
+              <nuxt-link :to="$store.state.routes.categories + '/' + item.categories[0]">
+                <span class="promotion__category" v-text="item.categories[0].split('-').join(' ')"></span>
+              </nuxt-link>
+              <nuxt-link :to="$store.state.routes.storeList + '/' + item.store_id">
+                Ofertas, promociones y descuentos de
+                <span class="promotion__store">{{item.store_id.split('-').join(' ')}}</span>
+              </nuxt-link>
             </p>
             <h1 class="display-1">{{item.name}}</h1>
             <div class="thumbnail ml-3">
@@ -51,14 +55,19 @@ export default {
     }
   }
   p.promotion__data {
-    color: #aaa;
+    color: #888;
+    font-size: 1rem;
     text-transform: uppercase
     :first-letter {
       text-transform: uppercase;
     }
 
+    a {
+      color: #888;
+    }
+
     .promotion__store {
-      display: inline-block;
+      display: inline;
       &::first-letter {
         text-transform: uppercase;
       }

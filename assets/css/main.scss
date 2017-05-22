@@ -7,6 +7,9 @@ body {
 
 a {
   text-decoration: none;
+    &:hover {
+      text-decoration:underline;
+    }
 }
 
 .header .breadcrumbs {
@@ -58,9 +61,6 @@ a {
 .main-content {
   padding: 1.5rem;
 }
-
-a:hover,
-a:not(.md-button):not(.md-bottom-bar-item):hover { text-decoration: none;}
 
 .content {
   padding: 0.5rem;

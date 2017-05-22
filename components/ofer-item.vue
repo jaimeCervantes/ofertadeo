@@ -1,17 +1,17 @@
 <template>
-  <nuxt-link :to="toLink">
     <v-card hover raised class="item">
       <v-card-row v-if="item.thumbnail" class="item__img">
-        <img :src="item.thumbnail" alt="">
+        <nuxt-link :to="toLink"><img :src="item.thumbnail" alt=""></nuxt-link>
       </v-card-row>
       <v-card-row class="item__store" v-if="item.store_id">
-        <div class="pl-2 pr-2">{{item.store_id.split('-').join(' ').toUpperCase()}}</div>
+        <div class="pl-2 pr-2">
+          <nuxt-link :to="$store.state.routes.storeList + '/' + item.store_id">{{item.store_id.split('-').join(' ').toUpperCase()}}</nuxt-link>
+        </div>
       </v-card-row>
       <v-card-row class="item__name" v-if="item.name">
-        <div class="pl-2 pr-2">{{item.name}}</div>
+        <div class="pl-2 pr-2"><nuxt-link :to="toLink">{{item.name}}</nuxt-link></div>
       </v-card-row>
     </v-card>
-  </nuxt-link>
 </template>
 <script>
 export default {
@@ -30,7 +30,8 @@ export default {
     font-weight:bold;
   }
 
-  .item__store {
+  .item__store a {
     color:#888;
+    font-size:0.8rem;
   }
 </style>
