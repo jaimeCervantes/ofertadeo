@@ -44,7 +44,7 @@ function _id() {
         query: { categories: req.params._id },
         items_per_page: ITEMS_PER_PAGE, 
         skip: ITEMS_PER_PAGE*page,
-        projection: {title: 1, thumbnail: 1, store_id: 1, slug: 1 }
+        projection: {name: 1, thumbnail: 1, store_id: 1, slug: 1 }
       }),
       crudInst.getItem({
         collection:  COLLECTION,
