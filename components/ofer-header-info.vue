@@ -11,7 +11,7 @@
     </div>
     <v-expansion-panel v-if="info.description" class="content-panel">
       <v-expansion-panel-content>
-        <div v-text="headerDescription"></div>
+        <div slot="header" v-text="headerDescription"></div>
         <div v-text="bodyDescription"></div>
       </v-expansion-panel-content>
     </v-expansion-panel>
