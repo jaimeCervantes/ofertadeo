@@ -45,7 +45,7 @@ function _id() {
       crudInst.getItem({
         collection:  COLLECTION,
         query: {_id: req.params._id},
-        projection: {name:1, img: 1, slug: 1, url_site: 1, description: 1} }),
+        projection: {name:1, thumbnail: 1, slug: 1, url_site: 1, description: 1} }),
       crudInst.getPagination({
         query: { store_id: req.params._id },
         collection: 'catalogs'
@@ -74,7 +74,7 @@ function index() {
         collection: COLLECTION,
         items_per_page: ITEMS_PER_PAGE, 
         skip: ITEMS_PER_PAGE*page,
-        projection: { name: 1, slug: 1, thumbnail: 1 } 
+        projection: { name: 1, slug: 1, thumbnail: 1 }
       }),
       crudInst.getPagination({
         collection: COLLECTION
