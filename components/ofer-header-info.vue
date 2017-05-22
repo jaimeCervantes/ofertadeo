@@ -76,11 +76,12 @@ export default {
 
   .img-container {
     display: flex;
-    width:56px;
-    height:56px;
+    width:200px;
+    height:100px;
     align-items: center;
     justify-content:left;
     margin-right: 0.5rem;
+    overflow:hidden;
   }
 
   img {
