@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <ofer-toolbar opened="sidebar"></ofer-toolbar>
+  <v-app id="ofertadeo">
+    <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
     <main>
       <ofer-sidebar/>
       <nuxt/>

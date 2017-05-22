@@ -2,7 +2,7 @@
   <ofer-content>
     <template slot="content">
       <v-row>
-        <v-col class="pa-3" xs12 sm12 md9 lg9 xl9>
+        <v-col class="mt-3 mb-3" xs12 sm12 md9 lg9 xl9>
           <div class="promotion">
             <p class="promotion__data">
               <span class="promotion__category" v-text="item.categories[0].split('-').join(' ')"></span> 
@@ -12,7 +12,7 @@
             <h1 class="display-1">{{item.name}}</h1>
             <div class="thumbnail ml-3">
               <img :src="item.thumbnail" alt="">
-              <v-btn tag="a" :href="item.url" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ver</v-btn>
+              <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ver</v-btn>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
           </div>

@@ -50,6 +50,11 @@ a {
 
 }
 
+#ofertadeo .toolbar {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
 .main-content {
   padding: 1.5rem;
 }
@@ -58,7 +63,7 @@ a:hover,
 a:not(.md-button):not(.md-bottom-bar-item):hover { text-decoration: none;}
 
 .content {
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .card__row--actions {

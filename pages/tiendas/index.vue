@@ -2,7 +2,7 @@
   <ofer-content :breadcrumbs="breadcrumbs">
     <template slot="content">
       <v-row>
-        <v-col class="pa-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
+        <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
           <ofer-item :item="item" :to-link="$store.state.routes.storeList + '/' + item._id"></ofer-item>
         </v-col>
       </v-row>
