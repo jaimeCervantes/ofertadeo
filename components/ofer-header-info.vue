@@ -5,7 +5,7 @@
         <img :src="info.thumbnail" :alt="info.img_alt" :title="info.img_title" />  
       </div>
       <div>
-        <h1 class="title content__title">{{info.name}}</h1>
+        <h1 class="title content__title">{{info.name + ' - ' + 'Promociones y descuentos'}}</h1>
         <v-btn tag="a" v-if="rel" :rel="rel" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Visitar</v-btn>
       </div>
     </div>
