@@ -7,6 +7,9 @@
         </v-col>
       </v-row>
     </template>
+    <template slot="more-content">
+      <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más categorías"></ofer-more-items>
+    </template>
   </ofer-content>
 </template>
 
@@ -15,11 +18,17 @@ import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
 import OferPaths from '~components/mixins/ofer-paths.vue'
 import OferItem from '~components/ofer-item.vue'
+import OferMoreItems from '~components/ofer-more-items.vue'
+
+var urlReq = '/api/categories'
 
 export default {
   mixins: [OferPaths],
+  data () {
+    return { urlReq: urlReq }
+  },
   async asyncData (context) {
-    let { data } = await axios.get('/api/categories')
+    let { data } = await axios.get(urlReq)
     return Object.assign({
       path: context.route.path
     },
@@ -32,7 +41,13 @@ export default {
   },
   components: {
     OferContent,
-    OferItem
+    OferItem,
+    OferMoreItems
+  },
+  methods: {
+    concatItems (items) {
+      this.items = this.items.concat(items)
+    }
   }
 }
 </script>

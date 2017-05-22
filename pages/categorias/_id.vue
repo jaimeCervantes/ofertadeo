@@ -7,6 +7,9 @@
         </v-col>
       </v-row>
     </template>
+    <template slot="more-content">
+      <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
+    </template>
   </ofer-content>
 </template>
 
@@ -15,13 +18,21 @@ import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
 import OferPaths from '~components/mixins/ofer-paths.vue'
 import OferItem from '~components/ofer-item.vue'
+import OferMoreItems from '~components/ofer-more-items.vue'
+
+// asyncData does not have acces to 'this' reference
+var urlReq = '/api/categories/'
 
 export default {
   mixins: [OferPaths],
+  data () {
+    return { urlReq: urlReq }
+  },
   async asyncData ({ params, route }) {
-    let { data } = await axios.get('/api/categories/' + params.id)
+    let { data } = await axios.get(urlReq + params.id)
     return Object.assign({
-      path: route.path
+      path: route.path,
+      id: params.id
     },
     data)
   },
@@ -32,7 +43,13 @@ export default {
   },
   components: {
     OferContent,
-    OferItem
+    OferItem,
+    OferMoreItems
+  },
+  methods: {
+    concatItems (items) {
+      this.items = this.items.concat(items)
+    }
   }
 }
 </script>
