@@ -3,7 +3,7 @@
   <v-container fluid>
     <v-row>
       <div class="header">
-        <v-breadcrumbs divider="/">
+        <v-breadcrumbs divider="">
           <v-breadcrumbs-item 
             v-for="item in breadcrumbs" :key="item"
             :disabled="item.disabled"

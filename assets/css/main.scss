@@ -12,6 +12,10 @@ a {
   li:first-child a {
     padding-left:0;
   }
+  a.breadcrumbs__item {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .md-sidenav {
