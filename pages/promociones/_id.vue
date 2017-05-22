@@ -13,7 +13,7 @@
                 <span class="promotion__store">{{item.store_id.split('-').join(' ')}}</span>
               </nuxt-link>
             </p>
-            <h1 class="display-1">{{item.name}}</h1>
+            <h1 class="title">{{item.name}}</h1>
             <div class="thumbnail ml-3">
               <img :src="item.thumbnail" alt="">
               <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ver</v-btn>
