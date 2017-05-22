@@ -8,8 +8,9 @@
               <nuxt-link :to="$store.state.routes.categories + '/' + item.categories[0]">
                 <span class="promotion__category" v-text="item.categories[0].split('-').join(' ')"></span>
               </nuxt-link>
+               | 
               <nuxt-link :to="$store.state.routes.storeList + '/' + item.store_id">
-                Ofertas, promociones y descuentos de
+                Ofertas y descuentos de
                 <span class="promotion__store">{{item.store_id.split('-').join(' ')}}</span>
               </nuxt-link>
             </p>
