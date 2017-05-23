@@ -23,6 +23,30 @@ a {
   }
 }
 
+.content-panel.expansion-panel {
+  box-shadow: none;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  li {
+    border: none;
+    position: relative;
+    .expansion-panel__header {
+      &:after {
+        font-size: 2rem;
+      }
+    }
+    .expansion-panel__header,
+    .expansion-panel__header--active {
+      padding-left:0 !important;
+    }
+
+    .expansion-panel__body {
+      background-color: #fff;
+      border: none;
+    }
+  }
+}
+
 .md-sidenav {
   .md-sidenav-content {
     width: 256px;

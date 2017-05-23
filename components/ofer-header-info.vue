@@ -9,7 +9,7 @@
         <v-btn tag="a" v-if="rel" :rel="rel" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Visitar</v-btn>
       </div>
     </div>
-    <v-expansion-panel v-if="info.description" class="content-panel">
+    <v-expansion-panel v-if="info.content" class="content-panel">
       <v-expansion-panel-content>
         <div slot="header" v-text="headerDescription"></div>
         <div v-text="bodyDescription"></div>
@@ -20,7 +20,10 @@
 </template>
 
 <script>
+import OferCommon from '~components/mixins/ofer-common.vue'
+
 export default {
+  mixins: [OferCommon],
   props: {
     info: {
       type: Object
@@ -28,23 +31,23 @@ export default {
     rel: String
   },
   data () {
-    return { indexDescription: 65 }
+    return { indexDescription: 65, description: this.getTextFromHtml(this.info.content) }
   },
   computed: {
     headerDescription () {
-      var nextString = this.info.description.slice(this.indexDescription)
+      var nextString = this.description.slice(this.indexDescription)
       var index = nextString.indexOf(' ')
       this.indexDescription += index
-      return this.info.description ? this.info.description.slice(0, this.indexDescription) + '...' : ''
+      return this.description ? this.description.slice(0, this.indexDescription) + '...' : ''
     },
     bodyDescription () {
-      return '...' + this.info.description.slice(this.indexDescription)
+      return '...' + this.description.slice(this.indexDescription)
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .content__title {
   margin-bottom: 0;
   word-break: break-word;
@@ -87,30 +90,6 @@ export default {
 
   img {
     margin-right: 1rem;
-  }
-}
-
-.content-panel.expansion-panel {
-  box-shadow: none;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  li {
-    border: none;
-    position: relative;
-    .expansion-panel__header {
-      &:after {
-        font-size: 2rem;
-      }
-    }
-    .expansion-panel__header,
-    .expansion-panel__header--active {
-      padding-left:0 !important;
-    }
-
-    .expansion-panel__body {
-      background-color: #fff;
-      border: none;
-    }
   }
 }
 </style>

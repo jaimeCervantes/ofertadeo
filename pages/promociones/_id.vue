@@ -16,7 +16,7 @@
             </p>
             <h1 class="title">{{item.name}}</h1>
             <div class="thumbnail ml-3">
-              <img :src="item.thumbnail" alt="">
+              <img :src="item.thumbnail" :alt="item.name" :title="item.name">
               <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ver</v-btn>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
@@ -30,19 +30,26 @@
 <script>
 import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
+import OferCommon from '~components/mixins/ofer-common.vue'
 
 export default {
+  mixins: [OferCommon],
   async asyncData ({ params, route }) {
     let { data } = await axios.get('/api/promotions/' + params.id)
     return data
   },
   head () {
     return {
-      title: 'Ofertadeo Tienda'
+      title: `${this.item.name}`,
+      meta: [
+        { hid: 'title', name: 'title', content: `${this.item.name}` },
+        { hid: 'description', name: 'description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` }
+      ]
     }
   },
   components: {
-    OferContent
+    OferContent,
+    OferCommon
   }
 }
 </script>

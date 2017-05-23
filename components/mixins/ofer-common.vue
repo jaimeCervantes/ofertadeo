@@ -1,5 +1,6 @@
 <script>
 import moment from 'moment'
+import striptags from 'striptags'
 moment.locale('es')
 
 export default {
@@ -20,6 +21,9 @@ export default {
     },
     getDate (format) {
       return moment().format(format || 'DD MMMM YYYY').toUpperCase()
+    },
+    getTextFromHtml (strHtml) {
+      return striptags(strHtml)
     }
   }
 }

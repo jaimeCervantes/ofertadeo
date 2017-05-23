@@ -1,5 +1,9 @@
 <template>
   <ofer-content :breadcrumbs="breadcrumbs">
+    <template slot="info-section">
+      <h1 class="title">Ofertas, promociones y descuentos en México</h1>
+      <h2 class="subheading">En esta sección encontrarás las mejores ofertas, promociones y descuentos de las principales tiendas de México ordenas alfabéticamente.</h2>
+    </template>
     <template slot="content">
       <v-row>
         <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
@@ -33,6 +37,14 @@ export default {
       path: route.path
     },
     data)
+  },
+  head () {
+    return {
+      title: 'Ofertas, promociones y descuentos en Tiendas de México',
+      meta: [
+        { hid: 'description', name: 'description', content: 'Las mejores ofertas, promociones y descuentos de Tiendas en México como Walmart, Soriana, Chedraui, Liverpool, Bodega Aurrera y más.' }
+      ]
+    }
   },
   components: {
     OferContent,
