@@ -34,11 +34,6 @@ export default {
     },
     data)
   },
-  head () {
-    return {
-      title: 'Ofertadeo Categorías'
-    }
-  },
   components: {
     OferContent,
     OferItem,

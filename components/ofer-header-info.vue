@@ -47,6 +47,7 @@ export default {
 <style lang="scss">
 .content__title {
   margin-bottom: 0;
+  word-break: break-word;
   &::first-letter {
     text-transform: uppercase;
   }

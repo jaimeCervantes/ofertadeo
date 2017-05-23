@@ -20,6 +20,7 @@
 import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
 import OferHeaderInfo from '~components/ofer-header-info.vue'
+import OferCommon from '~components/mixins/ofer-common.vue'
 import OferPaths from '~components/mixins/ofer-paths.vue'
 import OferItem from '~components/ofer-item.vue'
 import OferMoreItems from '~components/ofer-more-items.vue'
@@ -28,7 +29,7 @@ import OferMoreItems from '~components/ofer-more-items.vue'
 var urlReq = '/api/categories/'
 
 export default {
-  mixins: [OferPaths],
+  mixins: [OferPaths, OferCommon],
   data () {
     return { urlReq: urlReq }
   },
@@ -42,7 +43,11 @@ export default {
   },
   head () {
     return {
-      title: 'Ofertadeo Categorías'
+      title: `Descuentos, promociones y ofertas en ${this.name} | Ofertadeo`,
+      meta: [
+        { hid: 'title', name: 'title', content: `Descuentos, promociones y ofertas en ${this.name} | Ofertadeo` },
+        { hid: 'description', name: 'description', content: `Descubre las mejores ofertas y promociones de ${this.name} en ofertadeo. Descuentos, promociones y ofertas en ${this.name}. ✓ ¡Ahorra dinero ya!` }
+      ]
     }
   },
   components: {

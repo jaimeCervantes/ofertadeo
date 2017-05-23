@@ -23,6 +23,10 @@ export default {
     justify-content: center;
   }
 
+  .item__img {
+    overflow:hidden;
+  }
+
   .item__name, .item__store {
     justify-content: left;
     color: #424242;

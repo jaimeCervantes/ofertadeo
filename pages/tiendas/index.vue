@@ -34,11 +34,6 @@ export default {
     },
     data)
   },
-  head () {
-    return {
-      title: 'Ofertadeo Tiendas'
-    }
-  },
   components: {
     OferContent,
     OferMoreItems,

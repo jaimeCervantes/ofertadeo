@@ -1,5 +1,8 @@
 <template>
   <ofer-content>
+    <template slot="info-section">
+      <h1 class="title">Ofertas, promociones y descuentos en México</h1>
+    </template>
     <template slot="content">
       <v-row>
         <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
@@ -29,11 +32,6 @@ export default {
     let { data } = await axios.get(urlReq)
     return data
   },
-  head () {
-    return {
-      title: 'Ofertadeo'
-    }
-  },
   components: {
     OferContent,
     OferItem,
@@ -46,3 +44,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .title { margin-top: 0.5rem; }
+</style>
