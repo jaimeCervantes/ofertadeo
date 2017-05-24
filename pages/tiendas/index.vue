@@ -1,7 +1,7 @@
 <template>
   <ofer-content :breadcrumbs="breadcrumbs">
     <template slot="info-section">
-      <h1 class="title">Ofertas, promociones y descuentos en México</h1>
+      <h1 class="title">Ofertas, promociones y descuentos en Tiendas de México</h1>
       <h2 class="subheading">En esta sección encontrarás las mejores ofertas, promociones y descuentos de las principales tiendas de México ordenas alfabéticamente.</h2>
     </template>
     <template slot="content">

@@ -40,7 +40,7 @@ export default {
   },
   head () {
     return {
-      title: 'Ofertas, promociones y descuentos en Tiendas de México',
+      title: 'Ofertas, promociones y descuentos por Categorías.',
       meta: [
         { hid: 'description', name: 'description', content: 'En esta sección encuentra las mejores ofertas, promociones y descuentos por Categorías como carnes, abarrotes, alimentos, frutas, verduras y más.' }
       ]
