@@ -42,6 +42,7 @@ export default {
     return {
       title: 'Ofertas, promociones y descuentos por Categorías.',
       meta: [
+        { hid: 'title', name: 'title', content: 'Ofertas, promociones y descuentos por Categorías.' },
         { hid: 'description', name: 'description', content: 'En esta sección encuentra las mejores ofertas, promociones y descuentos por Categorías como carnes, abarrotes, alimentos, frutas, verduras y más.' }
       ]
     }
