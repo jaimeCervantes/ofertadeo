@@ -20,16 +20,18 @@ module.exports = function(params) {
 
 function getItems(params) {
   var db = DATABASE || params.db;
+  var items_per_page = params.items_per_page || ITEMS_PER_PAGE;
   return db.collection(COLLECTION || params.collection)
     .find(params.query || {}, params.projection || {} )
     .sort(params.sort || { _id: 1})
     .skip(params.skip || 0)
-    .limit(params.items_per_page || ITEMS_PER_PAGE)
+    .limit(items_per_page)
     .toArray()
     .then(function(docs) {
-      if (params.items_per_page > 1) {
+      if (items_per_page > 1) {
         return docs;
       } else {
+        console.log(docs[0]);
         return docs[0];
       }
     })
@@ -39,7 +41,7 @@ function getItems(params) {
 }
 
 function getItem(params) {
-  params.item_per_page = 1;
+  params.items_per_page = 1;
   return getItems(params);
 }
 
