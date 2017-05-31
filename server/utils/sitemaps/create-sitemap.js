@@ -59,4 +59,7 @@ function createSitemap (params) {
 }
 
 
-module.exports = createSitemap
+module.exports = {
+  createSitemap: createSitemap,
+  compress: compress
+} 
