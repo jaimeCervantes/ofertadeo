@@ -33,20 +33,20 @@ function slug() {
   router.get('/promotions/:slug', function(req, res) {
     var iterable = [
       crudInst.getItem({
-        collection: 'catalogs',
+        collection: conf.db.mainCollection,
         query: { slug: req.params.slug },
         items_per_page: 1, 
         projection: { name: 1, thumbnail: 1, store_id: 1, categories: 1, slug: 1, content: 1, url: 1 } })
     ];
 
-    Promise.all(iterable)
-    .then(function(results) {
-      res.json({
-          item: results[0]
+    return Promise.all(iterable)
+          .then(function(results) {
+            res.json({
+                item: results[0]
+              });
+          })
+          .catch(function(error) {
+            res.json(error);
+          });
         });
-    })
-    .catch(function(error) {
-      res.json(error);
-    });
-  });
 }

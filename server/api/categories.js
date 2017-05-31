@@ -40,7 +40,7 @@ function _id() {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [
       crudInst.getItems({
-        collection: 'catalogs',
+        collection: conf.db.mainCollection,
         query: { categories: req.params._id },
         items_per_page: ITEMS_PER_PAGE, 
         skip: ITEMS_PER_PAGE*page,
@@ -53,7 +53,7 @@ function _id() {
       }),
       crudInst.getPagination({
         query: { store_id: req.params._id },
-        collection: 'catalogs'
+        collection: conf.db.mainCollection
       })
     ];
 

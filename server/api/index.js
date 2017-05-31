@@ -1,15 +1,12 @@
 import { Router } from 'express'
 var bodyParser = require('body-parser');
 var wagner = require('wagner-core');
-var config = require('../config.js');
 var home = require('./home');
 var categories = require('./categories');
 var stores = require('./stores');
 var promotions = require('./promotions');
 
-wagner.factory('config', function(){
-  return config;
-});
+require('../config.js')(wagner);
 require('../db/connection.js')(wagner);
 
 var router = Router()

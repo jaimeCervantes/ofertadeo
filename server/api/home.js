@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 var crudFn = require('../db/crud.js');
 var ITEMS_PER_PAGE = 6;
-var COLLECTION = 'catalogs';
+var COLLECTION = 'offers';
 
 var crudInst;
 var conf;
