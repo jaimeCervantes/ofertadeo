@@ -43,13 +43,13 @@ function createSitemap () {
 
 function addToSitemap(sitemap, data, params) {
   data.forEach(function(current) {
-      sitemap.add({
-        url: params.route + '/' + current.slug,
-        changefreq: params.changefreq || 'daily',
-        priority: params.priority || 0.5,
-        lastmodISO: current.modified || modified
-      });
+    sitemap.add({
+      url: params.route + '/' + current.slug,
+      changefreq: params.changefreq || 'daily',
+      priority: params.priority || 0.5,
+      lastmodISO: current.modified || modified
     });
+  });
 
   return sitemap
 }

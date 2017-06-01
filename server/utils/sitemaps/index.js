@@ -15,11 +15,10 @@ compoundSitemap.add({url: config.routes.categoriesList, changefreq: 'weekly', pr
 csm.getData( { collection: 'stores'} )
 .then(function(data) {
   csm.addToSitemap(compoundSitemap, data,  {
-      route: config.routes.storeList,
-      db_params: { collection: 'stores'},
-      changefreq: 'daily',
-      priority: 0.9
-    });
+    route: config.routes.storeList,
+    changefreq: 'daily',
+    priority: 0.9
+  });
 })
 .then(function() {
   csm.getData( { collection: 'categories'} )
@@ -29,12 +28,12 @@ csm.getData( { collection: 'stores'} )
       changefreq: 'daily',
       priority: 0.9
     });
-  });
-})
-.then(function(){
-  csm.createSitemapFile(compoundSitemap, {
-    sitemap_path: config.paths.static + stores_categories_pages,
-    sitemapName: stores_categories_pages
+
+    csm.createSitemapFile(compoundSitemap, {
+      sitemap_path: config.paths.static + stores_categories_pages,
+      sitemapName: stores_categories_pages
+    });
+
   });
 });
 
