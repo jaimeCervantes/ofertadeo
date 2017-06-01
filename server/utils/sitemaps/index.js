@@ -5,7 +5,7 @@ var fs = require('fs');
 
 var modified = new Date().toISOString();
 var offers = '/sitemaps/sitemap-ofertas.xml';
-var stores_categories_pages = '/sitemaps/sitemap_tiendas_categorias_paginas.xml';
+var stores_categories_pages = '/sitemaps/sitemap-paginas.xml';
 
 var compoundSitemap = csm.createSitemap();
 compoundSitemap.add({url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified});
