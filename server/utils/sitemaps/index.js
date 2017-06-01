@@ -9,9 +9,8 @@ var stores_categories_pages = '/sitemaps/sitemap-paginas.xml';
 
 var compoundSitemap = csm.createSitemap();
 compoundSitemap.add({url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified});
-compoundSitemap.add({url: config.routes.main, changefreq: 'daily', priority: 1.0, lastmodISO: modified});
 compoundSitemap.add({url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
-compoundSitemap.add({url: config.routes.categoryList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
+compoundSitemap.add({url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
 
 csm.getData( { collection: 'stores'} )
 .then(function(data) {
