@@ -31,7 +31,6 @@ function getItems(params) {
       if (items_per_page > 1) {
         return docs;
       } else {
-        console.log(docs[0]);
         return docs[0];
       }
     })

@@ -41,11 +41,13 @@ function _id() {
         query: { store_id: req.params._id },
         items_per_page: ITEMS_PER_PAGE,
         skip: ITEMS_PER_PAGE*page,
-        projection: {name: 1, thumbnail: 1, store_id: 1, slug: 1 } }),
+        projection: {name: 1, thumbnail: 1, store_id: 1, slug: 1}
+      }),
       crudInst.getItem({
         collection:  COLLECTION,
         query: {_id: req.params._id},
-        projection: {name:1, thumbnail: 1, slug: 1, url_site: 1, content: 1} }),
+        projection: {name:1, thumbnail: 1, slug: 1, url_site: 1, content: 1, img: 1}
+      }),
       crudInst.getPagination({
         query: { store_id: req.params._id },
         collection: conf.db.mainCollection

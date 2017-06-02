@@ -49,7 +49,7 @@ function _id() {
       crudInst.getItem({
         collection:  COLLECTION,
         query: {_id: req.params._id},
-        projection: {name:1, thumbnail: 1, slug: 1, content: 1}
+        projection: {name:1, thumbnail: 1, slug: 1, content: 1, img: 1}
       }),
       crudInst.getPagination({
         query: { store_id: req.params._id },

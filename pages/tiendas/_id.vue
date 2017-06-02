@@ -46,7 +46,15 @@ export default {
       title: `${this.name} – Ofertas y promociones ${this.date} | Ofertadeo`,
       meta: [
         { hid: 'title', name: 'title', content: `${this.name} – Ofertas y promociones ${this.date} | Ofertadeo` },
-        { hid: 'description', name: 'description', content: `Descubre las mejores ofertas y promociones de ${this.name} en Ofertadeo. Descuentos, promociones y ofertas en ${this.name} ${this.year}. ✓ ¡Ahorra ya!` }
+        { hid: 'description', name: 'description', content: `Descubre las mejores ofertas y promociones de ${this.name} en Ofertadeo. Descuentos, promociones y ofertas en ${this.name} ${this.year}. ✓ ¡Ahorra ya!` },
+        { hid: 'og:title', property: 'og:title', content: `${this.name} – Ofertas y promociones ${this.date} | Ofertadeo` },
+        { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.name} en Ofertadeo. Descuentos, promociones y ofertas en ${this.name} ${this.year}. ✓ ¡Ahorra ya!` },
+        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}/${this.$store.state.routes.storeList}/${this.id}` },
+        { hid: 'og:image', property: 'og:image', content: this.info.img },
+        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img }
+      ],
+      link: [
+        { rel: 'canonical', href: `${this.$store.state.host}/${this.$store.state.routes.storeList}/${this.id}` }
       ]
     }
   },

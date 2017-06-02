@@ -21,11 +21,17 @@ const store = new Vuex.Store({
       categories: '/categorias',
       categoriesList: '/categorias',
       stores: '/promociones',
+      main: '/promociones',
       storeList: '/tiendas'
     },
+    host: 'https://www.ofertadeo.com',
     txt: {
       categories: 'Categorías',
       stores: 'Tiendas'
+    },
+    publisher: {
+      fb: 'https://www.facebook.com/ofertadeo',
+      google: 'https://plus.google.com/110009950298317863923'
     }
   },
   mutations: {

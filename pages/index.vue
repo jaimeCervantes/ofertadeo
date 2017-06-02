@@ -41,6 +41,13 @@ export default {
     concatItems (items) {
       this.items = this.items.concat(items)
     }
+  },
+  head () {
+    return {
+      link: [
+        { rel: 'canonical', href: `${this.$store.state.host}` }
+      ]
+    }
   }
 }
 </script>
