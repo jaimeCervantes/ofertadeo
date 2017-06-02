@@ -46,10 +46,10 @@ export default {
         { hid: 'description', name: 'description', content: 'En esta sección encuentra las mejores ofertas, promociones y descuentos por Categorías como carnes, abarrotes, alimentos, frutas, verduras y más.' },
         { hid: 'og:title', property: 'og:title', content: 'Ofertas, promociones y descuentos por Categorías.' },
         { hid: 'og:description', property: 'og:description', content: 'En esta sección encuentra las mejores ofertas, promociones y descuentos por Categorías como carnes, abarrotes, alimentos, frutas, verduras y más.' },
-        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}/${this.$store.state.routes.categoriesList}` }
+        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.categoriesList}` }
       ],
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}/${this.$store.state.routes.categoriesList}` }
+        { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.categoriesList}` }
       ]
     }
   },

@@ -49,12 +49,12 @@ export default {
         { hid: 'description', name: 'description', content: `Descubre las mejores ofertas y promociones de ${this.name} en ofertadeo. Descuentos, promociones y ofertas en ${this.name}. ✓ ¡Ahorra dinero ya!` },
         { hid: 'og:title', property: 'og:title', content: `Descuentos, promociones y ofertas en ${this.name} | Ofertadeo` },
         { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.name} en ofertadeo. Descuentos, promociones y ofertas en ${this.name}. ✓ ¡Ahorra dinero ya!` },
-        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}/${this.$store.state.routes.categoriesList}/${this.id}` },
+        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.categoriesList}/${this.id}` },
         { hid: 'og:image', property: 'og:image', content: this.info.img },
         { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img }
       ],
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}/${this.$store.state.routes.categoriesList}/${this.id}` }
+        { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.categoriesList}/${this.id}` }
       ]
     }
   },

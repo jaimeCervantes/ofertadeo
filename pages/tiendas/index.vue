@@ -46,10 +46,10 @@ export default {
         { hid: 'description', name: 'description', content: 'Las mejores ofertas, promociones y descuentos de Tiendas en México como Walmart, Soriana, Chedraui, Liverpool, Bodega Aurrera y más.' },
         { hid: 'og:title', property: 'og:title', content: 'Ofertas, promociones y descuentos en Tiendas de México' },
         { hid: 'og:description', property: 'og:description', content: 'Las mejores ofertas, promociones y descuentos de Tiendas en México como Walmart, Soriana, Chedraui, Liverpool, Bodega Aurrera y más.' },
-        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}/${this.$store.state.routes.storeList}` }
+        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.storeList}` }
       ],
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}/${this.$store.state.routes.storeList}` }
+        { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.storeList}` }
       ]
     }
   },
