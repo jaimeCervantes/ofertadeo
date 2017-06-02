@@ -54,7 +54,7 @@ export default {
     return {
       title: `${this.item.name}`,
       meta: [
-        { hid: 'title', name: 'title', content: `${this.item.name}` },
+        { hid: 'title', name: 'title', content: `${this.item.name} | Ofertadeo` },
         { hid: 'description', name: 'description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
         { hid: 'og:type', property: 'og:type', content: 'article' },
         { hid: 'og:title', property: 'og:title', content: `${this.item.name}` },

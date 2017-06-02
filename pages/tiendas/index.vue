@@ -40,7 +40,7 @@ export default {
   },
   head () {
     return {
-      title: 'Ofertas, promociones y descuentos en Tiendas de México',
+      title: 'Ofertas, promociones y descuentos en Tiendas de México | Ofertadeo',
       meta: [
         { hid: 'title', name: 'title', content: 'Ofertas, promociones y descuentos en Tiendas de México' },
         { hid: 'description', name: 'description', content: 'Las mejores ofertas, promociones y descuentos de Tiendas en México como Walmart, Soriana, Chedraui, Liverpool, Bodega Aurrera y más.' },
