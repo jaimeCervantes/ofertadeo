@@ -42,7 +42,7 @@ module.exports = {
   ** Add axios globally
   */
   build: {
-    vendor: ['axios'],
+    vendor: ['axios', '~plugins/striptags.js'],
     /*
     ** Run ESLINT on save
     */

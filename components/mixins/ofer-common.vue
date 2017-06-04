@@ -1,6 +1,6 @@
 <script>
 import moment from 'moment'
-import striptags from 'striptags'
+import striptags from '~plugins/striptags'
 moment.locale('es')
 
 export default {
