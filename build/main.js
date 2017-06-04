@@ -690,7 +690,7 @@ if (nuxtConfig.dev) {
 }
 
 // Listen the server
-app.listen(port, host);
+app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
 
 /***/ }
