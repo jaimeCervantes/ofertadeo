@@ -12,6 +12,9 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'theme-color', content:'#1976d2' },
+      { name: 'msapplication-TileColor', content: '#2d89ef' },
+      { name: 'msapplication-TileImage', content: '/favicons/mstile-144x144.png' },
+      { name: 'msapplication-config', content: '/favicons/browserconfig.xml' },
       { hid: 'title', name: 'title', content: 'Ofertas, promociones y descuentos en México | Ofertadeo' },
       { hid: 'publisher', rel: 'publisher', href: 'https://plus.google.com/110009950298317863923' },
       { hid: 'description', name: 'description', content: 'Descubre las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad.  ✓ ¡Ahorra con ofertadeo!' },
@@ -25,7 +28,13 @@ module.exports = {
       { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: 'https://ofertadeo.com/logo.png' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicons/apple-touch-icon.png' },
+      { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicons/favicon-32x32.png' },
+      { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' },
+      { rel: 'manifest', href: '/favicons/manifest.json'},
+      { rel: 'mask-icon', href: '/favicons/safari-pinned-tab.svg', color: '#1976d2' },
+      { rel: 'shortcut icon', href: '/favicons/favicon.ico' }
     ],
     htmlAttrs: {
       lang: 'es-MX'
