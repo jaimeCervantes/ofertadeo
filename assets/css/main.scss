@@ -96,14 +96,22 @@ a {
   background-color: rgba(0,0,0,0.5);
 }
 
-  .item {
-    &__img {
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      display: flex;
-      justify-content: center;
-    }
-    &__name {
-      justify-content: center;
-    }
+.item {
+  &__img {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
   }
+  &__name {
+    justify-content: center;
+  }
+}
+
+ul {
+  padding-left: 1rem;
+  li {
+    padding-top:0.3rem;
+    padding-bottom:0.3rem;
+  }
+}
