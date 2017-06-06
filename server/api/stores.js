@@ -41,12 +41,12 @@ function _id() {
         query: { store_id: req.params._id },
         items_per_page: ITEMS_PER_PAGE,
         skip: ITEMS_PER_PAGE*page,
-        projection: {name: 1, thumbnail: 1, store_id: 1, slug: 1}
+        projection: {name: 1, thumbnail: 1, store_id: 1, slug: 1, img: 1, img_alt:1, img_title:1 }
       }),
       crudInst.getItem({
         collection:  COLLECTION,
         query: {_id: req.params._id},
-        projection: {name:1, thumbnail: 1, slug: 1, url_site: 1, content: 1, img: 1}
+        projection: {name:1, thumbnail: 1, slug: 1, url_site: 1, content: 1, img: 1, img_alt:1, img_title: 1}
       }),
       crudInst.getPagination({
         query: { store_id: req.params._id },
@@ -76,7 +76,7 @@ function index() {
         collection: COLLECTION,
         items_per_page: ITEMS_PER_PAGE, 
         skip: ITEMS_PER_PAGE*page,
-        projection: { name: 1, slug: 1, thumbnail: 1 }
+        projection: { name: 1, slug: 1, thumbnail: 1, img_alt:1, img_title:1 }
       }),
       crudInst.getPagination({
         collection: COLLECTION
@@ -85,6 +85,7 @@ function index() {
 
     Promise.all(iterable)
     .then(function(results) {
+      console.log(results[0]);
       res.json({
           items: results[0],
           pagination: results[1]

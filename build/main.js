@@ -298,11 +298,11 @@ function _id() {
       query: { categories: req.params._id },
       items_per_page: ITEMS_PER_PAGE,
       skip: ITEMS_PER_PAGE * page,
-      projection: { name: 1, thumbnail: 1, store_id: 1, slug: 1 }
+      projection: { name: 1, thumbnail: 1, store_id: 1, slug: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getItem({
       collection: COLLECTION,
       query: { _id: req.params._id },
-      projection: { name: 1, thumbnail: 1, slug: 1, content: 1, img: 1 }
+      projection: { name: 1, thumbnail: 1, slug: 1, content: 1, img: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
       query: { store_id: req.params._id },
       collection: conf.db.mainCollection
@@ -327,7 +327,7 @@ function index() {
       collection: COLLECTION,
       items_per_page: ITEMS_PER_PAGE,
       skip: ITEMS_PER_PAGE * page,
-      projection: { name: 1, slug: 1, thumbnail: 1 }
+      projection: { name: 1, slug: 1, thumbnail: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
       collection: COLLECTION
     })];
@@ -387,7 +387,7 @@ function index() {
       collection: COLLECTION,
       items_per_page: ITEMS_PER_PAGE,
       skip: ITEMS_PER_PAGE * page,
-      projection: { name: 1, thumbnail: 1, store_id: 1, slug: 1 }
+      projection: { name: 1, thumbnail: 1, store_id: 1, slug: 1, img_alt: 1, img_title: 1, title: 1 }
     }), crudInst.getPagination({
       collection: COLLECTION
     })];
@@ -442,7 +442,7 @@ function slug() {
       collection: conf.db.mainCollection,
       query: { slug: req.params.slug },
       items_per_page: 1,
-      projection: { name: 1, thumbnail: 1, store_id: 1, categories: 1, slug: 1, content: 1, url: 1, img: 1, modified: 1 } })];
+      projection: { title: 1, name: 1, thumbnail: 1, store_id: 1, categories: 1, slug: 1, content: 1, url: 1, img: 1, modified: 1, img_alt: 1, img_title: img_title } })];
 
     return Promise.all(iterable).then(function (results) {
       res.json({
@@ -498,11 +498,11 @@ function _id() {
       query: { store_id: req.params._id },
       items_per_page: ITEMS_PER_PAGE,
       skip: ITEMS_PER_PAGE * page,
-      projection: { name: 1, thumbnail: 1, store_id: 1, slug: 1 }
+      projection: { name: 1, thumbnail: 1, store_id: 1, slug: 1, img: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getItem({
       collection: COLLECTION,
       query: { _id: req.params._id },
-      projection: { name: 1, thumbnail: 1, slug: 1, url_site: 1, content: 1, img: 1 }
+      projection: { name: 1, thumbnail: 1, slug: 1, url_site: 1, content: 1, img: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
       query: { store_id: req.params._id },
       collection: conf.db.mainCollection
@@ -527,12 +527,13 @@ function index() {
       collection: COLLECTION,
       items_per_page: ITEMS_PER_PAGE,
       skip: ITEMS_PER_PAGE * page,
-      projection: { name: 1, slug: 1, thumbnail: 1 }
+      projection: { name: 1, slug: 1, thumbnail: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
       collection: COLLECTION
     })];
 
     Promise.all(iterable).then(function (results) {
+      console.log(results[0]);
       res.json({
         items: results[0],
         pagination: results[1]
@@ -670,7 +671,7 @@ app.use('/api', __WEBPACK_IMPORTED_MODULE_3__api__["a" /* default */]);
 
 // Import and Set Nuxt.js options
 var nuxtConfig = __webpack_require__(4);
-nuxtConfig.dev = !("production" === 'production');
+nuxtConfig.dev = !("development" === 'production');
 
 // Init Nuxt.js
 var nuxt = new __WEBPACK_IMPORTED_MODULE_0_nuxt___default.a(nuxtConfig);

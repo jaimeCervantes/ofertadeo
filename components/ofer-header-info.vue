@@ -81,7 +81,6 @@ export default {
   .img-container {
     display: flex;
     width:200px;
-    height:100px;
     align-items: center;
     justify-content:left;
     margin-right: 0.5rem;
@@ -91,7 +90,6 @@ export default {
   img {
     margin-right: 1rem;
     width: 100%;
-    height:100%;
   }
 }
 </style>
