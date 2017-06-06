@@ -556,10 +556,10 @@ var path = __webpack_require__(15);
 
 var config = {
   db: {
-    user: "ofertadeo_user",
+    user: "ofertadeo",
     password: "Cdo_2017*",
     name: 'ofertadeo',
-    host: 'ds131621.mlab.com:31621',
+    host: 'ds161471.mlab.com:61471',
     shard1: 'pensemosweb-shard-00-00-147ev.mongodb.net:27017',
     shard2: 'pensemosweb-shard-00-01-147ev.mongodb.net:27017',
     shard3: 'pensemosweb-shard-00-02-147ev.mongodb.net:27017',
@@ -609,7 +609,7 @@ function getConnection(config) {
   var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + config.db.host + '/' + config.db.name;
 
   return MongoClient.connect(url).then(function (conn) {
-    console.log('It is connected to db: ' + config.db.name);
+    console.log('It is connected to db: ' + config.db.name + ' in ' + config.db.host);
     return conn;
   }).catch(function (err) {
     console.log(err);

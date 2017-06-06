@@ -9,7 +9,7 @@ function getConnection(config) {
   var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + config.db.host + '/' + config.db.name;
 
   return MongoClient.connect(url).then(function(conn){
-      console.log('It is connected to db: ' + config.db.name);
+      console.log('It is connected to db: ' + config.db.name + ' in ' + config.db.host );
       return conn;
     })
     .catch(function(err) {
