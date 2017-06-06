@@ -8,8 +8,8 @@
         <nuxt-link :to="$store.state.routes.storeList + '/' + item.store_id">{{item.store_id.split('-').join(' ').toUpperCase()}}</nuxt-link>
       </div>
     </v-card-row>
-    <v-card-row class="item__name" v-if="item.title||item.name">
-      <div class="pl-2 pr-2"><nuxt-link :to="toLink">{{item.title||item.name}}</nuxt-link></div>
+    <v-card-row class="item__name" v-if="item.name">
+      <div class="pl-2 pr-2"><nuxt-link :to="toLink">{{item.name}}</nuxt-link></div>
     </v-card-row>
   </v-card>
 </template>
