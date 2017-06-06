@@ -85,7 +85,6 @@ function index() {
 
     Promise.all(iterable)
     .then(function(results) {
-      console.log(results[0]);
       res.json({
           items: results[0],
           pagination: results[1]
