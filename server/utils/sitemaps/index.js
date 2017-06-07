@@ -1,66 +1,18 @@
-var csm = require('./create-sitemap');
-var config = require('../../config')();
-var sm = require('sitemap')
-var fs = require('fs');
-
-var modified = new Date().toISOString();
-var offers = '/sitemaps/sitemap-ofertas.xml';
-var stores_categories_pages = '/sitemaps/sitemap-paginas.xml';
-
-var compoundSitemap = csm.createSitemap();
-compoundSitemap.add({url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified});
-compoundSitemap.add({url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
-compoundSitemap.add({url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
-
-csm.getData( { collection: 'stores'} )
-.then(function(data) {
-  csm.addToSitemap(compoundSitemap, data,  {
-    route: config.routes.storeList,
-    changefreq: 'daily',
-    priority: 0.9
+var cron = require('node-cron');
+var spawn = require('child_process').spawn;
+ 
+//cron.schedule('5 0 * * *', function(){//run every 5 minutes after midnigh everyday
+cron.schedule('*/1 * * * *', function(){//run every two minutes
+  var sm = spawn('node', ['./server/utils/sitemaps/create-sitemap.js']);
+  sm.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
   });
-})
-.then(function() {
-  csm.getData( { collection: 'categories'} )
-  .then(function(data) {
-    csm.addToSitemap(compoundSitemap, data,  {
-      route: config.routes.categories,
-      changefreq: 'daily',
-      priority: 0.9
-    });
 
-    csm.createSitemapFile(compoundSitemap, {
-      sitemap_path: config.paths.static + stores_categories_pages,
-      sitemapName: stores_categories_pages
-    });
-
+  sm.stderr.on('data', (data) => {
+    console.log(`stderr: ${data}`);
   });
-});
 
-var offersSitemap = csm.createSitemap();
-
-csm.getData({collection: config.db.mainCollection })
-.then(function (data) {
-  csm.addToSitemap(offersSitemap, data, {
-    route: config.routes.main,
-    changefreq: 'daily',
-    priority: 0.5
+  sm.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
   });
-})
-.then(function() {
-  csm.createSitemapFile(offersSitemap, {
-    sitemap_path: config.paths.static + offers,
-    sitemapName: offers
-  });
-});
-
-var index = sm.buildSitemapIndex({
-  urls: [config.host + stores_categories_pages + '.gz', config.host + offers + '.gz']
-});
-
-fs.writeFile(config.paths.static + '/sitemaps/sitemap.xml', index.toString(), function(err) {
-  if (err) {
-    return console.log(err);
-  }
-  console.log('Index sitemap is created :=)');
 });

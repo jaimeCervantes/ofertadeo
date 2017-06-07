@@ -1,6 +1,6 @@
 module.exports = {
   loading: {
-    color: '#42a5f5',
+    color: '#ff80ab',
     height: '11px'
   },
   /*
