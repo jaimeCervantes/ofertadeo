@@ -24,6 +24,12 @@ export default {
     },
     getTextFromHtml (strHtml) {
       return striptags(strHtml)
+    },
+    exists (data) {
+      if (!data) {
+        return false
+      }
+      return (Object.keys(data).length > 0)
     }
   }
 }

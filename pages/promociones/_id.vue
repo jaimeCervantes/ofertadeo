@@ -1,11 +1,11 @@
 <template>
   <ofer-content>
     <template slot="content">
-      <v-row>
+      <v-row v-if="exists(item)">
         <v-col class="mt-3 mb-3" xs12 sm12 md9 lg9 xl9>
           <div class="promotion">
             <p class="promotion__data">
-              <nuxt-link :to="$store.state.routes.categories + '/' + item.categories[0]">
+              <nuxt-link :to="createLinkToCategories()">
                 <span class="promotion__category" v-text="getCategories()"></span>
               </nuxt-link>
                | 
@@ -23,6 +23,7 @@
           </div>
         </v-col>
       </v-row>
+      <ofer-not-exists v-if="!exists(item)" v-bind:title="notExistTitle"></ofer-not-exists>
     </template>
   </ofer-content>
 </template>
@@ -31,27 +32,40 @@
 import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
 import OferCommon from '~components/mixins/ofer-common.vue'
+import OferNotExists from '~components/ofer-not-exists.vue'
 
 export default {
   mixins: [OferCommon],
+  data () {
+    return { item: {}, notExistTitle: 'La oferta no existe. Te recomendamos verificar la url.' }
+  },
   async asyncData ({ params, route }) {
     let { data } = await axios.get('/api/promotions/' + params.id)
-    return data
+    return Object.assign({
+      path: route.path,
+      id: params.id
+    },
+    data)
   },
   methods: {
     getStores (stores) {
       stores = stores || this.item.store_id
+      if (!stores) return ''
       return stores.split('-').join(' ')
     },
     getCategories (categories) {
       categories = categories || this.item.categories
+      if (!categories) return ''
       return categories.reduce(function (prev, curr) {
         return prev.split('-').join(' ') + curr.split('-').join(' ')
       }, '')
+    },
+    createLinkToCategories () {
+      return this.$store.state.routes.categories + '/' + (this.item.categories && this.item.categories[0])
     }
   },
   head () {
-    return {
+    return this.exists(this.item) ? {
       title: `${this.item.name}`,
       meta: [
         { hid: 'title', name: 'title', content: `${this.item.name} | Ofertadeo` },
@@ -70,16 +84,17 @@ export default {
       link: [
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.stores}/${this.item.slug}` }
       ]
-    }
+    } : { title: this.notExistTitle }
   },
   components: {
     OferContent,
-    OferCommon
+    OferCommon,
+    OferNotExists
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="stylus" scoped>
 .promotion {
   .thumbnail {
     float:right;
