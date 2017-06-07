@@ -708,9 +708,9 @@ if (nuxtConfig.dev) {
 app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
 
-//cron.schedule('5 0 * * *', function(){//run every 5 minutes after midnigh everyday
-cron.schedule('*/1 * * * *', function () {
-  //run every two minutes
+cron.schedule('5 0 * * *', function () {
+  //run every 5 minutes after midnigh everyday
+  //cron.schedule('*/1 * * * *', function(){//run every 1 minute
   var sm = spawn('node', ['./server/utils/sitemaps/create-sitemap.js']);
   sm.stdout.on('data', function (data) {
     console.log('stdout: ' + data);
