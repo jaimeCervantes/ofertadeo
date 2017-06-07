@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 16);
+/******/ 	return __webpack_require__(__webpack_require__.s = 18);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -223,13 +223,13 @@ module.exports = {
 
 var bodyParser = __webpack_require__(2);
 var wagner = __webpack_require__(3);
-var home = __webpack_require__(9);
-var categories = __webpack_require__(8);
-var stores = __webpack_require__(11);
-var promotions = __webpack_require__(10);
+var home = __webpack_require__(11);
+var categories = __webpack_require__(10);
+var stores = __webpack_require__(13);
+var promotions = __webpack_require__(12);
 
-__webpack_require__(12)(wagner);
-__webpack_require__(13)(wagner);
+__webpack_require__(14)(wagner);
+__webpack_require__(15)(wagner);
 
 var router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
 // Add USERS Routes
@@ -244,16 +244,28 @@ router.use(promotions(wagner));
 /* 6 */
 /***/ function(module, exports) {
 
-module.exports = require("compression");
+module.exports = require("child_process");
 
 /***/ },
 /* 7 */
 /***/ function(module, exports) {
 
-module.exports = require("nuxt");
+module.exports = require("compression");
 
 /***/ },
 /* 8 */
+/***/ function(module, exports) {
+
+module.exports = require("node-cron");
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+module.exports = require("nuxt");
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -344,7 +356,7 @@ function index() {
 }
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -404,7 +416,7 @@ function index() {
 }
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -456,7 +468,7 @@ function slug() {
 }
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -546,14 +558,14 @@ function index() {
 }
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(__dirname) {
 
 var wagner = __webpack_require__(3);
-var path = __webpack_require__(15);
+var path = __webpack_require__(17);
 
 var config = {
   db: {
@@ -595,13 +607,13 @@ module.exports.config = config;
 /* WEBPACK VAR INJECTION */}.call(exports, "server"))
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var MongoClient = __webpack_require__(14).MongoClient;
+var MongoClient = __webpack_require__(16).MongoClient;
 
 function getConnection(config) {
   //connPromise is pending when trying to connect to mongodb atlas
@@ -628,33 +640,35 @@ module.exports = function (wagner) {
 };
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 module.exports = require("mongodb");
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 module.exports = require("path");
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nuxt__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_compression__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api__ = __webpack_require__(5);
 
 
 
+var cron = __webpack_require__(8);
+var spawn = __webpack_require__(6).spawn;
 
 
 
@@ -693,6 +707,23 @@ if (nuxtConfig.dev) {
 // Listen the server
 app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
+
+//cron.schedule('5 0 * * *', function(){//run every 5 minutes after midnigh everyday
+cron.schedule('*/1 * * * *', function () {
+  //run every two minutes
+  var sm = spawn('node', ['./server/utils/sitemaps/create-sitemap.js']);
+  sm.stdout.on('data', function (data) {
+    console.log('stdout: ' + data);
+  });
+
+  sm.stderr.on('data', function (data) {
+    console.log('stderr: ' + data);
+  });
+
+  sm.on('close', function (code) {
+    console.log('child process exited with code ' + code);
+  });
+});
 
 /***/ }
 /******/ ]);
