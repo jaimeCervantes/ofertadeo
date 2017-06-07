@@ -57,7 +57,10 @@ export default {
         { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en ofertadeo. Descuentos, promociones y ofertas en ${this.info.name}. ✓ ¡Ahorra dinero ya!` },
         { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.categoriesList}/${this.id}` },
         { hid: 'og:image', property: 'og:image', content: this.info.img },
-        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img }
+        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img },
+        { hid: 'og:locale', property: 'og:locale', content: 'es-MX' },
+        { hid: 'og:type', property: 'og:type', content: 'website' },
+        { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
       ],
       link: [
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.categoriesList}/${this.id}` }

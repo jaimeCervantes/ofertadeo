@@ -79,7 +79,9 @@ export default {
         { hid: 'article:section', property: 'article:section', content: this.getCategories() },
         { hid: 'article:published_time', property: 'article:published_time', content: this.item.modified },
         { hid: 'og:image', property: 'og:image', content: this.item.img },
-        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.item.img }
+        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.item.img },
+        { hid: 'og:locale', property: 'og:locale', content: 'es-MX' },
+        { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
       ],
       link: [
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.stores}/${this.item.slug}` }

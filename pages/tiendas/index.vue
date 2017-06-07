@@ -46,7 +46,12 @@ export default {
         { hid: 'description', name: 'description', content: 'Las mejores ofertas, promociones y descuentos de Tiendas en México como Walmart, Soriana, Chedraui, Liverpool, Bodega Aurrera y más.' },
         { hid: 'og:title', property: 'og:title', content: 'Ofertas, promociones y descuentos en Tiendas de México' },
         { hid: 'og:description', property: 'og:description', content: 'Las mejores ofertas, promociones y descuentos de Tiendas en México como Walmart, Soriana, Chedraui, Liverpool, Bodega Aurrera y más.' },
-        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.storeList}` }
+        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.storeList}` },
+        { hid: 'og:locale', property: 'og:locale', content: 'es-MX' },
+        { hid: 'og:type', property: 'og:type', content: 'website' },
+        { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' },
+        { hid: 'og:image', property: 'og:image', content: 'https://www.ofertadeo.com/logo.png' },
+        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: 'https://www.ofertadeo.com/logo.png' }
       ],
       link: [
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.storeList}` }
