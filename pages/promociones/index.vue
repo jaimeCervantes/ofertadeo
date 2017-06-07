@@ -53,9 +53,9 @@ export default {
         { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' },
         { hid: 'og:title', property: 'og:title', content: 'Ofertas, promociones y descuentos en México | Ofertadeo' },
         { hid: 'og:description', property: 'og:description', content: 'Descubre las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad.  ✓ ¡Ahorra con ofertadeo!' },
-        { hid: 'og:url', property: 'og:url', content: 'https://ofertadeo.com' },
-        { hid: 'og:image', property: 'og:image', content: 'https://ofertadeo.com/logo.png' },
-        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: 'https://ofertadeo.com/logo.png' }
+        { hid: 'og:url', property: 'og:url', content: 'https://www.ofertadeo.com' },
+        { hid: 'og:image', property: 'og:image', content: 'https://www.ofertadeo.com/logo.png' },
+        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: 'https://www.ofertadeo.com/logo.png' }
       ],
       link: [
         { rel: 'canonical', href: `${this.$store.state.host}` }
