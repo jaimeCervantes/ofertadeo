@@ -2,7 +2,7 @@ import Nuxt from 'nuxt'
 import express from 'express'
 import compression from 'compression'
 var cron = require('node-cron');
-var spawn = require('child_process').spawn;
+var csm = require('./utils/sitemaps/create-sitemap.js');
 
 
 import api from './api'
@@ -44,18 +44,14 @@ if (nuxtConfig.dev) {
 app.listen(port)
 console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
 
-cron.schedule('5 0 * * *', function(){//run every 5 minutes after midnigh everyday
-//cron.schedule('*/1 * * * *', function(){//run every 1 minute
-  var sm = spawn('node', ['./server/utils/sitemaps/create-sitemap.js']);
-  sm.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-  });
+cron.schedule('5 0 * * *', function (){//run every 5 minutes after midnigh everyday
+  csm.pages();
+});
 
-  sm.stderr.on('data', (data) => {
-    console.log(`stderr: ${data}`);
-  });
+cron.schedule('* 6,12,18,0 * * *', function () {//run every 6 hours
+  csm.offers();
+});
 
-  sm.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
+cron.schedule('5 0 * * *', function () {//run every 3 minute
+  csm.index();
 });
