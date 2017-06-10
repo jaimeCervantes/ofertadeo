@@ -1,7 +1,13 @@
 <template>
   <v-toolbar fixed>
     <slot name="left-icons">
-      <v-toolbar-side-icon @click.native.stop="$store.commit('toggleSidebar')"></v-toolbar-side-icon>
+      <button type="button" id="menu" class="btn btn--icon" v-on:click.stop="$store.commit('toggleSidebar')">
+        <span class="btn__content">
+          <i>—</i>
+          <i>—</i>
+          <i>—</i>
+        </span>
+      </button>
     </slot>
     <slot name="left-items">
       <v-toolbar-items>
@@ -24,6 +30,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  #menu {
+    margin-left: 0rem;
+    .btn__content {
+      display: flex;
+      flex-direction: column;
+      i {
+        height: 6px;
+        line-height: 0;
+        font-size: 20px;
+      }
+    }
+  }
   .toolbar {
     padding:1rem;
     .toolbar__side-icon {

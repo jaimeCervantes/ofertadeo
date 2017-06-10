@@ -2,6 +2,8 @@
   <ofer-content>
     <template slot="info-section">
       <h1 class="title">Ofertas, promociones y descuentos en México</h1>
+      <p>Descubre las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad como Walmart, Chedraui, Sams Club, Liverpool, Soriana, Cinepolis, Cinemex y muchas tiendas mas.  ✓ ¡Ahorra con ofertadeo!</p>
+      <h2 class="title">Lista de ofertas y promociones en México</h2>
     </template>
     <template slot="content">
       <v-row>

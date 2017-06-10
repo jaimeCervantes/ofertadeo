@@ -119,3 +119,24 @@ a {
     padding-bottom:0.3rem;
   }
 }
+
+.header {
+  h2.title {
+    font-weight:400;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    line-height: 1.3;
+  }
+}
+
+.expansion-panel__header:after {
+  content: '❮' !important;
+  font-size: 1.5rem !important;
+  margin-top: 0.5rem !important;
+  transform: rotate(-90deg) !important;
+  font-weight: bold;
+}
+
+.expansion-panel__header--active:after {
+  transform: rotate(90deg) !important;
+}

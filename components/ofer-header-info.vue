@@ -57,12 +57,6 @@ export default {
 }
 
 .header-info {
-  h2 {
-    font-weight:400;
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    line-height: 1.3;
-  }
   .btn {
     margin-left:0;
     float:left;
