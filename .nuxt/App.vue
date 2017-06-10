@@ -62,5 +62,3 @@ export default {
 
 <style src="~assets/css/main.scss" lang="scss"></style>
 
-<style src="~assets/css/roboto-material-icons.css" lang="css"></style>
-

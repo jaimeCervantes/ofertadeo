@@ -284,8 +284,8 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [{ src: '~assets/css/main.scss', lang: 'scss' }, // scss instead of sass
-  '~assets/css/roboto-material-icons.css'],
+  css: [{ src: '~assets/css/main.scss', lang: 'scss' } // scss instead of sass
+  ],
   /*
   ** Add axios globally
   */
