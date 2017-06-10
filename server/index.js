@@ -48,7 +48,7 @@ cron.schedule('5 0 * * *', function (){//run every 5 minutes after midnigh every
   csm.pages();
 });
 
-cron.schedule('* 6,12,18,0 * * *', function () {//run every 6 hours
+cron.schedule('0 6,12,18,0 * * *', function () {//run every 6 hours
   csm.offers();
 });
 
