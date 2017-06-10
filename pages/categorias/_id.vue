@@ -36,7 +36,7 @@ export default {
     return {
       urlReq: urlReq,
       info: {},
-      notExistTitle: 'La categoria no existe. Te recomendamos verificar la url.'
+      notExistTitle: 'La categoría no existe. Te recomendamos verificar la url.'
     }
   },
   async asyncData ({ params, route }) {

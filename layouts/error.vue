@@ -20,7 +20,6 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-  @import '`~assets/stylus/main'
   .content {
     text-align:center;
   }

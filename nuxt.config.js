@@ -33,13 +33,15 @@ module.exports = {
   ** Global CSS
   */
   css: [
+     { src: '~assets/stylus/main.styl', lang: 'stylus' },
      { src: '~assets/css/main.scss', lang: 'scss' } // scss instead of sass
   ],
   /*
   ** Add axios globally
   */
+  
   build: {
-    vendor: ['axios', '~plugins/striptags.js'],
+    vendor: ['axios','~plugins/striptags.js'],
     /*
     ** Run ESLINT on save
     */
