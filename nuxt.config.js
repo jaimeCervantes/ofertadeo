@@ -15,7 +15,8 @@ module.exports = {
       { name: 'msapplication-TileColor', content: '#2d89ef' },
       { name: 'msapplication-TileImage', content: '/favicons/mstile-144x144.png' },
       { name: 'msapplication-config', content: '/favicons/browserconfig.xml' },
-      { name: 'p:domain_verify', content: 'd22a77a044a4490ebd5019e778f4a37b' }
+      { name: 'p:domain_verify', content: 'd22a77a044a4490ebd5019e778f4a37b' },
+      { name: 'google-site-verification', content: '-jN3QPeaXQTbgPBlyAXlXXh7qRSesWIpa3GC3ijTjJM' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
