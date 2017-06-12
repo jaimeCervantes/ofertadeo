@@ -25,7 +25,8 @@ module.exports = {
       { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' },
       { rel: 'manifest', href: '/favicons/manifest.json'},
       { rel: 'mask-icon', href: '/favicons/safari-pinned-tab.svg', color: '#1976d2' },
-      { rel: 'shortcut icon', href: '/favicons/favicon.ico' }
+      { rel: 'shortcut icon', href: '/favicons/favicon.ico' },
+      { rel: 'dns-prefetch', href:'//www.google-analytics.com' }
     ],
     htmlAttrs: {
       lang: 'es-MX'
@@ -38,10 +39,12 @@ module.exports = {
      { src: '~assets/stylus/main.styl', lang: 'stylus' },
      { src: '~assets/css/main.scss', lang: 'scss' } // scss instead of sass
   ],
+  plugins: [
+    { src: '~plugins/ga.js', ssr: false }
+  ],
   /*
   ** Add axios globally
   */
-  
   build: {
     vendor: ['axios','~plugins/striptags.js'],
     /*

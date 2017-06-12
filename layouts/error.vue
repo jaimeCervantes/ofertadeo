@@ -16,6 +16,13 @@ export default {
   props: ['error'],
   components: {
     OferNotExists
+  },
+  head () {
+    return {
+      meta: [
+        { name: 'robots', content: 'noindex,follow' }
+      ]
+    }
   }
 }
 </script>
