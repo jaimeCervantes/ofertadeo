@@ -14,7 +14,8 @@ module.exports = {
       { name: 'theme-color', content:'#1976d2' },
       { name: 'msapplication-TileColor', content: '#2d89ef' },
       { name: 'msapplication-TileImage', content: '/favicons/mstile-144x144.png' },
-      { name: 'msapplication-config', content: '/favicons/browserconfig.xml' }
+      { name: 'msapplication-config', content: '/favicons/browserconfig.xml' },
+      { name: 'p:domain_verify', content: 'd22a77a044a4490ebd5019e778f4a37b' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
