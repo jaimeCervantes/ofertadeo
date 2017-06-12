@@ -85,5 +85,10 @@ let app = {
 
 // Includes & Inject external plugins
 
+if (process.browser) {
+  require('~plugins/ga.js')
+  
+}
+
 
 export { app, router, store, NuxtError }
