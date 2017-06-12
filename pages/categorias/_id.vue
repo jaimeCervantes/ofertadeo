@@ -65,7 +65,7 @@ export default {
       link: [
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.categoriesList}/${this.id}` }
       ]
-    } : { title: this.notExistTitle }
+    } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
   },
   components: {
     OferContent,

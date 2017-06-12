@@ -1,7 +1,9 @@
 <template>
   <v-card hover raised class="item">
     <v-card-row v-if="item.thumbnail" class="item__img">
-      <nuxt-link :to="toLink"><img :class="type" :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></nuxt-link>
+      <nuxt-link :to="toLink">
+        <img :class="type" :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
+      </nuxt-link>
     </v-card-row>
     <v-card-row class="item__store" v-if="item.store_id">
       <div class="pl-2 pr-2">
@@ -9,7 +11,7 @@
       </div>
     </v-card-row>
     <v-card-row class="item__name" v-if="item.name">
-      <div class="pl-2 pr-2"><nuxt-link :to="toLink">{{item.name}}</nuxt-link></div>
+      <div class="pl-2 pr-2"><nuxt-link :to="toLink" :title="item.name">{{item.name.slice(0,45) + '...'}}</nuxt-link></div>
     </v-card-row>
   </v-card>
 </template>
@@ -27,8 +29,10 @@ export default {
 
 .item__img {
   overflow:hidden;
+  height: 150px!important;
   img {
-    width: 150px;
+    width: 100%;
+    display: block;
   }
   .categories {
     width: 125px;
