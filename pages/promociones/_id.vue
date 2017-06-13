@@ -66,7 +66,7 @@ export default {
   },
   head () {
     return this.exists(this.item) ? {
-      title: `${this.item.name}`,
+      title: `${this.item.name} | Ofertadeo`,
       meta: [
         { hid: 'title', name: 'title', content: `${this.item.name} | Ofertadeo` },
         { hid: 'description', name: 'description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
