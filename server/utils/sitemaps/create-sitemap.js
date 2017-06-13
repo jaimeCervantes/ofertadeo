@@ -6,14 +6,19 @@ var fs = require('fs');
 var modified = new Date().toISOString();
 var offers = '/sitemaps/sitemap-ofertas.xml';
 var stores_categories_pages = '/sitemaps/sitemap-paginas.xml';
+var compoundSitemap
 
-var compoundSitemap = utils.createSitemap();
-compoundSitemap.add({url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified});
-compoundSitemap.add({url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
-compoundSitemap.add({url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
+function defineVariables() {
+  modified = new Date().toISOString();
+  compoundSitemap = utils.createSitemap();
+  compoundSitemap.add({url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified});
+  compoundSitemap.add({url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
+  compoundSitemap.add({url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
+}
 
 
 function smPages () {
+  defineVariables();
   utils.getData( { collection: 'stores'} )
   .then(function(data) {
     utils.addToSitemap(compoundSitemap, data,  {

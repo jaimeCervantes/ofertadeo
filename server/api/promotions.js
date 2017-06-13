@@ -35,7 +35,8 @@ function slug() {
       crudInst.getItem({
         collection: conf.db.mainCollection,
         query: { slug: req.params.slug },
-        items_per_page: 1, 
+        items_per_page: 1,
+        sort: { _id: -1},
         projection: { name: 1, thumbnail: 1, store_id: 1, categories: 1, slug: 1, content: 1, url: 1, img: 1, modified: 1, img_alt: 1, img_title: 1}
       })
     ];

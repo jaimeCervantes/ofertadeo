@@ -347,13 +347,18 @@ var fs = __webpack_require__(6);
 var modified = new Date().toISOString();
 var offers = '/sitemaps/sitemap-ofertas.xml';
 var stores_categories_pages = '/sitemaps/sitemap-paginas.xml';
+var compoundSitemap;
 
-var compoundSitemap = utils.createSitemap();
-compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
-compoundSitemap.add({ url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
-compoundSitemap.add({ url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
+function defineVariables() {
+  modified = new Date().toISOString();
+  compoundSitemap = utils.createSitemap();
+  compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
+  compoundSitemap.add({ url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
+  compoundSitemap.add({ url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
+}
 
 function smPages() {
+  defineVariables();
   utils.getData({ collection: 'stores' }).then(function (data) {
     utils.addToSitemap(compoundSitemap, data, {
       route: config.routes.storeList,
@@ -476,6 +481,7 @@ function _id() {
       query: { categories: req.params._id },
       items_per_page: ITEMS_PER_PAGE,
       skip: ITEMS_PER_PAGE * page,
+      sort: { _id: -1 },
       projection: { name: 1, thumbnail: 1, store_id: 1, slug: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getItem({
       collection: COLLECTION,
@@ -505,6 +511,7 @@ function index() {
       collection: COLLECTION,
       items_per_page: ITEMS_PER_PAGE,
       skip: ITEMS_PER_PAGE * page,
+      sort: { name: 1 },
       projection: { name: 1, slug: 1, thumbnail: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
       collection: COLLECTION
@@ -565,6 +572,7 @@ function index() {
       collection: COLLECTION,
       items_per_page: ITEMS_PER_PAGE,
       skip: ITEMS_PER_PAGE * page,
+      sort: { _id: -1 },
       projection: { name: 1, thumbnail: 1, store_id: 1, slug: 1, img_alt: 1, img_title: 1, title: 1 }
     }), crudInst.getPagination({
       collection: COLLECTION
@@ -620,6 +628,7 @@ function slug() {
       collection: conf.db.mainCollection,
       query: { slug: req.params.slug },
       items_per_page: 1,
+      sort: { _id: -1 },
       projection: { name: 1, thumbnail: 1, store_id: 1, categories: 1, slug: 1, content: 1, url: 1, img: 1, modified: 1, img_alt: 1, img_title: 1 }
     })];
 
@@ -677,6 +686,7 @@ function _id() {
       query: { store_id: req.params._id },
       items_per_page: ITEMS_PER_PAGE,
       skip: ITEMS_PER_PAGE * page,
+      sort: { _id: -1 },
       projection: { name: 1, thumbnail: 1, store_id: 1, slug: 1, img: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getItem({
       collection: COLLECTION,
@@ -706,6 +716,7 @@ function index() {
       collection: COLLECTION,
       items_per_page: ITEMS_PER_PAGE,
       skip: ITEMS_PER_PAGE * page,
+      sort: { name: 1 },
       projection: { name: 1, slug: 1, thumbnail: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
       collection: COLLECTION

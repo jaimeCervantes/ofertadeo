@@ -42,6 +42,7 @@ function index() {
         collection: COLLECTION,
         items_per_page: ITEMS_PER_PAGE, 
         skip: ITEMS_PER_PAGE*page,
+        sort: { _id: -1},
         projection: { name: 1, thumbnail: 1, store_id: 1, slug: 1, img_alt:1, img_title: 1, title: 1 }
       }),
       crudInst.getPagination({
