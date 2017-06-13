@@ -344,21 +344,16 @@ var config = __webpack_require__(2)();
 var sm = __webpack_require__(7);
 var fs = __webpack_require__(6);
 
-var modified = new Date().toISOString();
 var offers = '/sitemaps/sitemap-ofertas.xml';
 var stores_categories_pages = '/sitemaps/sitemap-paginas.xml';
-var compoundSitemap;
 
-function defineVariables() {
-  modified = new Date().toISOString();
-  compoundSitemap = utils.createSitemap();
+function smPages() {
+  var modified = utils.getDate();
+  var compoundSitemap = utils.createSitemap();
   compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
   compoundSitemap.add({ url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
   compoundSitemap.add({ url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
-}
 
-function smPages() {
-  defineVariables();
   utils.getData({ collection: 'stores' }).then(function (data) {
     utils.addToSitemap(compoundSitemap, data, {
       route: config.routes.storeList,
@@ -746,7 +741,9 @@ var crud = __webpack_require__(1);
 var fs = __webpack_require__(6);
 var zlib = __webpack_require__(21);
 
-var modified = new Date().toISOString();
+function getDate() {
+  return new Date().toISOString();
+}
 
 function getData(params) {
   return wagner.invoke(function (conn) {
@@ -788,7 +785,7 @@ function addToSitemap(sitemap, data, params) {
       url: params.route + '/' + current.slug,
       changefreq: params.changefreq || 'daily',
       priority: params.priority || 0.5,
-      lastmodISO: current.modified || modified
+      lastmodISO: current.modified || getDate()
     });
   });
 
@@ -810,7 +807,8 @@ module.exports = {
   createSitemapFile: createSitemapFile,
   compress: compress,
   addToSitemap: addToSitemap,
-  getData: getData
+  getData: getData,
+  getDate: getDate
 };
 
 /***/ },
@@ -888,17 +886,19 @@ if (nuxtConfig.dev) {
 app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
 
-cron.schedule('5 0 * * *', function () {
+//cron.schedule('5 0 * * *', function (){//run every 5 minutes after midnigh everyday
+cron.schedule('*/1 * * * *', function () {
   //run every 5 minutes after midnigh everyday
   csm.pages();
 });
 
-cron.schedule('0 6,12,18,0 * * *', function () {
+//cron.schedule('5 6,12,18,0 * * *', function () {//run every 6 hours
+cron.schedule('*/1 * * * *', function () {
   //run every 6 hours
   csm.offers();
 });
 
-cron.schedule('5 0 * * *', function () {
+cron.schedule('*/1 * * * *', function () {
   //run every 5 minutes after midnigh everyday
   csm.index();
 });

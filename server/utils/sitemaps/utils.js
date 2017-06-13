@@ -6,7 +6,9 @@ var crud = require('../../db/crud.js');
 var fs = require('fs');
 var zlib = require('zlib');
 
-var modified = new Date().toISOString();
+function getDate () {
+  return new Date().toISOString();
+}
 
 function getData (params) {
   return wagner.invoke(function(conn) {
@@ -48,7 +50,7 @@ function addToSitemap(sitemap, data, params) {
       url: params.route + '/' + current.slug,
       changefreq: params.changefreq || 'daily',
       priority: params.priority || 0.5,
-      lastmodISO: current.modified || modified
+      lastmodISO: current.modified || getDate()
     });
   });
 
@@ -70,5 +72,6 @@ module.exports = {
   createSitemapFile: createSitemapFile,
   compress: compress,
   addToSitemap: addToSitemap,
-  getData: getData
+  getData: getData,
+  getDate: getDate
 } 
