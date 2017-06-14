@@ -44,16 +44,14 @@ if (nuxtConfig.dev) {
 app.listen(port)
 console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
 
-//cron.schedule('5 0 * * *', function (){//run every 5 minutes after midnigh everyday
-cron.schedule('*/1 * * * *', function (){//run every 5 minutes after midnigh everyday
+cron.schedule('5 0 * * *', function (){//run every 5 minutes after midnigh everyday
   csm.pages();
 });
 
-//cron.schedule('5 6,12,18,0 * * *', function () {//run every 6 hours
-cron.schedule('*/1 * * * *', function () {//run every 6 hours
+cron.schedule('5 0,6,12,18 * * *', function () {//run every 6 hours
   csm.offers();
 });
 
-cron.schedule('*/1 * * * *', function () {//run every 5 minutes after midnigh everyday
+cron.schedule('5 0 * * *', function () {//run every 5 minutes after midnigh everyday
   csm.index();
 });
