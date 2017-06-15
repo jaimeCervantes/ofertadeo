@@ -394,11 +394,12 @@ function smOffers() {
 }
 
 function smIndex() {
-  var index = sm.buildSitemapIndex({
-    urls: [config.host + stores_categories_pages + '.gz', config.host + offers + '.gz']
-  });
 
-  fs.writeFile(config.paths.static + '/sitemaps/sitemap.xml', index.toString(), function (err) {
+  var date = new Date().toISOString();
+
+  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml.gz</loc>\n  <lastmod>' + date + ' <lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml.gz</loc>\n  <lastmod>' + date + ' <lastmod>\n</sitemap>\n</sitemapindex>';
+
+  fs.writeFile(config.paths.static + '/sitemaps/sitemap.xml', content, 'utf8', function (err) {
     if (err) {
       return console.log(err);
     }
@@ -863,7 +864,7 @@ app.use('/api', __WEBPACK_IMPORTED_MODULE_3__api__["a" /* default */]);
 
 // Import and Set Nuxt.js options
 var nuxtConfig = __webpack_require__(8);
-nuxtConfig.dev = !("development" === 'production');
+nuxtConfig.dev = !("production" === 'production');
 
 // Init Nuxt.js
 var nuxt = new __WEBPACK_IMPORTED_MODULE_0_nuxt___default.a(nuxtConfig);
