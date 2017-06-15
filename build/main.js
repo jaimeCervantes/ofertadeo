@@ -394,11 +394,12 @@ function smOffers() {
 }
 
 function smIndex() {
-  var index = sm.buildSitemapIndex({
-    urls: [config.host + stores_categories_pages + '.gz', config.host + offers + '.gz']
-  });
 
-  fs.writeFile(config.paths.static + '/sitemaps/sitemap.xml', index.toString(), function (err) {
+  var date = new Date().toISOString();
+
+  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml.gz</loc>\n  <lastmod>' + date + ' <lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml.gz</loc>\n  <lastmod>' + date + ' <lastmod>\n</sitemap>\n</sitemapindex>';
+
+  fs.writeFile(config.paths.static + '/sitemaps/sitemap.xml', content, 'utf8', function (err) {
     if (err) {
       return console.log(err);
     }
