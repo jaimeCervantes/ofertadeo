@@ -2,7 +2,7 @@
   <ofer-content :breadcrumbs="breadcrumbs">
     <template slot="content">
       <v-row>
-        <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl2>
+        <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <h1 class="title">Términos y Condiciones</h1>
           <p>Estos son los términos y condiciones a los que de ahora en adelante quedas sujeto al visitar nuestro sitio Web. Las Ofertas y Promociones que encontrarás en este sitio Web son de carácter informativo. Las marcas, tiendas, empresas y establecimientos mencionados, así como los beneficios a obtener, son propiedad y responsabilidad de sus respectivos representantes. Se prohíbe la reproducción total o parcial de este sitio Web. Todo el contenido publicado es responsabilidad de los usuarios</p>
 

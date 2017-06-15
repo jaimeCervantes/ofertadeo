@@ -2,7 +2,7 @@
   <ofer-content :breadcrumbs="breadcrumbs">
     <template slot="content">
       <v-row>
-        <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl2>
+        <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <h1 class="title">Nosotros</h1>
           <p>Ofertadeo.com fue fundado con el fin de ayudar ahorrar a cualquier persona que requiera comprar cualquier producto. Actualmente ahorrar desde un peso es de gran ayuda para las familias Mexicanas que con los sueldos bajos no alcanza para la despensa básica. Por ello nace Ofertadeo, que nos ayuda ahorrar nuestro dinero, para evitar comprar productos con costos elevados.</p>
 

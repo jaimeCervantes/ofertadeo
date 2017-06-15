@@ -2,7 +2,7 @@
   <ofer-content :breadcrumbs="breadcrumbs">
     <template slot="content">
       <v-row>
-        <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl2>
+        <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <h1 class="title">Aviso de privacidad</h1>
           <p>Este es el aviso de privacidad, mismo al que queda usted sujeto por el solo hecho de visitar nuestro sitio Web. Por ello garantizamos la confidencialidad de los datos personales facilitados por los usuarios, incluidos en un fichero automatizado y se compromete a utilizarlos de acuerdo con la finalidad del mismo, así como a su obligación de guardarlos y adaptar todas las medidas para evitar la alteración, pérdida, tratamiento o acceso no autorizado.</p>
 
