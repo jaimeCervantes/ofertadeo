@@ -863,7 +863,7 @@ app.use('/api', __WEBPACK_IMPORTED_MODULE_3__api__["a" /* default */]);
 
 // Import and Set Nuxt.js options
 var nuxtConfig = __webpack_require__(8);
-nuxtConfig.dev = !("development" === 'production');
+nuxtConfig.dev = !("production" === 'production');
 
 // Init Nuxt.js
 var nuxt = new __WEBPACK_IMPORTED_MODULE_0_nuxt___default.a(nuxtConfig);
