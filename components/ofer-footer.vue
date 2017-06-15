@@ -2,10 +2,9 @@
   <v-footer>
       <div>
         <ul>
-          <li><a href="">Contacto</a></li>
-          <li><a href="">Nosotros</a></li>
-          <li><a href="">Términos</a></li>
-          <li><a href="">Ayuda</a></li>
+          <li><a href="/nosotros">Nosotros</a></li>
+          <li><a href="/terminos">Términos</a></li>
+          <li><a href="/privacidad">Aviso de privacidad</a></li>
         </ul>
       </div>
       <div>

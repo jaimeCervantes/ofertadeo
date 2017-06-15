@@ -10,13 +10,19 @@ const _5a8955e8 = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/index.v
 
 const _429538de = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/tiendas/index.vue' /* webpackChunkName: "pages/tiendas" */)
 
-const _6820bd1b = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/promociones/index.vue' /* webpackChunkName: "pages/promociones" */)
+const _43435752 = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/terminos/index.vue' /* webpackChunkName: "pages/terminos" */)
+
+const _5b51a648 = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/nosotros/index.vue' /* webpackChunkName: "pages/nosotros" */)
 
 const _5bda1306 = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/categorias/index.vue' /* webpackChunkName: "pages/categorias" */)
 
-const _45f67425 = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/categorias/_id.vue' /* webpackChunkName: "pages/categorias-id" */)
+const _54287f2c = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/privacidad/index.vue' /* webpackChunkName: "pages/privacidad" */)
+
+const _6820bd1b = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/promociones/index.vue' /* webpackChunkName: "pages/promociones" */)
 
 const _e93d6b7a = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/promociones/_id.vue' /* webpackChunkName: "pages/promociones-id" */)
+
+const _45f67425 = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/categorias/_id.vue' /* webpackChunkName: "pages/categorias-id" */)
 
 const _0e8dd38e = () => import('/mnt/c/jaime/develop/ofertadeo_ssr/pages/tiendas/_id.vue' /* webpackChunkName: "pages/tiendas-id" */)
 
@@ -63,9 +69,14 @@ export default new Router({
 			name: "tiendas"
 		},
 		{
-			path: "/promociones",
-			component: _6820bd1b,
-			name: "promociones"
+			path: "/terminos",
+			component: _43435752,
+			name: "terminos"
+		},
+		{
+			path: "/nosotros",
+			component: _5b51a648,
+			name: "nosotros"
 		},
 		{
 			path: "/categorias",
@@ -73,14 +84,24 @@ export default new Router({
 			name: "categorias"
 		},
 		{
-			path: "/categorias/:id",
-			component: _45f67425,
-			name: "categorias-id"
+			path: "/privacidad",
+			component: _54287f2c,
+			name: "privacidad"
+		},
+		{
+			path: "/promociones",
+			component: _6820bd1b,
+			name: "promociones"
 		},
 		{
 			path: "/promociones/:id",
 			component: _e93d6b7a,
 			name: "promociones-id"
+		},
+		{
+			path: "/categorias/:id",
+			component: _45f67425,
+			name: "categorias-id"
 		},
 		{
 			path: "/tiendas/:id",

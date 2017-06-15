@@ -754,7 +754,7 @@ function getData(params) {
     return crud.getItems({
       collection: params.collection || 'offers',
       query: params.query || {},
-      projection: params.projection || { slug: 1 },
+      projection: params.projection || { slug: 1, modified: 1 },
       items_per_page: params.items_per_page || 10000
     });
   });
@@ -863,7 +863,7 @@ app.use('/api', __WEBPACK_IMPORTED_MODULE_3__api__["a" /* default */]);
 
 // Import and Set Nuxt.js options
 var nuxtConfig = __webpack_require__(8);
-nuxtConfig.dev = !("production" === 'production');
+nuxtConfig.dev = !("development" === 'production');
 
 // Init Nuxt.js
 var nuxt = new __WEBPACK_IMPORTED_MODULE_0_nuxt___default.a(nuxtConfig);
