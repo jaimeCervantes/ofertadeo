@@ -19,6 +19,7 @@
     "compression-webpack-plugin": "^0.4.0",
     "cross-env": "^4.0.0",
     "express": "^4.14.0",
+    "helmet": "^3.6.1",
     "moment": "^2.18.1",
     "mongodb": "^2.2.26",
     "node-cron": "^1.2.0",
@@ -29,7 +30,8 @@
     "striptags": "^3.0.1",
     "vue-material": "^0.7.1",
     "vuetify": "^0.11.1",
-    "wagner-core": "^0.2.0"
+    "wagner-core": "^0.2.0",
+    "express-preconditions": "^1.0.4"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
