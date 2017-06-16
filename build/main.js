@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 24);
+/******/ 	return __webpack_require__(__webpack_require__.s = 22);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -163,7 +163,7 @@ function aggregation(params) {
 /* WEBPACK VAR INJECTION */(function(__dirname) {
 
 var wagner = __webpack_require__(3);
-var path = __webpack_require__(22);
+var path = __webpack_require__(20);
 
 var config = {
   db: {
@@ -223,7 +223,7 @@ module.exports = require("body-parser");
 "use strict";
 
 
-var MongoClient = __webpack_require__(21).MongoClient;
+var MongoClient = __webpack_require__(19).MongoClient;
 
 function getConnection(config) {
   //connPromise is pending when trying to connect to mongodb atlas
@@ -318,10 +318,10 @@ module.exports = {
 
 var bodyParser = __webpack_require__(4);
 var wagner = __webpack_require__(3);
-var home = __webpack_require__(17);
-var categories = __webpack_require__(16);
-var stores = __webpack_require__(19);
-var promotions = __webpack_require__(18);
+var home = __webpack_require__(15);
+var categories = __webpack_require__(14);
+var stores = __webpack_require__(17);
+var promotions = __webpack_require__(16);
 
 __webpack_require__(2)(wagner);
 __webpack_require__(5)(wagner);
@@ -339,7 +339,7 @@ router.use(promotions(wagner));
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-var utils = __webpack_require__(20);
+var utils = __webpack_require__(18);
 var config = __webpack_require__(2)();
 var sm = __webpack_require__(7);
 var fs = __webpack_require__(6);
@@ -423,28 +423,16 @@ module.exports = require("compression");
 /* 12 */
 /***/ function(module, exports) {
 
-module.exports = require("express-preconditions");
+module.exports = require("node-cron");
 
 /***/ },
 /* 13 */
 /***/ function(module, exports) {
 
-module.exports = require("helmet");
-
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-module.exports = require("node-cron");
-
-/***/ },
-/* 15 */
-/***/ function(module, exports) {
-
 module.exports = require("nuxt");
 
 /***/ },
-/* 16 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -537,7 +525,7 @@ function index() {
 }
 
 /***/ },
-/* 17 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -598,7 +586,7 @@ function index() {
 }
 
 /***/ },
-/* 18 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -651,7 +639,7 @@ function slug() {
 }
 
 /***/ },
-/* 19 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -743,7 +731,7 @@ function index() {
 }
 
 /***/ },
-/* 20 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 var wagner = __webpack_require__(3);
@@ -752,7 +740,7 @@ var config = __webpack_require__(2)(wagner);
 __webpack_require__(5)(wagner);
 var crud = __webpack_require__(1);
 var fs = __webpack_require__(6);
-var zlib = __webpack_require__(23);
+var zlib = __webpack_require__(21);
 
 function getDate() {
   return new Date().toISOString();
@@ -825,30 +813,30 @@ module.exports = {
 };
 
 /***/ },
-/* 21 */
+/* 19 */
 /***/ function(module, exports) {
 
 module.exports = require("mongodb");
 
 /***/ },
-/* 22 */
+/* 20 */
 /***/ function(module, exports) {
 
 module.exports = require("path");
 
 /***/ },
-/* 23 */
+/* 21 */
 /***/ function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ },
-/* 24 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nuxt__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
@@ -858,10 +846,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
 
-var cron = __webpack_require__(14);
+var cron = __webpack_require__(12);
 var csm = __webpack_require__(10);
-var preconditions = __webpack_require__(12);
-var helmet = __webpack_require__(13);
+//var preconditions = require('express-preconditions')
+//var helmet = require('helmet')
+
 
 
 
@@ -875,10 +864,10 @@ app.set('port', port);
 
 // Import API Routes
 app.use('/api', __WEBPACK_IMPORTED_MODULE_3__api__["a" /* default */]);
-app.use(preconditions());
-app.use(helmet());
+//app.use(preconditions())
+//app.use(helmet())
 //Security
-app.disable('x-powered-by');
+//app.disable('x-powered-by');
 
 // Import and Set Nuxt.js options
 var nuxtConfig = __webpack_require__(8);
