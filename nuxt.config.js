@@ -16,7 +16,8 @@ module.exports = {
       { name: 'msapplication-TileImage', content: '/favicons/mstile-144x144.png' },
       { name: 'msapplication-config', content: '/favicons/browserconfig.xml' },
       { name: 'p:domain_verify', content: 'd22a77a044a4490ebd5019e778f4a37b' },
-      { name: 'google-site-verification', content: '-jN3QPeaXQTbgPBlyAXlXXh7qRSesWIpa3GC3ijTjJM' }
+      { name: 'google-site-verification', content: '-jN3QPeaXQTbgPBlyAXlXXh7qRSesWIpa3GC3ijTjJM' },
+      { name: 'msvalidate.01', content: '162D9E28E432D290B43E41702E108642' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicons/favicon.ico' },
