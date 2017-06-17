@@ -3,7 +3,7 @@ import express from 'express'
 import compression from 'compression'
 var cron = require('node-cron');
 var csm = require('./utils/sitemaps/create-sitemap.js');
-//var preconditions = require('express-preconditions')
+var preconditions = require('express-preconditions')
 //var helmet = require('helmet')
 
 
@@ -19,7 +19,7 @@ app.set('port', port)
 
 // Import API Routes
 app.use('/api', api)
-//app.use(preconditions())
+app.use(preconditions())
 //app.use(helmet())
 //Security
 //app.disable('x-powered-by');
