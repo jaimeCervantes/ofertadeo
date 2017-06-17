@@ -4,7 +4,7 @@ import compression from 'compression'
 var cron = require('node-cron');
 var csm = require('./utils/sitemaps/create-sitemap.js');
 var preconditions = require('express-preconditions')
-//var helmet = require('helmet')
+var helmet = require('helmet')
 
 
 import api from './api'

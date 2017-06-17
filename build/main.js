@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 23);
+/******/ 	return __webpack_require__(__webpack_require__.s = 24);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -120,9 +120,9 @@ function getItem(params) {
 
 function searchItems(params) {
   var db = DATABASE || params.db;
-  return db.collection(COLLECTION || params.collection)
+  return db.collection(COLLECTION || params.collection
   //we project the textScore meta data and then we sort the results by the best matches first
-  .find(params.query, params.projection || { score: { $meta: 'textScore' } }).sort(params.sort || { score: { $meta: 'textScore' } }).skip(params.skip || 0).limit(params.items_per_page || ITEMS_PER_PAGE).toArray().then(function (docs) {
+  ).find(params.query, params.projection || { score: { $meta: 'textScore' } }).sort(params.sort || { score: { $meta: 'textScore' } }).skip(params.skip || 0).limit(params.items_per_page || ITEMS_PER_PAGE).toArray().then(function (docs) {
     return docs;
   }).catch(function (err) {
     return err;
@@ -163,7 +163,7 @@ function aggregation(params) {
 /* WEBPACK VAR INJECTION */(function(__dirname) {
 
 var wagner = __webpack_require__(3);
-var path = __webpack_require__(21);
+var path = __webpack_require__(22);
 
 var config = {
   db: {
@@ -223,7 +223,7 @@ module.exports = require("body-parser");
 "use strict";
 
 
-var MongoClient = __webpack_require__(20).MongoClient;
+var MongoClient = __webpack_require__(21).MongoClient;
 
 function getConnection(config) {
   //connPromise is pending when trying to connect to mongodb atlas
@@ -284,8 +284,8 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [{ src: '~assets/stylus/main.styl', lang: 'stylus' }, { src: '~assets/css/main.scss', lang: 'scss' } // scss instead of sass
-  ],
+  css: [{ src: '~assets/stylus/main.styl', lang: 'stylus' }, { src: '~assets/css/main.scss', lang: 'scss' // scss instead of sass
+  }],
   plugins: [{ src: '~plugins/ga.js', ssr: false }],
   /*
   ** Add axios globally
@@ -318,17 +318,17 @@ module.exports = {
 
 var bodyParser = __webpack_require__(4);
 var wagner = __webpack_require__(3);
-var home = __webpack_require__(16);
-var categories = __webpack_require__(15);
-var stores = __webpack_require__(18);
-var promotions = __webpack_require__(17);
+var home = __webpack_require__(17);
+var categories = __webpack_require__(16);
+var stores = __webpack_require__(19);
+var promotions = __webpack_require__(18);
 
 __webpack_require__(2)(wagner);
 __webpack_require__(5)(wagner);
 
-var router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
+var router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])
 // Add USERS Routes
-router.use(home(wagner));
+();router.use(home(wagner));
 router.use(categories(wagner));
 router.use(stores(wagner));
 router.use(promotions(wagner));
@@ -339,7 +339,7 @@ router.use(promotions(wagner));
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-var utils = __webpack_require__(19);
+var utils = __webpack_require__(20);
 var config = __webpack_require__(2)();
 var sm = __webpack_require__(7);
 var fs = __webpack_require__(6);
@@ -429,16 +429,22 @@ module.exports = require("express-preconditions");
 /* 13 */
 /***/ function(module, exports) {
 
-module.exports = require("node-cron");
+module.exports = require("helmet");
 
 /***/ },
 /* 14 */
 /***/ function(module, exports) {
 
-module.exports = require("nuxt");
+module.exports = require("node-cron");
 
 /***/ },
 /* 15 */
+/***/ function(module, exports) {
+
+module.exports = require("nuxt");
+
+/***/ },
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -531,7 +537,7 @@ function index() {
 }
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -592,7 +598,7 @@ function index() {
 }
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -645,7 +651,7 @@ function slug() {
 }
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -737,7 +743,7 @@ function index() {
 }
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 var wagner = __webpack_require__(3);
@@ -746,7 +752,7 @@ var config = __webpack_require__(2)(wagner);
 __webpack_require__(5)(wagner);
 var crud = __webpack_require__(1);
 var fs = __webpack_require__(6);
-var zlib = __webpack_require__(22);
+var zlib = __webpack_require__(23);
 
 function getDate() {
   return new Date().toISOString();
@@ -780,7 +786,8 @@ function compress(path) {
 
 function createSitemap() {
   var sitemap = sm.createSitemap({
-    hostname: config.host
+    hostname: config.host,
+    xmlNs: 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n      xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"\n      xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"\n      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n      xmlns:xhtml="http://www.w3.org/1999/xhtml"\n      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"'
   });
 
   return sitemap;
@@ -819,30 +826,30 @@ module.exports = {
 };
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 module.exports = require("mongodb");
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 module.exports = require("path");
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nuxt__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
@@ -852,11 +859,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
 
-var cron = __webpack_require__(13);
+var cron = __webpack_require__(14);
 var csm = __webpack_require__(10);
 var preconditions = __webpack_require__(12);
-//var helmet = require('helmet')
-
+var helmet = __webpack_require__(13);
 
 
 
@@ -866,14 +872,14 @@ var app = __WEBPACK_IMPORTED_MODULE_1_express___default()();
 var host = process.env.HOST || '127.0.0.1';
 var port = process.env.PORT || 3000;
 
-app.set('port', port);
+app.set('port', port
 
 // Import API Routes
-app.use('/api', __WEBPACK_IMPORTED_MODULE_3__api__["a" /* default */]);
+);app.use('/api', __WEBPACK_IMPORTED_MODULE_3__api__["a" /* default */]);
 app.use(preconditions());
-//app.use(helmet())
+app.use(helmet()
 //Security
-//app.disable('x-powered-by');
+);app.disable('x-powered-by');
 
 // Import and Set Nuxt.js options
 var nuxtConfig = __webpack_require__(8);
@@ -886,21 +892,21 @@ app.set('view cache', true); //Cache template compilation
 app.use(__WEBPACK_IMPORTED_MODULE_2_compression___default()()); //Compress all the data that the server response
 
 //At the end because it won't call next()
-app.use(nuxt.render);
+app.use(nuxt.render
 
 // Build only in dev mode
-if (nuxtConfig.dev) {
+);if (nuxtConfig.dev) {
   nuxt.build().catch(function (error) {
-    console.error(error); // eslint-disable-line no-console
-    process.exit(1);
+    console.error(error // eslint-disable-line no-console
+    );process.exit(1);
   });
 }
 
 // Listen the server
 app.listen(port);
-console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
+console.log('Server listening on ' + host + ':' + port // eslint-disable-line no-console
 
-cron.schedule('5 0 * * *', function () {
+);cron.schedule('5 0 * * *', function () {
   //run every 5 minutes after midnigh everyday
   csm.pages();
 });
