@@ -20,9 +20,9 @@ app.set('port', port)
 // Import API Routes
 app.use('/api', api)
 app.use(preconditions())
-//app.use(helmet())
+app.use(helmet())
 //Security
-//app.disable('x-powered-by');
+app.disable('x-powered-by');
 
 // Import and Set Nuxt.js options
 let nuxtConfig = require('../nuxt.config.js')
