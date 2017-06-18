@@ -67,16 +67,16 @@ function smIndex () {
   var content = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <sitemap>
-  <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml.gz</loc>
+  <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml</loc>
   <lastmod>` + date +` </lastmod>
 </sitemap>
 <sitemap>
-  <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml.gz</loc>
+  <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml</loc>
   <lastmod>` + date +` </lastmod>
 </sitemap>
 </sitemapindex>`;
 
-  fs.writeFile(config.paths.static + '/sitemaps/sitemap.xml', content, 'utf8', function(err) {
+  fs.writeFile(config.paths.static + '/sitemap.xml', content, 'utf8', function(err) {
     if (err) {
       return console.log(err);
     }
