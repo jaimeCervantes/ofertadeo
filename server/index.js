@@ -3,10 +3,8 @@ import express from 'express'
 import compression from 'compression'
 var cron = require('node-cron');
 var csm = require('./utils/sitemaps/create-sitemap.js');
-var preconditions = require('express-preconditions')
 var helmet = require('helmet')
-
-
+var develop = !(process.env.NODE_ENV === 'production')
 import api from './api'
 
 var bodyParser = require('body-parser');
@@ -17,16 +15,22 @@ const port = process.env.PORT || 3000
 
 app.set('port', port)
 
+//For some reason in develop, express precondition provoke an error when the user load more
+//offers using ajax
+if(!develop) {
+	//var preconditions = require('express-preconditions');
+	//app.use(preconditions())
+}
+
 // Import API Routes
 app.use('/api', api)
-app.use(preconditions())
-app.use(helmet())
 //Security
+app.use(helmet())
 app.disable('x-powered-by');
 
 // Import and Set Nuxt.js options
 let nuxtConfig = require('../nuxt.config.js')
-nuxtConfig.dev = !(process.env.NODE_ENV === 'production')
+nuxtConfig.dev = develop
 
 // Init Nuxt.js
 const nuxt = new Nuxt(nuxtConfig)
