@@ -170,7 +170,7 @@ var config = {
     user: "ofertadeo",
     password: "Cdo_2017*",
     name: 'ofertadeo',
-    host: 'ds161471.mlab.com:61471',
+    host: 'localhost:27017',
     shard1: 'pensemosweb-shard-00-00-147ev.mongodb.net:27017',
     shard2: 'pensemosweb-shard-00-01-147ev.mongodb.net:27017',
     shard3: 'pensemosweb-shard-00-02-147ev.mongodb.net:27017',
@@ -397,9 +397,9 @@ function smIndex() {
 
   var date = new Date().toISOString();
 
-  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml.gz</loc>\n  <lastmod>' + date + ' </lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml.gz</loc>\n  <lastmod>' + date + ' </lastmod>\n</sitemap>\n</sitemapindex>';
+  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml</loc>\n  <lastmod>' + date + ' </lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml</loc>\n  <lastmod>' + date + ' </lastmod>\n</sitemap>\n</sitemapindex>';
 
-  fs.writeFile(config.paths.static + '/sitemaps/sitemap.xml', content, 'utf8', function (err) {
+  fs.writeFile(config.paths.static + '/sitemap.xml', content, 'utf8', function (err) {
     if (err) {
       return console.log(err);
     }
