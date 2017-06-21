@@ -1,14 +1,13 @@
 import Nuxt from 'nuxt'
 import express from 'express'
 import compression from 'compression'
-var cron = require('node-cron');
-var csm = require('./utils/sitemaps/create-sitemap.js');
-var helmet = require('helmet')
-var develop = !(process.env.NODE_ENV === 'production')
+import cron from 'node-cron'
+import csm from './utils/sitemaps/create-sitemap.js'
+import helmet from 'helmet'
 import api from './api'
+import bodyParser from 'body-parser' 
 
-var bodyParser = require('body-parser');
-
+const develop = !(process.env.NODE_ENV === 'production')
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
