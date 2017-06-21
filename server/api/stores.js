@@ -2,7 +2,7 @@
 
 var express = require('express');
 var router = express.Router();
-var crudFn = require('../db/crud.js');
+var CRUD = require('../db/crud.js');
 var ITEMS_PER_PAGE = 6;
 var COLLECTION = 'stores';
 
@@ -14,7 +14,7 @@ module.exports = function(wagner, params) {
     return conn;
   })
   .then(function(db){
-    crudInst = crudFn({
+    crudInst = new CRUD({
       db:db
     });
   })

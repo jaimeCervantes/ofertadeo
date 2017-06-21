@@ -2,7 +2,7 @@
 
 var express = require('express');
 var router = express.Router();
-var crudFn = require('../db/crud.js');
+var CRUD = require('../db/crud.js');
 
 var crudInst;
 var conf;
@@ -12,7 +12,7 @@ module.exports = function(wagner, params) {
     return conn;
   })
   .then(function(db){
-    crudInst = crudFn({
+    crudInst = new CRUD({
       db:db
     });
   })
