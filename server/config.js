@@ -5,10 +5,10 @@ var path = require('path');
 
 var config = {
   db: {
-    user: "ofertadeo",
-    password: "Cdo_2017*",
+    user: "ofertadeo_publisher",
+    password: "Cdop_2017*",
     name: 'ofertadeo',
-    host: 'ds161471.mlab.com:61471',
+    host: 'localhost:27017',
     shard1: 'pensemosweb-shard-00-00-147ev.mongodb.net:27017',
     shard2: 'pensemosweb-shard-00-01-147ev.mongodb.net:27017',
     shard3: 'pensemosweb-shard-00-02-147ev.mongodb.net:27017',
