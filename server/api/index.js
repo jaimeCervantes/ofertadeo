@@ -1,10 +1,11 @@
 import { Router } from 'express'
-var bodyParser = require('body-parser');
 var wagner = require('wagner-core');
 var home = require('./home');
 var categories = require('./categories');
 var stores = require('./stores');
 var promotions = require('./promotions');
+var upload = require('./upload');
+
 
 require('../config.js')(wagner);
 require('../db/connection.js')(wagner);
@@ -15,5 +16,6 @@ router.use(home(wagner))
 router.use(categories(wagner))
 router.use(stores(wagner))
 router.use(promotions(wagner))
+router.use(upload(wagner))
 
 export default router

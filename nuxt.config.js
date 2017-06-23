@@ -14,10 +14,7 @@ module.exports = {
       { name: 'theme-color', content:'#1976d2' },
       { name: 'msapplication-TileColor', content: '#2d89ef' },
       { name: 'msapplication-TileImage', content: '/favicons/mstile-144x144.png' },
-      { name: 'msapplication-config', content: '/favicons/browserconfig.xml' },
-      { name: 'p:domain_verify', content: 'd22a77a044a4490ebd5019e778f4a37b' },
-      { name: 'google-site-verification', content: '-jN3QPeaXQTbgPBlyAXlXXh7qRSesWIpa3GC3ijTjJM' },
-      { name: 'msvalidate.01', content: '162D9E28E432D290B43E41702E108642' }
+      { name: 'msapplication-config', content: '/favicons/browserconfig.xml' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicons/favicon.ico' },
@@ -26,8 +23,7 @@ module.exports = {
       { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' },
       { rel: 'manifest', href: '/favicons/manifest.json'},
       { rel: 'mask-icon', href: '/favicons/safari-pinned-tab.svg', color: '#1976d2' },
-      { rel: 'shortcut icon', href: '/favicons/favicon.ico' },
-      { rel: 'dns-prefetch', href:'//www.google-analytics.com' }
+      { rel: 'shortcut icon', href: '/favicons/favicon.ico' }
     ],
     htmlAttrs: {
       lang: 'es-MX'

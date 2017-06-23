@@ -10,6 +10,7 @@ import morgan from 'morgan'
 import rfs from 'rotating-file-stream'
 import path from 'path'
 import fs from 'fs'
+import multer from 'multer'
 
 const develop = !(process.env.NODE_ENV === 'production')
 const app = express()
@@ -36,6 +37,7 @@ if(!develop) {
   //morganFormat = 'dev'
 }
 
+app.use(bodyParser.json())
 // Import API Routes
 app.use('/api', api)
 app.use(morgan(morganFormat, { stream: accessLogStream }))

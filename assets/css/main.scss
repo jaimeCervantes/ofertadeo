@@ -142,3 +142,11 @@ a {
 .expansion-panel__header--active:after {
   transform: rotate(90deg) !important;
 }
+
+//Page transitions
+.page-enter-active, .page-leave-active {
+  transition: opacity .5s;
+}
+.page-enter, .page-leave-to {
+  opacity: 0;
+}
