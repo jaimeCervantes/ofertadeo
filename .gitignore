@@ -13,6 +13,7 @@ dist
 # Backpack build
 build
 static/sitemaps/**
+static/uploads/**
 
 #logs
 log
