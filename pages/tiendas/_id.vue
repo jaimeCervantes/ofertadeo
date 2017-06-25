@@ -47,6 +47,14 @@ export default {
     },
     data)
   },
+  components: {
+    OferContent,
+    OferItem,
+    OferMoreItems,
+    OferHeaderInfo,
+    OferNotExists,
+    OferCommon
+  },
   head () {
     return this.exists(this.info) ? {
       title: `${this.info.name} – Ofertas y promociones ${this.date} | Ofertadeo`,
@@ -66,13 +74,6 @@ export default {
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.storeList}/${this.id}` }
       ]
     } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
-  },
-  components: {
-    OferContent,
-    OferItem,
-    OferMoreItems,
-    OferHeaderInfo,
-    OferNotExists
   }
 }
 </script>

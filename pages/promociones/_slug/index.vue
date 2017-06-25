@@ -52,6 +52,11 @@ export default {
       return this.$store.state.routes.categories + '/' + (this.item.categories && this.item.categories[0])
     }
   },
+  components: {
+    OferContent,
+    OferCommon,
+    OferNotExists
+  },
   head () {
     return this.exists(this.item) ? {
       title: `${this.item.name} | Ofertadeo`,
@@ -75,11 +80,6 @@ export default {
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.stores}/${this.item.slug}` }
       ]
     } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
-  },
-  components: {
-    OferContent,
-    OferCommon,
-    OferNotExists
   }
 }
 </script>
