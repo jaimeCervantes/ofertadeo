@@ -23,7 +23,8 @@ module.exports = function(wagner, params) {
   .then(function(){
     if(crudInst) {
       slug();
-      createPromotion()
+      getFormDataPromotions();
+      createPromotion();
     }    
   });
 
@@ -53,9 +54,49 @@ function slug() {
         });
 }
 
+
+function getFormDataPromotions() {
+  router.get('/formdata/promotions', function(req, res) {
+    var iterable = [
+      crudInst.getItems({
+        collection: 'stores',
+        items_per_page: 100,
+        projection: { name: 1 },
+        sort: { name: 1}
+      }),
+      crudInst.getItems({
+        collection: 'categories',
+        items_per_page: 100,
+        projection: { name: 1 },
+        sort: { name: 1}
+      })
+    ];
+
+    Promise.all(iterable)
+      .then(function(results) {
+        res.json({
+            stores: results[0],
+            categories: results[1]
+          });
+      })
+      .catch(function(error) {
+        res.json(error);
+      });
+
+  });
+}
+
 function createPromotion () {
   router.post('/promotions/new', function(req, res) {
-    console.log(req.body);
-    return res.json({ success: true });
-  })
+    crudInst.setItem({
+      collection: conf.db.mainCollection,
+      document: req.body
+    })
+    .then(function(result){
+      res.json(result);
+    })
+    .catch(function(err){
+      res.json(err);
+    });
+  });
 }

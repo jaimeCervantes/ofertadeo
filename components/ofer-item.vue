@@ -5,9 +5,9 @@
         <img :class="type" :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
       </nuxt-link>
     </v-card-row>
-    <v-card-row class="item__store" v-if="item.store_id">
+    <v-card-row class="item__store" v-if="item.store_id || item.stores">
       <div class="pl-2 pr-2">
-        <nuxt-link :to="$store.state.routes.storeList + '/' + item.store_id">{{item.store_id.split('-').join(' ').toUpperCase()}}</nuxt-link>
+        <nuxt-link :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">{{arrayToString(item.stores || [item.store_id]).toUpperCase()}}</nuxt-link>
       </div>
     </v-card-row>
     <v-card-row class="item__name" v-if="item.name">
@@ -17,8 +17,13 @@
 </template>
 
 <script>
+import OferCommon from '~components/mixins/ofer-common.vue'
 export default {
-  props: ['item', 'toLink', 'type']
+  mixins: [OferCommon],
+  props: ['item', 'toLink', 'type'],
+  components: {
+    OferCommon
+  }
 }
 </script>
 

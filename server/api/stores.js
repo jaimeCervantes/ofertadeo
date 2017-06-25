@@ -42,7 +42,7 @@ function _id() {
         items_per_page: ITEMS_PER_PAGE,
         skip: ITEMS_PER_PAGE*page,
         sort: { _id: -1},
-        projection: {name: 1, thumbnail: 1, store_id: 1, slug: 1, img: 1, img_alt:1, img_title:1 }
+        projection: {name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img: 1, img_alt:1, img_title:1 }
       }),
       crudInst.getItem({
         collection:  COLLECTION,
@@ -72,6 +72,7 @@ function _id() {
 function index() {
   router.get('/stores', function(req, res) {
     var page = req.query.page ? Number(req.query.page) : 0;
+    var itemsPerPage = req.query.itemsPerPage ? Number(req.query.itemsPerPage) : ITEMS_PER_PAGE;
     var iterable = [
       crudInst.getItems({
         collection: COLLECTION,
@@ -79,18 +80,22 @@ function index() {
         skip: ITEMS_PER_PAGE*page,
         sort: { name: 1},
         projection: { name: 1, slug: 1, thumbnail: 1, img_alt:1, img_title:1 }
-      }),
-      crudInst.getPagination({
-        collection: COLLECTION
       })
     ];
 
+    if(!req.query.noPagination) {
+      iterable.push(crudInst.getPagination({ collection: COLLECTION }));
+    }
+
     Promise.all(iterable)
     .then(function(results) {
-      res.json({
-          items: results[0],
-          pagination: results[1]
-        });
+      var response = {
+        items: results[0]
+      };
+      if(!req.query.noPagination) {
+        response.pagination = results[1]
+      }
+      res.json(response);
     })
     .catch(function(error) {
       console.log(error);

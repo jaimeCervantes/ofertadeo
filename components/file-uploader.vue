@@ -43,7 +43,7 @@ export default {
       .then(function (res) {
         that.loading = false
         that.disabled = false
-        that.$emit('on-uploaded', res)
+        that.$emit('on-uploaded', { img: res.data.img, thumbnail: res.data.thumbnail })
       }).catch(function (err) {
         console.log(err)
         alert('Ocurrió un error al subir el archivo, revisa la consola')

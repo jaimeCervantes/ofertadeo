@@ -34,6 +34,18 @@ crud.prototype.getItem = function (params) {
   return this.getItems(params);
 };
 
+crud.prototype.setItem = function (params) {
+  var db = this.DATABASE || params.db;
+  return db.collection(params.collection || this.COLLECTION)
+    .insertOne(params.document)
+    .then(function(res) {
+      return res;
+    })
+    .catch(function(err) {
+      return err;
+    });
+}
+
 crud.prototype.searchItems = function (params) {
   var db = this.DATABASE || params.db;
   return db.collection(this.COLLECTION || params.collection)

@@ -9,7 +9,7 @@
                 <span class="promotion__category" v-text="arrayToString(item.categories)"></span>
               </nuxt-link>
                | 
-              <nuxt-link :to="$store.state.routes.storeList + '/' + item.store_id || item.stores[0]">
+              <nuxt-link :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">
                 Ofertas y descuentos de
                 <span class="promotion__store">{{arrayToString(item.stores || [item.store_id])}}</span>
               </nuxt-link>

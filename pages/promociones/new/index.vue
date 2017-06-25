@@ -3,19 +3,36 @@
     <template slot="content">
       <v-row>
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
-          <div class="promotion">
-            <v-text-field v-model="name" name="name" label="Nombre" id="name"></v-text-field>
-            <v-text-field v-model="slug" name="slug" label="Slug" id="slug"></v-text-field>
-            <v-text-field v-model="url" name="url" label="Url origen" id="url"></v-text-field>
-            <v-text-field v-model="title" name="title" label="Titulo, h1" id="title"></v-text-field>
-            <v-text-field v-model="meta_title" name="meta_title" label="Meta titulo" id="meta_title"></v-text-field>
-            <file-uploader is-img @on-uploaded="getImg"></file-uploader>
-            <v-text-field v-model="img_alt" name="img_alt" label="Alt (img)" id="img_alt" ></v-text-field>
-            <v-text-field v-model="img_title" name="img_title" label="Title (img)" id="img_alt" ></v-text-field>
-            <v-text-field v-model="content" name="content" label="contenido" id="content" multi-line ></v-text-field>
-            <v-text-field v-model="meta_description" name="meta_description" label="Meta description" id="content" multi-line ></v-text-field>
-            <v-btn primary large :disabled="disabled" v-bind:loading="loading" v-on:click.native="send">Crear Oferta</v-btn>
-          </div>
+          <form id="new-offer" v-on:submit.prevent="send">
+            <v-text-field v-model="name" name="name" label="Nombre" required></v-text-field>
+            <v-text-field v-model="slug" name="slug" label="Slug" required></v-text-field>
+            <v-text-field v-model="url" name="url" label="Url origen" required></v-text-field>
+            <v-text-field v-model="title" name="title" label="Titulo, h1" required></v-text-field>
+            <v-text-field v-model="meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
+            <file-uploader is-img @on-uploaded="getImgs"></file-uploader>
+            <v-text-field v-model="img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
+            <v-text-field v-model="img_title" name="img_title" label="Title (img)" required></v-text-field>
+            <v-text-field v-model="content" name="content" label="contenido" multi-line required></v-text-field>
+            <v-text-field v-model="meta_description" name="meta_description" label="Meta description" multi-line required counter
+                      max="150"></v-text-field>
+            <v-select
+              v-bind:items="categories"
+              v-model="categorySelected"
+              label="Categoría"
+              class="input-group--focused"
+              item-value="text"
+              required
+            ></v-select>
+            <v-select
+              v-bind:items="stores"
+              v-model="storeSelected"
+              label="Tiendas"
+              class="input-group--focused"
+              item-value="text"
+              required
+            ></v-select>
+            <v-btn primary large :disabled="disabled" type="submit" v-bind:loading="loading">Crear Oferta</v-btn>
+          </form>
         </v-col>
       </v-row>
     </template>
@@ -43,17 +60,36 @@ export default {
       img_title: '',
       content: '',
       img: '',
-      thumbnail: ''
+      thumbnail: '',
+      categorySelected: { value: 'frutas-y-verduras', text: 'Frutas y Verduras' },
+      storeSelected: { value: 'walmart', text: 'Walmart' }
     }
   },
+  async asyncData () {
+    let { data } = await axios.get('/api/formdata/promotions')
+    return data
+  },
   methods: {
-    getImg (resp) {
-      console.log(resp)
+    setTextPropertyForSelect (data) {
+      return data.map(function (elem) {
+        return { value: elem._id, text: elem.name }
+      })
+    },
+    getImgs (resp) {
       this.img = resp.img
       this.thumbnail = resp.thumbnail
     },
     send () {
       var that = this
+      if (!this.img || !this.thumbnail) {
+        alert('Asegurate de primero subir la imagen de la oferta')
+        return
+      }
+      if (!this.name || !this.url || !this.content || !this.stores || !this.categories) {
+        alert('Todavia te faltan datos importantes antes de guardar la oferta. Recuerda subir la imagen seleccinada antes de crear la oferta')
+        return
+      }
+
       axios.post('/api/promotions/new', {
         name: this.name,
         slug: this.slug,
@@ -65,7 +101,9 @@ export default {
         img_title: this.img_title,
         content: this.content,
         img: this.img,
-        thumbnail: this.thumbnail
+        thumbnail: this.thumbnail,
+        stores: [this.storeSelected.value],
+        categories: [this.categorySelected.value]
       }).then(function (res) {
         console.log(res)
         that.$router.push(`/promociones/${that.slug}`)
@@ -75,7 +113,9 @@ export default {
       })
     }
   },
-  computed: {
+  created () {
+    this.categories = this.setTextPropertyForSelect(this.categories)
+    this.stores = this.setTextPropertyForSelect(this.stores)
   },
   watch: {
     name (newName) {
