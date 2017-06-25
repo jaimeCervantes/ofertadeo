@@ -83,6 +83,7 @@ function index() {
       })
     ];
 
+    //If we need only the stores without pagination
     if(!req.query.noPagination) {
       iterable.push(crudInst.getPagination({ collection: COLLECTION }));
     }
@@ -92,6 +93,7 @@ function index() {
       var response = {
         items: results[0]
       };
+      //If we need only the stores without pagination
       if(!req.query.noPagination) {
         response.pagination = results[1]
       }

@@ -52,15 +52,34 @@ export default {
       return this.$store.state.routes.categories + '/' + (this.item.categories && this.item.categories[0])
     }
   },
-  head () {
-    return {
-      title: `${this.item.name} | Ofertadeo`
-    }
-  },
   components: {
     OferContent,
     OferCommon,
     OferNotExists
+  },
+  head () {
+    return this.exists(this.item) ? {
+      title: `${this.item.name} | Ofertadeo`,
+      meta: [
+        { hid: 'title', name: 'title', content: `${this.item.name} | Ofertadeo` },
+        { hid: 'description', name: 'description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
+        { hid: 'og:type', property: 'og:type', content: 'article' },
+        { hid: 'og:title', property: 'og:title', content: `${this.item.name}` },
+        { hid: 'og:description', property: 'og:description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
+        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.main}/${this.item.slug}` },
+        { hid: 'article:publisher', property: 'article:publisher', content: this.$store.state.publisher.fb },
+        { hid: 'article:tag', property: 'article:tag', content: this.arrayToString(this.item.stores || [this.item.store_id]) },
+        { hid: 'article:section', property: 'article:section', content: this.arrayToString(this.categories) },
+        { hid: 'article:published_time', property: 'article:published_time', content: this.item.modified },
+        { hid: 'og:image', property: 'og:image', content: this.item.img },
+        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.item.img },
+        { hid: 'og:locale', property: 'og:locale', content: 'es-MX' },
+        { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
+      ],
+      link: [
+        { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.stores}/${this.item.slug}` }
+      ]
+    } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
   }
 }
 </script>

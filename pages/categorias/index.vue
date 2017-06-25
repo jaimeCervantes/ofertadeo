@@ -21,13 +21,14 @@
 import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
 import OferPaths from '~components/mixins/ofer-paths.vue'
+import OferCommon from '~components/mixins/ofer-common.vue'
 import OferItem from '~components/ofer-item.vue'
 import OferMoreItems from '~components/ofer-more-items.vue'
 
 var urlReq = '/api/categories'
 
 export default {
-  mixins: [OferPaths],
+  mixins: [OferPaths, OferCommon],
   data () {
     return { urlReq: urlReq }
   },
@@ -37,6 +38,12 @@ export default {
       path: context.route.path
     },
     data)
+  },
+  components: {
+    OferContent,
+    OferItem,
+    OferMoreItems,
+    OferCommon
   },
   head () {
     return {
@@ -56,16 +63,6 @@ export default {
       link: [
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.categoriesList}` }
       ]
-    }
-  },
-  components: {
-    OferContent,
-    OferItem,
-    OferMoreItems
-  },
-  methods: {
-    concatItems (items) {
-      this.items = this.items.concat(items)
     }
   }
 }
