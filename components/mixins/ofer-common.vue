@@ -30,6 +30,18 @@ export default {
         return false
       }
       return (Object.keys(data).length > 0)
+    },
+    /**
+     * @param  {Object} { arrObj, fieldName }
+     * @return {[type]}
+     */
+    arrayToString (paramArray) {
+      if (!paramArray) return ''
+      if (Array.isArray(paramArray)) {
+        return paramArray.reduce(function (prev, curr) {
+          return prev.split('-').join(' ') + curr.split('-').join(' ')
+        }, '')
+      }
     }
   }
 }

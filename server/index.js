@@ -1,32 +1,51 @@
 import Nuxt from 'nuxt'
 import express from 'express'
 import compression from 'compression'
-var cron = require('node-cron');
-var csm = require('./utils/sitemaps/create-sitemap.js');
-var preconditions = require('express-preconditions')
-var helmet = require('helmet')
-
-
+import cron from 'node-cron'
+import csm from './utils/sitemaps/create-sitemap.js'
+import helmet from 'helmet'
 import api from './api'
+import bodyParser from 'body-parser' 
+import morgan from 'morgan'
+import rfs from 'rotating-file-stream'
+import path from 'path'
+import fs from 'fs'
 
-var bodyParser = require('body-parser');
-
+const develop = !(process.env.NODE_ENV === 'production')
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
+let morganFormat = 'combined'
+
+let logDirectory = path.join(__dirname, '../log')
+// ensure log directory exists
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+// create a rotating write stream
+var accessLogStream = rfs('access.log', {
+  interval: '1d', // rotate daily
+  path: logDirectory
+})
 
 app.set('port', port)
 
+//For some reason in develop, express precondition provoke an error when the user load more
+//offers using ajax
+if(!develop) {
+	//const preconditions = require('express-preconditions');
+	//app.use(preconditions())
+  //morganFormat = 'dev'
+}
+
 // Import API Routes
 app.use('/api', api)
-app.use(preconditions())
-app.use(helmet())
+app.use(morgan(morganFormat, { stream: accessLogStream }))
 //Security
+app.use(helmet())
 app.disable('x-powered-by');
 
 // Import and Set Nuxt.js options
 let nuxtConfig = require('../nuxt.config.js')
-nuxtConfig.dev = !(process.env.NODE_ENV === 'production')
+nuxtConfig.dev = develop
 
 // Init Nuxt.js
 const nuxt = new Nuxt(nuxtConfig)

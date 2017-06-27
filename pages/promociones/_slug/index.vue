@@ -6,12 +6,12 @@
           <div class="promotion">
             <p class="promotion__data">
               <nuxt-link :to="createLinkToCategories()">
-                <span class="promotion__category" v-text="getCategories()"></span>
+                <span class="promotion__category" v-text="arrayToString(item.categories)"></span>
               </nuxt-link>
                | 
-              <nuxt-link :to="$store.state.routes.storeList + '/' + item.store_id">
+              <nuxt-link :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">
                 Ofertas y descuentos de
-                <span class="promotion__store">{{getStores()}}</span>
+                <span class="promotion__store">{{arrayToString(item.stores || [item.store_id])}}</span>
               </nuxt-link>
             </p>
             <h1 class="title">{{item.name}}</h1>
@@ -40,29 +40,22 @@ export default {
     return { item: {}, notExistTitle: 'La oferta no existe. Te recomendamos verificar la url.' }
   },
   async asyncData ({ params, route }) {
-    let { data } = await axios.get('/api/promotions/' + params.id)
+    let { data } = await axios.get('/api/promotions/' + params.slug)
     return Object.assign({
       path: route.path,
-      id: params.id
+      slug: params.slug
     },
     data)
   },
   methods: {
-    getStores (stores) {
-      stores = stores || this.item.store_id
-      if (!stores) return ''
-      return stores.split('-').join(' ')
-    },
-    getCategories (categories) {
-      categories = categories || this.item.categories
-      if (!categories) return ''
-      return categories.reduce(function (prev, curr) {
-        return prev.split('-').join(' ') + curr.split('-').join(' ')
-      }, '')
-    },
     createLinkToCategories () {
       return this.$store.state.routes.categories + '/' + (this.item.categories && this.item.categories[0])
     }
+  },
+  components: {
+    OferContent,
+    OferCommon,
+    OferNotExists
   },
   head () {
     return this.exists(this.item) ? {
@@ -75,8 +68,8 @@ export default {
         { hid: 'og:description', property: 'og:description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
         { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.main}/${this.item.slug}` },
         { hid: 'article:publisher', property: 'article:publisher', content: this.$store.state.publisher.fb },
-        { hid: 'article:tag', property: 'article:tag', content: this.getStores() },
-        { hid: 'article:section', property: 'article:section', content: this.getCategories() },
+        { hid: 'article:tag', property: 'article:tag', content: this.arrayToString(this.item.stores || [this.item.store_id]) },
+        { hid: 'article:section', property: 'article:section', content: this.arrayToString(this.categories) },
         { hid: 'article:published_time', property: 'article:published_time', content: this.item.modified },
         { hid: 'og:image', property: 'og:image', content: this.item.img },
         { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.item.img },
@@ -87,11 +80,6 @@ export default {
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.stores}/${this.item.slug}` }
       ]
     } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
-  },
-  components: {
-    OferContent,
-    OferCommon,
-    OferNotExists
   }
 }
 </script>

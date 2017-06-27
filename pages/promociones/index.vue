@@ -21,12 +21,14 @@
 <script>
 import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
+import OferCommon from '~components/mixins/ofer-common.vue'
 import OferItem from '~components/ofer-item.vue'
 import OferMoreItems from '~components/ofer-more-items.vue'
 
 var urlReq = '/api/home'
 
 export default {
+  mixins: [OferCommon],
   data () {
     return { urlReq: urlReq }
   },
@@ -37,12 +39,8 @@ export default {
   components: {
     OferContent,
     OferItem,
-    OferMoreItems
-  },
-  methods: {
-    concatItems (items) {
-      this.items = this.items.concat(items)
-    }
+    OferMoreItems,
+    OferCommon
   },
   head () {
     return {
