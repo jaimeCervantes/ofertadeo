@@ -10,6 +10,8 @@ import NuxtLoading from './components/nuxt-loading.vue'
 
 let layouts = {
 
+  "_admin": () => import('/home/jaime/develop/ofertadeo/layouts/admin.vue'  /* webpackChunkName: "layouts/admin" */),
+
   "_default": () => import('/home/jaime/develop/ofertadeo/layouts/default.vue'  /* webpackChunkName: "layouts/default" */)
 
 }

@@ -14,11 +14,19 @@ const _1abed99b = () => import('/home/jaime/develop/ofertadeo/pages/terminos/ind
 
 const _ac5aa1b6 = () => import('/home/jaime/develop/ofertadeo/pages/nosotros/index.vue' /* webpackChunkName: "pages/nosotros" */)
 
-const _8e91eaf4 = () => import('/home/jaime/develop/ofertadeo/pages/categorias/index.vue' /* webpackChunkName: "pages/categorias" */)
+const _55ff2a32 = () => import('/home/jaime/develop/ofertadeo/pages/promociones/index.vue' /* webpackChunkName: "pages/promociones" */)
+
+const _46ac9b28 = () => import('/home/jaime/develop/ofertadeo/pages/ofer-admin/index.vue' /* webpackChunkName: "pages/ofer-admin" */)
 
 const _3acc9335 = () => import('/home/jaime/develop/ofertadeo/pages/privacidad/index.vue' /* webpackChunkName: "pages/privacidad" */)
 
-const _55ff2a32 = () => import('/home/jaime/develop/ofertadeo/pages/promociones/index.vue' /* webpackChunkName: "pages/promociones" */)
+const _8e91eaf4 = () => import('/home/jaime/develop/ofertadeo/pages/categorias/index.vue' /* webpackChunkName: "pages/categorias" */)
+
+const _67b318c2 = () => import('/home/jaime/develop/ofertadeo/pages/ofer-admin/promociones/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones" */)
+
+const _052eb770 = () => import('/home/jaime/develop/ofertadeo/pages/ofer-admin/promociones/new/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-new" */)
+
+const _345608cc = () => import('/home/jaime/develop/ofertadeo/pages/ofer-admin/promociones/_slug/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-slug" */)
 
 const _87fd9026 = () => import('/home/jaime/develop/ofertadeo/pages/promociones/_slug/index.vue' /* webpackChunkName: "pages/promociones-slug" */)
 
@@ -79,9 +87,14 @@ export default new Router({
 			name: "nosotros"
 		},
 		{
-			path: "/categorias",
-			component: _8e91eaf4,
-			name: "categorias"
+			path: "/promociones",
+			component: _55ff2a32,
+			name: "promociones"
+		},
+		{
+			path: "/ofer-admin",
+			component: _46ac9b28,
+			name: "ofer-admin"
 		},
 		{
 			path: "/privacidad",
@@ -89,9 +102,24 @@ export default new Router({
 			name: "privacidad"
 		},
 		{
-			path: "/promociones",
-			component: _55ff2a32,
-			name: "promociones"
+			path: "/categorias",
+			component: _8e91eaf4,
+			name: "categorias"
+		},
+		{
+			path: "/ofer-admin/promociones",
+			component: _67b318c2,
+			name: "ofer-admin-promociones"
+		},
+		{
+			path: "/ofer-admin/promociones/new",
+			component: _052eb770,
+			name: "ofer-admin-promociones-new"
+		},
+		{
+			path: "/ofer-admin/promociones/:slug",
+			component: _345608cc,
+			name: "ofer-admin-promociones-slug"
 		},
 		{
 			path: "/promociones/:slug",
