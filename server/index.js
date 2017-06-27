@@ -1,8 +1,6 @@
 import Nuxt from 'nuxt'
 import express from 'express'
 import compression from 'compression'
-import cron from 'node-cron'
-import csm from './utils/sitemaps/create-sitemap.js'
 import helmet from 'helmet'
 import api from './api'
 import bodyParser from 'body-parser' 
@@ -70,15 +68,3 @@ if (nuxtConfig.dev) {
 // Listen the server
 app.listen(port)
 console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
-
-cron.schedule('5 0 * * *', function (){//run every 5 minutes after midnigh everyday
-  csm.pages();
-});
-
-cron.schedule('5 0,6,12,18 * * *', function () {//run every 6 hours
-  csm.offers();
-});
-
-cron.schedule('5 0 * * *', function () {//run every 5 minutes after midnigh everyday
-  csm.index();
-});
