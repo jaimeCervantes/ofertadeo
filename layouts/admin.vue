@@ -1,0 +1,33 @@
+<template>
+<div class="wrapper">
+  <v-app id="ofertadeo">
+    <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
+    <main>
+      <ofer-sidebar/>
+      <nuxt/>
+    </main>
+  </v-app>
+  <ofer-footer></ofer-footer>
+</div>
+</template>
+
+<script>
+import OferToolbar from '~components/ofer-toolbar.vue'
+import OferSidebar from '~components/ofer-sidebar.vue'
+import OferFooter from '~components/ofer-footer.vue'
+import Vue from 'vue'
+import Vuetify from 'vuetify'
+
+Vue.use(Vuetify)
+
+export default {
+  components: {
+    OferToolbar,
+    OferSidebar,
+    OferFooter
+  }
+}
+</script>
+<style lang="stylus">
+  @import '~assets/stylus/main-admin.styl'
+</style>

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /ofer-admin/
 
 Sitemap: https://www.ofertadeo.com/sitemap.xml
