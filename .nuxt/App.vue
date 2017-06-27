@@ -10,7 +10,7 @@ import NuxtLoading from './components/nuxt-loading.vue'
 
 let layouts = {
 
-  "_default": () => import('/mnt/c/jaime/develop/ofertadeoV1/layouts/default.vue'  /* webpackChunkName: "layouts/default" */)
+  "_default": () => import('/home/jaime/develop/ofertadeo/layouts/default.vue'  /* webpackChunkName: "layouts/default" */)
 
 }
 

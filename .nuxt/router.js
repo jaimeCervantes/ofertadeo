@@ -6,25 +6,25 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 
-const _0e9c5070 = () => import('/mnt/c/jaime/develop/ofertadeoV1/pages/index.vue' /* webpackChunkName: "pages/index" */)
+const _53896d7f = () => import('/home/jaime/develop/ofertadeo/pages/index.vue' /* webpackChunkName: "pages/index" */)
 
-const _0ced53ce = () => import('/mnt/c/jaime/develop/ofertadeoV1/pages/tiendas/index.vue' /* webpackChunkName: "pages/tiendas" */)
+const _720bf428 = () => import('/home/jaime/develop/ofertadeo/pages/tiendas/index.vue' /* webpackChunkName: "pages/tiendas" */)
 
-const _fa24946c = () => import('/mnt/c/jaime/develop/ofertadeoV1/pages/terminos/index.vue' /* webpackChunkName: "pages/terminos" */)
+const _1abed99b = () => import('/home/jaime/develop/ofertadeo/pages/terminos/index.vue' /* webpackChunkName: "pages/terminos" */)
 
-const _12018b54 = () => import('/mnt/c/jaime/develop/ofertadeoV1/pages/nosotros/index.vue' /* webpackChunkName: "pages/nosotros" */)
+const _ac5aa1b6 = () => import('/home/jaime/develop/ofertadeo/pages/nosotros/index.vue' /* webpackChunkName: "pages/nosotros" */)
 
-const _5ec0d216 = () => import('/mnt/c/jaime/develop/ofertadeoV1/pages/categorias/index.vue' /* webpackChunkName: "pages/categorias" */)
+const _8e91eaf4 = () => import('/home/jaime/develop/ofertadeo/pages/categorias/index.vue' /* webpackChunkName: "pages/categorias" */)
 
-const _52b51fa4 = () => import('/mnt/c/jaime/develop/ofertadeoV1/pages/privacidad/index.vue' /* webpackChunkName: "pages/privacidad" */)
+const _3acc9335 = () => import('/home/jaime/develop/ofertadeo/pages/privacidad/index.vue' /* webpackChunkName: "pages/privacidad" */)
 
-const _3b282ba3 = () => import('/mnt/c/jaime/develop/ofertadeoV1/pages/promociones/index.vue' /* webpackChunkName: "pages/promociones" */)
+const _55ff2a32 = () => import('/home/jaime/develop/ofertadeo/pages/promociones/index.vue' /* webpackChunkName: "pages/promociones" */)
 
-const _4102bacb = () => import('/mnt/c/jaime/develop/ofertadeoV1/pages/promociones/_id.vue' /* webpackChunkName: "pages/promociones-id" */)
+const _87fd9026 = () => import('/home/jaime/develop/ofertadeo/pages/promociones/_slug/index.vue' /* webpackChunkName: "pages/promociones-slug" */)
 
-const _f4be5ac6 = () => import('/mnt/c/jaime/develop/ofertadeoV1/pages/categorias/_id.vue' /* webpackChunkName: "pages/categorias-id" */)
+const _1d71f66e = () => import('/home/jaime/develop/ofertadeo/pages/categorias/_id.vue' /* webpackChunkName: "pages/categorias-id" */)
 
-const _710fea7e = () => import('/mnt/c/jaime/develop/ofertadeoV1/pages/tiendas/_id.vue' /* webpackChunkName: "pages/tiendas-id" */)
+const _14d8e090 = () => import('/home/jaime/develop/ofertadeo/pages/tiendas/_id.vue' /* webpackChunkName: "pages/tiendas-id" */)
 
 
 
@@ -60,52 +60,52 @@ export default new Router({
   routes: [
 		{
 			path: "/",
-			component: _0e9c5070,
+			component: _53896d7f,
 			name: "index"
 		},
 		{
 			path: "/tiendas",
-			component: _0ced53ce,
+			component: _720bf428,
 			name: "tiendas"
 		},
 		{
 			path: "/terminos",
-			component: _fa24946c,
+			component: _1abed99b,
 			name: "terminos"
 		},
 		{
 			path: "/nosotros",
-			component: _12018b54,
+			component: _ac5aa1b6,
 			name: "nosotros"
 		},
 		{
 			path: "/categorias",
-			component: _5ec0d216,
+			component: _8e91eaf4,
 			name: "categorias"
 		},
 		{
 			path: "/privacidad",
-			component: _52b51fa4,
+			component: _3acc9335,
 			name: "privacidad"
 		},
 		{
 			path: "/promociones",
-			component: _3b282ba3,
+			component: _55ff2a32,
 			name: "promociones"
 		},
 		{
-			path: "/promociones/:id",
-			component: _4102bacb,
-			name: "promociones-id"
+			path: "/promociones/:slug",
+			component: _87fd9026,
+			name: "promociones-slug"
 		},
 		{
 			path: "/categorias/:id",
-			component: _f4be5ac6,
+			component: _1d71f66e,
 			name: "categorias-id"
 		},
 		{
 			path: "/tiendas/:id",
-			component: _710fea7e,
+			component: _14d8e090,
 			name: "tiendas-id"
 		}
   ]
