@@ -2,7 +2,7 @@ var wagner = require('wagner-core');
 var sm = require('sitemap')
 var config = require('../../config.js')(wagner);
 require('../../db/connection.js')(wagner);
-var crud = require('../../db/crud.js');
+var CRUD = require('../../db/crud.js');
 var fs = require('fs');
 var zlib = require('zlib');
 
@@ -14,7 +14,7 @@ function getData (params) {
   return wagner.invoke(function(conn) {
       return conn;
     }).then(function(db) {
-      return crud({ db: db });
+      return new CRUD({ db: db });
     }).then(function(crud){
       return crud.getItems({
           collection: params.collection || 'offers',

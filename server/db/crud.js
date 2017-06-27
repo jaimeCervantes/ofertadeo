@@ -1,14 +1,14 @@
 'use strict';
 
-module.exports = crud;
+module.exports = CRUD;
 
-function crud(params) {
+function CRUD(params) {
   this.COLLECTION = params.collection;
   this.DATABASE = params.db;
   this.ITEMS_PER_PAGE = params.items_per_page || 6;
 };
 
-crud.prototype.getItems = function (params) {
+CRUD.prototype.getItems = function (params) {
   var db = this.DATABASE || params.db;
   var items_per_page = params.items_per_page || this.ITEMS_PER_PAGE;
   return db.collection(this.COLLECTION || params.collection)
@@ -29,12 +29,24 @@ crud.prototype.getItems = function (params) {
     });
 };
 
-crud.prototype.getItem = function (params) {
+CRUD.prototype.getItem = function (params) {
   params.items_per_page = 1;
   return this.getItems(params);
 };
 
-crud.prototype.searchItems = function (params) {
+CRUD.prototype.setItem = function (params) {
+  var db = this.DATABASE || params.db;
+  return db.collection(params.collection || this.COLLECTION)
+    .insertOne(params.document)
+    .then(function(res) {
+      return res;
+    })
+    .catch(function(err) {
+      return err;
+    });
+}
+
+CRUD.prototype.searchItems = function (params) {
   var db = this.DATABASE || params.db;
   return db.collection(this.COLLECTION || params.collection)
     //we project the textScore meta data and then we sort the results by the best matches first
@@ -51,7 +63,7 @@ crud.prototype.searchItems = function (params) {
     });
 };
 
-crud.prototype.getPagination = function (params) {
+CRUD.prototype.getPagination = function (params) {
   var that = this;
   var db = that.DATABASE || params.db;
   return db.collection(this.COLLECTION || params.collection)
@@ -73,7 +85,7 @@ crud.prototype.getPagination = function (params) {
     });
 };
 
-crud.prototype.aggregation = function (params) {
+CRUD.prototype.aggregation = function (params) {
   var db = this.DATABASE || params.db;
   return db.collection(this.COLLECTION || params.collection)
     .aggregate(params.aggregation)
