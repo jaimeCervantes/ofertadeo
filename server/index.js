@@ -15,7 +15,7 @@ import multer from 'multer'
 const develop = !(process.env.NODE_ENV === 'production')
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 let morganFormat = 'combined'
 
 let logDirectory = path.join(__dirname, '../log')
