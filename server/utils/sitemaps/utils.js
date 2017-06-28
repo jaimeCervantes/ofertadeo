@@ -7,7 +7,10 @@ var fs = require('fs');
 var zlib = require('zlib');
 
 function getDate () {
-  return new Date().toISOString();
+  var date = new Date();
+  var substract = date.getTime() - (300*60*1000);
+  var dateStr = new Date(substract).toISOString().split('.')[0];
+  return dateStr + '-05:00:00';
 }
 
 function getData (params) {
@@ -56,7 +59,7 @@ function addToSitemap(sitemap, data, params) {
       url: params.route + '/' + current.slug,
       changefreq: params.changefreq || 'daily',
       priority: params.priority || 0.5,
-      lastmodISO: current.modified || getDate()
+      lastmodISO: current.modified || getDate();
     });
   });
 
