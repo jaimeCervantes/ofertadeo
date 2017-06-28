@@ -36,6 +36,7 @@
     "source-map-support": "^0.4.14",
     "striptags": "^3.0.1",
     "vue-material": "^0.7.1",
+    "vue2-editor": "^2.0.24",
     "vuetify": "^0.11.1",
     "wagner-core": "^0.2.0"
   },

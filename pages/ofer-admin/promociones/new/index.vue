@@ -5,7 +5,7 @@
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
             <v-text-field v-model.trim="name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field v-model="content" name="content" label="contenido" multi-line required></v-text-field>
+            <vue-editor v-model="content"></vue-editor>
             <v-text-field v-model="url" name="url" label="Url origen" required></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs"></file-uploader>
             <v-text-field v-model="slug" name="slug" label="Slug" required></v-text-field>
@@ -45,6 +45,7 @@ import OferContent from '~components/ofer-content.vue'
 import OferCommon from '~components/mixins/ofer-common.vue'
 import OferNotExists from '~components/ofer-not-exists.vue'
 import FileUploader from '~components/file-uploader.vue'
+import VueEditor from '~components/editor.vue'
 
 export default {
   layout: 'admin',
@@ -69,6 +70,13 @@ export default {
   async asyncData () {
     let { data } = await axios.get('/api/formdata/promotions')
     return data
+  },
+  components: {
+    OferContent,
+    OferCommon,
+    OferNotExists,
+    FileUploader,
+    VueEditor
   },
   methods: {
     setTextPropertyForSelect (data) {
@@ -137,12 +145,6 @@ export default {
     return {
       title: `Nueva oferta | Ofertadeo`
     }
-  },
-  components: {
-    OferContent,
-    OferCommon,
-    OferNotExists,
-    FileUploader
   }
 }
 </script>
