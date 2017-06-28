@@ -62,18 +62,15 @@ function smOffers () {
 }
 
 function smIndex () {
-
-  var date = new Date().toISOString();
-
   var content = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <sitemap>
   <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml</loc>
-  <lastmod>` + date +` </lastmod>
+  <lastmod>` + utils.getDate() +` </lastmod>
 </sitemap>
 <sitemap>
   <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml</loc>
-  <lastmod>` + date +` </lastmod>
+  <lastmod>` + utils.getDate() +` </lastmod>
 </sitemap>
 </sitemapindex>`;
 

@@ -5,16 +5,15 @@
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
             <v-text-field v-model.trim="name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field v-model="slug" name="slug" label="Slug" required></v-text-field>
+            <v-text-field v-model="content" name="content" label="contenido" multi-line required></v-text-field>
             <v-text-field v-model="url" name="url" label="Url origen" required></v-text-field>
+            <file-uploader is-img @on-uploaded="getImgs"></file-uploader>
+            <v-text-field v-model="slug" name="slug" label="Slug" required></v-text-field>
             <v-text-field v-model="title" name="title" label="Titulo, h1" required></v-text-field>
             <v-text-field v-model="meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
-            <file-uploader is-img @on-uploaded="getImgs"></file-uploader>
             <v-text-field v-model="img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
             <v-text-field v-model="img_title" name="img_title" label="Title (img)" required></v-text-field>
-            <v-text-field v-model="content" name="content" label="contenido" multi-line required></v-text-field>
-            <v-text-field v-model="meta_description" name="meta_description" label="Meta description" multi-line required counter
-                      max="150"></v-text-field>
+            <v-text-field v-model="meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
             <v-select
               v-bind:items="categories"
               v-model="categorySelected"
@@ -41,6 +40,7 @@
 
 <script>
 import axios from '~plugins/axios'
+import slug from 'slug'
 import OferContent from '~components/ofer-content.vue'
 import OferCommon from '~components/mixins/ofer-common.vue'
 import OferNotExists from '~components/ofer-not-exists.vue'
@@ -123,7 +123,7 @@ export default {
   },
   watch: {
     name (newName) {
-      this.slug = newName.split(/\s+/).join('-').toLowerCase()
+      this.slug = slug(newName)
       this.title = `${newName} | Ofertadeo`
       this.meta_title = `${newName} | Ofertadeo`
       this.img_alt = `${newName}`

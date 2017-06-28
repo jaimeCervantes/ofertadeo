@@ -2,6 +2,7 @@
 
 var express = require('express');
 var router = express.Router();
+var utils = require('./utils');
 var CRUD = require('../db/crud.js');
 
 var crudInst;
@@ -88,9 +89,10 @@ function getFormDataPromotions() {
 
 function createPromotion () {
   router.post('/promotions/new', function(req, res) {
+    var data = Object.assign({ modified: utils.getDate() }, req.body);
     crudInst.setItem({
       collection: conf.db.mainCollection,
-      document: req.body
+      document: data
     })
     .then(function(result){
       res.json(result);

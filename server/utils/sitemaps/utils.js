@@ -7,7 +7,10 @@ var fs = require('fs');
 var zlib = require('zlib');
 
 function getDate () {
-  return new Date().toISOString();
+  var date = new Date();
+  var substract = date.getTime() - (300*60*1000);
+  var dateStr = new Date(substract).toISOString().split('.')[0];
+  return dateStr + '-05:00';
 }
 
 function getData (params) {
