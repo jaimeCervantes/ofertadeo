@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 29);
+/******/ 	return __webpack_require__(__webpack_require__.s = 30);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -229,7 +229,7 @@ module.exports = require("wagner-core");
 "use strict";
 
 
-var MongoClient = __webpack_require__(26).MongoClient;
+var MongoClient = __webpack_require__(27).MongoClient;
 
 function getConnection(config) {
   //connPromise is pending when trying to connect to mongodb atlas
@@ -340,7 +340,7 @@ router.use(upload(wagner));
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-var utils = __webpack_require__(23);
+var utils = __webpack_require__(24);
 var config = __webpack_require__(4)();
 var sm = __webpack_require__(7);
 var fs = __webpack_require__(2);
@@ -396,10 +396,7 @@ function smOffers() {
 }
 
 function smIndex() {
-
-  var date = new Date().toISOString();
-
-  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml</loc>\n  <lastmod>' + date + ' </lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml</loc>\n  <lastmod>' + date + ' </lastmod>\n</sitemap>\n</sitemapindex>';
+  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml</loc>\n  <lastmod>' + utils.getDate() + ' </lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml</loc>\n  <lastmod>' + utils.getDate() + ' </lastmod>\n</sitemap>\n</sitemapindex>';
 
   fs.writeFile(config.paths.static + '/sitemap.xml', content, 'utf8', function (err) {
     if (err) {
@@ -620,6 +617,7 @@ function index() {
 
 var express = __webpack_require__(0);
 var router = express.Router();
+var utils = __webpack_require__(23);
 var CRUD = __webpack_require__(1);
 
 var crudInst;
@@ -692,9 +690,10 @@ function getFormDataPromotions() {
 
 function createPromotion() {
   router.post('/promotions/new', function (req, res) {
+    var data = Object.assign({ modified: utils.getDate() }, req.body);
     crudInst.setItem({
       collection: conf.db.mainCollection,
-      document: req.body
+      document: data
     }).then(function (result) {
       res.json(result);
     }).catch(function (err) {
@@ -801,17 +800,17 @@ function index() {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_multer__);
 
 
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(1);
-var mkdirp = __webpack_require__(25);
+var mkdirp = __webpack_require__(26);
 var path = __webpack_require__(3);
 
-var jimp = __webpack_require__(24);
+var jimp = __webpack_require__(25);
 
 var crudInst;
 var conf;
@@ -904,6 +903,21 @@ function mkdirPromise(pathFile) {
 
 /***/ },
 /* 23 */
+/***/ function(module, exports) {
+
+function getDate() {
+  var date = new Date();
+  var substract = date.getTime() - 300 * 60 * 1000;
+  var dateStr = new Date(substract).toISOString().split('.')[0];
+  return dateStr + '-05:00';
+}
+
+module.exports = {
+  getDate: getDate
+};
+
+/***/ },
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 var wagner = __webpack_require__(5);
@@ -912,10 +926,13 @@ var config = __webpack_require__(4)(wagner);
 __webpack_require__(6)(wagner);
 var CRUD = __webpack_require__(1);
 var fs = __webpack_require__(2);
-var zlib = __webpack_require__(28);
+var zlib = __webpack_require__(29);
 
 function getDate() {
-  return new Date().toISOString();
+  var date = new Date();
+  var substract = date.getTime() - 300 * 60 * 1000;
+  var dateStr = new Date(substract).toISOString().split('.')[0];
+  return dateStr + '-05:00';
 }
 
 function getData(params) {
@@ -986,37 +1003,37 @@ module.exports = {
 };
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 module.exports = require("jimp");
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 module.exports = require("mkdirp");
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports) {
 
 module.exports = require("mongodb");
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports) {
 
 module.exports = require("multer");
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
