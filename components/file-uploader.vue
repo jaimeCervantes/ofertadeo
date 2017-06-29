@@ -14,6 +14,10 @@ export default {
     isImg: {
       type: Boolean,
       default: false
+    },
+    imgMaxSize: {
+      type: Number,
+      default: 600
     }
   },
   data () {
@@ -34,7 +38,9 @@ export default {
         }
       }
       var fd = new FormData()
-      fd.append('offerFile', file)
+      fd.append('offerFile', file, this.originalname)
+      fd.append('extension', this.extension)
+      fd.append('originalname', this.originalname)
       return axios.post('/api/upload', fd, config)
     },
     uploadImg () {
@@ -55,16 +61,68 @@ export default {
       if (!files.length) {
         return
       }
-      this.inMemoryImg = files[0]
-      this.createImage(this.inMemoryImg)
+      this.originalname = files[0].name
+      this.extension = this.originalname.split('.')[1]
+      this.createImage(files[0])
+    },
+    dataURLToBlob (dataURL) {
+      var BASE64_MARKER = ';base64,'
+      var parts
+      var contentType
+      var raw
+      var rawLength
+      if (dataURL.indexOf(BASE64_MARKER) === -1) {
+        parts = dataURL.split(',')
+        contentType = parts[0].split(':')[1]
+        raw = parts[1]
+
+        return new Blob([raw], {type: contentType})
+      }
+
+      parts = dataURL.split(BASE64_MARKER)
+      contentType = parts[0].split(':')[1]
+      raw = window.atob(parts[1])
+      rawLength = raw.length
+
+      var uInt8Array = new Uint8Array(rawLength)
+
+      for (var i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i)
+      }
+
+      return new Blob([uInt8Array], {type: contentType})
     },
     createImage (file) {
       this.imgPreview = ''
       var reader = new FileReader()
       var vm = this
 
-      reader.onload = (e) => {
-        vm.imgPreview = e.target.result
+      reader.onload = (readerEvent) => {
+        var image = new Image()
+        image.onload = function (imgEvent) {
+          // Resize the image
+          var canvas = document.createElement('canvas')
+          var maxSize = vm.imgMaxSize
+          var width = image.width
+          var height = image.height
+          if (width > height) {
+            if (width > maxSize) {
+              height *= maxSize / width
+              width = maxSize
+            }
+          } else {
+            if (height > maxSize) {
+              width *= maxSize / height
+              height = maxSize
+            }
+          }
+          canvas.width = width
+          canvas.height = height
+          canvas.getContext('2d').drawImage(image, 0, 0, width, height)
+          vm.inMemoryImg = vm.dataURLToBlob(canvas.toDataURL(file.type, 0.6))
+        }
+        image.src = readerEvent.target.result
+        vm.imgPreview = image.src
       }
 
       reader.readAsDataURL(file)

@@ -63,11 +63,11 @@ function upload() {
           img.resize(200, jimp.AUTO)// resize
                .quality(60)// set JPEG quality
                .write(`${path}/${name}_thumb.${extension}`); // save
+      }).then(function(result) {
+        res.json({ success: true, img: filePath.split(rootPathUploads)[1], thumbnail: `${finalRootPath}/${name}_thumb.${extension}`});
       }).catch(function (err) {
-          res.json(err);
-      });
-
-      res.json({ success: true, img: filePath.split(rootPathUploads)[1], thumbnail: `${finalRootPath}/${name}_thumb.${extension}`});
+        res.json(err);
+      });      
     });
   });
 }
@@ -77,7 +77,6 @@ var storage = multer.diskStorage({
         var pathFile = getPath();
         mkdirPromise(pathFile)
         .then(function(success){
-          var date = new Date();
           callback(null, pathFile);
         })
         .catch(function(err){

@@ -4,11 +4,12 @@
       <v-row>
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
-            <v-text-field v-model.trim="name" name="name" label="Nombre" required></v-text-field>
+            <v-text-field v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
+            <v-text-field v-model="slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
+            <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
             <vue-editor v-model="content"></vue-editor>
             <v-text-field v-model="url" name="url" label="Url origen" required></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs"></file-uploader>
-            <v-text-field v-model="slug" name="slug" label="Slug" required></v-text-field>
             <v-text-field v-model="title" name="title" label="Titulo, h1" required></v-text-field>
             <v-text-field v-model="meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
             <v-text-field v-model="img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
@@ -64,7 +65,12 @@ export default {
       img: '',
       thumbnail: '',
       categorySelected: { value: 'frutas-y-verduras', text: 'Frutas y Verduras' },
-      storeSelected: { value: 'walmart', text: 'Walmart' }
+      storeSelected: { value: 'walmart', text: 'Walmart' },
+      validation: {
+        slug: {
+          val: true
+        }
+      }
     }
   },
   async asyncData () {
@@ -90,6 +96,11 @@ export default {
     },
     send () {
       var that = this
+
+      if (!this.validation.slug.val) {
+        return
+      }
+
       if (!this.img || !this.thumbnail) {
         alert('Asegurate de primero subir la imagen de la oferta')
         return
@@ -123,6 +134,16 @@ export default {
         console.log(err)
         alert('ocurrio un error al crear la oferta')
       })
+    },
+    async validateSlug (currSlug) {
+      if (currSlug === '') {
+        return
+      }
+      this.validation.slug.val = true
+      let { data } = await axios.get('/api/promotions/' + currSlug)
+      if (this.exists(data)) {
+        this.validation.slug.val = false
+      }
     }
   },
   created () {
@@ -137,6 +158,11 @@ export default {
       this.img_alt = `${newName}`
       this.img_title = `${newName}`
     },
+    slug (newSlug) {
+      if (newSlug.length > 5) {
+        this.validateSlug(newSlug)
+      }
+    },
     content (newContent) {
       this.meta_description = `${this.getTextFromHtml(newContent).slice(0, 150)}...`
     }
@@ -148,3 +174,18 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  #slug {
+    margin-bottom: 0;
+    .input-group__details {
+      min-height: 0;
+    }
+  }
+  
+  .error {
+    color: #fff;
+    padding: 5px;
+    margin-bottom: 22px;
+  }
+
+</style>
