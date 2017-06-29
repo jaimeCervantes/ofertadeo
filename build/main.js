@@ -863,11 +863,11 @@ function upload() {
         img.resize(200, jimp.AUTO) // resize
         .quality(60) // set JPEG quality
         .write(path + '/' + name + '_thumb.' + extension); // save
+      }).then(function (result) {
+        res.json({ success: true, img: filePath.split(rootPathUploads)[1], thumbnail: finalRootPath + '/' + name + '_thumb.' + extension });
       }).catch(function (err) {
         res.json(err);
       });
-
-      res.json({ success: true, img: filePath.split(rootPathUploads)[1], thumbnail: finalRootPath + '/' + name + '_thumb.' + extension });
     });
   });
 }
@@ -876,7 +876,6 @@ var storage = __WEBPACK_IMPORTED_MODULE_0_multer___default.a.diskStorage({
   destination: function destination(req, file, callback) {
     var pathFile = getPath();
     mkdirPromise(pathFile).then(function (success) {
-      var date = new Date();
       callback(null, pathFile);
     }).catch(function (err) {
       console.log(err);
