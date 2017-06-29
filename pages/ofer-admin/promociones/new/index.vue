@@ -152,7 +152,7 @@ export default {
   },
   watch: {
     name (newName) {
-      this.slug = slug(newName).tolowerCase()
+      this.slug = slug(newName).toLowerCase()
       this.title = `${newName} | Ofertadeo`
       this.meta_title = `${newName} | Ofertadeo`
       this.img_alt = `${newName}`
