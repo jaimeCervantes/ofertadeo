@@ -860,7 +860,7 @@ function upload() {
       var finalRootPath = path.split(rootPathUploads)[1];
 
       jimp.read(filePath).then(function (img) {
-        img.resize(200, jimp.AUTO) // resize
+        img.resize(jimp.AUTO, 200) // resize
         .quality(60) // set JPEG quality
         .write(path + '/' + name + '_thumb.' + extension); // save
       }).then(function (result) {
