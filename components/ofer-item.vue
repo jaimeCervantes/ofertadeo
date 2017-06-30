@@ -34,9 +34,8 @@ export default {
 
 .item__img {
   overflow:hidden;
-  height: 150px!important;
+  height: 200px!important;
   img {
-    width: 100%;
     display: block;
   }
   .categories {
