@@ -75,7 +75,6 @@ export default {
     setQuillElement () {
       this.quill = new Quill(this.$refs.quillContainer, {
         modules: {
-          syntax: true,
           toolbar: this.toolbar
         },
         placeholder: this.placeholder ? this.placeholder : '',
