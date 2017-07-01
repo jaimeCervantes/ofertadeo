@@ -1131,17 +1131,17 @@ if (nuxtConfig.dev) {
 app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
 
-__WEBPACK_IMPORTED_MODULE_3_node_cron___default.a.schedule('5 0 * * *', function () {
+__WEBPACK_IMPORTED_MODULE_3_node_cron___default.a.schedule('5 5 * * *', function () {
   //run every 5 minutes after midnigh everyday
   __WEBPACK_IMPORTED_MODULE_4__utils_sitemaps_create_sitemap_js___default.a.pages();
 });
 
-__WEBPACK_IMPORTED_MODULE_3_node_cron___default.a.schedule('5 0,6,12,18 * * *', function () {
+__WEBPACK_IMPORTED_MODULE_3_node_cron___default.a.schedule('5 5,11,17,23 * * *', function () {
   //run every 6 hours
   __WEBPACK_IMPORTED_MODULE_4__utils_sitemaps_create_sitemap_js___default.a.offers();
 });
 
-__WEBPACK_IMPORTED_MODULE_3_node_cron___default.a.schedule('5 0 * * *', function () {
+__WEBPACK_IMPORTED_MODULE_3_node_cron___default.a.schedule('5 5 * * *', function () {
   //run every 5 minutes after midnigh everyday
   __WEBPACK_IMPORTED_MODULE_4__utils_sitemaps_create_sitemap_js___default.a.index();
 });
