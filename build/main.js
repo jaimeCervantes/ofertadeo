@@ -944,7 +944,8 @@ function getData(params) {
       collection: params.collection || 'offers',
       query: params.query || {},
       projection: params.projection || { slug: 1, modified: 1 },
-      items_per_page: params.items_per_page || 10000
+      items_per_page: params.items_per_page || 10000,
+      sort: { _id: -1 }
     });
   });
 }
