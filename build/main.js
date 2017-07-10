@@ -179,10 +179,10 @@ var path = __webpack_require__(3);
 
 var config = {
   db: {
-    user: "ofertadeo_publisher",
-    password: "Cdop_2017*",
+    user: "ofertadeo",
+    password: "Cdo_2017*",
     name: 'ofertadeo',
-    host: 'localhost:27017',
+    host: 'ds161471.mlab.com:61471',
     shard1: 'pensemosweb-shard-00-00-147ev.mongodb.net:27017',
     shard2: 'pensemosweb-shard-00-01-147ev.mongodb.net:27017',
     shard3: 'pensemosweb-shard-00-02-147ev.mongodb.net:27017',
