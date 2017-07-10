@@ -88,13 +88,9 @@ export default {
 .promotion {
   .thumbnail {
     float:right;
-    @media (max-width:600px) {
-      float: none;
-      margin-left: 0 !important;
-    }
     img {
       display: block;
-      max-width: 300px;
+      max-width: 200px;
     }
   }
   p.promotion__data {
