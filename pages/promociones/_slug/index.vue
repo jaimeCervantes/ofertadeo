@@ -90,6 +90,7 @@ export default {
     float:right;
     img {
       display: block;
+      max-width: 300px;
     }
   }
   p.promotion__data {
