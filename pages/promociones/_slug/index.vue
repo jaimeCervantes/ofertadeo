@@ -88,7 +88,7 @@ export default {
 .promotion {
   .thumbnail {
     float:right;
-    @media (max-width:600) {
+    @media (max-width:600px) {
       float: none;
       margin-left: 0 !important;
     }
