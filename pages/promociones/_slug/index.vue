@@ -17,7 +17,7 @@
             <h1 class="title">{{item.name}}</h1>
             <div class="thumbnail ml-3">
               <img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
-              <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ver la oferta</v-btn>
+              <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ver</v-btn>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
           </div>
@@ -88,13 +88,9 @@ export default {
 .promotion {
   .thumbnail {
     float:right;
-    @media (max-width:600px) {
-      float: none;
-      margin-left: 0 !important;
-    }
     img {
       display: block;
-      max-width: 300px;
+      max-width: 200px;
     }
   }
   p.promotion__data {
