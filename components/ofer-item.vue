@@ -37,6 +37,7 @@ export default {
   height: 200px!important;
   img {
     display: block;
+    max-width:100%;
   }
   .categories {
     width: 125px;
