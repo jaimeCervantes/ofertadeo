@@ -129,18 +129,21 @@ export default {
         thumbnail: this.thumbnail,
         stores: [this.storeSelected.value],
         categories: [this.categorySelected.value]
-      }).then(function (res) {
+      })
+      .then(function (res) {
         if (res.data.ok) {
           that.$router.push(`/ofer-admin/promociones/${that.slug}`)
         } else {
           alert('Algo salió mal, al insertar un nuevo documento en la base de datos')
         }
-        this.loading = true
-        this.disabled = true
-      }).catch(function (err) {
+      })
+      .catch(function (err) {
         alert('ocurrio un error al crear la oferta')
-        this.loading = true
-        this.disabled = true
+        console.log(err)
+      })
+      .then(function () {
+        that.loading = true
+        that.disabled = true
       })
     },
     async validateSlug (currSlug) {
