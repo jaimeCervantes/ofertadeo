@@ -4,8 +4,8 @@ var sm = require('sitemap')
 var fs = require('fs');
 
 config.paths.static = '/home/jaime/xml';
-var offers = '/sitemaps/sitemap-ofertas.xml';
-var stores_categories_pages = '/sitemaps/sitemap-paginas.xml';
+var offers = '/sitemap-ofertas.xml';
+var stores_categories_pages = '/sitemap-paginas.xml';
 
 
 function smPages () {
