@@ -97,7 +97,6 @@ function createPromotion () {
     })
     .then(function(result){
       res.json(result);
-      console.log(result);
       if(result.insertedId) {
         // @TODO, when we use more than one category and more than one store, the updateOne 
         // operation should be execute for each element in the arrary categories and stores
@@ -121,7 +120,6 @@ function createPromotion () {
       }
     })
     .then(function(results) {
-      console.log(results);
       if(results && results.length > 0) {
         csm.pages()
         csm.offers()
