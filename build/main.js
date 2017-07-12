@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 30);
+/******/ 	return __webpack_require__(__webpack_require__.s = 29);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -111,6 +111,15 @@ CRUD.prototype.getItem = function (params) {
 CRUD.prototype.setItem = function (params) {
   var db = this.DATABASE || params.db;
   return db.collection(params.collection || this.COLLECTION).insertOne(params.document).then(function (res) {
+    return res;
+  }).catch(function (err) {
+    return err;
+  });
+};
+
+CRUD.prototype.updateOne = function (params) {
+  var db = this.DATABASE || params.db;
+  return db.collection(params.collection || this.COLLECTION).updateOne(params.query, params.update).then(function (res) {
     return res;
   }).catch(function (err) {
     return err;
@@ -226,123 +235,9 @@ module.exports = require("wagner-core");
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-var MongoClient = __webpack_require__(27).MongoClient;
-
-function getConnection(config) {
-  //connPromise is pending when trying to connect to mongodb atlas
-  // var shards = config.db.shard1 + ',' + config.db.shard2 + ',' + config.db.shard3;
-  // var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + shards + '/' + config.db.name + config.db.queryString;
-  var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + config.db.host + '/' + config.db.name;
-
-  return MongoClient.connect(url).then(function (conn) {
-    console.log('It is connected to db: ' + config.db.name + ' in ' + config.db.host);
-    return conn;
-  }).catch(function (err) {
-    console.log(err);
-    return err;
-  });
-}
-
-module.exports = function (wagner) {
-  wagner.invoke(function (config) {
-    var conn = getConnection(config);
-    wagner.factory('conn', function () {
-      return conn;
-    });
-  });
-};
-
-/***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-module.exports = require("sitemap");
-
-/***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-module.exports = {
-  loading: {
-    color: '#ff80ab',
-    height: '11px'
-  },
-  /*
-  ** Headers of the page
-  */
-  head: {
-    title: 'Ofertas, promociones y descuentos en México | Ofertadeo',
-    meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { name: 'theme-color', content: '#1976d2' }, { name: 'msapplication-TileColor', content: '#2d89ef' }, { name: 'msapplication-TileImage', content: '/favicons/mstile-144x144.png' }, { name: 'msapplication-config', content: '/favicons/browserconfig.xml' }, { name: 'p:domain_verify', content: 'd22a77a044a4490ebd5019e778f4a37b' }, { name: 'google-site-verification', content: '-jN3QPeaXQTbgPBlyAXlXXh7qRSesWIpa3GC3ijTjJM' }, { name: 'msvalidate.01', content: '162D9E28E432D290B43E41702E108642' }],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicons/favicon.ico' }, { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicons/apple-touch-icon.png' }, { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicons/favicon-32x32.png' }, { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' }, { rel: 'manifest', href: '/favicons/manifest.json' }, { rel: 'mask-icon', href: '/favicons/safari-pinned-tab.svg', color: '#1976d2' }, { rel: 'shortcut icon', href: '/favicons/favicon.ico' }, { rel: 'dns-prefetch', href: '//www.google-analytics.com' }],
-    htmlAttrs: {
-      lang: 'es-MX'
-    }
-  },
-  /*
-  ** Global CSS
-  */
-  css: [{ src: '~assets/stylus/main.styl', lang: 'stylus' }, { src: '~assets/css/main.scss', lang: 'scss' // scss instead of sass
-  }],
-  plugins: [{ src: '~plugins/ga.js', ssr: false }],
-  /*
-  ** Add axios globally
-  */
-  build: {
-    vendor: ['axios', '~plugins/striptags.js'],
-    /*
-    ** Run ESLINT on save
-    */
-    extend: function extend(config, ctx) {
-      if (ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        });
-      }
-    }
-  }
-};
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
-
-var wagner = __webpack_require__(5);
-var home = __webpack_require__(19);
-var categories = __webpack_require__(18);
-var stores = __webpack_require__(21);
-var promotions = __webpack_require__(20);
-var upload = __webpack_require__(22);
-
-__webpack_require__(4)(wagner);
-__webpack_require__(6)(wagner);
-
-var router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
-// Add USERS Routes
-router.use(home(wagner));
-router.use(categories(wagner));
-router.use(stores(wagner));
-router.use(promotions(wagner));
-router.use(upload(wagner));
-
-/* harmony default export */ exports["a"] = router;
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-var utils = __webpack_require__(24);
+var utils = __webpack_require__(23);
 var config = __webpack_require__(4)();
-var sm = __webpack_require__(7);
+var sm = __webpack_require__(8);
 var fs = __webpack_require__(2);
 
 config.paths.static = '/home/jaime/xml';
@@ -396,7 +291,7 @@ function smOffers() {
 }
 
 function smIndex() {
-  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml</loc>\n  <lastmod>' + utils.getDate() + ' </lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml</loc>\n  <lastmod>' + utils.getDate() + ' </lastmod>\n</sitemap>\n</sitemapindex>';
+  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n</sitemapindex>';
 
   fs.writeFile(config.paths.static + '/sitemap.xml', content, 'utf8', function (err) {
     if (err) {
@@ -411,6 +306,120 @@ module.exports = {
   pages: smPages,
   offers: smOffers
 };
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var MongoClient = __webpack_require__(26).MongoClient;
+
+function getConnection(config) {
+  //connPromise is pending when trying to connect to mongodb atlas
+  // var shards = config.db.shard1 + ',' + config.db.shard2 + ',' + config.db.shard3;
+  // var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + shards + '/' + config.db.name + config.db.queryString;
+  var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + config.db.host + '/' + config.db.name;
+
+  return MongoClient.connect(url).then(function (conn) {
+    console.log('It is connected to db: ' + config.db.name + ' in ' + config.db.host);
+    return conn;
+  }).catch(function (err) {
+    console.log(err);
+    return err;
+  });
+}
+
+module.exports = function (wagner) {
+  wagner.invoke(function (config) {
+    var conn = getConnection(config);
+    wagner.factory('conn', function () {
+      return conn;
+    });
+  });
+};
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+module.exports = require("sitemap");
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+module.exports = {
+  loading: {
+    color: '#ff80ab',
+    height: '11px'
+  },
+  /*
+  ** Headers of the page
+  */
+  head: {
+    title: 'Ofertas, promociones y descuentos en México | Ofertadeo',
+    meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { name: 'theme-color', content: '#1976d2' }, { name: 'msapplication-TileColor', content: '#2d89ef' }, { name: 'msapplication-TileImage', content: '/favicons/mstile-144x144.png' }, { name: 'msapplication-config', content: '/favicons/browserconfig.xml' }, { name: 'p:domain_verify', content: 'd22a77a044a4490ebd5019e778f4a37b' }, { name: 'google-site-verification', content: '-jN3QPeaXQTbgPBlyAXlXXh7qRSesWIpa3GC3ijTjJM' }, { name: 'msvalidate.01', content: '162D9E28E432D290B43E41702E108642' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicons/favicon.ico' }, { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicons/apple-touch-icon.png' }, { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicons/favicon-32x32.png' }, { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' }, { rel: 'manifest', href: '/favicons/manifest.json' }, { rel: 'mask-icon', href: '/favicons/safari-pinned-tab.svg', color: '#1976d2' }, { rel: 'shortcut icon', href: '/favicons/favicon.ico' }, { rel: 'dns-prefetch', href: '//www.google-analytics.com' }],
+    htmlAttrs: {
+      lang: 'es-MX'
+    }
+  },
+  /*
+  ** Global CSS
+  */
+  css: [{ src: '~assets/stylus/main.styl', lang: 'stylus' }, { src: '~assets/css/main.scss', lang: 'scss' // scss instead of sass
+  }],
+  plugins: [{ src: '~plugins/ga.js', ssr: false }],
+  /*
+  ** Add axios globally
+  */
+  build: {
+    vendor: ['axios', '~plugins/striptags.js'],
+    /*
+    ** Run ESLINT on save
+    */
+    extend: function extend(config, ctx) {
+      if (ctx.isClient) {
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules)/
+        });
+      }
+    }
+  }
+};
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
+
+var wagner = __webpack_require__(5);
+var home = __webpack_require__(18);
+var categories = __webpack_require__(17);
+var stores = __webpack_require__(20);
+var promotions = __webpack_require__(19);
+var upload = __webpack_require__(21);
+
+__webpack_require__(4)(wagner);
+__webpack_require__(7)(wagner);
+
+var router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
+// Add USERS Routes
+router.use(home(wagner));
+router.use(categories(wagner));
+router.use(stores(wagner));
+router.use(promotions(wagner));
+router.use(upload(wagner));
+
+/* harmony default export */ exports["a"] = router;
 
 /***/ },
 /* 11 */
@@ -440,22 +449,16 @@ module.exports = require("morgan");
 /* 15 */
 /***/ function(module, exports) {
 
-module.exports = require("node-cron");
+module.exports = require("nuxt");
 
 /***/ },
 /* 16 */
 /***/ function(module, exports) {
 
-module.exports = require("nuxt");
-
-/***/ },
-/* 17 */
-/***/ function(module, exports) {
-
 module.exports = require("rotating-file-stream");
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -548,7 +551,7 @@ function index() {
 }
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -609,7 +612,7 @@ function index() {
 }
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -617,8 +620,9 @@ function index() {
 
 var express = __webpack_require__(0);
 var router = express.Router();
-var utils = __webpack_require__(23);
+var utils = __webpack_require__(22);
 var CRUD = __webpack_require__(1);
+var csm = __webpack_require__(6);
 
 var crudInst;
 var conf;
@@ -696,6 +700,29 @@ function createPromotion() {
       document: data
     }).then(function (result) {
       res.json(result);
+      if (result.insertedId) {
+        // @TODO, when we use more than one category and more than one store, the updateOne 
+        // operation should be execute for each element in the arrary categories and stores
+        return Promise.all([crudInst.updateOne({
+          collection: 'offers',
+          query: { _id: result.insertedId },
+          update: { $set: { modified: utils.getDate() } }
+        }), crudInst.updateOne({
+          collection: 'stores',
+          query: { _id: data.stores[0] },
+          update: { $set: { modified: utils.getDate() } }
+        }), crudInst.updateOne({
+          collection: 'categories',
+          query: { _id: data.categories[0] },
+          update: { $set: { modified: utils.getDate() } }
+        })]);
+      }
+    }).then(function (results) {
+      if (results && results.length > 0) {
+        csm.pages();
+        csm.offers();
+        csm.index();
+      }
     }).catch(function (err) {
       res.json(err);
     });
@@ -703,7 +730,7 @@ function createPromotion() {
 }
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -795,22 +822,22 @@ function index() {
 }
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_multer__);
 
 
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(1);
-var mkdirp = __webpack_require__(26);
+var mkdirp = __webpack_require__(25);
 var path = __webpack_require__(3);
 
-var jimp = __webpack_require__(25);
+var jimp = __webpack_require__(24);
 
 var crudInst;
 var conf;
@@ -901,7 +928,7 @@ function mkdirPromise(pathFile) {
 }
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports) {
 
 function getDate() {
@@ -916,16 +943,16 @@ module.exports = {
 };
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 var wagner = __webpack_require__(5);
-var sm = __webpack_require__(7);
+var sm = __webpack_require__(8);
 var config = __webpack_require__(4)(wagner);
-__webpack_require__(6)(wagner);
+__webpack_require__(7)(wagner);
 var CRUD = __webpack_require__(1);
 var fs = __webpack_require__(2);
-var zlib = __webpack_require__(29);
+var zlib = __webpack_require__(28);
 
 function getDate() {
   var date = new Date();
@@ -1003,65 +1030,62 @@ module.exports = {
 };
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports) {
 
 module.exports = require("jimp");
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports) {
 
 module.exports = require("mkdirp");
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports) {
 
 module.exports = require("mongodb");
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports) {
 
 module.exports = require("multer");
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(__dirname) {Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nuxt__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_compression__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_node_cron__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_node_cron___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_node_cron__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_sitemaps_create_sitemap_js__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_sitemaps_create_sitemap_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__utils_sitemaps_create_sitemap_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_helmet__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_helmet___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_helmet__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__api__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_body_parser__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_body_parser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_morgan__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_morgan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_morgan__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rotating_file_stream__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rotating_file_stream___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rotating_file_stream__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_path__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_path__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_fs__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_fs__);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_sitemaps_create_sitemap_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_sitemaps_create_sitemap_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__utils_sitemaps_create_sitemap_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_helmet__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_helmet___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_helmet__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__api__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_body_parser__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_body_parser__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_morgan__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_morgan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_morgan__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rotating_file_stream__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rotating_file_stream___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rotating_file_stream__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_path__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_path__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_fs__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_fs__);
 
 
 
@@ -1080,11 +1104,11 @@ var host = process.env.HOST || '127.0.0.1';
 var port = process.env.PORT || 3000;
 var morganFormat = 'combined';
 
-var logDirectory = __WEBPACK_IMPORTED_MODULE_10_path___default.a.join(__dirname, '../log');
+var logDirectory = __WEBPACK_IMPORTED_MODULE_9_path___default.a.join(__dirname, '../log');
 // ensure log directory exists
-__WEBPACK_IMPORTED_MODULE_11_fs___default.a.existsSync(logDirectory) || __WEBPACK_IMPORTED_MODULE_11_fs___default.a.mkdirSync(logDirectory);
+__WEBPACK_IMPORTED_MODULE_10_fs___default.a.existsSync(logDirectory) || __WEBPACK_IMPORTED_MODULE_10_fs___default.a.mkdirSync(logDirectory);
 // create a rotating write stream
-var accessLogStream = __WEBPACK_IMPORTED_MODULE_9_rotating_file_stream___default()('access.log', {
+var accessLogStream = __WEBPACK_IMPORTED_MODULE_8_rotating_file_stream___default()('access.log', {
   interval: '1d', // rotate daily
   path: logDirectory
 });
@@ -1098,16 +1122,16 @@ if (!develop) {
   //app.use(preconditions())
   //morganFormat = 'dev'
 }
-app.use(__WEBPACK_IMPORTED_MODULE_7_body_parser___default.a.json());
+app.use(__WEBPACK_IMPORTED_MODULE_6_body_parser___default.a.json());
 // Import API Routes
-app.use('/api', __WEBPACK_IMPORTED_MODULE_6__api__["a" /* default */]);
-app.use(__WEBPACK_IMPORTED_MODULE_8_morgan___default()(morganFormat, { stream: accessLogStream }));
+app.use('/api', __WEBPACK_IMPORTED_MODULE_5__api__["a" /* default */]);
+app.use(__WEBPACK_IMPORTED_MODULE_7_morgan___default()(morganFormat, { stream: accessLogStream }));
 //Security
-app.use(__WEBPACK_IMPORTED_MODULE_5_helmet___default()());
+app.use(__WEBPACK_IMPORTED_MODULE_4_helmet___default()());
 app.disable('x-powered-by');
 
 // Import and Set Nuxt.js options
-var nuxtConfig = __webpack_require__(8);
+var nuxtConfig = __webpack_require__(9);
 nuxtConfig.dev = develop;
 
 // Init Nuxt.js
@@ -1130,21 +1154,6 @@ if (nuxtConfig.dev) {
 // Listen the server
 app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
-
-__WEBPACK_IMPORTED_MODULE_3_node_cron___default.a.schedule('5 5 * * *', function () {
-  //run every 5 minutes after midnigh everyday
-  __WEBPACK_IMPORTED_MODULE_4__utils_sitemaps_create_sitemap_js___default.a.pages();
-});
-
-__WEBPACK_IMPORTED_MODULE_3_node_cron___default.a.schedule('5 5,11,17,23 * * *', function () {
-  //run every 6 hours
-  __WEBPACK_IMPORTED_MODULE_4__utils_sitemaps_create_sitemap_js___default.a.offers();
-});
-
-__WEBPACK_IMPORTED_MODULE_3_node_cron___default.a.schedule('5 5 * * *', function () {
-  //run every 5 minutes after midnigh everyday
-  __WEBPACK_IMPORTED_MODULE_4__utils_sitemaps_create_sitemap_js___default.a.index();
-});
 /* WEBPACK VAR INJECTION */}.call(exports, "server"))
 
 /***/ }
