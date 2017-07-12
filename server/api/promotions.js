@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 var utils = require('./utils');
 var CRUD = require('../db/crud.js');
+var csm = require('../utils/sitemaps/create-sitemap.js');
 
 var crudInst;
 var conf;
@@ -96,6 +97,34 @@ function createPromotion () {
     })
     .then(function(result){
       res.json(result);
+      if(result.insertedId) {
+        // @TODO, when we use more than one category and more than one store, the updateOne 
+        // operation should be execute for each element in the arrary categories and stores
+        return Promise.all([
+            crudInst.updateOne({
+              collection: 'offers',
+              query: { _id: result.insertedId },
+              update: { $set: { modified: utils.getDate() } }
+            }),
+            crudInst.updateOne({
+              collection: 'stores',
+              query: { _id: data.stores[0] },
+              update: { $set: { modified: utils.getDate() } }
+            }),
+            crudInst.updateOne({
+              collection: 'categories',
+              query: { _id: data.categories[0] },
+              update: { $set: { modified: utils.getDate() } }
+            })
+          ])
+      }
+    })
+    .then(function(results) {
+      if(results && results.length > 0) {
+        csm.pages()
+        csm.offers()
+        csm.index()
+      }
     })
     .catch(function(err){
       res.json(err);

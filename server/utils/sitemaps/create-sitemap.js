@@ -66,11 +66,11 @@ function smIndex () {
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <sitemap>
   <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml</loc>
-  <lastmod>` + utils.getDate() +` </lastmod>
+  <lastmod>` + utils.getDate() +`</lastmod>
 </sitemap>
 <sitemap>
   <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml</loc>
-  <lastmod>` + utils.getDate() +` </lastmod>
+  <lastmod>` + utils.getDate() +`</lastmod>
 </sitemap>
 </sitemapindex>`;
 

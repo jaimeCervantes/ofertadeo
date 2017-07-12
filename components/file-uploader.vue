@@ -51,9 +51,14 @@ export default {
         that.disabled = false
         that.$emit('on-uploaded', { img: res.data.img, thumbnail: res.data.thumbnail })
         alert('La imagen se subió correctamente')
-      }).catch(function (err) {
+      })
+      .catch(function (err) {
         console.log(err)
         alert('Ocurrió un error al subir el archivo, revisa la consola')
+      })
+      .then(function () {
+        that.loading = false
+        that.disabled = false
       })
     },
     onFileChange (e) {
