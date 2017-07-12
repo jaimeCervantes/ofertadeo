@@ -6,33 +6,33 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 
-const _4c59100f = () => import('/home/jaime/develop/ofertadeo-develop/pages/index.vue' /* webpackChunkName: "pages/index" */)
+const _53896d7f = () => import('/home/jaime/develop/ofertadeo/pages/index.vue' /* webpackChunkName: "pages/index" */)
 
-const _3ecff290 = () => import('/home/jaime/develop/ofertadeo-develop/pages/tiendas/index.vue' /* webpackChunkName: "pages/tiendas" */)
+const _720bf428 = () => import('/home/jaime/develop/ofertadeo/pages/tiendas/index.vue' /* webpackChunkName: "pages/tiendas" */)
 
-const _7db5190b = () => import('/home/jaime/develop/ofertadeo-develop/pages/terminos/index.vue' /* webpackChunkName: "pages/terminos" */)
+const _1abed99b = () => import('/home/jaime/develop/ofertadeo/pages/terminos/index.vue' /* webpackChunkName: "pages/terminos" */)
 
-const _0cc8ee95 = () => import('/home/jaime/develop/ofertadeo-develop/pages/nosotros/index.vue' /* webpackChunkName: "pages/nosotros" */)
+const _ac5aa1b6 = () => import('/home/jaime/develop/ofertadeo/pages/nosotros/index.vue' /* webpackChunkName: "pages/nosotros" */)
 
-const _b7c1167c = () => import('/home/jaime/develop/ofertadeo-develop/pages/promociones/index.vue' /* webpackChunkName: "pages/promociones" */)
+const _55ff2a32 = () => import('/home/jaime/develop/ofertadeo/pages/promociones/index.vue' /* webpackChunkName: "pages/promociones" */)
 
-const _5b0dd5dc = () => import('/home/jaime/develop/ofertadeo-develop/pages/ofer-admin/index.vue' /* webpackChunkName: "pages/ofer-admin" */)
+const _46ac9b28 = () => import('/home/jaime/develop/ofertadeo/pages/ofer-admin/index.vue' /* webpackChunkName: "pages/ofer-admin" */)
 
-const _8d9e92b6 = () => import('/home/jaime/develop/ofertadeo-develop/pages/privacidad/index.vue' /* webpackChunkName: "pages/privacidad" */)
+const _3acc9335 = () => import('/home/jaime/develop/ofertadeo/pages/privacidad/index.vue' /* webpackChunkName: "pages/privacidad" */)
 
-const _371b2df6 = () => import('/home/jaime/develop/ofertadeo-develop/pages/categorias/index.vue' /* webpackChunkName: "pages/categorias" */)
+const _8e91eaf4 = () => import('/home/jaime/develop/ofertadeo/pages/categorias/index.vue' /* webpackChunkName: "pages/categorias" */)
 
-const _17c0ef0f = () => import('/home/jaime/develop/ofertadeo-develop/pages/ofer-admin/promociones/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones" */)
+const _67b318c2 = () => import('/home/jaime/develop/ofertadeo/pages/ofer-admin/promociones/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones" */)
 
-const _81840a40 = () => import('/home/jaime/develop/ofertadeo-develop/pages/ofer-admin/promociones/new/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-new" */)
+const _052eb770 = () => import('/home/jaime/develop/ofertadeo/pages/ofer-admin/promociones/new/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-new" */)
 
-const _5921230a = () => import('/home/jaime/develop/ofertadeo-develop/pages/ofer-admin/promociones/_slug/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-slug" */)
+const _345608cc = () => import('/home/jaime/develop/ofertadeo/pages/ofer-admin/promociones/_slug/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-slug" */)
 
-const _40c3567d = () => import('/home/jaime/develop/ofertadeo-develop/pages/promociones/_slug/index.vue' /* webpackChunkName: "pages/promociones-slug" */)
+const _87fd9026 = () => import('/home/jaime/develop/ofertadeo/pages/promociones/_slug/index.vue' /* webpackChunkName: "pages/promociones-slug" */)
 
-const _ff2f9444 = () => import('/home/jaime/develop/ofertadeo-develop/pages/categorias/_id.vue' /* webpackChunkName: "pages/categorias-id" */)
+const _1d71f66e = () => import('/home/jaime/develop/ofertadeo/pages/categorias/_id.vue' /* webpackChunkName: "pages/categorias-id" */)
 
-const _69685720 = () => import('/home/jaime/develop/ofertadeo-develop/pages/tiendas/_id.vue' /* webpackChunkName: "pages/tiendas-id" */)
+const _14d8e090 = () => import('/home/jaime/develop/ofertadeo/pages/tiendas/_id.vue' /* webpackChunkName: "pages/tiendas-id" */)
 
 
 
@@ -68,72 +68,72 @@ export default new Router({
   routes: [
 		{
 			path: "/",
-			component: _4c59100f,
+			component: _53896d7f,
 			name: "index"
 		},
 		{
 			path: "/tiendas",
-			component: _3ecff290,
+			component: _720bf428,
 			name: "tiendas"
 		},
 		{
 			path: "/terminos",
-			component: _7db5190b,
+			component: _1abed99b,
 			name: "terminos"
 		},
 		{
 			path: "/nosotros",
-			component: _0cc8ee95,
+			component: _ac5aa1b6,
 			name: "nosotros"
 		},
 		{
 			path: "/promociones",
-			component: _b7c1167c,
+			component: _55ff2a32,
 			name: "promociones"
 		},
 		{
 			path: "/ofer-admin",
-			component: _5b0dd5dc,
+			component: _46ac9b28,
 			name: "ofer-admin"
 		},
 		{
 			path: "/privacidad",
-			component: _8d9e92b6,
+			component: _3acc9335,
 			name: "privacidad"
 		},
 		{
 			path: "/categorias",
-			component: _371b2df6,
+			component: _8e91eaf4,
 			name: "categorias"
 		},
 		{
 			path: "/ofer-admin/promociones",
-			component: _17c0ef0f,
+			component: _67b318c2,
 			name: "ofer-admin-promociones"
 		},
 		{
 			path: "/ofer-admin/promociones/new",
-			component: _81840a40,
+			component: _052eb770,
 			name: "ofer-admin-promociones-new"
 		},
 		{
 			path: "/ofer-admin/promociones/:slug",
-			component: _5921230a,
+			component: _345608cc,
 			name: "ofer-admin-promociones-slug"
 		},
 		{
 			path: "/promociones/:slug",
-			component: _40c3567d,
+			component: _87fd9026,
 			name: "promociones-slug"
 		},
 		{
 			path: "/categorias/:id",
-			component: _ff2f9444,
+			component: _1d71f66e,
 			name: "categorias-id"
 		},
 		{
 			path: "/tiendas/:id",
-			component: _69685720,
+			component: _14d8e090,
 			name: "tiendas-id"
 		}
   ]
