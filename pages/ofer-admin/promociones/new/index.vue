@@ -31,7 +31,7 @@
               item-value="text"
               required
             ></v-select>
-            <v-btn primary large type="submit">Crear Oferta</v-btn>
+            <v-btn primary large :disabled="disabled" v-if="!isImg" v-bind:loading="loading"type="submit">Crear Oferta</v-btn>
           </form>
         </v-col>
       </v-row>
@@ -53,6 +53,8 @@ export default {
   mixins: [OferCommon],
   data () {
     return {
+      loading: false,
+      disabled: false,
       name: '',
       slug: '',
       url: '',
@@ -110,6 +112,9 @@ export default {
         return
       }
 
+      this.loading = true
+      this.disabled = true
+
       axios.post('/api/promotions/new', {
         name: this.name,
         slug: this.slug,
@@ -124,15 +129,21 @@ export default {
         thumbnail: this.thumbnail,
         stores: [this.storeSelected.value],
         categories: [this.categorySelected.value]
-      }).then(function (res) {
+      })
+      .then(function (res) {
         if (res.data.ok) {
           that.$router.push(`/ofer-admin/promociones/${that.slug}`)
         } else {
           alert('Algo salió mal, al insertar un nuevo documento en la base de datos')
         }
-      }).catch(function (err) {
-        console.log(err)
+      })
+      .catch(function (err) {
         alert('ocurrio un error al crear la oferta')
+        console.log(err)
+      })
+      .then(function () {
+        that.loading = true
+        that.disabled = true
       })
     },
     async validateSlug (currSlug) {
