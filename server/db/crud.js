@@ -46,7 +46,7 @@ CRUD.prototype.setItem = function (params) {
     });
 }
 
-CRUD.prototype.updateOne = function () {
+CRUD.prototype.updateOne = function (params) {
   var db = this.DATABASE || params.db;
   return db.collection(params.collection || this.COLLECTION)
   .updateOne(params.query, params.update)
