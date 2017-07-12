@@ -241,8 +241,8 @@ var sm = __webpack_require__(8);
 var fs = __webpack_require__(2);
 
 config.paths.static = '/home/jaime/xml';
-var offers = '/sitemaps/sitemap-ofertas.xml';
-var stores_categories_pages = '/sitemaps/sitemap-paginas.xml';
+var offers = '/sitemap-ofertas.xml';
+var stores_categories_pages = '/sitemap-paginas.xml';
 
 function smPages() {
   var modified = utils.getDate();
