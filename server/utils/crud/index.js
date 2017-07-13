@@ -26,7 +26,7 @@ wagner.invoke(function(conn, config) {
 	cursor = conn.collection('categories').find({ img: { $regex: /^[^(http)]/ } }, { img: 1})
 	cursor.forEach(function(doc) {
 		console.log(doc.img);
-		conn.collection('stores').updateOne(
+		conn.collection('categories').updateOne(
 			{ img: doc.img },
 			{ $set: { img: conf.host + doc.img }
 		})
@@ -35,7 +35,7 @@ wagner.invoke(function(conn, config) {
 	cursor = conn.collection('offers').find({ img: { $regex: /^[^(http)]/ } }, { img: 1})
 	cursor.forEach(function(doc) {
 		console.log(doc.img);
-		conn.collection('stores').updateOne(
+		conn.collection('offers').updateOne(
 			{ img: doc.img },
 			{ $set: { img: conf.host + doc.img }
 		})
