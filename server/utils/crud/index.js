@@ -14,33 +14,25 @@ wagner.invoke(function(conn, config) {
   return conn
 })
 .then(function(conn) {
-	var cursor = conn.collection('stores').find({ img: { $regex: /^[^(http)]/ } }, { img: 1})
-	cursor.forEach(function(doc) {
-		console.log(doc.img);
-		conn.collection('stores').updateOne(
-			{ img: doc.img },
-			{ $set: { img: conf.host + doc.img }
-		})
-	});
-
-	cursor = conn.collection('categories').find({ img: { $regex: /^[^(http)]/ } }, { img: 1})
-	cursor.forEach(function(doc) {
-		console.log(doc.img);
-		conn.collection('categories').updateOne(
-			{ img: doc.img },
-			{ $set: { img: conf.host + doc.img }
-		})
-	});
-
-	cursor = conn.collection('offers').find({ img: { $regex: /^[^(http)]/ } }, { img: 1})
-	cursor.forEach(function(doc) {
-		console.log(doc.img);
-		conn.collection('offers').updateOne(
-			{ img: doc.img },
-			{ $set: { img: conf.host + doc.img }
-		})
-	});
+	var mainQuery = { img: { $regex: /^[^(http)]/ } };
+	['stores', 'offers', 'categories'].forEach(function(collection) {
+		addDomainToUrl( conn, {
+			collection: collection,
+			query: mainQuery,
+			callback: function (doc, conn) {
+				conn.collection(collection).updateOne(mainQuery, { $set: { img: conf.host + doc.img } });
+			}
+		});
+	})
 })
 .catch(function(err) {
 	console.log(err);
 });
+
+function addDomainToUrl( conn, params ) {
+	var query =  params.query || { img: { $regex: /^[^(http)]/ } };
+	var cursor = conn.collection(params.collection).find(query, params.projection)
+	cursor.forEach(function(doc) {
+		params.callback(doc, conn)
+	});
+}
