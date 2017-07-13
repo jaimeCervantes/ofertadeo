@@ -38,7 +38,7 @@ function _id() {
     var iterable = [
       crudInst.getItems({
         collection: conf.db.mainCollection,
-        query: { store_id: req.params._id },
+        query: { $or: [ { store_id: req.params._id }, { stores: req.params._id } ] },
         items_per_page: ITEMS_PER_PAGE,
         skip: ITEMS_PER_PAGE*page,
         sort: { _id: -1},
