@@ -6,7 +6,7 @@ import router from './router.js'
 import store from './store.js'
 import NuxtChild from './components/nuxt-child.js'
 import NuxtLink from './components/nuxt-link.js'
-import NuxtError from '/home/jaime/develop/ofertadeo-develop/layouts/error.vue'
+import NuxtError from '/home/jaime/develop/ofertadeo/layouts/error.vue'
 import Nuxt from './components/nuxt.vue'
 import App from './App.vue'
 
