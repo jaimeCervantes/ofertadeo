@@ -4,8 +4,8 @@ var sm = require('sitemap')
 var fs = require('fs');
 
 config.paths.static = '/home/jaime/xml';
-var offers = '/sitemaps/sitemap-ofertas.xml';
-var stores_categories_pages = '/sitemaps/sitemap-paginas.xml';
+var offers = '/sitemap-ofertas.xml';
+var stores_categories_pages = '/sitemap-paginas.xml';
 
 
 function smPages () {
@@ -65,12 +65,12 @@ function smIndex () {
   var content = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <sitemap>
-  <loc>https://www.ofertadeo.com/sitemaps/sitemap-paginas.xml</loc>
-  <lastmod>` + utils.getDate() +` </lastmod>
+  <loc>https://www.ofertadeo.com/sitemap-paginas.xml</loc>
+  <lastmod>` + utils.getDate() +`</lastmod>
 </sitemap>
 <sitemap>
-  <loc>https://www.ofertadeo.com/sitemaps/sitemap-ofertas.xml</loc>
-  <lastmod>` + utils.getDate() +` </lastmod>
+  <loc>https://www.ofertadeo.com/sitemap-ofertas.xml</loc>
+  <lastmod>` + utils.getDate() +`</lastmod>
 </sitemap>
 </sitemapindex>`;
 
