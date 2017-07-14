@@ -10,11 +10,20 @@ var stores_categories_pages = '/sitemap-paginas.xml';
 function smPages () {
   var modified = utils.getDate();
   var compoundSitemap = utils.createSitemap();
+  
   compoundSitemap.add({url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified});
-  compoundSitemap.add({url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
-  compoundSitemap.add({url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
 
-  utils.getData( { collection: config.db.collections.secundary } )
+  utils.getData({ collection: config.db.collections.pages })
+  .then(function(data) {
+    utils.addToSitemap(compoundSitemap, data,  {
+      route: '',
+      changefreq: 'weekly',
+      priority: 0.7
+    });
+  })
+  .then(function () {
+    return utils.getData( { collection: config.db.collections.secundary } )  
+  })
   .then(function(data) {
     utils.addToSitemap(compoundSitemap, data,  {
       route: config.routes.storeList,

@@ -48,6 +48,17 @@ import OferNotExists from '~components/ofer-not-exists.vue'
 import FileUploader from '~components/file-uploader.vue'
 import VueEditor from '~components/editor.vue'
 
+slug.defaults.modes.pretty = {
+  replacement: '-',
+  symbols: false,
+  remove: /[.]/g,
+  lower: true,
+  charmap: Object.assign({}, slug.charmap, {'€': '', '₢': '', '₣': '', '£': '', '₤': '', '₥': '', '₦': '', '₧': '', '₨': '', '₩': '', '₪': '', '₫': '', '₭': '', '₮': '', '₯': '', '₰': '', '₱': '', '₲': '', '₳': '', '₴': '', '₵': '', '¢': '', '¥': '', '元': '', '円': '', '﷼': '', '₠': '', '¤': '', '฿': '', '$': '', '₹': ''},
+    {'©': '', 'œ': '', 'Œ': '', '∑': '', '®': '', '†': '', '“': '"', '”': '"', '‘': "'", '’': "'", '∂': '', 'ƒ': '', '™': 'tm', '℠': 'sm', '…': '', '˚': '', 'º': '', 'ª': '', '•': '', '∆': '', '∞': '', '♥': '', '&': '', '|': '', '<': '', '>': '', '~': ''}
+    ),
+  multicharmap: Object.assign({}, slug.multicharmap, {'<3': '', '&&': '', '||': '', 'w/': ''})
+}
+
 export default {
   layout: 'admin',
   mixins: [OferCommon],
@@ -163,7 +174,7 @@ export default {
   },
   watch: {
     name (newName) {
-      this.slug = slug(newName).toLowerCase()
+      this.slug = slug(newName)
       this.title = `${newName} | Ofertadeo`
       this.meta_title = `${newName} | Ofertadeo`
       this.img_alt = `${newName}`
