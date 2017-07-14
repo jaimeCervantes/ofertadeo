@@ -776,7 +776,7 @@ function _id() {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
       collection: conf.db.mainCollection,
-      query: { store_id: req.params._id },
+      query: { $or: [{ store_id: req.params._id }, { stores: req.params._id }] },
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { _id: -1 },
