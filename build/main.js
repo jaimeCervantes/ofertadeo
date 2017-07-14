@@ -256,11 +256,18 @@ var stores_categories_pages = '/sitemap-paginas.xml';
 function smPages() {
   var modified = utils.getDate();
   var compoundSitemap = utils.createSitemap();
-  compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
-  compoundSitemap.add({ url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
-  compoundSitemap.add({ url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
 
-  utils.getData({ collection: config.db.collections.secundary }).then(function (data) {
+  compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
+
+  utils.getData({ collection: config.db.collections.pages }).then(function (data) {
+    utils.addToSitemap(compoundSitemap, data, {
+      route: '',
+      changefreq: 'weekly',
+      priority: 0.7
+    });
+  }).then(function () {
+    return utils.getData({ collection: config.db.collections.secundary });
+  }).then(function (data) {
     utils.addToSitemap(compoundSitemap, data, {
       route: config.routes.storeList,
       changefreq: 'daily',
@@ -677,12 +684,12 @@ function slug() {
 function getFormDataPromotions() {
   router.get('/formdata/promotions', function (req, res) {
     var iterable = [crudInst.getItems({
-      collection: 'stores',
+      collection: conf.db.collections.main,
       items_per_page: 100,
       projection: { name: 1 },
       sort: { name: 1 }
     }), crudInst.getItems({
-      collection: 'categories',
+      collection: conf.db.collections.secundary,
       items_per_page: 100,
       projection: { name: 1 },
       sort: { name: 1 }
