@@ -1,11 +1,12 @@
 'use strict';
+var config = require('../config').config;
 
 module.exports = CRUD;
 
 function CRUD(params) {
   this.COLLECTION = params.collection;
   this.DATABASE = params.db;
-  this.ITEMS_PER_PAGE = params.items_per_page || 6;
+  this.ITEMS_PER_PAGE = params.items_per_page || config.db.itemsPerPage;
 };
 
 CRUD.prototype.getItems = function (params) {
