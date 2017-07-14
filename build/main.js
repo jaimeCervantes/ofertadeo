@@ -81,12 +81,14 @@ module.exports = require("express");
 "use strict";
 
 
+var config = __webpack_require__(2).config;
+
 module.exports = CRUD;
 
 function CRUD(params) {
   this.COLLECTION = params.collection;
   this.DATABASE = params.db;
-  this.ITEMS_PER_PAGE = params.items_per_page || 6;
+  this.ITEMS_PER_PAGE = params.items_per_page || config.db.itemsPerPage;
 };
 
 CRUD.prototype.getItems = function (params) {
@@ -166,25 +168,13 @@ CRUD.prototype.aggregation = function (params) {
 
 /***/ },
 /* 2 */
-/***/ function(module, exports) {
-
-module.exports = require("fs");
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-module.exports = require("path");
-
-/***/ },
-/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(__dirname) {
 
 var wagner = __webpack_require__(5);
-var path = __webpack_require__(3);
+var path = __webpack_require__(4);
 
 var config = {
   db: {
@@ -196,7 +186,14 @@ var config = {
     shard2: 'pensemosweb-shard-00-01-147ev.mongodb.net:27017',
     shard3: 'pensemosweb-shard-00-02-147ev.mongodb.net:27017',
     queryString: '?ssl=true&replicaSet=pensemosweb-shard-0&authSource=admin',
-    mainCollection: 'offers'
+    mainCollection: 'offers',
+    itemsPerPage: 12,
+    collections: {
+      main: 'offers',
+      secundary: 'stores',
+      categories: 'categories',
+      pages: 'pages'
+    }
   },
   routes: {
     categories: '/categorias',
@@ -226,6 +223,18 @@ module.exports.config = config;
 /* WEBPACK VAR INJECTION */}.call(exports, "server"))
 
 /***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+module.exports = require("path");
+
+/***/ },
 /* 5 */
 /***/ function(module, exports) {
 
@@ -236,9 +245,9 @@ module.exports = require("wagner-core");
 /***/ function(module, exports, __webpack_require__) {
 
 var utils = __webpack_require__(23);
-var config = __webpack_require__(4)();
+var config = __webpack_require__(2)();
 var sm = __webpack_require__(8);
-var fs = __webpack_require__(2);
+var fs = __webpack_require__(3);
 
 config.paths.static = '/home/jaime/xml';
 var offers = '/sitemap-ofertas.xml';
@@ -251,24 +260,24 @@ function smPages() {
   compoundSitemap.add({ url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
   compoundSitemap.add({ url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
 
-  utils.getData({ collection: 'stores' }).then(function (data) {
+  utils.getData({ collection: config.db.collections.secundary }).then(function (data) {
     utils.addToSitemap(compoundSitemap, data, {
       route: config.routes.storeList,
       changefreq: 'daily',
       priority: 0.9
     });
   }).then(function () {
-    utils.getData({ collection: 'categories' }).then(function (data) {
-      utils.addToSitemap(compoundSitemap, data, {
-        route: config.routes.categories,
-        changefreq: 'daily',
-        priority: 0.9
-      });
-
-      utils.createSitemapFile(compoundSitemap, {
-        sitemap_path: config.paths.static + stores_categories_pages,
-        sitemapName: stores_categories_pages
-      });
+    return utils.getData({ collection: config.db.collections.categories });
+  }).then(function (data) {
+    utils.addToSitemap(compoundSitemap, data, {
+      route: config.routes.categories,
+      changefreq: 'daily',
+      priority: 0.9
+    });
+  }).then(function () {
+    utils.createSitemapFile(compoundSitemap, {
+      sitemap_path: config.paths.static + stores_categories_pages,
+      sitemapName: stores_categories_pages
     });
   });
 }
@@ -276,7 +285,7 @@ function smPages() {
 function smOffers() {
   var offersSitemap = utils.createSitemap();
 
-  utils.getData({ collection: config.db.mainCollection }).then(function (data) {
+  utils.getData({ collection: config.db.collections.main }).then(function (data) {
     utils.addToSitemap(offersSitemap, data, {
       route: config.routes.main,
       changefreq: 'daily',
@@ -408,7 +417,7 @@ var stores = __webpack_require__(20);
 var promotions = __webpack_require__(19);
 var upload = __webpack_require__(21);
 
-__webpack_require__(4)(wagner);
+__webpack_require__(2)(wagner);
 __webpack_require__(7)(wagner);
 
 var router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
@@ -467,7 +476,6 @@ module.exports = require("rotating-file-stream");
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(1);
-var ITEMS_PER_PAGE = 6;
 var COLLECTION = 'categories';
 
 var crudInst;
@@ -501,8 +509,8 @@ function _id() {
     var iterable = [crudInst.getItems({
       collection: conf.db.mainCollection,
       query: { categories: req.params._id },
-      items_per_page: ITEMS_PER_PAGE,
-      skip: ITEMS_PER_PAGE * page,
+      items_per_page: conf.db.itemsPerPage,
+      skip: conf.db.itemsPerPage * page,
       sort: { _id: -1 },
       projection: { name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getItem({
@@ -531,8 +539,8 @@ function index() {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
       collection: COLLECTION,
-      items_per_page: ITEMS_PER_PAGE,
-      skip: ITEMS_PER_PAGE * page,
+      items_per_page: conf.db.itemsPerPage,
+      skip: conf.db.itemsPerPage * page,
       sort: { name: 1 },
       projection: { name: 1, slug: 1, thumbnail: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
@@ -560,7 +568,6 @@ function index() {
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(1);
-var ITEMS_PER_PAGE = 6;
 var COLLECTION = 'offers';
 
 var crudInst;
@@ -592,8 +599,8 @@ function index() {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
       collection: COLLECTION,
-      items_per_page: ITEMS_PER_PAGE,
-      skip: ITEMS_PER_PAGE * page,
+      items_per_page: conf.db.itemsPerPage,
+      skip: conf.db.itemsPerPage * page,
       sort: { _id: -1 },
       projection: { name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img_alt: 1, img_title: 1, title: 1 }
     }), crudInst.getPagination({
@@ -704,15 +711,15 @@ function createPromotion() {
         // @TODO, when we use more than one category and more than one store, the updateOne 
         // operation should be execute for each element in the arrary categories and stores
         return Promise.all([crudInst.updateOne({
-          collection: 'offers',
+          collection: conf.db.collections.main,
           query: { _id: result.insertedId },
           update: { $set: { modified: utils.getDate() } }
         }), crudInst.updateOne({
-          collection: 'stores',
+          collection: conf.db.collections.secundary,
           query: { _id: data.stores[0] },
           update: { $set: { modified: utils.getDate() } }
         }), crudInst.updateOne({
-          collection: 'categories',
+          collection: conf.db.collections.categories,
           query: { _id: data.categories[0] },
           update: { $set: { modified: utils.getDate() } }
         })]);
@@ -739,7 +746,6 @@ function createPromotion() {
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(1);
-var ITEMS_PER_PAGE = 6;
 var COLLECTION = 'stores';
 
 var crudInst;
@@ -770,9 +776,9 @@ function _id() {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
       collection: conf.db.mainCollection,
-      query: { $or: [{ store_id: req.params._id }, { stores: req.params._id }] },
-      items_per_page: ITEMS_PER_PAGE,
-      skip: ITEMS_PER_PAGE * page,
+      query: { store_id: req.params._id },
+      items_per_page: conf.db.itemsPerPage,
+      skip: conf.db.itemsPerPage * page,
       sort: { _id: -1 },
       projection: { name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getItem({
@@ -801,8 +807,8 @@ function index() {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
       collection: COLLECTION,
-      items_per_page: ITEMS_PER_PAGE,
-      skip: ITEMS_PER_PAGE * page,
+      items_per_page: conf.db.itemsPerPage,
+      skip: conf.db.itemsPerPage * page,
       sort: { name: 1 },
       projection: { name: 1, slug: 1, thumbnail: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
@@ -835,7 +841,7 @@ var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(1);
 var mkdirp = __webpack_require__(25);
-var path = __webpack_require__(3);
+var path = __webpack_require__(4);
 
 var jimp = __webpack_require__(24);
 
@@ -948,10 +954,10 @@ module.exports = {
 
 var wagner = __webpack_require__(5);
 var sm = __webpack_require__(8);
-var config = __webpack_require__(4)(wagner);
+var config = __webpack_require__(2)(wagner);
 __webpack_require__(7)(wagner);
 var CRUD = __webpack_require__(1);
-var fs = __webpack_require__(2);
+var fs = __webpack_require__(3);
 var zlib = __webpack_require__(28);
 
 function getDate() {
@@ -1082,9 +1088,9 @@ module.exports = require("zlib");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_morgan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_morgan__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rotating_file_stream__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rotating_file_stream___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rotating_file_stream__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_path__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_path__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_path__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_fs__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_fs__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_fs__);
 
 

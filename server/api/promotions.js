@@ -102,17 +102,17 @@ function createPromotion () {
         // operation should be execute for each element in the arrary categories and stores
         return Promise.all([
             crudInst.updateOne({
-              collection: 'offers',
+              collection: conf.db.collections.main,
               query: { _id: result.insertedId },
               update: { $set: { modified: utils.getDate() } }
             }),
             crudInst.updateOne({
-              collection: 'stores',
+              collection: conf.db.collections.secundary,
               query: { _id: data.stores[0] },
               update: { $set: { modified: utils.getDate() } }
             }),
             crudInst.updateOne({
-              collection: 'categories',
+              collection: conf.db.collections.categories,
               query: { _id: data.categories[0] },
               update: { $set: { modified: utils.getDate() } }
             })

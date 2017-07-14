@@ -13,7 +13,14 @@ var config = {
     shard2: 'pensemosweb-shard-00-01-147ev.mongodb.net:27017',
     shard3: 'pensemosweb-shard-00-02-147ev.mongodb.net:27017',
     queryString: '?ssl=true&replicaSet=pensemosweb-shard-0&authSource=admin',
-    mainCollection: 'offers'
+    mainCollection: 'offers',
+    itemsPerPage: 12,
+    collections: {
+      main: 'offers',
+      secundary: 'stores',
+      categories: 'categories',
+      pages: 'pages'
+    }
   },
   routes: {
     categories: '/categorias',
