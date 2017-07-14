@@ -61,13 +61,13 @@ function getFormDataPromotions() {
   router.get('/formdata/promotions', function(req, res) {
     var iterable = [
       crudInst.getItems({
-        collection: conf.db.collections.main,
+        collection: conf.db.collections.secundary,
         items_per_page: 100,
         projection: { name: 1 },
         sort: { name: 1}
       }),
       crudInst.getItems({
-        collection: conf.db.collections.secundary,
+        collection: conf.db.collections.categories,
         items_per_page: 100,
         projection: { name: 1 },
         sort: { name: 1}
