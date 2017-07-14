@@ -7,7 +7,6 @@ config.paths.static = '/home/jaime/xml';
 var offers = '/sitemap-ofertas.xml';
 var stores_categories_pages = '/sitemap-paginas.xml';
 
-
 function smPages () {
   var modified = utils.getDate();
   var compoundSitemap = utils.createSitemap();
@@ -15,7 +14,7 @@ function smPages () {
   compoundSitemap.add({url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
   compoundSitemap.add({url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified});
 
-  utils.getData( { collection: 'stores'} )
+  utils.getData( { collection: config.db.collections.secundary } )
   .then(function(data) {
     utils.addToSitemap(compoundSitemap, data,  {
       route: config.routes.storeList,
@@ -24,28 +23,28 @@ function smPages () {
     });
   })
   .then(function() {
-    utils.getData( { collection: 'categories'} )
-    .then(function(data) {
-      utils.addToSitemap(compoundSitemap, data,  {
-        route: config.routes.categories,
-        changefreq: 'daily',
-        priority: 0.9
-      });
-
-      utils.createSitemapFile(compoundSitemap, {
-        sitemap_path: config.paths.static + stores_categories_pages,
-        sitemapName: stores_categories_pages
-      });
-
+    return utils.getData( { collection: config.db.collections.categories } );
+  })
+  .then(function(data) {
+     utils.addToSitemap(compoundSitemap, data,  {
+      route: config.routes.categories,
+      changefreq: 'daily',
+      priority: 0.9
     });
-  });
+  })
+  .then(function(){
+    utils.createSitemapFile(compoundSitemap, {
+      sitemap_path: config.paths.static + stores_categories_pages,
+      sitemapName: stores_categories_pages
+    });
+  })
 }
 
 
 function smOffers () {
   var offersSitemap = utils.createSitemap();
 
-  utils.getData({collection: config.db.mainCollection })
+  utils.getData({collection: config.db.collections.main })
   .then(function (data) {
     utils.addToSitemap(offersSitemap, data, {
       route: config.routes.main,
