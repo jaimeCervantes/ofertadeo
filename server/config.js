@@ -29,7 +29,7 @@ var config = {
     main: '/promociones',
     storeList: '/tiendas'
   },
-  host: 'https://www.ofertadeo.com',
+  host: 'http://45.55.71.33',
   paths: {
     root: path.resolve(__dirname, '../'),
     server: __dirname,
