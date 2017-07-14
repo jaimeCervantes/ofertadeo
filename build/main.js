@@ -256,11 +256,18 @@ var stores_categories_pages = '/sitemap-paginas.xml';
 function smPages() {
   var modified = utils.getDate();
   var compoundSitemap = utils.createSitemap();
-  compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
-  compoundSitemap.add({ url: config.routes.storeList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
-  compoundSitemap.add({ url: config.routes.categoriesList, changefreq: 'weekly', priority: 0.7, lastmodISO: modified });
 
-  utils.getData({ collection: config.db.collections.secundary }).then(function (data) {
+  compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
+
+  utils.getData({ collection: config.db.collections.pages }).then(function (data) {
+    utils.addToSitemap(compoundSitemap, data, {
+      route: '',
+      changefreq: 'weekly',
+      priority: 0.7
+    });
+  }).then(function () {
+    return utils.getData({ collection: config.db.collections.secundary });
+  }).then(function (data) {
     utils.addToSitemap(compoundSitemap, data, {
       route: config.routes.storeList,
       changefreq: 'daily',
@@ -476,7 +483,6 @@ module.exports = require("rotating-file-stream");
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(1);
-var COLLECTION = 'categories';
 
 var crudInst;
 var conf;
@@ -507,19 +513,19 @@ function _id() {
   router.get('/categories/:_id', function (req, res) {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
-      collection: conf.db.mainCollection,
+      collection: conf.db.collections.main,
       query: { categories: req.params._id },
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { _id: -1 },
       projection: { name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getItem({
-      collection: COLLECTION,
+      collection: conf.db.collections.categories,
       query: { _id: req.params._id },
       projection: { name: 1, thumbnail: 1, slug: 1, content: 1, img: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
       query: { store_id: req.params._id },
-      collection: conf.db.mainCollection
+      collection: conf.db.collections.main
     })];
 
     Promise.all(iterable).then(function (results) {
@@ -538,13 +544,13 @@ function index() {
   router.get('/categories', function (req, res) {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
-      collection: COLLECTION,
+      collection: conf.db.collections.categories,
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { name: 1 },
       projection: { name: 1, slug: 1, thumbnail: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
-      collection: COLLECTION
+      collection: conf.db.collections.categories
     })];
 
     Promise.all(iterable).then(function (results) {
@@ -568,10 +574,9 @@ function index() {
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(1);
-var COLLECTION = 'offers';
-
 var crudInst;
 var conf;
+
 module.exports = function (wagner, params) {
   wagner.invoke(function (conn, config) {
     conf = config;
@@ -598,13 +603,13 @@ function index() {
   router.get('/home', function (req, res) {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
-      collection: COLLECTION,
+      collection: conf.db.collections.main,
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { _id: -1 },
       projection: { name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img_alt: 1, img_title: 1, title: 1 }
     }), crudInst.getPagination({
-      collection: COLLECTION
+      collection: conf.db.collections.main
     })];
 
     Promise.all(iterable).then(function (results) {
@@ -677,12 +682,12 @@ function slug() {
 function getFormDataPromotions() {
   router.get('/formdata/promotions', function (req, res) {
     var iterable = [crudInst.getItems({
-      collection: 'stores',
+      collection: conf.db.collections.secundary,
       items_per_page: 100,
       projection: { name: 1 },
       sort: { name: 1 }
     }), crudInst.getItems({
-      collection: 'categories',
+      collection: conf.db.collections.categories,
       items_per_page: 100,
       projection: { name: 1 },
       sort: { name: 1 }
@@ -746,10 +751,9 @@ function createPromotion() {
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(1);
-var COLLECTION = 'stores';
-
 var crudInst;
 var conf;
+
 module.exports = function (wagner, params) {
   wagner.invoke(function (conn, config) {
     conf = config;
@@ -775,19 +779,19 @@ function _id() {
   router.get('/stores/:_id', function (req, res) {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
-      collection: conf.db.mainCollection,
+      collection: conf.db.collections.main,
       query: { $or: [{ store_id: req.params._id }, { stores: req.params._id }] },
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { _id: -1 },
       projection: { name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getItem({
-      collection: COLLECTION,
+      collection: conf.db.collections.secundary,
       query: { _id: req.params._id },
       projection: { name: 1, thumbnail: 1, slug: 1, url_site: 1, content: 1, img: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
       query: { store_id: req.params._id },
-      collection: conf.db.mainCollection
+      collection: conf.db.collections.main
     })];
 
     Promise.all(iterable).then(function (results) {
@@ -806,13 +810,13 @@ function index() {
   router.get('/stores', function (req, res) {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
-      collection: COLLECTION,
+      collection: conf.db.collections.secundary,
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { name: 1 },
       projection: { name: 1, slug: 1, thumbnail: 1, img_alt: 1, img_title: 1 }
     }), crudInst.getPagination({
-      collection: COLLECTION
+      collection: conf.db.collections.secundary
     })];
 
     Promise.all(iterable).then(function (results) {
@@ -897,7 +901,7 @@ function upload() {
         .quality(60) // set JPEG quality
         .write(path + '/' + name + '_thumb.' + extension); // save
       }).then(function (result) {
-        res.json({ success: true, img: filePath.split(rootPathUploads)[1], thumbnail: finalRootPath + '/' + name + '_thumb.' + extension });
+        res.json({ success: true, img: conf.host + filePath.split(rootPathUploads)[1], thumbnail: '' + conf.host + finalRootPath + '/' + name + '_thumb.' + extension });
       }).catch(function (err) {
         res.json(err);
       });
