@@ -64,7 +64,7 @@ function upload() {
                .quality(60)// set JPEG quality
                .write(`${path}/${name}_thumb.${extension}`); // save
       }).then(function(result) {
-        res.json({ success: true, img: filePath.split(rootPathUploads)[1], thumbnail: `${finalRootPath}/${name}_thumb.${extension}`});
+        res.json({ success: true, img: conf.host + filePath.split(rootPathUploads)[1], thumbnail: `${conf.host}${finalRootPath}/${name}_thumb.${extension}`});
       }).catch(function (err) {
         res.json(err);
       });      
