@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 29);
+/******/ 	return __webpack_require__(__webpack_require__.s = 30);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -202,7 +202,7 @@ var config = {
     main: '/promociones',
     storeList: '/tiendas'
   },
-  host: 'https://www.ofertadeo.com',
+  host: 'http://45.55.71.33',
   paths: {
     root: path.resolve(__dirname, '../'),
     server: __dirname,
@@ -248,6 +248,7 @@ var utils = __webpack_require__(23);
 var config = __webpack_require__(2)();
 var sm = __webpack_require__(8);
 var fs = __webpack_require__(3);
+var request = __webpack_require__(28);
 
 config.paths.static = '/home/jaime/xml';
 var offers = '/sitemap-ofertas.xml';
@@ -286,6 +287,26 @@ function smPages() {
       sitemap_path: config.paths.static + stores_categories_pages,
       sitemapName: stores_categories_pages
     });
+
+    if (config.app_status === 'deploy') {
+      request('https://www.google.com/webmasters/sitemaps/ping?sitemap=https://www.ofertadeo.com/sitemap.xml', function (error, response, body) {
+        if (error) {
+          console.log('error: ', error);
+          return;
+        }
+        console.log('success ping to GOOGLE sitemap!!:');
+        console.log(body);
+      });
+
+      request('https://www.bing.com/webmaster/ping.aspx?siteMap=https://www.ofertadeo.com/sitemap.xml', function (error, response, body) {
+        if (error) {
+          console.log('error: ', error);
+          return;
+        }
+        console.log('success ping to BING sitemap!!:');
+        console.log(body);
+      });
+    }
   });
 }
 
@@ -962,7 +983,7 @@ var config = __webpack_require__(2)(wagner);
 __webpack_require__(7)(wagner);
 var CRUD = __webpack_require__(1);
 var fs = __webpack_require__(3);
-var zlib = __webpack_require__(28);
+var zlib = __webpack_require__(29);
 
 function getDate() {
   var date = new Date();
@@ -1067,10 +1088,16 @@ module.exports = require("multer");
 /* 28 */
 /***/ function(module, exports) {
 
-module.exports = require("zlib");
+module.exports = require("request");
 
 /***/ },
 /* 29 */
+/***/ function(module, exports) {
+
+module.exports = require("zlib");
+
+/***/ },
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
