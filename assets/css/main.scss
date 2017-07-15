@@ -142,3 +142,7 @@ a {
 .expansion-panel__header--active:after {
   transform: rotate(90deg) !important;
 }
+
+form .input-group--select.input-group--focused.input-group--dirty .input-group--select__autocomplete {
+  margin: 0 0;
+}
