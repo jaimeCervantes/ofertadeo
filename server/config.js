@@ -34,7 +34,8 @@ var config = {
     root: path.resolve(__dirname, '../'),
     server: __dirname,
     static:  path.resolve(__dirname, '../static')
-  }
+  },
+  app_status: 'deploy'
 };
 
 module.exports = function (wagner) {
