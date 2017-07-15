@@ -22,6 +22,7 @@
               class="input-group--focused"
               item-value="text"
               required
+              autocomplete
             ></v-select>
             <v-select
               v-bind:items="stores"
@@ -30,8 +31,9 @@
               class="input-group--focused"
               item-value="text"
               required
+              autocomplete
             ></v-select>
-            <v-btn primary large :disabled="disabled" v-if="!isImg" v-bind:loading="loading"type="submit">Crear Oferta</v-btn>
+            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Oferta</v-btn>
           </form>
         </v-col>
       </v-row>
