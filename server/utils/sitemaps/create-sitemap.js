@@ -2,6 +2,7 @@ var utils = require('./utils.js');
 var config = require('../../config')();
 var sm = require('sitemap')
 var fs = require('fs');
+var request = require('request');
 
 config.paths.static = '/home/jaime/xml';
 var offers = '/sitemap-ofertas.xml';
@@ -46,6 +47,19 @@ function smPages () {
       sitemap_path: config.paths.static + stores_categories_pages,
       sitemapName: stores_categories_pages
     });
+
+    if(config.app_status === 'deploy') {
+      request('http://www.google.com/webmasters/sitemaps/ping?sitemap=https://www.ofertadeo.com/sitemap.xml', function(error, response, body) {
+        if(error) {
+          console.log('error: ', error);
+          return;
+        }
+        console.log('success!!:');
+        console.log(response);
+        console.log(body);
+      });
+    }
+    
   })
 }
 
