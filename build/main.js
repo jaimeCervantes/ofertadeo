@@ -290,13 +290,21 @@ function smPages() {
     });
 
     if (config.app_status === 'deploy') {
-      request('http://www.google.com/webmasters/sitemaps/ping?sitemap=https://www.ofertadeo.com/sitemap.xml', function (error, response, body) {
+      request('https://www.google.com/webmasters/sitemaps/ping?sitemap=https://www.ofertadeo.com/sitemap.xml', function (error, response, body) {
         if (error) {
           console.log('error: ', error);
           return;
         }
-        console.log('success!!:');
-        console.log(response);
+        console.log('success ping to GOOGLE sitemap!!:');
+        console.log(body);
+      });
+
+      request('https://www.bing.com/webmaster/ping.aspx?siteMap=https://www.ofertadeo.com/sitemap.xml', function (error, response, body) {
+        if (error) {
+          console.log('error: ', error);
+          return;
+        }
+        console.log('success ping to BING sitemap!!:');
         console.log(body);
       });
     }
