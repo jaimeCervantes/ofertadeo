@@ -14,7 +14,7 @@ a {
     }
 }
 
-.header .breadcrumbs {
+header .breadcrumbs {
   justify-content:left;
   li:first-child a {
     padding-left:0;
@@ -122,15 +122,6 @@ a {
   }
 }
 
-.header {
-  h2.title {
-    font-weight:400;
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    line-height: 1.3;
-  }
-}
-
 .expansion-panel__header:after {
   content: '❮' !important;
   font-size: 1.5rem !important;
@@ -145,4 +136,31 @@ a {
 
 form .input-group--select.input-group--focused.input-group--dirty .input-group--select__autocomplete {
   margin: 0 0;
+}
+
+/* Visually hidden*/
+.visually-hidden {
+   clip: rect(1px 1px 1px 1px); /* IE 6/7 */
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap; /* added line */
+    width: 1px;
+}
+
+h1, h1.title {
+  font-size: 1.6rem;
+}
+
+h2, h2.title {
+  font-size: 1.4rem;
+}
+
+h3, h3.title {
+  font-size: 1.2rem;
+}
+
+h4, h4.title {
+  font-size: 1rem;
 }

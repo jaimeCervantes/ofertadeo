@@ -1,20 +1,22 @@
 <template>
   <ofer-content>
+    <template slot="info-section">
+      <p class="promotion-data">
+        <nuxt-link :to="createLinkToCategories()">
+          <span class="promotion__category" v-text="arrayToString(item.categories)"></span>
+        </nuxt-link>
+         | 
+        <nuxt-link :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">
+          Ofertas y descuentos de
+          <span class="promotion-data__store">{{arrayToString(item.stores || [item.store_id])}}</span>
+        </nuxt-link>
+      </p>
+      <h1>{{item.name}}</h1>      
+    </template>
     <template slot="content">
       <v-row v-if="exists(item)">
         <v-col class="mt-3 mb-3" xs12 sm12 md9 lg9 xl9>
           <div class="promotion">
-            <p class="promotion__data">
-              <nuxt-link :to="createLinkToCategories()">
-                <span class="promotion__category" v-text="arrayToString(item.categories)"></span>
-              </nuxt-link>
-               | 
-              <nuxt-link :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">
-                Ofertas y descuentos de
-                <span class="promotion__store">{{arrayToString(item.stores || [item.store_id])}}</span>
-              </nuxt-link>
-            </p>
-            <h1 class="title">{{item.name}}</h1>
             <div class="thumbnail ml-3">
               <img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
               <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
@@ -91,25 +93,27 @@ export default {
     img {
       display: block;
       max-width: 200px;
+      margin: 0 auto;
     }
   }
-  p.promotion__data {
+}
+
+p.promotion-data {
+  color: #888;
+  font-size: 1rem;
+  text-transform: uppercase
+  :first-letter {
+    text-transform: uppercase;
+  }
+
+  a {
     color: #888;
-    font-size: 1rem;
-    text-transform: uppercase
-    :first-letter {
+  }
+
+  .promotion-data__store {
+    display: inline;
+    &::first-letter {
       text-transform: uppercase;
-    }
-
-    a {
-      color: #888;
-    }
-
-    .promotion__store {
-      display: inline;
-      &::first-letter {
-        text-transform: uppercase;
-      }
     }
   }
 }

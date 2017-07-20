@@ -15,7 +15,6 @@
         <div v-text="bodyDescription"></div>
       </v-expansion-panel-content>
     </v-expansion-panel>
-    <h2 class="title">Lista de ofertas, promociones y descuentos en {{info.name}}</h2>
   </div>
 </template>
 

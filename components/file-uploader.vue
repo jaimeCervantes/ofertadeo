@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <section>
     <input type="file" @change="onFileChange" />
     <img class="preview" v-if="isImg && imgPreview" :src="imgPreview" alt="">
     <v-btn primary large :disabled="disabled" v-if="isImg" v-bind:loading="loading" v-on:click.native="uploadImg">Subir imagen</v-btn>
     <v-btn primary large :disabled="disabled" v-if="!isImg" v-bind:loading="loading" v-on:click.native="uploadFile">Subir archivo</v-btn>
-  </div>
+  </section>
 </template>
 <script>
 import axios from '~plugins/axios'
