@@ -294,16 +294,22 @@ function smPages() {
           console.log('error: ', error);
           return;
         }
+        console.log('------------------------------------------');
         console.log('success ping to GOOGLE sitemap!!:');
+        console.log('------------------------------------------');
         console.log(body);
       });
 
       request('https://www.bing.com/webmaster/ping.aspx?siteMap=https://www.ofertadeo.com/sitemap.xml', function (error, response, body) {
         if (error) {
+          console.log('------------------------------------------');
           console.log('error: ', error);
+          console.log('------------------------------------------');
           return;
         }
+        console.log('------------------------------------------');
         console.log('success ping to BING sitemap!!:');
+        console.log('------------------------------------------');
         console.log(body);
       });
     }
