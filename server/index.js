@@ -1,7 +1,6 @@
 import Nuxt from 'nuxt'
 import express from 'express'
 import compression from 'compression'
-import csm from './utils/sitemaps/create-sitemap.js'
 import helmet from 'helmet'
 import api from './api'
 import bodyParser from 'body-parser' 

@@ -1,11 +1,11 @@
 <template>
   <ofer-content>
     <template slot="info-section">
-      <h1 class="title">Ofertas, promociones y descuentos en México</h1>
+      <h1>Ofertas, promociones y descuentos en México</h1>
       <p>Descubre las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad como Walmart, Chedraui, Sams Club, Liverpool, Soriana, Cinepolis, Cinemex y muchas tiendas mas.  ✓ ¡Ahorra con ofertadeo!</p>
-      <h2 class="title">Lista de ofertas y promociones en México</h2>
     </template>
     <template slot="content">
+      <h2>Lista de ofertas y promociones en México</h2>
       <v-row>
         <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
           <ofer-item :item="item" :to-link="$store.state.routes.stores + '/' + item.slug"></ofer-item>
