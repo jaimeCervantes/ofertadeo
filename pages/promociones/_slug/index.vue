@@ -1,6 +1,6 @@
 <template>
   <ofer-content>
-    <template slot="info-section">
+    <template slot="info-section" v-if="exists(item)">
       <p class="promotion-data">
         <nuxt-link :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">
           Ofertas de
