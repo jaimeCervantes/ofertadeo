@@ -1,5 +1,6 @@
 <template>
   <v-sidebar v-model="$store.state.sidebar" drawer height="100%" fixed>
+    <h2 class="visually-hidden">Menú de navegación</h2>
     <v-list dense>
       <v-subheader class="white--text">
         {{$store.state.txt.categories}} 

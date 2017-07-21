@@ -1,8 +1,8 @@
 <template>
-<v-content>
-  <v-container fluid>
-    <v-row>
-      <div class="header">
+<div class="content">
+  <article class="container container--fluid">
+    <header class="row">
+      <div class="breadcrumbs-info-section">
         <v-breadcrumbs divider="">
           <v-breadcrumbs-item 
             v-for="item in breadcrumbs" :key="item"
@@ -15,12 +15,14 @@
         </v-breadcrumbs>
         <slot name="info-section"></slot>
       </div>
-    </v-row>
+    </header>
     <v-divider class="section-divider"></v-divider>
-    <slot name="content"></slot>
-    <slot name="more-content"></slot>
-  </v-container>
-</v-content>
+    <div class="middle-content">
+      <slot name="content"></slot>
+      <slot name="more-content"></slot>
+    </div>
+  </article>
+</div>
 </template>
 
 <script>
@@ -29,10 +31,21 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  .header {
+  .breadcrumbs-info-section {
     padding: 0 0.5rem;
   }
   .section-divider {
     padding: 0;
+  }
+
+  header {
+    padding-top: 0.5rem;
+  }
+
+  .middle-content {
+    padding-top:0.5rem;
+    h2 {
+      margin-bottom:0;
+    }
   }
 </style>

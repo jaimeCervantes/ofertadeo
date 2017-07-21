@@ -1,7 +1,7 @@
 <template>
-<div class="quillWrapper">
+<section class="quillWrapper">
   <div ref="quillContainer" :id="id"></div>
-</div>
+</section>
 </template>
 <script>
 import 'quill/dist/quill.core.css'
