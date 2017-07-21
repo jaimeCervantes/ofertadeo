@@ -13,7 +13,7 @@ const store = new Vuex.Store({
       { _id: 'bodega-aurrera', 'name': 'Bodega Aurrera', 'slug': 'bodega-aurrera' },
       { _id: 'soriana', 'name': 'Soriana', 'slug': 'soriana' },
       { _id: 'chedraui', 'name': 'Chedraui', 'slug': 'chedraui' },
-      { _id: 'chedrauiwaltmart', 'name': 'Walmart', 'slug': 'walmart' },
+      { _id: 'walmart', 'name': 'Walmart', 'slug': 'walmart' },
       { _id: 'comercial-mexicana', 'name': 'Comercial Mexicana', 'slug': 'comercial-mexicana' },
       { _id: 'la-comer', 'name': 'La Comer', 'slug': 'la-comer' },
       { _id: 'heb', 'name': 'HEB', 'slug': 'heb' },
