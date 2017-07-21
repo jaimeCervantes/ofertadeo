@@ -1,10 +1,21 @@
 <template>
   <ofer-content :breadcrumbs="exists(info) ? breadcrumbs : null">
     <template slot="info-section" v-if="exists(info)">
-      <ofer-header-info :info="info"></ofer-header-info>
+      <ofer-header-info :info="{ content: info.content}">
+        <template slot="info">
+          <div v-if="info" class="content__info-section">
+            <div class="img-container">
+              <img :src="info.thumbnail" :alt="info.img_alt" :title="info.img_title" />  
+            </div>
+            <div>
+              <h1 class="title content__title">{{info.name}}</h1>
+            </div>
+          </div>
+        </template>
+      </ofer-header-info>
     </template>
     <template slot="content" v-if="exists(info)">
-      <h2>Lista de ofertas, promociones y descuentos en {{info.name}}</h2>
+      <h2>Ofertas de {{info.name}}</h2>
       <v-row>
         <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
           <ofer-item :item="item" :to-link="$store.state.routes.stores + '/' + item.slug"></ofer-item>

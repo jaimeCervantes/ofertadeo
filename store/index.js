@@ -5,17 +5,21 @@ const store = new Vuex.Store({
     sidebar: false,
     categories: [
       { _id: 'frutas-y-verduras', name: 'Frutas y Verduras', slug: 'frutas-y-verduras' },
-      { _id: 'ventas-nocturnas', name: 'Ventas Nocturnas', slug: 'ventas-nocturnas' },
+      { _id: 'ropa-y-zapatos', name: 'Ropa y zapatos', slug: 'ropa-y-zapatos' },
       { _id: 'abarrotes-y-alimentos', name: 'Abarrotes y alimentos', slug: 'abarrotes-y-alimentos' },
-      { _id: 'celulares', name: 'Celulares', slug: 'celulares' },
-      { _id: 'restaurantes', name: 'Restaurantes', slug: 'restaurantes' }
+      { _id: 'folletos-y-catalogos', name: 'Folletos y catálogos', slug: 'folletos-y-catalogos' }
     ],
     stores: [
-      { _id: '7-eleven', 'name': '7-Eleven', 'slug': '7-eleven' },
-      { '_id': 'bodega-aurrera', 'name': 'Bodega Aurrera', 'slug': 'bodega-aurrera' },
-      { '_id': 'bodegas-alianza', 'name': 'Bodegas Alianza', 'slug': 'bodegas-alianza' },
-      { '_id': 'chedraui', 'name': 'Chedraui', 'slug': 'chedraui' },
-      { _id: 'comercial-mexicana', 'name': 'Comercial Mexicana', 'slug': 'comercial-mexicana' }
+      { _id: 'bodega-aurrera', 'name': 'Bodega Aurrera', 'slug': 'bodega-aurrera' },
+      { _id: 'soriana', 'name': 'Soriana', 'slug': 'soriana' },
+      { _id: 'chedraui', 'name': 'Chedraui', 'slug': 'chedraui' },
+      { _id: 'chedrauiwaltmart', 'name': 'Walmart', 'slug': 'walmart' },
+      { _id: 'comercial-mexicana', 'name': 'Comercial Mexicana', 'slug': 'comercial-mexicana' },
+      { _id: 'la-comer', 'name': 'La Comer', 'slug': 'la-comer' },
+      { _id: 'heb', 'name': 'HEB', 'slug': 'heb' },
+      { _id: 'liverpool', 'name': 'Liverpool', 'slug': 'liverpool' },
+      { _id: 'fabricas-de-francia', 'name': 'Fábricas de Francia', 'slug': 'fabricas-de-francia' },
+      { _id: 'sams-club', 'name': 'Sam\'s Club', 'slug': 'sams-club' }
     ],
     routes: {
       categories: '/categorias',

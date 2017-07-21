@@ -168,3 +168,12 @@ h3, h3.title {
 h4, h4.title {
   font-size: 1rem;
 }
+
+.btn {
+  min-height: 36px;
+  height: auto;
+  text-transform: none;
+  span {
+    white-space: initial;
+  }
+}

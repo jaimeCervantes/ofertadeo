@@ -9,7 +9,8 @@ export default {
       return this.id.split('-').join(' ').toUpperCase()
     },
     date () {
-      return this.getDate('MMMM YYYY')
+      var date = this.getDate('MMMM YYYY')
+      return date.charAt(0).toUpperCase() + date.slice(1)
     },
     year () {
       return moment().format('YYYY').toUpperCase()
@@ -20,7 +21,7 @@ export default {
       this.items = this.items.concat(items)
     },
     getDate (format) {
-      return moment().format(format || 'DD MMMM YYYY').toUpperCase()
+      return moment().format(format || 'DD MMMM YYYY')
     },
     getTextFromHtml (strHtml) {
       return striptags(strHtml)
