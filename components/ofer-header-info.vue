@@ -1,14 +1,15 @@
 <template>
   <div class="header-info">
-    <div v-if="info" class="content__info-section">
+    <div v-if="info.name" class="content__info-section">
       <div class="img-container">
         <img :src="info.thumbnail" :alt="info.img_alt" :title="info.img_title" />  
       </div>
       <div>
-        <h1 class="title content__title">{{info.name + ' - ' + 'Promociones y ofertas'}}</h1>
-        <v-btn tag="a" v-if="rel" :rel="rel" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Visitar</v-btn>
+        <h1 class="title content__title">Ofertas {{info.name}}</h1>
+        <v-btn tag="a" v-if="rel" :rel="rel" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Ir a {{info.name}}</v-btn>
       </div>
     </div>
+    <slot name="info"></slot>
     <v-expansion-panel v-if="info.content" class="content-panel">
       <v-expansion-panel-content>
         <div slot="header" v-text="headerDescription"></div>

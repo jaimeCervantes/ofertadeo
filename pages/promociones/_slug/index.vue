@@ -2,13 +2,13 @@
   <ofer-content>
     <template slot="info-section">
       <p class="promotion-data">
+        <nuxt-link :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">
+          Ofertas de
+          <span class="promotion-data__store">{{arrayToString(item.stores || [item.store_id])}}</span>
+        </nuxt-link>
+        |
         <nuxt-link :to="createLinkToCategories()">
           <span class="promotion__category" v-text="arrayToString(item.categories)"></span>
-        </nuxt-link>
-         | 
-        <nuxt-link :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">
-          Ofertas y descuentos de
-          <span class="promotion-data__store">{{arrayToString(item.stores || [item.store_id])}}</span>
         </nuxt-link>
       </p>
       <h1>{{item.name}}</h1>      
