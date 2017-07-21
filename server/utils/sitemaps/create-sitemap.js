@@ -51,10 +51,14 @@ function smPages () {
     if(config.app_status === 'deploy') {
       request('https://www.google.com/webmasters/sitemaps/ping?sitemap=https://www.ofertadeo.com/sitemap.xml', function(error, response, body) {
         if(error) {
+          console.log('------------------------------------------');
+          console.log(utils.getDate());
           console.log('error: ', error);
+          console.log('------------------------------------------');
           return;
         }
         console.log('------------------------------------------');
+        console.log(utils.getDate());
         console.log('success ping to GOOGLE sitemap!!:');
         console.log('------------------------------------------');
         console.log(body);
@@ -63,11 +67,13 @@ function smPages () {
       request('https://www.bing.com/webmaster/ping.aspx?siteMap=https://www.ofertadeo.com/sitemap.xml', function(error, response, body) {
         if(error) {
           console.log('------------------------------------------');
+          console.log(utils.getDate());
           console.log('error: ', error);
           console.log('------------------------------------------');
           return;
         }
         console.log('------------------------------------------');
+        console.log(utils.getDate());
         console.log('success ping to BING sitemap!!:');
         console.log('------------------------------------------');
         console.log(body);
