@@ -3,7 +3,7 @@
     <template slot="info-section" v-if="exists(item)">
       <p class="promotion-data">
         <nuxt-link :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">
-          Ofertas de
+          Ofertas 
           <span class="promotion-data__store">{{arrayToString(item.stores || [item.store_id])}}</span>
         </nuxt-link>
         |
