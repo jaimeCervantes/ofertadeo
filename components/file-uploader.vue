@@ -130,6 +130,6 @@ export default {
 </script>
 <style>
   .preview {
-    width: 200px;
+    width: 300px;
   }
 </style>
