@@ -111,8 +111,8 @@ export default {
           var width = image.width
           var height = image.height
           if ((width > height) && (width > maxSize)) {
-              height *= maxSize / width
-              width = maxSize
+            height *= maxSize / width
+            width = maxSize
           }
           canvas.width = width
           canvas.height = height
