@@ -18,7 +18,7 @@
         <v-col class="mt-3 mb-3" xs12 sm12 md9 lg9 xl9>
           <div class="promotion">
             <div class="thumbnail ml-3">
-              <img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
+              <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
               <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
