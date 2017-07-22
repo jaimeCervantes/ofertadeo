@@ -17,7 +17,7 @@ export default {
     },
     imgMaxSize: {
       type: Number,
-      default: 600
+      default: 1000
     }
   },
   data () {
@@ -110,21 +110,14 @@ export default {
           var maxSize = vm.imgMaxSize
           var width = image.width
           var height = image.height
-          if (width > height) {
-            if (width > maxSize) {
-              height *= maxSize / width
-              width = maxSize
-            }
-          } else {
-            if (height > maxSize) {
-              width *= maxSize / height
-              height = maxSize
-            }
+          if (width > maxSize) {
+            height *= maxSize / width
+            width = maxSize
           }
           canvas.width = width
           canvas.height = height
           canvas.getContext('2d').drawImage(image, 0, 0, width, height)
-          vm.inMemoryImg = vm.dataURLToBlob(canvas.toDataURL(file.type, 0.6))
+          vm.inMemoryImg = vm.dataURLToBlob(canvas.toDataURL(file.type, 0.7))
         }
         image.src = readerEvent.target.result
         vm.imgPreview = image.src
@@ -137,6 +130,6 @@ export default {
 </script>
 <style>
   .preview {
-    width: 200px;
+    height: 300px;
   }
 </style>

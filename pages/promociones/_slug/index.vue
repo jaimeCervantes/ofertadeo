@@ -90,6 +90,7 @@ export default {
 .promotion {
   .thumbnail {
     float:right;
+    text-align:center;
     img {
       display: block;
       max-width: 200px;
