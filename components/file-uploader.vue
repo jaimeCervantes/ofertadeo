@@ -110,9 +110,9 @@ export default {
           var maxSize = vm.imgMaxSize
           var width = image.width
           var height = image.height
-          if ((width > height) && (width > maxSize)) {
-            height *= maxSize / width
-            width = maxSize
+          if (width > maxSize) {
+              height *= maxSize / width
+              width = maxSize
           }
           canvas.width = width
           canvas.height = height
