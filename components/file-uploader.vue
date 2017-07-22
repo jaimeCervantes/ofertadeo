@@ -117,7 +117,7 @@ export default {
           canvas.width = width
           canvas.height = height
           canvas.getContext('2d').drawImage(image, 0, 0, width, height)
-          vm.inMemoryImg = vm.dataURLToBlob(canvas.toDataURL(file.type, 0.9))
+          vm.inMemoryImg = vm.dataURLToBlob(canvas.toDataURL(file.type, 0.7))
         }
         image.src = readerEvent.target.result
         vm.imgPreview = image.src
