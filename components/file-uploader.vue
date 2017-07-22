@@ -17,7 +17,7 @@ export default {
     },
     imgMaxSize: {
       type: Number,
-      default: 600
+      default: 1000
     }
   },
   data () {
@@ -110,16 +110,9 @@ export default {
           var maxSize = vm.imgMaxSize
           var width = image.width
           var height = image.height
-          if (width > height) {
-            if (width > maxSize) {
+          if ((width > height) && (width > maxSize)) {
               height *= maxSize / width
               width = maxSize
-            }
-          } else {
-            if (height > maxSize) {
-              width *= maxSize / height
-              height = maxSize
-            }
           }
           canvas.width = width
           canvas.height = height
