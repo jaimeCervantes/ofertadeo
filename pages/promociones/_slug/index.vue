@@ -20,7 +20,7 @@
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
               <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
-              <social-sharing :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`" inline-template>
+              <social-sharing :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`" inline-template :media="item.img">
                 <div id="social-sharing">
                   <network network="facebook">
                     <v-btn light primary>
