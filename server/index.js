@@ -33,7 +33,7 @@ if(!develop) {
 	//app.use(preconditions())
   //morganFormat = 'dev'
 }
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '3mb'}))
 // Import API Routes
 app.use('/api', api)
 app.use(morgan(morganFormat, { stream: accessLogStream }))

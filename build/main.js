@@ -1168,7 +1168,7 @@ if (!develop) {
   //app.use(preconditions())
   //morganFormat = 'dev'
 }
-app.use(__WEBPACK_IMPORTED_MODULE_5_body_parser___default.a.json());
+app.use(__WEBPACK_IMPORTED_MODULE_5_body_parser___default.a.json({ limit: '3mb' }));
 // Import API Routes
 app.use('/api', __WEBPACK_IMPORTED_MODULE_4__api__["a" /* default */]);
 app.use(__WEBPACK_IMPORTED_MODULE_6_morgan___default()(morganFormat, { stream: accessLogStream }));
