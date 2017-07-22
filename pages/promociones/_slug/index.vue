@@ -20,6 +20,25 @@
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
               <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
+              <social-sharing :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`" inline-template>
+                <div id="social-sharing">
+                  <network network="facebook">
+                    <v-btn light primary>
+                      <img src="/icons/facebook.svg" alt="Compartir en facebook" title="Compartir">
+                    </v-btn>
+                  </network>
+                  <network network="googleplus">
+                    <v-btn light primary>
+                      <img src="/icons/google-plus.svg" alt="Compartir en Google+" title="Compartir">
+                    </v-btn>
+                  </network>
+                  <network network="pinterest">
+                    <v-btn light primary>
+                      <img src="/icons/pinterest.svg" alt="Compartir en Pinterest+" title="Compartir">
+                    </v-btn>
+                  </network>
+                </div>
+              </social-sharing>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
           </div>
@@ -35,6 +54,10 @@ import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
 import OferCommon from '~components/mixins/ofer-common.vue'
 import OferNotExists from '~components/ofer-not-exists.vue'
+import Vue from 'vue'
+import SocialSharing from 'vue-social-sharing'
+
+Vue.use(SocialSharing)
 
 export default {
   mixins: [OferCommon],
@@ -118,4 +141,19 @@ p.promotion-data {
     }
   }
 }
+</style>
+
+<style lang="stylus">
+  #social-sharing {
+    .btn {
+      width:30px;
+      min-width:30px;
+      min-height:30px;
+      padding:0;
+      border-radius: 7px;
+      img {
+        width: 30px;
+      }
+    }
+  }
 </style>
