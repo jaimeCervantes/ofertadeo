@@ -20,20 +20,25 @@
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
               <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
-              <social-sharing :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`" inline-template :media="item.img">
+              <social-sharing :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`" inline-template :media="item.img" twitter-user="ofertadeo">
                 <div id="social-sharing">
                   <network network="facebook">
-                    <v-btn light primary>
+                    <v-btn>
                       <img src="/icons/facebook.svg" alt="Compartir en facebook" title="Compartir">
                     </v-btn>
                   </network>
+                  <network network="twitter">
+                    <v-btn>
+                      <img src="/icons/twitter.svg" alt="Compartir en Twitter+" title="Compartir">
+                    </v-btn>
+                  </network>
                   <network network="googleplus">
-                    <v-btn light primary>
+                    <v-btn>
                       <img src="/icons/google-plus.svg" alt="Compartir en Google+" title="Compartir">
                     </v-btn>
                   </network>
                   <network network="pinterest">
-                    <v-btn light primary>
+                    <v-btn>
                       <img src="/icons/pinterest.svg" alt="Compartir en Pinterest+" title="Compartir">
                     </v-btn>
                   </network>
@@ -150,7 +155,8 @@ p.promotion-data {
       min-width:30px;
       min-height:30px;
       padding:0;
-      border-radius: 7px;
+      background-color: #fff;
+      border-radius: 0;
       img {
         width: 30px;
       }

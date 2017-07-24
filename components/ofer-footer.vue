@@ -10,9 +10,31 @@
       <div>
         <div>Siguenos:</div>
         <ul id="follow">
-          <li><a href="https://www.facebook.com/ofertadeo/" target="_blank"><img src="/icons/facebook.svg" alt="facebook ofertadeo"></a></li>
-          <li><a href="https://plus.google.com/110009950298317863923" target="_blank"><img src="/icons/google-plus.svg" alt="Google plus ofertadeo"></a></li>
-          <li><a href="https://es.pinterest.com/ofertadeo/" target="_blank"><img src="/icons/pinterest.svg" alt="Pinteres ofertadeo"></a></li>
+          <li>
+            <v-btn tag="a" href="https://www.facebook.com/ofertadeo/" target="_blank">
+              <img src="/icons/facebook.svg" alt="Facebook Ofertadeo" title="Facebook Ofertadeo">
+            </v-btn>
+          </li>
+          <li>
+            <v-btn tag="a" href="https://twitter.com/ofertadeo" target="_blank">
+              <img src="/icons/twitter.svg" alt="twitter Ofertadeo" title="Twitter Ofertadeo">
+            </v-btn>
+          </li>
+          <li>
+            <v-btn tag="a" href="https://plus.google.com/110009950298317863923" target="_blank">
+              <img src="/icons/google-plus.svg" alt="Google plus Ofertadeo" title="Google+ Ofertadeo">
+            </v-btn>
+          </li>
+          <li>
+            <v-btn tag="a" href="https://www.youtube.com/channel/UCG8yl6wupq3kHem9SE4qa0g" target="_blank">
+              <img src="/icons/youtube.svg" alt="Google plus Ofertadeo" title="Google+ Ofertadeo">
+            </v-btn>
+          </li>
+          <li>
+            <v-btn tag="a" href="https://es.pinterest.com/ofertadeo/" target="_blank">
+              <img src="/icons/pinterest.svg" alt="Pinteres Ofertadeo" title="Pinterest Ofertadeo">
+            </v-btn>
+          </li>
         </ul>
         <div>Ofertadeo {{new Date().getFullYear()}}</div>
       </div>
@@ -34,8 +56,14 @@ $white: #fff;
   #follow {
     list-style:none;
     display: flex;
+    a.btn {
+      width:30px;
+      min-width:30px;
+      min-height:30px;
+      padding:0;
+      background-color: #fff;
+    }
     img {
-      margin-left:5px;
       width:30px;
     }
   }
