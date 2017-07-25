@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 30);
+/******/ 	return __webpack_require__(__webpack_require__.s = 32);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -248,7 +248,7 @@ module.exports = require("wagner-core");
 "use strict";
 
 
-var MongoClient = __webpack_require__(26).MongoClient;
+var MongoClient = __webpack_require__(27).MongoClient;
 
 function getConnection(config) {
   //connPromise is pending when trying to connect to mongodb atlas
@@ -276,12 +276,131 @@ module.exports = function (wagner) {
 
 /***/ },
 /* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+var utils = __webpack_require__(24);
+var config = __webpack_require__(2)();
+var sm = __webpack_require__(8);
+var fs = __webpack_require__(3);
+var request = __webpack_require__(30);
+
+config.paths.static = '/home/jaime/xml';
+var offers = '/sitemap-ofertas.xml';
+var stores_categories_pages = '/sitemap-paginas.xml';
+
+function smPages() {
+  var modified = utils.getDate();
+  var compoundSitemap = utils.createSitemap();
+
+  compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
+
+  utils.getData({ collection: config.db.collections.pages }).then(function (data) {
+    utils.addToSitemap(compoundSitemap, data, {
+      route: '',
+      changefreq: 'weekly',
+      priority: 0.7
+    });
+  }).then(function () {
+    return utils.getData({ collection: config.db.collections.secundary });
+  }).then(function (data) {
+    utils.addToSitemap(compoundSitemap, data, {
+      route: config.routes.storeList,
+      changefreq: 'daily',
+      priority: 0.9
+    });
+  }).then(function () {
+    return utils.getData({ collection: config.db.collections.categories });
+  }).then(function (data) {
+    utils.addToSitemap(compoundSitemap, data, {
+      route: config.routes.categories,
+      changefreq: 'daily',
+      priority: 0.9
+    });
+  }).then(function () {
+    utils.createSitemapFile(compoundSitemap, {
+      sitemap_path: config.paths.static + stores_categories_pages,
+      sitemapName: stores_categories_pages
+    });
+  });
+}
+
+function smOffers() {
+  var offersSitemap = utils.createSitemap();
+
+  utils.getData({ collection: config.db.collections.main }).then(function (data) {
+    utils.addToSitemap(offersSitemap, data, {
+      route: config.routes.main,
+      changefreq: 'daily',
+      priority: 0.5
+    });
+  }).then(function () {
+    utils.createSitemapFile(offersSitemap, {
+      sitemap_path: config.paths.static + offers,
+      sitemapName: offers
+    });
+  });
+}
+
+function smIndex() {
+  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemap-paginas.xml</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemap-ofertas.xml</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n</sitemapindex>';
+
+  fs.writeFile(config.paths.static + '/sitemap.xml', content, 'utf8', function (err) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log('Index sitemap is created :=)');
+  });
+}
+
+function ping() {
+  if (config.app_status === 'deploy') {
+    request('https://www.google.com/webmasters/sitemaps/ping?sitemap=https://www.ofertadeo.com/sitemap.xml', function (error, response, body) {
+      if (error) {
+        console.log('------------------------------------------');
+        console.log(utils.getDate());
+        console.log('error: ', error);
+        console.log('------------------------------------------');
+        return;
+      }
+      console.log('------------------------------------------');
+      console.log(utils.getDate());
+      console.log('success ping to GOOGLE sitemap!!:');
+      console.log('------------------------------------------');
+      console.log(body);
+    });
+
+    request('https://www.bing.com/webmaster/ping.aspx?siteMap=https://www.ofertadeo.com/sitemap.xml', function (error, response, body) {
+      if (error) {
+        console.log('------------------------------------------');
+        console.log(utils.getDate());
+        console.log('error: ', error);
+        console.log('------------------------------------------');
+        return;
+      }
+      console.log('------------------------------------------');
+      console.log(utils.getDate());
+      console.log('success ping to BING sitemap!!:');
+      console.log('------------------------------------------');
+      console.log(body);
+    });
+  }
+}
+
+module.exports = {
+  index: smIndex,
+  pages: smPages,
+  offers: smOffers,
+  ping: ping
+};
+
+/***/ },
+/* 8 */
 /***/ function(module, exports) {
 
 module.exports = require("sitemap");
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 module.exports = {
@@ -328,7 +447,7 @@ module.exports = {
 };
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -336,11 +455,11 @@ module.exports = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
 
 var wagner = __webpack_require__(5);
-var home = __webpack_require__(17);
-var categories = __webpack_require__(16);
-var stores = __webpack_require__(19);
-var promotions = __webpack_require__(18);
-var upload = __webpack_require__(20);
+var home = __webpack_require__(19);
+var categories = __webpack_require__(18);
+var stores = __webpack_require__(21);
+var promotions = __webpack_require__(20);
+var upload = __webpack_require__(22);
 
 __webpack_require__(2)(wagner);
 __webpack_require__(6)(wagner);
@@ -356,43 +475,68 @@ router.use(upload(wagner));
 /* harmony default export */ exports["a"] = router;
 
 /***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-module.exports = require("body-parser");
-
-/***/ },
 /* 11 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-module.exports = require("compression");
+var cron = __webpack_require__(29);
+var csm = __webpack_require__(7);
+
+var schedule = {
+	ping: ping
+};
+
+function ping() {
+	cron.schedule('* 12 * * *', function () {
+		//run every 5 minutes after midnigh everyday
+		csm.ping();
+	});
+
+	cron.schedule('50 23 * * *', function () {
+		//run every 6 hours
+		csm.ping();
+	});
+}
+
+module.exports = schedule;
 
 /***/ },
 /* 12 */
 /***/ function(module, exports) {
 
-module.exports = require("helmet");
+module.exports = require("body-parser");
 
 /***/ },
 /* 13 */
 /***/ function(module, exports) {
 
-module.exports = require("morgan");
+module.exports = require("compression");
 
 /***/ },
 /* 14 */
 /***/ function(module, exports) {
 
-module.exports = require("nuxt");
+module.exports = require("helmet");
 
 /***/ },
 /* 15 */
 /***/ function(module, exports) {
 
-module.exports = require("rotating-file-stream");
+module.exports = require("morgan");
 
 /***/ },
 /* 16 */
+/***/ function(module, exports) {
+
+module.exports = require("nuxt");
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+module.exports = require("rotating-file-stream");
+
+/***/ },
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -483,7 +627,7 @@ function index() {
 }
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -542,7 +686,7 @@ function index() {
 }
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -550,9 +694,9 @@ function index() {
 
 var express = __webpack_require__(0);
 var router = express.Router();
-var utils = __webpack_require__(21);
+var utils = __webpack_require__(23);
 var CRUD = __webpack_require__(1);
-var csm = __webpack_require__(22);
+var csm = __webpack_require__(7);
 
 var crudInst;
 var conf;
@@ -660,7 +804,7 @@ function createPromotion() {
 }
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -750,22 +894,22 @@ function index() {
 }
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_multer__);
 
 
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(1);
-var mkdirp = __webpack_require__(25);
+var mkdirp = __webpack_require__(26);
 var path = __webpack_require__(4);
 
-var jimp = __webpack_require__(24);
+var jimp = __webpack_require__(25);
 
 var crudInst;
 var conf;
@@ -856,7 +1000,7 @@ function mkdirPromise(pathFile) {
 }
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports) {
 
 function getDate() {
@@ -871,132 +1015,16 @@ module.exports = {
 };
 
 /***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-var utils = __webpack_require__(23);
-var config = __webpack_require__(2)();
-var sm = __webpack_require__(7);
-var fs = __webpack_require__(3);
-var request = __webpack_require__(28);
-
-config.paths.static = '/home/jaime/xml';
-var offers = '/sitemap-ofertas.xml';
-var stores_categories_pages = '/sitemap-paginas.xml';
-
-function smPages() {
-  var modified = utils.getDate();
-  var compoundSitemap = utils.createSitemap();
-
-  compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
-
-  utils.getData({ collection: config.db.collections.pages }).then(function (data) {
-    utils.addToSitemap(compoundSitemap, data, {
-      route: '',
-      changefreq: 'weekly',
-      priority: 0.7
-    });
-  }).then(function () {
-    return utils.getData({ collection: config.db.collections.secundary });
-  }).then(function (data) {
-    utils.addToSitemap(compoundSitemap, data, {
-      route: config.routes.storeList,
-      changefreq: 'daily',
-      priority: 0.9
-    });
-  }).then(function () {
-    return utils.getData({ collection: config.db.collections.categories });
-  }).then(function (data) {
-    utils.addToSitemap(compoundSitemap, data, {
-      route: config.routes.categories,
-      changefreq: 'daily',
-      priority: 0.9
-    });
-  }).then(function () {
-    utils.createSitemapFile(compoundSitemap, {
-      sitemap_path: config.paths.static + stores_categories_pages,
-      sitemapName: stores_categories_pages
-    });
-
-    if (config.app_status === 'deploy') {
-      request('https://www.google.com/webmasters/sitemaps/ping?sitemap=https://www.ofertadeo.com/sitemap.xml', function (error, response, body) {
-        if (error) {
-          console.log('------------------------------------------');
-          console.log(utils.getDate());
-          console.log('error: ', error);
-          console.log('------------------------------------------');
-          return;
-        }
-        console.log('------------------------------------------');
-        console.log(utils.getDate());
-        console.log('success ping to GOOGLE sitemap!!:');
-        console.log('------------------------------------------');
-        console.log(body);
-      });
-
-      request('https://www.bing.com/webmaster/ping.aspx?siteMap=https://www.ofertadeo.com/sitemap.xml', function (error, response, body) {
-        if (error) {
-          console.log('------------------------------------------');
-          console.log(utils.getDate());
-          console.log('error: ', error);
-          console.log('------------------------------------------');
-          return;
-        }
-        console.log('------------------------------------------');
-        console.log(utils.getDate());
-        console.log('success ping to BING sitemap!!:');
-        console.log('------------------------------------------');
-        console.log(body);
-      });
-    }
-  });
-}
-
-function smOffers() {
-  var offersSitemap = utils.createSitemap();
-
-  utils.getData({ collection: config.db.collections.main }).then(function (data) {
-    utils.addToSitemap(offersSitemap, data, {
-      route: config.routes.main,
-      changefreq: 'daily',
-      priority: 0.5
-    });
-  }).then(function () {
-    utils.createSitemapFile(offersSitemap, {
-      sitemap_path: config.paths.static + offers,
-      sitemapName: offers
-    });
-  });
-}
-
-function smIndex() {
-  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemap-paginas.xml</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemap-ofertas.xml</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n</sitemapindex>';
-
-  fs.writeFile(config.paths.static + '/sitemap.xml', content, 'utf8', function (err) {
-    if (err) {
-      return console.log(err);
-    }
-    console.log('Index sitemap is created :=)');
-  });
-}
-
-module.exports = {
-  index: smIndex,
-  pages: smPages,
-  offers: smOffers
-};
-
-/***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 var wagner = __webpack_require__(5);
-var sm = __webpack_require__(7);
+var sm = __webpack_require__(8);
 var config = __webpack_require__(2)(wagner);
 __webpack_require__(6)(wagner);
 var CRUD = __webpack_require__(1);
 var fs = __webpack_require__(3);
-var zlib = __webpack_require__(29);
+var zlib = __webpack_require__(31);
 
 function getDate() {
   var date = new Date();
@@ -1074,66 +1102,75 @@ module.exports = {
 };
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 module.exports = require("jimp");
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 module.exports = require("mkdirp");
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports) {
 
 module.exports = require("mongodb");
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports) {
 
 module.exports = require("multer");
 
 /***/ },
-/* 28 */
+/* 29 */
+/***/ function(module, exports) {
+
+module.exports = require("node-cron");
+
+/***/ },
+/* 30 */
 /***/ function(module, exports) {
 
 module.exports = require("request");
 
 /***/ },
-/* 29 */
+/* 31 */
 /***/ function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(__dirname) {Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nuxt__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_compression__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_helmet__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_body_parser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_morgan__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_path__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_fs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__);
+
 
 
 
@@ -1178,7 +1215,7 @@ app.use(__WEBPACK_IMPORTED_MODULE_3_helmet___default()());
 app.disable('x-powered-by');
 
 // Import and Set Nuxt.js options
-var nuxtConfig = __webpack_require__(8);
+var nuxtConfig = __webpack_require__(9);
 nuxtConfig.dev = develop;
 
 // Init Nuxt.js
@@ -1201,6 +1238,8 @@ if (nuxtConfig.dev) {
 // Listen the server
 app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
+//Schedule ping to web search engines
+__WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default.a.ping();
 /* WEBPACK VAR INJECTION */}.call(exports, "server"))
 
 /***/ }
