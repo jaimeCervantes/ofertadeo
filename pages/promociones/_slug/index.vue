@@ -103,6 +103,9 @@ export default {
         { hid: 'article:published_time', property: 'article:published_time', content: this.item.modified },
         { hid: 'og:image', property: 'og:image', content: this.item.img },
         { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.item.img },
+        { hid: 'og:image:width', property: 'og:image:width', content: this.item.img_data && this.item.img_data.width ? this.item.img_data.width : '' },
+        { hid: 'og:image:height', property: 'og:image:height', content: this.item.img_data && this.item.img_data.height ? this.item.img_data.height : '' },
+        { hid: 'og:image:type', property: 'og:image:type', content: this.item.img_data && this.item.img_data.type ? this.item.img_data.type : '' },
         { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
         { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
       ],

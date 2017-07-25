@@ -9,7 +9,7 @@
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
             <vue-editor v-model="content"></vue-editor>
             <v-text-field v-model="url" name="url" label="Url origen" required></v-text-field>
-            <file-uploader is-img @on-uploaded="getImgs"></file-uploader>
+            <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
             <v-text-field v-model="title" name="title" label="Titulo, h1" required></v-text-field>
             <v-text-field v-model="meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
             <v-text-field v-model="img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
@@ -78,6 +78,7 @@ export default {
       img_title: '',
       content: '',
       img: '',
+      img_data: {},
       thumbnail: '',
       categorySelected: { value: 'frutas-y-verduras', text: 'Frutas y Verduras' },
       storeSelected: { value: 'walmart', text: 'Walmart' },
@@ -109,6 +110,9 @@ export default {
       this.img = resp.img
       this.thumbnail = resp.thumbnail
     },
+    getImageData (data) {
+      this.img_data = data
+    },
     send () {
       var that = this
 
@@ -139,6 +143,7 @@ export default {
         img_title: this.img_title,
         content: this.content,
         img: this.img,
+        img_data: this.img_data,
         thumbnail: this.thumbnail,
         stores: [this.storeSelected.value],
         categories: [this.categorySelected.value]

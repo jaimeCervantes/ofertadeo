@@ -17,7 +17,7 @@ export default {
     },
     imgMaxSize: {
       type: Number,
-      default: 1000
+      default: 900
     }
   },
   data () {
@@ -116,6 +116,7 @@ export default {
           }
           canvas.width = width
           canvas.height = height
+          vm.$emit('on-imageLoaded', { width: width, height: height, type: file.type })
           canvas.getContext('2d').drawImage(image, 0, 0, width, height)
           vm.inMemoryImg = vm.dataURLToBlob(canvas.toDataURL(file.type, 0.7))
         }
