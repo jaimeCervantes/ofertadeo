@@ -8,6 +8,7 @@ import morgan from 'morgan'
 import rfs from 'rotating-file-stream'
 import path from 'path'
 import fs from 'fs'
+import sitemapSchedule from './utils/sitemaps/schedule'
 
 const develop = !(process.env.NODE_ENV === 'production')
 const app = express()
@@ -66,3 +67,5 @@ if (nuxtConfig.dev) {
 // Listen the server
 app.listen(port)
 console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
+//Schedule ping to web search engines
+sitemapSchedule.ping()
