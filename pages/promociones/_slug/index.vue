@@ -88,27 +88,33 @@ export default {
     OferNotExists
   },
   head () {
+    var metas = [
+      { hid: 'title', name: 'title', content: `${this.item.name} | Ofertadeo` },
+      { hid: 'description', name: 'description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
+      { hid: 'og:type', property: 'og:type', content: 'article' },
+      { hid: 'og:title', property: 'og:title', content: `${this.item.name}` },
+      { hid: 'og:description', property: 'og:description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
+      { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.main}/${this.item.slug}` },
+      { hid: 'article:publisher', property: 'article:publisher', content: this.$store.state.publisher.fb },
+      { hid: 'article:tag', property: 'article:tag', content: this.arrayToString(this.item.stores || [this.item.store_id]) },
+      { hid: 'article:section', property: 'article:section', content: this.arrayToString(this.categories) },
+      { hid: 'article:published_time', property: 'article:published_time', content: this.item.modified },
+      { hid: 'og:image', property: 'og:image', content: this.item.img },
+      { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.item.img },
+      { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
+      { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
+    ]
+
+    if (this.item.img_data) {
+      metas.push(
+        { hid: 'og:image:width', property: 'og:image:width', content: this.item.img_data.width },
+        { hid: 'og:image:height', property: 'og:image:height', content: this.item.img_data.height },
+        { hid: 'og:image:type', property: 'og:image:type', content: this.item.img_data.type }
+      )
+    }
     return this.exists(this.item) ? {
       title: `${this.item.name} | Ofertadeo`,
-      meta: [
-        { hid: 'title', name: 'title', content: `${this.item.name} | Ofertadeo` },
-        { hid: 'description', name: 'description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
-        { hid: 'og:type', property: 'og:type', content: 'article' },
-        { hid: 'og:title', property: 'og:title', content: `${this.item.name}` },
-        { hid: 'og:description', property: 'og:description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
-        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.main}/${this.item.slug}` },
-        { hid: 'article:publisher', property: 'article:publisher', content: this.$store.state.publisher.fb },
-        { hid: 'article:tag', property: 'article:tag', content: this.arrayToString(this.item.stores || [this.item.store_id]) },
-        { hid: 'article:section', property: 'article:section', content: this.arrayToString(this.categories) },
-        { hid: 'article:published_time', property: 'article:published_time', content: this.item.modified },
-        { hid: 'og:image', property: 'og:image', content: this.item.img },
-        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.item.img },
-        { hid: 'og:image:width', property: 'og:image:width', content: this.item.img_data && this.item.img_data.width ? this.item.img_data.width : '' },
-        { hid: 'og:image:height', property: 'og:image:height', content: this.item.img_data && this.item.img_data.height ? this.item.img_data.height : '' },
-        { hid: 'og:image:type', property: 'og:image:type', content: this.item.img_data && this.item.img_data.type ? this.item.img_data.type : '' },
-        { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
-        { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
-      ],
+      meta: metas,
       link: [
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.stores}/${this.item.slug}` }
       ]
