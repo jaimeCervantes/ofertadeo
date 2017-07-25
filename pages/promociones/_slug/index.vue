@@ -20,7 +20,7 @@
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
               <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
-              <social-sharing :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`" inline-template :media="item.img" twitter-user="ofertadeo">
+              <social-sharing :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`" inline-template :media="item.img" twitter-user="ofertadeo" :title="item.title">
                 <div id="social-sharing">
                   <network network="facebook">
                     <v-btn>
@@ -103,7 +103,7 @@ export default {
         { hid: 'article:published_time', property: 'article:published_time', content: this.item.modified },
         { hid: 'og:image', property: 'og:image', content: this.item.img },
         { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.item.img },
-        { hid: 'og:locale', property: 'og:locale', content: 'es-MX' },
+        { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
         { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
       ],
       link: [
