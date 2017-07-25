@@ -46,40 +46,7 @@ function smPages () {
     utils.createSitemapFile(compoundSitemap, {
       sitemap_path: config.paths.static + stores_categories_pages,
       sitemapName: stores_categories_pages
-    });
-
-    if(config.app_status === 'deploy') {
-      request('https://www.google.com/webmasters/sitemaps/ping?sitemap=https://www.ofertadeo.com/sitemap.xml', function(error, response, body) {
-        if(error) {
-          console.log('------------------------------------------');
-          console.log(utils.getDate());
-          console.log('error: ', error);
-          console.log('------------------------------------------');
-          return;
-        }
-        console.log('------------------------------------------');
-        console.log(utils.getDate());
-        console.log('success ping to GOOGLE sitemap!!:');
-        console.log('------------------------------------------');
-        console.log(body);
-      });
-
-      request('https://www.bing.com/webmaster/ping.aspx?siteMap=https://www.ofertadeo.com/sitemap.xml', function(error, response, body) {
-        if(error) {
-          console.log('------------------------------------------');
-          console.log(utils.getDate());
-          console.log('error: ', error);
-          console.log('------------------------------------------');
-          return;
-        }
-        console.log('------------------------------------------');
-        console.log(utils.getDate());
-        console.log('success ping to BING sitemap!!:');
-        console.log('------------------------------------------');
-        console.log(body);
-      });
-    }
-    
+    });    
   })
 }
 
@@ -124,9 +91,44 @@ function smIndex () {
   });
 }
 
+function ping () {
+  if(config.app_status === 'deploy') {
+    request('https://www.google.com/webmasters/sitemaps/ping?sitemap=https://www.ofertadeo.com/sitemap.xml', function(error, response, body) {
+      if(error) {
+        console.log('------------------------------------------');
+        console.log(utils.getDate());
+        console.log('error: ', error);
+        console.log('------------------------------------------');
+        return;
+      }
+      console.log('------------------------------------------');
+      console.log(utils.getDate());
+      console.log('success ping to GOOGLE sitemap!!:');
+      console.log('------------------------------------------');
+      console.log(body);
+    });
+
+    request('https://www.bing.com/webmaster/ping.aspx?siteMap=https://www.ofertadeo.com/sitemap.xml', function(error, response, body) {
+      if(error) {
+        console.log('------------------------------------------');
+        console.log(utils.getDate());
+        console.log('error: ', error);
+        console.log('------------------------------------------');
+        return;
+      }
+      console.log('------------------------------------------');
+      console.log(utils.getDate());
+      console.log('success ping to BING sitemap!!:');
+      console.log('------------------------------------------');
+      console.log(body);
+    });
+  }
+}
+
 
 module.exports = {
   index: smIndex,
   pages: smPages,
-  offers: smOffers
+  offers: smOffers,
+  ping: ping
 };

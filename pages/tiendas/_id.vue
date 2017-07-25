@@ -67,7 +67,7 @@ export default {
         { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.storeList}/${this.id}` },
         { hid: 'og:image', property: 'og:image', content: this.info.img },
         { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img },
-        { hid: 'og:locale', property: 'og:locale', content: 'es-MX' },
+        { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
         { hid: 'og:type', property: 'og:type', content: 'website' },
         { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
       ],
