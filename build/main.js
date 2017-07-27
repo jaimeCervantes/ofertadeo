@@ -769,7 +769,8 @@ function getFormDataPromotions() {
 
 function createPromotion() {
   router.post('/promotions/new', function (req, res) {
-    var data = Object.assign({ modified: utils.getDate() }, req.body);
+    var rightNow = utils.getDate();
+    var data = Object.assign({ modified: rightNow, published: rightNow }, req.body);
     crudInst.setItem({
       collection: conf.db.mainCollection,
       document: data
