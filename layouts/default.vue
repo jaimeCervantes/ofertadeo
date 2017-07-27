@@ -5,9 +5,7 @@
       <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
     </header>
     <ofer-sidebar/>
-    <main>
-      <nuxt/>
-    </main>
+    <nuxt/>
   </v-app>
   <ofer-footer></ofer-footer>
 </div>

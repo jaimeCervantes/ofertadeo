@@ -57,6 +57,10 @@ export default {
     OferCommon
   },
   head () {
+    let host = this.$store.state.host
+    let urlStoreList = `${host}${this.$store.state.routes.storeList}`
+    let url = `${urlStoreList}/${this.id}`
+
     return this.exists(this.info) ? {
       title: `${this.info.name} – Ofertas y promociones ${this.date} | Ofertadeo`,
       meta: [
@@ -64,7 +68,7 @@ export default {
         { hid: 'description', name: 'description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${this.info.name} ${this.year}. ✓ ¡Ahorra ya!` },
         { hid: 'og:title', property: 'og:title', content: `${this.info.name} – Ofertas y promociones ${this.date} | Ofertadeo` },
         { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${this.info.name} ${this.year}. ✓ ¡Ahorra ya!` },
-        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.storeList}/${this.id}` },
+        { hid: 'og:url', property: 'og:url', content: url },
         { hid: 'og:image', property: 'og:image', content: this.info.img },
         { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img },
         { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
@@ -72,7 +76,42 @@ export default {
         { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
       ],
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.storeList}/${this.id}` }
+        { rel: 'canonical', href: url }
+      ],
+      script: [
+        {
+          innerHTML: JSON.stringify(
+            {
+              '@context': 'http://schema.org',
+              '@type': 'BreadcrumbList',
+              'itemListElement': [
+                {
+                  '@type': 'ListItem',
+                  'position': 1,
+                  'item': {
+                    '@id': host,
+                    'name': 'Ofertadeo'
+                  }
+                },
+                {
+                  '@type': 'ListItem',
+                  'position': 2,
+                  'item': {
+                    '@id': urlStoreList,
+                    'name': 'Tiendas'
+                  }
+                },
+                {
+                  '@type': 'ListItem',
+                  'position': 3,
+                  'item': {
+                    '@id': url,
+                    'name': this.info.name
+                  }
+                }]
+            }),
+          type: 'application/ld+json'
+        }
       ]
     } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
   }

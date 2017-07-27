@@ -46,6 +46,10 @@ export default {
     OferCommon
   },
   head () {
+    let host = this.$store.state.host
+    let urlStoreList = `${host}${this.$store.state.routes.storeList}`
+    let urlLogo = `${host}/logo.png`
+
     return {
       title: 'Ofertas, promociones y descuentos en Tiendas de México | Ofertadeo',
       meta: [
@@ -53,15 +57,41 @@ export default {
         { hid: 'description', name: 'description', content: 'Las mejores ofertas, promociones y descuentos de Tiendas en México como Walmart, Soriana, Chedraui, Liverpool, Bodega Aurrera y más.' },
         { hid: 'og:title', property: 'og:title', content: 'Ofertas, promociones y descuentos en Tiendas de México' },
         { hid: 'og:description', property: 'og:description', content: 'Las mejores ofertas, promociones y descuentos de Tiendas en México como Walmart, Soriana, Chedraui, Liverpool, Bodega Aurrera y más.' },
-        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.storeList}` },
+        { hid: 'og:url', property: 'og:url', content: urlStoreList },
         { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
         { hid: 'og:type', property: 'og:type', content: 'website' },
         { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' },
-        { hid: 'og:image', property: 'og:image', content: 'https://www.ofertadeo.com/logo.png' },
-        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: 'https://www.ofertadeo.com/logo.png' }
+        { hid: 'og:image', property: 'og:image', content: urlLogo },
+        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: urlLogo }
       ],
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.storeList}` }
+        { rel: 'canonical', href: urlStoreList }
+      ],
+      script: [
+        {
+          innerHTML: JSON.stringify(
+            {
+              '@context': 'http://schema.org',
+              '@type': 'BreadcrumbList',
+              'itemListElement': [{
+                '@type': 'ListItem',
+                'position': 1,
+                'item': {
+                  '@id': host,
+                  'name': 'Ofertadeo'
+                }
+              },
+              {
+                '@type': 'ListItem',
+                'position': 2,
+                'item': {
+                  '@id': urlStoreList,
+                  'name': 'Tiendas'
+                }
+              }]
+            }),
+          type: 'application/ld+json'
+        }
       ]
     }
   }
