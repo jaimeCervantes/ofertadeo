@@ -89,7 +89,7 @@ export default {
   },
   head () {
     let host = this.$store.state.host
-    let urlLogo = `${host}/logo.png`
+    let urlLogo = `${host}/favicons/apple-touch-icon-60x60.png`
     let urlPromociones = `${this.$store.state.host}${this.$store.state.routes.stores}`
     let url = `${urlPromociones}/${this.item.slug}`
     let description = `${this.getTextFromHtml(this.item.content).slice(0, 150)}...`
@@ -185,8 +185,8 @@ export default {
                 'logo': {
                   '@type': 'ImageObject',
                   'url': urlLogo,
-                  'width': 200,
-                  'height': 200
+                  'width': 60,
+                  'height': 60
                 }
               },
               'description': description
