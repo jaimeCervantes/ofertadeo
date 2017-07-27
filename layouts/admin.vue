@@ -1,11 +1,11 @@
 <template>
 <div class="wrapper">
   <v-app id="ofertadeo">
-    <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
-    <main>
-      <ofer-sidebar/>
-      <nuxt/>
-    </main>
+    <header>
+      <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
+    </header>
+    <ofer-sidebar/>
+    <nuxt/>
   </v-app>
   <ofer-footer></ofer-footer>
 </div>

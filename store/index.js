@@ -29,13 +29,17 @@ const store = new Vuex.Store({
       storeList: '/tiendas'
     },
     host: 'https://www.ofertadeo.com',
+    urlLogo: 'https://www.ofertadeo.com/logo.png',
     txt: {
       categories: 'Categorías',
       stores: 'Tiendas'
     },
     publisher: {
       fb: 'https://www.facebook.com/ofertadeo',
-      google: 'https://plus.google.com/110009950298317863923'
+      google: 'https://plus.google.com/110009950298317863923',
+      twitter: 'https://twitter.com/ofertadeo',
+      youtube: 'https://www.youtube.com/channel/UCG8yl6wupq3kHem9SE4qa0g',
+      pinterest: 'https://es.pinterest.com/ofertadeo/'
     }
   },
   mutations: {

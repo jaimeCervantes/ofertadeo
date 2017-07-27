@@ -88,9 +88,15 @@ export default {
     OferNotExists
   },
   head () {
-    var metas = [
+    let host = this.$store.state.host
+    let urlLogo = `${host}/favicons/apple-touch-icon-60x60.png`
+    let urlPromociones = `${this.$store.state.host}${this.$store.state.routes.stores}`
+    let url = `${urlPromociones}/${this.item.slug}`
+    let description = `${this.getTextFromHtml(this.item.content).slice(0, 150)}...`
+
+    let metas = [
       { hid: 'title', name: 'title', content: `${this.item.name} | Ofertadeo` },
-      { hid: 'description', name: 'description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
+      { hid: 'description', name: 'description', content: description },
       { hid: 'og:type', property: 'og:type', content: 'article' },
       { hid: 'og:title', property: 'og:title', content: `${this.item.name}` },
       { hid: 'og:description', property: 'og:description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
@@ -116,7 +122,77 @@ export default {
       title: `${this.item.name} | Ofertadeo`,
       meta: metas,
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.stores}/${this.item.slug}` }
+        { rel: 'canonical', href: url }
+      ],
+      script: [
+        {
+          innerHTML: JSON.stringify(
+            {
+              '@context': 'http://schema.org',
+              '@type': 'BreadcrumbList',
+              'itemListElement': [{
+                '@type': 'ListItem',
+                'position': 1,
+                'item': {
+                  '@id': host,
+                  'name': 'Ofertadeo'
+                }
+              },
+              {
+                '@type': 'ListItem',
+                'position': 2,
+                'item': {
+                  '@id': urlPromociones,
+                  'name': 'Promociones'
+                }
+              },
+              {
+                '@type': 'ListItem',
+                'position': 3,
+                'item': {
+                  '@id': url,
+                  'name': 'Promociones'
+                }
+              }]
+            }),
+          type: 'application/ld+json'
+        },
+        {
+          innerHTML: JSON.stringify(
+            {
+              '@context': 'http://schema.org',
+              '@type': 'Article',
+              'mainEntityOfPage': {
+                '@type': 'WebPage',
+                '@id': url
+              },
+              'headline': this.item.name,
+              'image': {
+                '@type': 'ImageObject',
+                'url': this.item.thumbnail,
+                'height': this.item.img_data.height,
+                'width': this.item.img_data.width
+              },
+              'datePublished': this.item.published,
+              'dateModified': this.item.modified,
+              'author': {
+                '@type': 'Organization',
+                'name': 'Ofertadeo'
+              },
+              'publisher': {
+                '@type': 'Organization',
+                'name': 'Ofertadeo',
+                'logo': {
+                  '@type': 'ImageObject',
+                  'url': urlLogo,
+                  'width': 60,
+                  'height': 60
+                }
+              },
+              'description': description
+            }),
+          type: 'application/ld+json'
+        }
       ]
     } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
   }

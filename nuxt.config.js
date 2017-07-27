@@ -3,10 +3,14 @@ module.exports = {
     color: '#ff80ab',
     height: '11px'
   },
+  cache: true,
   /*
   ** Headers of the page
   */
   head: {
+    htmlAttrs: {
+      lang: 'es-MX'
+    },
     title: 'Ofertas, promociones y descuentos en México | Ofertadeo',
     meta: [
       { charset: 'utf-8' },
@@ -29,9 +33,7 @@ module.exports = {
       { rel: 'shortcut icon', href: '/favicons/favicon.ico' },
       { rel: 'dns-prefetch', href:'//www.google-analytics.com' }
     ],
-    htmlAttrs: {
-      lang: 'es-MX'
-    }
+    __dangerouslyDisableSanitizers: ['script'],
   },
   /*
   ** Global CSS
