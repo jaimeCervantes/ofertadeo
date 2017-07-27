@@ -46,6 +46,10 @@ export default {
     OferCommon
   },
   head () {
+    let host = this.$store.state.host
+    let urlLogo = `${host}/logo.png`
+    let urlCategories = `${host}${this.$store.state.routes.categoriesList}`
+
     return {
       title: 'Ofertas, promociones y descuentos por Categorías | Ofertadeo',
       meta: [
@@ -53,15 +57,41 @@ export default {
         { hid: 'description', name: 'description', content: 'En esta sección encuentra las mejores ofertas, promociones y descuentos por Categorías como carnes, abarrotes, alimentos, frutas, verduras y más.' },
         { hid: 'og:title', property: 'og:title', content: 'Ofertas, promociones y descuentos por Categorías.' },
         { hid: 'og:description', property: 'og:description', content: 'En esta sección encuentra las mejores ofertas, promociones y descuentos por Categorías como carnes, abarrotes, alimentos, frutas, verduras y más.' },
-        { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.categoriesList}` },
+        { hid: 'og:url', property: 'og:url', content: urlCategories },
         { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
         { hid: 'og:type', property: 'og:type', content: 'website' },
         { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' },
-        { hid: 'og:image', property: 'og:image', content: 'https://www.ofertadeo.com/logo.png' },
-        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: 'https://www.ofertadeo.com/logo.png' }
+        { hid: 'og:image', property: 'og:image', content: urlLogo },
+        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: urlLogo }
       ],
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.categoriesList}` }
+        { rel: 'canonical', href: urlCategories }
+      ],
+      script: [
+        {
+          innerHTML: JSON.stringify(
+            {
+              '@context': 'http://schema.org',
+              '@type': 'BreadcrumbList',
+              'itemListElement': [{
+                '@type': 'ListItem',
+                'position': 1,
+                'item': {
+                  '@id': host,
+                  'name': 'Ofertadeo'
+                }
+              },
+              {
+                '@type': 'ListItem',
+                'position': 2,
+                'item': {
+                  '@id': urlCategories,
+                  'name': 'Categorias'
+                }
+              }]
+            }),
+          type: 'application/ld+json'
+        }
       ]
     }
   }

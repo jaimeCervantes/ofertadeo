@@ -45,6 +45,8 @@ export default {
     }
   },
   head () {
+    let host = this.$store.state.host
+    let urlLogo = `${host}/logo.png`
     return {
       meta: [
         { hid: 'title', name: 'title', content: 'Ofertas, promociones y descuentos en México | Ofertadeo' },
@@ -55,12 +57,41 @@ export default {
         { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' },
         { hid: 'og:title', property: 'og:title', content: 'Ofertas, promociones y descuentos en México | Ofertadeo' },
         { hid: 'og:description', property: 'og:description', content: 'Descubre las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad.  ✓ ¡Ahorra con ofertadeo!' },
-        { hid: 'og:url', property: 'og:url', content: 'https://www.ofertadeo.com' },
-        { hid: 'og:image', property: 'og:image', content: 'https://www.ofertadeo.com/logo.png' },
-        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: 'https://www.ofertadeo.com/logo.png' }
+        { hid: 'og:url', property: 'og:url', content: host },
+        { hid: 'og:image', property: 'og:image', content: urlLogo },
+        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: urlLogo }
       ],
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}` }
+        { rel: 'canonical', href: host }
+      ],
+      script: [
+        {
+          innerHTML: JSON.stringify(
+            {
+              '@context': 'http://schema.org',
+              '@type': 'WebSite',
+              'name': 'Ofertadeo',
+              'url': host
+            }),
+          type: 'application/ld+json'
+        },
+        {
+          innerHTML: JSON.stringify(
+            {
+              '@context': 'http://schema.org',
+              '@type': 'Organization',
+              'url': host,
+              'logo': urlLogo,
+              'sameAs': [
+                'https://www.facebook.com/ofertadeo',
+                'https://twitter.com/ofertadeo',
+                'https://plus.google.com/110009950298317863923',
+                'https://www.youtube.com/channel/UCG8yl6wupq3kHem9SE4qa0g',
+                'https://es.pinterest.com/ofertadeo/'
+              ]
+            }),
+          type: 'application/ld+json'
+        }
       ]
     }
   }

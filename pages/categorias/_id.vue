@@ -68,6 +68,10 @@ export default {
     OferCommon
   },
   head () {
+    let host = this.$store.state.host
+    let urlCategories = `${host}${this.$store.state.routes.categoriesList}`
+    let url = `${urlCategories}/${this.id}`
+
     return this.exists(this.info) ? {
       title: `Descuentos, promociones y ofertas en ${this.info.name} | Ofertadeo`,
       meta: [
@@ -84,6 +88,40 @@ export default {
       ],
       link: [
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.categoriesList}/${this.id}` }
+      ],
+      script: [
+        {
+          innerHTML: JSON.stringify(
+            {
+              '@context': 'http://schema.org',
+              '@type': 'BreadcrumbList',
+              'itemListElement': [{
+                '@type': 'ListItem',
+                'position': 1,
+                'item': {
+                  '@id': host,
+                  'name': 'Ofertadeo'
+                }
+              },
+              {
+                '@type': 'ListItem',
+                'position': 2,
+                'item': {
+                  '@id': urlCategories,
+                  'name': 'Categorias'
+                }
+              },
+              {
+                '@type': 'ListItem',
+                'position': 3,
+                'item': {
+                  '@id': url,
+                  'name': this.info.name
+                }
+              }]
+            }),
+          type: 'application/ld+json'
+        }
       ]
     } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
   }
