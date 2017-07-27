@@ -186,7 +186,7 @@ export default {
                   '@type': 'ImageObject',
                   'url': urlLogo,
                   'width': 200,
-                  'height': 200
+                  'height': 199
                 }
               },
               'description': description
