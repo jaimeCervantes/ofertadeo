@@ -91,7 +91,7 @@ export default {
     let host = this.$store.state.host
     let urlLogo = `${host}/logo.png`
     let urlPromociones = `${this.$store.state.host}${this.$store.state.routes.stores}`
-    let url = `${urlPromociones}/${this.item.name}`
+    let url = `${urlPromociones}/${this.item.slug}`
     let description = `${this.getTextFromHtml(this.item.content).slice(0, 150)}...`
 
     let metas = [
