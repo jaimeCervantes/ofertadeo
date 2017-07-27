@@ -170,8 +170,8 @@ export default {
               'image': {
                 '@type': 'ImageObject',
                 'url': this.item.thumbnail,
-                'height': this.item.img_data.height,
-                'width': this.item.img_data.width
+                'height': this.item.img_data && this.item.img_data.height ? this.item.img_data.height : 600,
+                'width': this.item.img_data && this.item.img_data.width ? this.item.img_data.width : 600
               },
               'datePublished': this.item.published,
               'dateModified': this.item.modified,
