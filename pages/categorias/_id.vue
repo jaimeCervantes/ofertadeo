@@ -110,14 +110,6 @@ export default {
                   '@id': urlCategories,
                   'name': 'Categorias'
                 }
-              },
-              {
-                '@type': 'ListItem',
-                'position': 3,
-                'item': {
-                  '@id': url,
-                  'name': this.info.name
-                }
               }]
             }),
           type: 'application/ld+json'
