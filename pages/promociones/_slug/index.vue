@@ -129,38 +129,6 @@ export default {
           innerHTML: JSON.stringify(
             {
               '@context': 'http://schema.org',
-              '@type': 'BreadcrumbList',
-              'itemListElement': [{
-                '@type': 'ListItem',
-                'position': 1,
-                'item': {
-                  '@id': host,
-                  'name': 'Ofertadeo'
-                }
-              },
-              {
-                '@type': 'ListItem',
-                'position': 2,
-                'item': {
-                  '@id': urlPromociones,
-                  'name': 'Promociones'
-                }
-              },
-              {
-                '@type': 'ListItem',
-                'position': 3,
-                'item': {
-                  '@id': url,
-                  'name': 'Promociones'
-                }
-              }]
-            }),
-          type: 'application/ld+json'
-        },
-        {
-          innerHTML: JSON.stringify(
-            {
-              '@context': 'http://schema.org',
               '@type': 'Article',
               'mainEntityOfPage': {
                 '@type': 'WebPage',
@@ -169,7 +137,7 @@ export default {
               'headline': this.item.name,
               'image': {
                 '@type': 'ImageObject',
-                'url': this.item.thumbnail,
+                'url': this.item.img,
                 'height': this.item.img_data && this.item.img_data.height ? this.item.img_data.height : 600,
                 'width': this.item.img_data && this.item.img_data.width ? this.item.img_data.width : 600
               },
