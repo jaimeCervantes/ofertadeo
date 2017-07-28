@@ -132,7 +132,7 @@ export default {
               '@type': 'Article',
               'mainEntityOfPage': {
                 '@type': 'WebPage',
-                '@id': url,
+                '@id': url
               },
               'headline': this.item.name,
               'image': {
