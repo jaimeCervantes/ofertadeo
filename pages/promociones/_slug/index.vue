@@ -130,10 +130,7 @@ export default {
             {
               '@context': 'http://schema.org',
               '@type': 'Article',
-              'mainEntityOfPage': {
-                '@type': 'WebPage',
-                '@id': url
-              },
+              'mainEntityOfPage': url,
               'headline': this.item.name,
               'image': {
                 '@type': 'ImageObject',
