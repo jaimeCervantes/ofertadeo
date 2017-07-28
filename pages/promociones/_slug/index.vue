@@ -67,7 +67,21 @@ Vue.use(SocialSharing)
 export default {
   mixins: [OferCommon],
   data () {
-    return { item: {}, notExistTitle: 'La oferta no existe. Te recomendamos verificar la url.' }
+    return {
+      item: {},
+      storesOffer: [
+        { _id: 'amazon', name: 'Amazon', slug: 'amazon' },
+        { _id: 'costco', name: 'Costco', slug: 'costco' },
+        { _id: 'sears', name: 'Sears', slug: 'sears' },
+        { _id: 'sanborns', name: 'Sanborns', slug: 'sanborns' },
+        { _id: 'suburbia', name: 'Suburbia', slug: 'suburbia' },
+        { _id: 'cinepolis', name: 'Cinepolis', slug: 'cinepolis' },
+        { _id: 'palacio-de-hierro', name: 'Palacio de Hierro', slug: 'palacio-de-hierro' },
+        { _id: 'cyamoda', name: 'C&A', slug: 'cyamoda' },
+        { _id: 'bodega-alianza', name: 'Bodega Alianza', slug: 'bodega-alianza' }
+      ],
+      notExistTitle: 'La oferta no existe. Te recomendamos verificar la url.'
+    }
   },
   async asyncData ({ params, route }) {
     let { data } = await axios.get('/api/promotions/' + params.slug)
