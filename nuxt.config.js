@@ -33,7 +33,7 @@ module.exports = {
       { rel: 'shortcut icon', href: '/favicons/favicon.ico' },
       { rel: 'dns-prefetch', href:'//www.google-analytics.com' }
     ],
-    __dangerouslyDisableSanitizers: ['script'],
+    __dangerouslyDisableSanitizers: ['script']
   },
   /*
   ** Global CSS
