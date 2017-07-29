@@ -24,7 +24,7 @@ function checkDate () {
 			return {
 				lastOffer: doc.modified,
 				lastOfferDateTime: lastOfferDateTime,
-				minus12hrsDateTime: dateMinus12hrs
+				minus12hrsDateTime: dateMinus12hrs,
 				ping: true
 			};
 		}
