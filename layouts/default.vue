@@ -1,14 +1,14 @@
 <template>
-<div class="wrapper">
+<main>
   <v-app id="ofertadeo">
-    <header>
+    <header itemscope="itemscope" itemtype="https://schema.org/WPHeader">
       <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
     </header>
     <ofer-sidebar/>
     <nuxt/>
   </v-app>
   <ofer-footer></ofer-footer>
-</div>
+</main>
 </template>
 
 <script>
