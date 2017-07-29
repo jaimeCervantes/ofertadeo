@@ -1,5 +1,5 @@
 <template>
-  <v-footer>
+  <v-footer itemscope="itemscope" itemtype="http://schema.org/WPFooter">
       <div>
         <ul>
           <li><a href="/nosotros">Nosotros</a></li>

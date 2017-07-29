@@ -74,23 +74,6 @@ export default {
               'url': host
             }),
           type: 'application/ld+json'
-        },
-        {
-          innerHTML: JSON.stringify(
-            {
-              '@context': 'http://schema.org',
-              '@type': 'Organization',
-              'url': host,
-              'logo': urlLogo,
-              'sameAs': [
-                'https://www.facebook.com/ofertadeo',
-                'https://twitter.com/ofertadeo',
-                'https://plus.google.com/110009950298317863923',
-                'https://www.youtube.com/channel/UCG8yl6wupq3kHem9SE4qa0g',
-                'https://es.pinterest.com/ofertadeo/'
-              ]
-            }),
-          type: 'application/ld+json'
         }
       ]
     }

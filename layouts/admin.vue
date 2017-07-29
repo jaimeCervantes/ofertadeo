@@ -1,5 +1,5 @@
 <template>
-<div class="wrapper">
+<main>
   <v-app id="ofertadeo">
     <header>
       <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
@@ -8,7 +8,7 @@
     <nuxt/>
   </v-app>
   <ofer-footer></ofer-footer>
-</div>
+</main>
 </template>
 
 <script>
