@@ -22,7 +22,9 @@ function checkDate () {
 		let dateMinus12hrs = new Date().getTime() - hours;
 		if(lastOfferDateTime >= dateMinus12hrs) {
 			return {
-				lastOffer: new Date(doc.modified),
+				lastOffer: doc.modified,
+				lastOfferDateTime: lastOfferDateTime,
+				minus12hrsDateTime: dateMinus12hrs,
 				ping: true
 			};
 		}
