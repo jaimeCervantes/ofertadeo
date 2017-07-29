@@ -35,8 +35,7 @@ function checkDate () {
 
 
 function ping () {
-	//cron.schedule('* 12 * * *', function (){//run every 5 minutes after midnigh everyday
-	cron.schedule('*/1 * * * *', function (){//run every 5 minutes after midnigh everyday
+	cron.schedule('* 12 * * *', function (){//run every 5 minutes after midnigh everyday
 	  checkDate().then(function(res) {
 	  	if(res && res.ping) {
 	  		console.log(res)
