@@ -1,5 +1,5 @@
 <template>
-<main itemscope itemprop="mainContentOfPage" itemtype="https://schema.org/WebPageElement">
+<main itemscope itemprop="mainContentOfPage" itemtype="https://schema.org/WebPageElement" id="main">
   <v-app id="ofertadeo">
     <header itemscope="itemscope" itemtype="https://schema.org/WPHeader">
       <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
@@ -7,7 +7,7 @@
     <ofer-sidebar/>
     <nuxt/>
   </v-app>
-  <ofer-footer></ofer-footer>
+  <ofer-footer itemscope="itemscope" itemtype="http://schema.org/WPFooter"></ofer-footer>
 </main>
 </template>
 

@@ -11,7 +11,7 @@
           <span class="promotion__category" v-text="arrayToString(item.categories)"></span>
         </nuxt-link>
       </p>
-      <h1>{{item.name}}</h1>      
+      <h1 itemprop="headline">{{item.name}}</h1>      
     </template>
     <template slot="content">
       <v-row v-if="exists(item)">

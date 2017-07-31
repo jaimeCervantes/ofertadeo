@@ -2,7 +2,7 @@
   <v-sidebar v-model="$store.state.sidebar" drawer height="100%" fixed
   role="complementary" itemscope="itemscope" itemtype="https://schema.org/WPSideBar">
   <h2 class="visually-hidden">Menús de navegación laterales</h2>
-    <nav role="navigation" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
+    <nav role="navigation" id="nav-tiendas" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
       <h2 class="visually-hidden">Menú de navegación</h2>
       <v-list dense>
         <v-subheader class="white--text">
@@ -18,7 +18,7 @@
         </v-list-item>
       </v-list>
     </nav>
-    <nav role="navigation" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
+    <nav role="navigation" id="nav-categorias" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
       <h2 class="visually-hidden">Menú de navegación</h2>
       <v-list dense>
         <v-divider/>
