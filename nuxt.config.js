@@ -32,7 +32,8 @@ module.exports = {
       { rel: 'mask-icon', href: '/favicons/safari-pinned-tab.svg', color: '#1976d2' },
       { rel: 'shortcut icon', href: '/favicons/favicon.ico' },
       { rel: 'dns-prefetch', href:'//www.google-analytics.com' }
-    ]
+    ],
+    __dangerouslyDisableSanitizers: ['script']
   },
   /*
   ** Global CSS
