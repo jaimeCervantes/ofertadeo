@@ -1,10 +1,10 @@
 <template>
-<main>
+<main itemscope itemprop="mainContentOfPage" itemtype="https://schema.org/WebPageElement">
   <v-app id="ofertadeo">
     <header itemscope="itemscope" itemtype="https://schema.org/WPHeader">
       <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
     </header>
-    <ofer-sidebar itemscope itemprop="mainContentOfPage" itemtype="https://schema.org/WebPageElement"/>
+    <ofer-sidebar/>
     <nuxt/>
   </v-app>
   <ofer-footer></ofer-footer>
