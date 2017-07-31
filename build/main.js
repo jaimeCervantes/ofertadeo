@@ -589,7 +589,9 @@ function checkDate() {
 		var dateMinus12hrs = new Date().getTime() - hours;
 		if (lastOfferDateTime >= dateMinus12hrs) {
 			return {
-				lastOffer: new Date(doc.modified),
+				lastOffer: doc.modified,
+				lastOfferDateTime: lastOfferDateTime,
+				minus12hrsDateTime: dateMinus12hrs,
 				ping: true
 			};
 		}
@@ -598,8 +600,7 @@ function checkDate() {
 }
 
 function ping() {
-	//cron.schedule('* 12 * * *', function (){//run every 5 minutes after midnigh everyday
-	cron.schedule('*/1 * * * *', function () {
+	cron.schedule('* 12 * * *', function () {
 		//run every 5 minutes after midnigh everyday
 		checkDate().then(function (res) {
 			if (res && res.ping) {
