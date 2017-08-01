@@ -2,6 +2,9 @@
 <html {{ HTML_ATTRS }}>
   <head>
     {{ HEAD }}
+  </head>
+  <body {{ BODY_ATTRS }} itemscope="itemscope" itemtype="https://schema.org/WebPage">
+    {{ APP }}
 		<script type="application/ld+json">
 		{
 		  "@context": "http://schema.org",
@@ -17,8 +20,13 @@
 		  ]
 		}
 		</script>
-  </head>
-  <body {{ BODY_ATTRS }}>
-    {{ APP }}
+		<script type="application/ld+json">
+			{
+				"@context": "http://schema.org",
+				"@type": "WebSite",
+				"name": "Ofertadeo",
+				"url": "https://www.ofertadeo.com"
+      }
+     </script>
   </body>
 </html>

@@ -63,18 +63,6 @@ export default {
       ],
       link: [
         { rel: 'canonical', href: host }
-      ],
-      script: [
-        {
-          innerHTML: JSON.stringify(
-            {
-              '@context': 'http://schema.org',
-              '@type': 'WebSite',
-              'name': 'Ofertadeo',
-              'url': host
-            }),
-          type: 'application/ld+json'
-        }
       ]
     }
   }
