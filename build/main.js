@@ -587,34 +587,41 @@ function checkDate() {
 		var lastOfferDate = new Date(doc.modified);
 		var lastOfferDateTime = new Date(doc.modified).getTime();
 		var hours = 12 * 60 * 60 * 1000;
-		var dateMinus12hrs = new Date().getTime() - hours;
-		if (lastOfferDateTime >= dateMinus12hrs) {
-			return {
-				lastOffer: doc.modified,
-				lastOfferDateTime: lastOfferDateTime,
-				minus12hrsDateTime: dateMinus12hrs,
-				ping: true
-			};
+		var minus12hrsDateTime = new Date().getTime() - hours;
+		var minus12hrsDate = new Date(minus12hrsDateTime);
+		var resp = {
+			lastOffer: doc.modified,
+			lastOfferDate: lastOfferDate,
+			lastOfferDateTime: lastOfferDateTime,
+			minus12hrsDate: minus12hrsDate,
+			minus12hrsDateTime: minus12hrsDateTime,
+			ping: false
+		};
+
+		if (lastOfferDateTime >= minus12hrsDateTime) {
+			resp.ping = true;
+			return resp;
 		}
-		return false;
+
+		return resp;
 	});
 }
 
 function ping() {
-	cron.schedule('* 12 * * *', function () {
-		//run every 5 minutes after midnigh everyday
+	cron.schedule('1 12 * * *', function () {
+		//run every day at 12:00 hrs
 		checkDate().then(function (res) {
 			if (res && res.ping) {
-				console.log(res);
 				csm.ping();
 			}
+			console.log(res);
 		}).catch(function (err) {
 			console.log(err);
 		});
 	});
 
 	cron.schedule('50 23 * * *', function () {
-		//run every 6 hours
+		//run every day at 23:50 hours
 		checkDate().then(function (res) {
 			if (res && res.ping) {
 				console.log(res);

@@ -6,7 +6,7 @@
 <script>
 import Vue from 'vue'
 import NuxtChild from './nuxt-child'
-import NuxtError from '/home/jaime/develop/ofertadeo-develop/layouts/error.vue'
+import NuxtError from '/home/jaime/develop/ofertadeo-deploy/layouts/error.vue'
 
 export default {
   name: 'nuxt',
