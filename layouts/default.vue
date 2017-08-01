@@ -7,7 +7,7 @@
     <ofer-sidebar/>
     <nuxt/>
   </v-app>
-  <ofer-footer itemscope="itemscope" itemtype="http://schema.org/WPFooter"></ofer-footer>
+  <ofer-footer id="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter"></ofer-footer>
 </main>
 </template>
 
