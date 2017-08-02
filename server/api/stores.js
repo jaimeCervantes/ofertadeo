@@ -40,7 +40,20 @@ function _id() {
         items_per_page: conf.db.itemsPerPage,
         skip: conf.db.itemsPerPage*page,
         sort: { _id: -1},
-        projection: {name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img: 1, img_alt:1, img_title:1, categories: 1 }
+        projection: {
+          name: 1,
+          thumbnail: 1,
+          store_id: 1,
+          stores: 1,
+          slug: 1,
+          img: 1,
+          img_data: 1,
+          img_alt:1,
+          img_title:1,
+          categories: 1,
+          published: 1,
+          modified: 1
+        }
       }),
       crudInst.getItem({
         collection:  conf.db.collections.secundary,
