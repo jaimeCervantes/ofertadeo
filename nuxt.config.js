@@ -38,10 +38,6 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [
-     { src: '~assets/stylus/main.styl', lang: 'stylus' },
-     { src: '~assets/css/main.scss', lang: 'scss' } // scss instead of sass
-  ],
   plugins: [
     { src: '~plugins/ga.js', ssr: false }
   ],
