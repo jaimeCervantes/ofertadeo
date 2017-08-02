@@ -91,7 +91,17 @@ function index() {
         items_per_page: conf.db.itemsPerPage, 
         skip: conf.db.itemsPerPage*page,
         sort: { name: 1},
-        projection: { name: 1, slug: 1, thumbnail: 1, img_alt:1, img_title: 1 }
+        projection: {
+          name: 1,
+          slug: 1,
+          thumbnail: 1,
+          img: 1,
+          img_data: 1,
+          img_alt:1,
+          img_title: 1,
+          published: 1,
+          modified: 1
+        }
       }),
       crudInst.getPagination({
         collection: conf.db.collections.categories
