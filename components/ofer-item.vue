@@ -21,10 +21,10 @@
     <span class="visually-hidden" itemprop="datePublished" v-html="item.published"></span>
     <span class="visually-hidden" itemprop="dateModified" v-html="item.modified"></span>
     <span itemprop="position" class="visually-hidden" v-html="position"></span>
-    <v-card-row class="item__store" v-if="item.store_id || item.stores"></v-card-row>
-      <div class="pl-2 pr-2" v-if="type">
-        <nuxt-link v-if="type==='store'" :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">Ofertas {{arrayToString(item.stores || [item.store_id]).toUpperCase()}}</nuxt-link>
-        <nuxt-link v-if="type==='category'" :to="$store.state.routes.categoriesList + '/' + (item.categories && item.categories[0]) ? item.categories[0] : ''">{{arrayToString(item.categories || false).toUpperCase()}}</nuxt-link>
+    <v-card-row class="item__store" v-if="item.store_id || item.stores || item.categories">
+      <div class="pl-2 pr-2">
+        <nuxt-link v-if="type!=='store'" :to="getAdditionalLinks(type)">Ofertas {{arrayToString(item.stores || [item.store_id]).toUpperCase()}}</nuxt-link>
+        <nuxt-link v-if="type==='store'" :to="getAdditionalLinks(type)">{{arrayToString(item.categories || false).toUpperCase()}}</nuxt-link>
       </div>
     </v-card-row>
     <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
@@ -41,6 +41,22 @@ export default {
   props: ['item', 'toLink', 'type', 'position'],
   components: {
     OferCommon
+  },
+  methods: {
+    getAdditionalLinks (type) {
+      if (type !== 'store') {
+        let lastPart = this.item.store_id
+        if (!this.item.store_id) {
+          lastPart = (this.item.stores && this.item.stores[0]) ? this.item.stores[0] : ''
+        }
+        return `${this.$store.state.routes.storeList}/${lastPart}`
+      }
+
+      if (type === 'store') {
+        let lastPart = (this.item.categories && this.item.categories[0]) ? this.item.categories[0] : ''
+        return `${this.$store.state.routes.categoriesList}/${lastPart}`
+      }
+    }
   }
 }
 </script>
