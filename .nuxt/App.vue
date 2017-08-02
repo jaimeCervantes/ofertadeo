@@ -62,7 +62,3 @@ export default {
 </script>
 
 
-<style src="~assets/stylus/main.styl" lang="stylus"></style>
-
-<style src="~assets/css/main.scss" lang="scss"></style>
-

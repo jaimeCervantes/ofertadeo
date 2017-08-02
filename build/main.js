@@ -511,8 +511,6 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [{ src: '~assets/stylus/main.styl', lang: 'stylus' }, { src: '~assets/css/main.scss', lang: 'scss' // scss instead of sass
-  }],
   plugins: [{ src: '~plugins/ga.js', ssr: false }],
   /*
   ** Add axios globally
@@ -1154,7 +1152,7 @@ function upload() {
       var finalRootPath = path.split(rootPathUploads)[1];
 
       jimp.read(filePath).then(function (img) {
-        img.resize(jimp.AUTO, 300) // resize
+        img.scaleToFit(300, 300) // resize
         .quality(60) // set JPEG quality
         .write(path + '/' + name + '_thumb.' + extension); // save
       }).then(function (result) {
