@@ -187,8 +187,11 @@ export default {
     text-align:center;
     img {
       display: block;
-      max-width: 200px;
+      max-width: 300px;
       margin: 0 auto;
+      @media(max-width: 600px) {
+        max-width:200px;
+      }
     }
   }
 }

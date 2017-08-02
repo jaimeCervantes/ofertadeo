@@ -31,3 +31,6 @@ export default {
 <style lang="stylus">
   @import '~assets/stylus/main-admin.styl'
 </style>
+<style lang="scss">
+  @import '~assets/css/main.scss'
+</style>
