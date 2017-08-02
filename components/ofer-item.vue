@@ -1,18 +1,34 @@
 <template>
   <v-card hover raised class="item">
     <v-card-row v-if="item.thumbnail" class="item__img">
-      <nuxt-link :to="toLink">
-        <img :class="type" :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
+      <nuxt-link itemprop="url" :to="toLink" >
+          <img :class="type" :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
+        </span>
       </nuxt-link>
     </v-card-row>
-    <v-card-row class="item__store" v-if="item.store_id || item.stores">
-      <div class="pl-2 pr-2">
-        <nuxt-link v-if="!type" :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">Ofertas {{arrayToString(item.stores || [item.store_id]).toUpperCase()}}</nuxt-link>
-        <nuxt-link v-if="type" :to="$store.state.routes.categoriesList + '/' + item.categories[0]">{{arrayToString(item.categories).toUpperCase()}}</nuxt-link>
+    <span class="visually-hidden" itemscope itemprop="image" itemtype="http://schema.org/ImageObject">
+      <img :src="item.img || item.thumbnail" itemprop="url">
+      <span itemprop="width"  v-html="item.img_data && item.img_data.width ? item.img_data.width: 200"></span>
+      <span itemprop="height" v-html="item.img_data && item.img_data.height ? item.img_data.height: 200"></span>
+    </span>
+    <span class="visually-hidden" itemprop="author">Ofertadeo</span>
+    <span class="visually-hidden" itemscope itemprop="publisher" itemtype="http://schema.org/Organization">
+      <span itemprop="name">Ofertadeo</span>
+      <span itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+        <img itemprop="url" :src="'$store.state.host' + '/apple-touch-icon-60x60.png'">
+      </span>
+    </span>
+    <span class="visually-hidden" itemprop="datePublished" v-html="item.published"></span>
+    <span class="visually-hidden" itemprop="dateModified" v-html="item.modified"></span>
+    <span itemprop="position" class="visually-hidden" v-html="position"></span>
+    <v-card-row class="item__store" v-if="item.store_id || item.stores"></v-card-row>
+      <div class="pl-2 pr-2" v-if="type">
+        <nuxt-link v-if="type==='store'" :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">Ofertas {{arrayToString(item.stores || [item.store_id]).toUpperCase()}}</nuxt-link>
+        <nuxt-link v-if="type==='category'" :to="$store.state.routes.categoriesList + '/' + (item.categories && item.categories[0]) ? item.categories[0] : ''">{{arrayToString(item.categories || false).toUpperCase()}}</nuxt-link>
       </div>
     </v-card-row>
-    <v-card-row class="item__name" v-if="item.name">
-      <div class="pl-2 pr-2"><nuxt-link :to="toLink" :title="item.name">{{item.name.slice(0,45) + '...'}}</nuxt-link></div>
+    <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
+      <div class="pl-2 pr-2" itemprop="headline"><nuxt-link itemprop="name" :to="toLink" :title="item.name">{{item.name.slice(0,45) + '...'}}</nuxt-link></div>
     </v-card-row>
     <slot name="item-content"></slot>
   </v-card>
@@ -22,7 +38,7 @@
 import OferCommon from '~components/mixins/ofer-common.vue'
 export default {
   mixins: [OferCommon],
-  props: ['item', 'toLink', 'type'],
+  props: ['item', 'toLink', 'type', 'position'],
   components: {
     OferCommon
   }
