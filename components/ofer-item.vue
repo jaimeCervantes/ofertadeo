@@ -15,7 +15,7 @@
     <span class="visually-hidden" itemscope itemprop="publisher" itemtype="http://schema.org/Organization">
       <span itemprop="name">Ofertadeo</span>
       <span itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-        <img itemprop="url" :src="$store.state.host + '/favicons/apple-touch-icon-60x60.png'">
+        <img itemprop="url" :src="$store.state.host + '/favicons/apple-touch-icon-60x60.png'" width="60" height="60">
       </span>
     </span>
     <span class="visually-hidden" itemprop="datePublished" v-html="item.published"></span>
