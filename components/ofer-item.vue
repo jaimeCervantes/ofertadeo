@@ -7,7 +7,7 @@
       </nuxt-link>
     </v-card-row>
     <span class="visually-hidden" itemscope itemprop="image" itemtype="http://schema.org/ImageObject">
-      <img :src="item.img || item.thumbnail" itemprop="url">
+      <img :src="item.thumbnail" itemprop="url">
       <span itemprop="width"  v-html="item.img_data && item.img_data.width ? item.img_data.width: 200"></span>
       <span itemprop="height" v-html="item.img_data && item.img_data.height ? item.img_data.height: 200"></span>
     </span>
