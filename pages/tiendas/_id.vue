@@ -22,7 +22,7 @@
     <template slot="more-content" v-if="exists(info)">
       <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
     </template>
-    <template slot="content-footer">
+    <template slot="content-footer" v-if="exists(info)">
       <v-divider class="section-divider"></v-divider>
       <footer>
         <h2 v-text="info.name"></h2>
@@ -57,8 +57,11 @@ export default {
   },
   async asyncData ({ params, route }) {
     let { data } = await axios.get(urlReq + params.id)
-    data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${data.info.name}. ✓ ¡Ahorra ya!`
-    data.info.title_front = `Ofertas ${data.info.name}`
+    if (data && data.info) {
+      data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${data.info.name}. ✓ ¡Ahorra ya!`
+      data.info.title_front = `Ofertas ${data.info.name}`
+    }
+
     return Object.assign({ path: route.path, id: params.id }, data)
   },
   components: {
@@ -88,7 +91,7 @@ export default {
       { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
     ]
 
-    if (this.info.img_data) {
+    if (this.info && this.info.img_data) {
       metas.push(
         { hid: 'og:image:width', property: 'og:image:width', content: this.info.img_data.width },
         { hid: 'og:image:height', property: 'og:image:height', content: this.info.img_data.height },
