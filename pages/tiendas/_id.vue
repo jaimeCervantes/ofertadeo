@@ -4,7 +4,7 @@
       <ofer-header-info :info="info" rel="nofollow">
         <template slot="social-network">
           <share-buttons
-            :url="`${$store.state.host}${$store.state.routes.categoriesList}/${id}`"
+            :url="`${$store.state.host}${$store.state.routes.storeList}/${id}`"
             :media="info.thumbnail" twitter-user="ofertadeo" :title="info.name"
           ></share-buttons>
         </template>
