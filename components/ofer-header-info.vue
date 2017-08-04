@@ -5,17 +5,13 @@
         <img :src="info.thumbnail" :alt="info.img_alt" :title="info.img_title" />  
       </div>
       <div>
-        <h1 class="title content__title">Ofertas {{info.name}}</h1>
+        <h1 class="title content__title" v-html="info.title_front"></h1>
         <v-btn tag="a" v-if="rel" :rel="rel" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Ir a {{info.name}}</v-btn>
+        <slot name="social-network"></slot>
       </div>
     </div>
     <slot name="info"></slot>
-    <v-expansion-panel v-if="info.content" class="content-panel">
-      <v-expansion-panel-content>
-        <div slot="header" v-text="headerDescription"></div>
-        <div v-text="bodyDescription"></div>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
+    <div v-if="info.description" v-html="info.description" class="info-description"></div>
   </div>
 </template>
 
@@ -29,20 +25,6 @@ export default {
       type: Object
     },
     rel: String
-  },
-  data () {
-    return { indexDescription: 65, description: this.getTextFromHtml(this.info.content) }
-  },
-  computed: {
-    headerDescription () {
-      var nextString = this.description.slice(this.indexDescription)
-      var index = nextString.indexOf(' ')
-      this.indexDescription += index
-      return this.description ? this.description.slice(0, this.indexDescription) + '...' : ''
-    },
-    bodyDescription () {
-      return '...' + this.description.slice(this.indexDescription)
-    }
   }
 }
 </script>
@@ -59,7 +41,9 @@ export default {
 .header-info {
   .btn {
     margin-left:0;
-    float:left;
+  }
+  .info-description {
+    margin-top: 0.8rem;
   }
 }
 

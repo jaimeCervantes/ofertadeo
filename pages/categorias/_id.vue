@@ -1,21 +1,17 @@
 <template>
   <ofer-content :breadcrumbs="exists(info) ? breadcrumbs : null">
     <template slot="info-section" v-if="exists(info)">
-      <ofer-header-info :info="{ content: info.content}">
-        <template slot="info">
-          <div v-if="info" class="content__info-section">
-            <div class="img-container">
-              <img :src="info.thumbnail" :alt="info.img_alt" :title="info.img_title" />  
-            </div>
-            <div>
-              <h1 class="title content__title">{{info.name}}</h1>
-            </div>
-          </div>
-        </template>
+      <ofer-header-info :info="info">
+      <template slot="social-network">
+        <share-buttons
+          :url="`${$store.state.host}${$store.state.routes.categoriesList}/${id}`"
+          :media="info.thumbnail" twitter-user="ofertadeo" :title="info.name"
+        ></share-buttons>
+      </template>
       </ofer-header-info>
     </template>
     <template slot="content">
-      <h2 v-if="exists(info)">Ofertas de {{info.name}} {{date}}</h2>
+      <h2 v-if="exists(info)">Ofertas de {{info.name}}</h2>
       <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
           <ofer-item :item="item" :to-link="$store.state.routes.stores + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
@@ -25,6 +21,13 @@
     </template>
     <template slot="more-content" v-if="exists(info)">
       <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
+    </template>
+    <template slot="content-footer">
+      <v-divider class="section-divider"></v-divider>
+      <footer>
+        <h2 v-text="info.name"></h2>
+        <div v-html="info.content"></div>
+      </footer>
     </template>
   </ofer-content>
 </template>
@@ -38,6 +41,7 @@ import OferPaths from '~components/mixins/ofer-paths.vue'
 import OferItem from '~components/ofer-item.vue'
 import OferMoreItems from '~components/ofer-more-items.vue'
 import OferNotExists from '~components/ofer-not-exists.vue'
+import ShareButtons from '~components/share-buttons.vue'
 
 // asyncData does not have acces to 'this' reference
 var urlReq = '/api/categories/'
@@ -53,6 +57,8 @@ export default {
   },
   async asyncData ({ params, route }) {
     let { data } = await axios.get(urlReq + params.id)
+    data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en ofertadeo. Descuentos, promociones y ofertas en ${data.info.name}. ✓ ¡Ahorra dinero ya!`
+    data.info.title_front = data.info.name
     return Object.assign({
       path: route.path,
       id: params.id
@@ -65,7 +71,8 @@ export default {
     OferMoreItems,
     OferHeaderInfo,
     OferNotExists,
-    OferCommon
+    OferCommon,
+    ShareButtons
   },
   head () {
     let host = this.$store.state.host
@@ -76,7 +83,7 @@ export default {
       title: `Descuentos, promociones y ofertas en ${this.info.name} | Ofertadeo`,
       meta: [
         { hid: 'title', name: 'title', content: `Descuentos, promociones y ofertas en ${this.info.name} | Ofertadeo` },
-        { hid: 'description', name: 'description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en ofertadeo. Descuentos, promociones y ofertas en ${this.info.name}. ✓ ¡Ahorra dinero ya!` },
+        { hid: 'description', name: 'description', content: this.info.description },
         { hid: 'og:title', property: 'og:title', content: `Descuentos, promociones y ofertas en ${this.info.name} | Ofertadeo` },
         { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en ofertadeo. Descuentos, promociones y ofertas en ${this.info.name}. ✓ ¡Ahorra dinero ya!` },
         { hid: 'og:url', property: 'og:url', content: url },
