@@ -3,7 +3,7 @@ const config = require('../../config.js');
 let conf = config();
 
 utils.update({
-	collections: ['categories', 'stores'],
+	collections: ['offers'],
 	query: {},
 	projection: { name: 1, img: 1 },
 	callback: function (conn, coll, doc) {
