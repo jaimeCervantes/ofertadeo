@@ -88,15 +88,15 @@ export default {
       { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
     ]
 
-    if (this.item.img_data) {
+    if (this.info.img_data) {
       metas.push(
-        { hid: 'og:image:width', property: 'og:image:width', content: this.item.img_data.width },
-        { hid: 'og:image:height', property: 'og:image:height', content: this.item.img_data.height },
-        { hid: 'og:image:type', property: 'og:image:type', content: this.item.img_data.type }
+        { hid: 'og:image:width', property: 'og:image:width', content: this.info.img_data.width },
+        { hid: 'og:image:height', property: 'og:image:height', content: this.info.img_data.height },
+        { hid: 'og:image:type', property: 'og:image:type', content: this.info.img_data.type }
       )
     }
 
-    return this.exists(this.info) ? {
+    return (this.info && this.info.name) ? {
       title: `${this.info.name} – Ofertas y promociones | Ofertadeo`,
       meta: metas,
       link: [

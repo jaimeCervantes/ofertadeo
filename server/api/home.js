@@ -57,7 +57,7 @@ function index() {
         }
       }),
       crudInst.getPagination({
-        collection: conf.db.collections.main,
+        collection: conf.db.collections.main
       })
     ];
 
