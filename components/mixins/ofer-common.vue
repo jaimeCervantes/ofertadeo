@@ -38,7 +38,7 @@ export default {
      */
     arrayToString (paramArray) {
       if (!paramArray) return ''
-      if (Array.isArray(paramArray)) {
+      if (Array.isArray(paramArray) && paramArray[0]) {
         return paramArray.reduce(function (prev, curr) {
           return prev.split('-').join(' ') + curr.split('-').join(' ')
         }, '')

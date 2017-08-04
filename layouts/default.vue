@@ -7,7 +7,7 @@
     <ofer-sidebar/>
     <nuxt/>
   </v-app>
-  <ofer-footer itemscope="itemscope" itemtype="http://schema.org/WPFooter"></ofer-footer>
+  <ofer-footer id="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter"></ofer-footer>
 </main>
 </template>
 
@@ -28,3 +28,9 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  @import '~assets/stylus/main.styl'
+</style>
+<style lang="scss">
+  @import '~assets/css/main.scss'
+</style>

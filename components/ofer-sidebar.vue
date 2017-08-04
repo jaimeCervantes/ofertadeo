@@ -1,6 +1,6 @@
 <template>
   <v-sidebar v-model="$store.state.sidebar" drawer height="100%" fixed
-  role="complementary" itemscope="itemscope" itemtype="https://schema.org/WPSideBar">
+  role="complementary" id="sidebar-nav" itemscope="itemscope" itemtype="https://schema.org/WPSideBar">
   <h2 class="visually-hidden">Menús de navegación laterales</h2>
     <nav role="navigation" id="nav-tiendas" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
       <h2 class="visually-hidden">Menú de navegación</h2>

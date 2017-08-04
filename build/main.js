@@ -510,8 +510,6 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [{ src: '~assets/stylus/main.styl', lang: 'stylus' }, { src: '~assets/css/main.scss', lang: 'scss' // scss instead of sass
-  }],
   plugins: [{ src: '~plugins/ga.js', ssr: false }],
   /*
   ** Add axios globally
@@ -586,34 +584,41 @@ function checkDate() {
 		var lastOfferDate = new Date(doc.modified);
 		var lastOfferDateTime = new Date(doc.modified).getTime();
 		var hours = 12 * 60 * 60 * 1000;
-		var dateMinus12hrs = new Date().getTime() - hours;
-		if (lastOfferDateTime >= dateMinus12hrs) {
-			return {
-				lastOffer: doc.modified,
-				lastOfferDateTime: lastOfferDateTime,
-				minus12hrsDateTime: dateMinus12hrs,
-				ping: true
-			};
+		var minus12hrsDateTime = new Date().getTime() - hours;
+		var minus12hrsDate = new Date(minus12hrsDateTime);
+		var resp = {
+			lastOffer: doc.modified,
+			lastOfferDate: lastOfferDate,
+			lastOfferDateTime: lastOfferDateTime,
+			minus12hrsDate: minus12hrsDate,
+			minus12hrsDateTime: minus12hrsDateTime,
+			ping: false
+		};
+
+		if (lastOfferDateTime >= minus12hrsDateTime) {
+			resp.ping = true;
+			return resp;
 		}
-		return false;
+
+		return resp;
 	});
 }
 
 function ping() {
-	cron.schedule('* 12 * * *', function () {
-		//run every 5 minutes after midnigh everyday
+	cron.schedule('1 12 * * *', function () {
+		//run every day at 12:00 hrs
 		checkDate().then(function (res) {
 			if (res && res.ping) {
-				console.log(res);
 				csm.ping();
 			}
+			console.log(res);
 		}).catch(function (err) {
 			console.log(err);
 		});
 	});
 
 	cron.schedule('50 23 * * *', function () {
-		//run every 6 hours
+		//run every day at 23:50 hours
 		checkDate().then(function (res) {
 			if (res && res.ping) {
 				console.log(res);
@@ -708,11 +713,23 @@ function _id() {
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { _id: -1 },
-      projection: { name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img_alt: 1, img_title: 1 }
+      projection: {
+        name: 1,
+        thumbnail: 1,
+        store_id: 1,
+        stores: 1,
+        slug: 1,
+        img: 1,
+        img_data: 1,
+        img_alt: 1,
+        img_title: 1,
+        published: 1,
+        modified: 1
+      }
     }), crudInst.getItem({
       collection: conf.db.collections.categories,
       query: { _id: req.params._id },
-      projection: { name: 1, thumbnail: 1, slug: 1, content: 1, img: 1, img_alt: 1, img_title: 1 }
+      projection: { name: 1, thumbnail: 1, slug: 1, content: 1, img: 1, img_alt: 1, img_title: 1, img_data: 1 }
     }), crudInst.getPagination({
       query: { store_id: req.params._id },
       collection: conf.db.collections.main
@@ -738,7 +755,17 @@ function index() {
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { name: 1 },
-      projection: { name: 1, slug: 1, thumbnail: 1, img_alt: 1, img_title: 1 }
+      projection: {
+        name: 1,
+        slug: 1,
+        thumbnail: 1,
+        img: 1,
+        img_data: 1,
+        img_alt: 1,
+        img_title: 1,
+        published: 1,
+        modified: 1
+      }
     }), crudInst.getPagination({
       collection: conf.db.collections.categories
     })];
@@ -797,7 +824,20 @@ function index() {
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { _id: -1 },
-      projection: { name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img_alt: 1, img_title: 1, title: 1 }
+      projection: {
+        name: 1,
+        thumbnail: 1,
+        store_id: 1,
+        stores: 1,
+        slug: 1,
+        img: 1,
+        img_data: 1,
+        img_alt: 1,
+        img_title: 1,
+        title: 1,
+        published: 1,
+        modified: 1
+      }
     }), crudInst.getPagination({
       collection: conf.db.collections.main
     })];
@@ -975,11 +1015,34 @@ function _id() {
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { _id: -1 },
-      projection: { name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img: 1, img_alt: 1, img_title: 1, categories: 1 }
+      projection: {
+        name: 1,
+        thumbnail: 1,
+        store_id: 1,
+        stores: 1,
+        slug: 1,
+        img: 1,
+        img_data: 1,
+        img_alt: 1,
+        img_title: 1,
+        categories: 1,
+        published: 1,
+        modified: 1
+      }
     }), crudInst.getItem({
       collection: conf.db.collections.secundary,
       query: { _id: req.params._id },
-      projection: { name: 1, thumbnail: 1, slug: 1, url_site: 1, content: 1, img: 1, img_alt: 1, img_title: 1 }
+      projection: {
+        name: 1,
+        thumbnail: 1,
+        slug: 1,
+        url_site: 1,
+        content: 1,
+        img: 1,
+        img_alt: 1,
+        img_title: 1,
+        img_data: 1
+      }
     }), crudInst.getPagination({
       query: { store_id: req.params._id },
       collection: conf.db.collections.main
@@ -1005,7 +1068,17 @@ function index() {
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { name: 1 },
-      projection: { name: 1, slug: 1, thumbnail: 1, img_alt: 1, img_title: 1 }
+      projection: {
+        name: 1,
+        slug: 1,
+        thumbnail: 1,
+        img: 1,
+        img_data: 1,
+        img_alt: 1,
+        img_title: 1,
+        published: 1,
+        modified: 1
+      }
     }), crudInst.getPagination({
       collection: conf.db.collections.secundary
     })];
@@ -1088,8 +1161,8 @@ function upload() {
       var finalRootPath = path.split(rootPathUploads)[1];
 
       jimp.read(filePath).then(function (img) {
-        img.resize(jimp.AUTO, 300) // resize
-        .quality(60) // set JPEG quality
+        return img.scaleToFit(300, 300) // resize
+        .quality(50) // set JPEG quality
         .write(path + '/' + name + '_thumb.' + extension); // save
       }).then(function (result) {
         res.json({ success: true, img: conf.host + filePath.split(rootPathUploads)[1], thumbnail: '' + conf.host + finalRootPath + '/' + name + '_thumb.' + extension });
@@ -1224,7 +1297,7 @@ module.exports = require("zlib");
 
 
 
-var develop = !("production" === 'production');
+var develop = !("development" === 'production');
 var app = __WEBPACK_IMPORTED_MODULE_1_express___default()();
 var host = process.env.HOST || '127.0.0.1';
 var port = process.env.PORT || 3000;

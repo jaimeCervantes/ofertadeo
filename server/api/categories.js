@@ -43,12 +43,24 @@ function _id() {
         items_per_page: conf.db.itemsPerPage,
         skip: conf.db.itemsPerPage*page,
         sort: { _id: -1},
-        projection: {name: 1, thumbnail: 1, store_id: 1, stores: 1, slug: 1, img_alt: 1, img_title: 1}
+        projection: {
+          name: 1,
+          thumbnail: 1,
+          store_id: 1,
+          stores: 1,
+          slug: 1,
+          img: 1,
+          img_data: 1,
+          img_alt: 1,
+          img_title: 1,
+          published: 1,
+          modified: 1
+        }
       }),
       crudInst.getItem({
         collection:  conf.db.collections.categories,
         query: {_id: req.params._id},
-        projection: {name:1, thumbnail: 1, slug: 1, content: 1, img: 1, img_alt: 1, img_title: 1}
+        projection: {name:1, thumbnail: 1, slug: 1, content: 1, img: 1, img_alt: 1, img_title: 1, img_data: 1}
       }),
       crudInst.getPagination({
         query: { store_id: req.params._id },
@@ -79,7 +91,17 @@ function index() {
         items_per_page: conf.db.itemsPerPage, 
         skip: conf.db.itemsPerPage*page,
         sort: { name: 1},
-        projection: { name: 1, slug: 1, thumbnail: 1, img_alt:1, img_title: 1 }
+        projection: {
+          name: 1,
+          slug: 1,
+          thumbnail: 1,
+          img: 1,
+          img_data: 1,
+          img_alt:1,
+          img_title: 1,
+          published: 1,
+          modified: 1
+        }
       }),
       crudInst.getPagination({
         collection: conf.db.collections.categories

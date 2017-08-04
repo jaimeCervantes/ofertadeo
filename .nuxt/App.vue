@@ -10,9 +10,9 @@ import NuxtLoading from './components/nuxt-loading.vue'
 
 let layouts = {
 
-  "_admin": () => import('/home/jaime/develop/ofertadeo/layouts/admin.vue'  /* webpackChunkName: "layouts/admin" */),
+  "_admin": () => import('/home/jaime/develop/ofertadeo-deploy/layouts/admin.vue'  /* webpackChunkName: "layouts/admin" */),
 
-  "_default": () => import('/home/jaime/develop/ofertadeo/layouts/default.vue'  /* webpackChunkName: "layouts/default" */)
+  "_default": () => import('/home/jaime/develop/ofertadeo-deploy/layouts/default.vue'  /* webpackChunkName: "layouts/default" */)
 
 }
 
@@ -61,8 +61,4 @@ export default {
 }
 </script>
 
-
-<style src="~assets/stylus/main.styl" lang="stylus"></style>
-
-<style src="~assets/css/main.scss" lang="scss"></style>
 

@@ -16,37 +16,15 @@
     <template slot="content">
       <v-row v-if="exists(item)">
         <v-col class="mt-3 mb-3" xs12 sm12 md9 lg9 xl9>
-          <div class="promotion">
+          <section class="promotion">
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
               <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
-              <social-sharing :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`" inline-template :media="item.img" twitter-user="ofertadeo" :title="item.title">
-                <div id="social-sharing">
-                  <network network="facebook">
-                    <v-btn>
-                      <img src="/icons/facebook.svg" alt="Compartir en facebook" title="Compartir">
-                    </v-btn>
-                  </network>
-                  <network network="twitter">
-                    <v-btn>
-                      <img src="/icons/twitter.svg" alt="Compartir en Twitter+" title="Compartir">
-                    </v-btn>
-                  </network>
-                  <network network="googleplus">
-                    <v-btn>
-                      <img src="/icons/google-plus.svg" alt="Compartir en Google+" title="Compartir">
-                    </v-btn>
-                  </network>
-                  <network network="pinterest">
-                    <v-btn>
-                      <img src="/icons/pinterest.svg" alt="Compartir en Pinterest+" title="Compartir">
-                    </v-btn>
-                  </network>
-                </div>
-              </social-sharing>
+              <share-buttons :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
+              ></share-buttons>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
-          </div>
+          </section>
         </v-col>
       </v-row>
       <ofer-not-exists v-if="!exists(item)" v-bind:title="notExistTitle"></ofer-not-exists>
@@ -59,10 +37,7 @@ import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
 import OferCommon from '~components/mixins/ofer-common.vue'
 import OferNotExists from '~components/ofer-not-exists.vue'
-import Vue from 'vue'
-import SocialSharing from 'vue-social-sharing'
-
-Vue.use(SocialSharing)
+import ShareButtons from '~components/share-buttons.vue'
 
 export default {
   mixins: [OferCommon],
@@ -99,7 +74,8 @@ export default {
   components: {
     OferContent,
     OferCommon,
-    OferNotExists
+    OferNotExists,
+    ShareButtons
   },
   head () {
     let host = this.$store.state.host
@@ -187,8 +163,11 @@ export default {
     text-align:center;
     img {
       display: block;
-      max-width: 200px;
+      max-width: 300px;
       margin: 0 auto;
+      @media(max-width: 600px) {
+        max-width:200px;
+      }
     }
   }
 }
@@ -212,20 +191,4 @@ p.promotion-data {
     }
   }
 }
-</style>
-
-<style lang="stylus">
-  #social-sharing {
-    .btn {
-      width:30px;
-      min-width:30px;
-      min-height:30px;
-      padding:0;
-      background-color: #fff;
-      border-radius: 0;
-      img {
-        width: 30px;
-      }
-    }
-  }
 </style>

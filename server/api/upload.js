@@ -60,8 +60,8 @@ function upload() {
 
       jimp.read(filePath)
       .then(function (img) {
-          img.resize(jimp.AUTO, 300)// resize
-               .quality(60)// set JPEG quality
+          return img.scaleToFit(300, 300)// resize
+               .quality(50)// set JPEG quality
                .write(`${path}/${name}_thumb.${extension}`); // save
       }).then(function(result) {
         res.json({ success: true, img: conf.host + filePath.split(rootPathUploads)[1], thumbnail: `${conf.host}${finalRootPath}/${name}_thumb.${extension}`});

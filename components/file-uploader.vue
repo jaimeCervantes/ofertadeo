@@ -118,7 +118,7 @@ export default {
           canvas.height = height
           vm.$emit('on-imageLoaded', { width: Math.round(width), height: Math.round(height), type: file.type })
           canvas.getContext('2d').drawImage(image, 0, 0, width, height)
-          vm.inMemoryImg = vm.dataURLToBlob(canvas.toDataURL(file.type, 0.7))
+          vm.inMemoryImg = vm.dataURLToBlob(canvas.toDataURL(file.type, 0.5))
         }
         image.src = readerEvent.target.result
         vm.imgPreview = image.src
@@ -131,6 +131,7 @@ export default {
 </script>
 <style>
   .preview {
-    height: 300px;
+    max-height: 300px;
+    max-width: 300px;
   }
 </style>
