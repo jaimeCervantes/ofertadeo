@@ -8,6 +8,9 @@ utils.update({
 	projection: { name: 1, img: 1 },
 	callback: function (conn, coll, doc) {
 		var imgParts = doc.img.split('.');
-		conn.collection(coll).updateOne({id: doc._id}, { $set: { thumbnail: imgParts[0] + '_thumb.' + imgParts[1] } })
+		var imgPart1 =  imgParts.slice(0, imgParts.length-1).join('.');
+		var finalPart = imgPart1 + '_thumb.' + imgParts[imgParts.length-1];
+		console.log(finalPart);
+		conn.collection(coll).updateOne({_id: doc._id}, { $set: { thumbnail: finalPart } })
 	}
 });
