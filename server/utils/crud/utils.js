@@ -5,60 +5,41 @@ const connection = require('../../db/connection.js');
 let conf = config(wagner);
 connection(wagner);
 
-function addDomainToUrl( conn, params ) {
-	var query =  params.query || { img: { $regex: /^[^(http)]/ } };
-	var cursor = conn.collection(params.collection).find(query, params.projection);
-	cursor.forEach(function(doc) {
-		params.callback(doc, conn);
-	});
-}
+//query = { thumbnail: { $regex: /^[^(http)]/ } }
+//projection = { img: 1, thumbnail: 1}
+//update = { $set: { img: conf.host + doc.img, thumbnail: conf.host + doc.thumbnail } }
+
+// query = { modified: { $exists: true} };
+// projection = { modified: 1}
+// update = { $set: { published: doc.modified } }
 
 module.exports = {
 	/**
 	 * Cambiar URL de imagenes de categorias, tiendas y ofertas
 	 * @return {undefined}
 	 */
-	updateImgs () {
+	update (params) {
 		wagner.invoke(function(conn, config) {
 		  return conn;
 		})
 		.then(function(conn) {
-			let mainQuery = { img: { $regex: /^[^(http)]/ } };
-			['stores', 'offers', 'categories'].forEach(function(collection) {
-				addDomainToUrl( conn, {
-					collection: collection,
-					query: mainQuery,
-					callback: function (doc, conn) {
-						conn.collection(collection).updateOne(mainQuery, { $set: { img: conf.host + doc.img } });
-					}
+			params.collections.forEach(function(coll) {
+				let cursor = conn.collection(coll).find(params.query || {}, params.projection || {})
+				cursor.forEach(function(doc){
+				  if (typeof(params.callback) === 'function') {
+				  	params.callback(conn, coll, doc);
+				  } else {
+				  	conn.collection(coll).updateOne(query, params.update)	
+				  }
 				});
 			})
 		})
 		.then(function () {
-			console.log('img url done')
+			console.log('update operation done');
+			console.log(params);
 		})
 		.catch(function(err) {
 			console.log(err);
 		});
-	},
-
-	setPublished ( arr_collections ) {
-		wagner.invoke(function(conn) {
-			return conn
-		})
-		.then(function (conn) {
-			arr_collections.forEach(function(coll) {
-				let cursor = conn.collection(coll).find({ modified: { $exists: true} }, { modified: 1});
-				cursor.forEach(function(doc) {
-					conn.collection(coll).updateOne({ _id: doc._id }, { $set: { published: doc.modified } });
-				})
-			})
-		})
-		.then(function () {
-			console.log('published date done')
-		})
-		.catch(function() {
-			console.log(error)
-		})
 	}
 };
