@@ -17,10 +17,11 @@
       </div>
     </header>
     <v-divider class="section-divider"></v-divider>
-    <div class="middle-content">
+    <section class="middle-content">
       <slot name="content"></slot>
       <slot name="more-content"></slot>
-    </div>
+    </section>
+    <slot name="content-footer"></slot>
   </article>
 </div>
 </template>
@@ -40,12 +41,22 @@ export default {
 
   header {
     padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   .middle-content {
     padding-top:0.5rem;
+    padding-bottom:0.5rem;
     h2 {
       margin-bottom:0;
+    }
+  }
+
+  footer {
+    padding-top:0.5rem;
+    margin-bottom: 1.3rem;
+    h2 {
+      margin-bottom:0.5rem;
     }
   }
 </style>

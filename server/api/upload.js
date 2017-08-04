@@ -60,7 +60,7 @@ function upload() {
 
       jimp.read(filePath)
       .then(function (img) {
-          img.scaleToFit(300, 300)// resize
+          return img.scaleToFit(300, 300)// resize
                .quality(50)// set JPEG quality
                .write(`${path}/${name}_thumb.${extension}`); // save
       }).then(function(result) {
