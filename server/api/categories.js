@@ -36,6 +36,7 @@ module.exports = function(wagner, params) {
 function _id() {
   router.get('/categories/:_id', function(req, res) {
     var page = req.query.page ? Number(req.query.page) : 0;
+
     var iterable = [
       crudInst.getItems({
         collection: conf.db.collections.main,
@@ -60,10 +61,10 @@ function _id() {
       crudInst.getItem({
         collection:  conf.db.collections.categories,
         query: {_id: req.params._id},
-        projection: {name:1, thumbnail: 1, slug: 1, content: 1, img: 1, img_alt: 1, img_title: 1}
+        projection: {name:1, thumbnail: 1, slug: 1, content: 1, img: 1, img_alt: 1, img_title: 1, img_data: 1}
       }),
       crudInst.getPagination({
-        query: { store_id: req.params._id },
+        query: { categories: req.params._id },
         collection: conf.db.collections.main
       })
     ];

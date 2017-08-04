@@ -75,20 +75,30 @@ export default {
     let urlStoreList = `${host}${this.$store.state.routes.storeList}`
     let url = `${urlStoreList}/${this.id}`
 
-    return this.exists(this.info) ? {
+    let metas = [
+      { hid: 'title', name: 'title', content: `${this.info.name} – Ofertas y promociones | Ofertadeo` },
+      { hid: 'description', name: 'description', content: this.info.description },
+      { hid: 'og:title', property: 'og:title', content: `${this.info.name} – Ofertas y promociones | Ofertadeo` },
+      { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${this.info.name}. ✓ ¡Ahorra ya!` },
+      { hid: 'og:url', property: 'og:url', content: url },
+      { hid: 'og:image', property: 'og:image', content: this.info.img },
+      { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img },
+      { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
+    ]
+
+    if (this.info.img_data) {
+      metas.push(
+        { hid: 'og:image:width', property: 'og:image:width', content: this.info.img_data.width },
+        { hid: 'og:image:height', property: 'og:image:height', content: this.info.img_data.height },
+        { hid: 'og:image:type', property: 'og:image:type', content: this.info.img_data.type }
+      )
+    }
+
+    return (this.info && this.info.name) ? {
       title: `${this.info.name} – Ofertas y promociones | Ofertadeo`,
-      meta: [
-        { hid: 'title', name: 'title', content: `${this.info.name} – Ofertas y promociones | Ofertadeo` },
-        { hid: 'description', name: 'description', content: this.info.description },
-        { hid: 'og:title', property: 'og:title', content: `${this.info.name} – Ofertas y promociones | Ofertadeo` },
-        { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${this.info.name}. ✓ ¡Ahorra ya!` },
-        { hid: 'og:url', property: 'og:url', content: url },
-        { hid: 'og:image', property: 'og:image', content: this.info.img },
-        { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img },
-        { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
-        { hid: 'og:type', property: 'og:type', content: 'website' },
-        { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
-      ],
+      meta: metas,
       link: [
         { rel: 'canonical', href: url }
       ],
