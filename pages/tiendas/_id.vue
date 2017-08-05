@@ -79,9 +79,9 @@ export default {
     let url = `${urlStoreList}/${this.id}`
 
     let metas = [
-      { hid: 'title', name: 'title', content: `${this.info.name} – Ofertas y promociones | Ofertadeo` },
+      { hid: 'title', name: 'title', content: `${this.info.name} – Ofertas y promociones ${this.date} | Ofertadeo` },
       { hid: 'description', name: 'description', content: this.info.description },
-      { hid: 'og:title', property: 'og:title', content: `${this.info.name} – Ofertas y promociones | Ofertadeo` },
+      { hid: 'og:title', property: 'og:title', content: `${this.info.name} – Ofertas y promociones ${this.date} | Ofertadeo` },
       { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${this.info.name}. ✓ ¡Ahorra ya!` },
       { hid: 'og:url', property: 'og:url', content: url },
       { hid: 'og:image', property: 'og:image', content: this.info.img },
@@ -100,7 +100,7 @@ export default {
     }
 
     return (this.info && this.info.name) ? {
-      title: `${this.info.name} – Ofertas y promociones | Ofertadeo`,
+      title: `${this.info.name} – Ofertas y promociones ${this.date} | Ofertadeo`,
       meta: metas,
       link: [
         { rel: 'canonical', href: url }
