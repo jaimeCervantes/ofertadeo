@@ -25,7 +25,7 @@
     <template slot="content-footer" v-if="exists(info)">
       <v-divider class="section-divider"></v-divider>
       <footer>
-        <h2 v-text="info.name"></h2>
+        <h2 v-html="'Promociones ' + info.name"></h2>
         <div v-html="info.content"></div>
       </footer>
     </template>
