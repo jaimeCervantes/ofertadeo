@@ -58,20 +58,10 @@ function _id() {
       crudInst.getItem({
         collection:  conf.db.collections.secundary,
         query: {_id: req.params._id},
-        projection: {
-          name:1,
-          thumbnail: 1,
-          slug: 1,
-          url_site: 1,
-          content: 1,
-          img: 1,
-          img_alt:1,
-          img_title: 1,
-          img_data: 1
-        }
+        projection: {name:1, thumbnail: 1, slug: 1, content: 1, url_site: 1, img: 1, img_alt:1, img_title: 1, img_data: 1}
       }),
       crudInst.getPagination({
-        query: { store_id: req.params._id },
+        query: { $or: [{store_id: req.params._id }, { stores: req.params._id } ] },
         collection: conf.db.collections.main
       })
     ];

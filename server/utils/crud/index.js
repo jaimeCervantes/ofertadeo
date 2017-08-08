@@ -3,19 +3,14 @@ const config = require('../../config.js');
 let conf = config();
 
 utils.update({
-	collections: ['offers', 'stores', 'categories', 'pages'],
-	query: { thumbnail: { $regex: /^[^(http)]/ } },
-	projection: { thumbnail: 1},
+	collections: ['categories', 'stores'],
+	query: {},
+	projection: { name: 1, img: 1 },
 	callback: function (conn, coll, doc) {
-		conn.collection(coll).updateOne(this.query, { $set: { thumbnail: conf.host + doc.thumbnail } })
-	}
-});
-
-utils.update({
-	collections: ['offers', 'stores', 'categories', 'pages'],
-	query: { img: { $regex: /^[^(http)]/ } },
-	projection: { img: 1 },
-	callback: function (conn, coll, doc) {
-		conn.collection(coll).updateOne(this.query, { $set: { img: conf.host + doc.img } })
+		var imgParts = doc.img.split('.');
+		var imgPart1 =  imgParts.slice(0, imgParts.length-1).join('.');
+		var finalPart = imgPart1 + '_thumb.' + imgParts[imgParts.length-1];
+		console.log(finalPart);
+		conn.collection(coll).updateOne({_id: doc._id}, { $set: { thumbnail: finalPart } })
 	}
 });

@@ -5,9 +5,6 @@ moment.locale('es')
 
 export default {
   computed: {
-    name () {
-      return this.id.split('-').join(' ').toUpperCase()
-    },
     date () {
       var date = this.getDate('MMMM YYYY')
       return date.charAt(0).toUpperCase() + date.slice(1)
