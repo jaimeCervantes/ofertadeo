@@ -58,7 +58,7 @@ export default {
   async asyncData ({ params, route }) {
     let { data } = await axios.get(urlReq + params.id)
     if (data && data.info) {
-      data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${data.info.name}. ✓ ¡Ahorra ya!`
+      data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${data.info.name} ${OferCommon.methods.getDate('YYYY')}. ❤ ¡Ahorra ya!`
       data.info.title_front = `Ofertas ${data.info.name}`
     }
 
@@ -82,7 +82,7 @@ export default {
       { hid: 'title', name: 'title', content: `${this.info.name} – Ofertas y promociones ${this.date} | Ofertadeo` },
       { hid: 'description', name: 'description', content: this.info.description },
       { hid: 'og:title', property: 'og:title', content: `${this.info.name} – Ofertas y promociones ${this.date} | Ofertadeo` },
-      { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${this.info.name}. ✓ ¡Ahorra ya!` },
+      { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${this.info.name} ${this.year}. ❤ ¡Ahorra ya!` },
       { hid: 'og:url', property: 'og:url', content: url },
       { hid: 'og:image', property: 'og:image', content: this.info.img },
       { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img },
