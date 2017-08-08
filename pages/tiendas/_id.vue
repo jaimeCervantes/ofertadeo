@@ -58,7 +58,11 @@ export default {
   async asyncData ({ params, route }) {
     let { data } = await axios.get(urlReq + params.id)
     if (data && data.info) {
+<<<<<<< HEAD
       data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${data.info.name} ${OferCommon.methods.getDate('YYYY')}. ❤ ¡Ahorra ya!`
+=======
+      data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${data.info.name} ${this.year}. ❤ ¡Ahorra ya!`
+>>>>>>> a6b556ac02a7dbce2548e08b9eb4727c4749814c
       data.info.title_front = `Ofertas ${data.info.name}`
     }
 
