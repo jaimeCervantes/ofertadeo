@@ -28,8 +28,8 @@ const store = new Vuex.Store({
       main: '/promociones',
       storeList: '/tiendas'
     },
-    host: 'https://www.ofertadeo.com',
-    urlLogo: 'https://www.ofertadeo.com/logo.png',
+    host: 'http://localhost:3000',
+    urlLogo: 'http://localhost:3000/logo.png',
     txt: {
       categories: 'Categorías',
       stores: 'Tiendas'

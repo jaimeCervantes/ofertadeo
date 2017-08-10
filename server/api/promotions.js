@@ -39,8 +39,7 @@ function slug() {
       crudInst.getItem({
         collection: conf.db.mainCollection,
         query: { slug: req.params.slug },
-        items_per_page: 1,
-        sort: { _id: -1}
+        items_per_page: 1
       })
     ];
 
