@@ -212,7 +212,7 @@ var config = {
     main: '/promociones',
     storeList: '/tiendas'
   },
-  host: 'http://localhost:3000',
+  host: 'https://www.ofertadeo.com',
   paths: {
     root: path.resolve(__dirname, '../'),
     server: __dirname,
