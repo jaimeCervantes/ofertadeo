@@ -10,7 +10,7 @@ var jimp = require('jimp')
 
 var crudInst;
 var conf;
-var rootPathUploads = '/home/jaime'
+var rootPathUploads = '/home/jaime/static'
 module.exports = function(wagner, params) {
   wagner.invoke(function(conn, config) {
     conf = config;
