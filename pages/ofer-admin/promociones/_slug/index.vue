@@ -2,9 +2,9 @@
   <ofer-content>
     <template slot="info-section" v-if="exists(item)">
       <p class="promotion-data">
-        <nuxt-link :to="$store.state.routes.storeList + '/' + (item.store_id || item.stores[0])">
+        <nuxt-link :to="$store.state.routes.storeList + '/' + item.stores[0]">
           Ofertas 
-          <span class="promotion-data__store">{{arrayToString(item.stores || [item.store_id])}}</span>
+          <span class="promotion-data__store">{{arrayToString(item.stores)}}</span>
         </nuxt-link>
         |
         <nuxt-link :to="createLinkToCategories()">
@@ -102,7 +102,7 @@ export default {
       { hid: 'og:description', property: 'og:description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
       { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.main}/${this.item.slug}` },
       { hid: 'article:publisher', property: 'article:publisher', content: this.$store.state.publisher.fb },
-      { hid: 'article:tag', property: 'article:tag', content: this.arrayToString(this.item.stores || [this.item.store_id]) },
+      { hid: 'article:tag', property: 'article:tag', content: this.arrayToString(this.item.stores) },
       { hid: 'article:section', property: 'article:section', content: this.arrayToString(this.categories) },
       { hid: 'article:published_time', property: 'article:published_time', content: this.item.modified },
       { hid: 'og:image', property: 'og:image', content: this.item.img },
