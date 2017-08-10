@@ -47,7 +47,6 @@ function _id() {
         projection: {
           name: 1,
           thumbnail: 1,
-          store_id: 1,
           stores: 1,
           slug: 1,
           img: 1,
