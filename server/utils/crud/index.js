@@ -4,13 +4,10 @@ let conf = config();
 
 utils.update({
 	collections: ['offers'],
-	query: {},
-	projection: { name: 1, img: 1 },
+	query: { store_id: { $exists: true} },
+	projection: { store_id: 1 },
 	callback: function (conn, coll, doc) {
-		var imgParts = doc.img.split('.');
-		var imgPart1 =  imgParts.slice(0, imgParts.length-1).join('.');
-		var finalPart = imgPart1 + '_thumb.' + imgParts[imgParts.length-1];
-		console.log(finalPart);
-		conn.collection(coll).updateOne({_id: doc._id}, { $set: { thumbnail: finalPart } })
+		console.log(doc);
+		conn.collection(coll).updateOne({_id: doc._id}, { $set: { stores: [doc.store_id] }, $unset: { store_id: '' } })
 	}
 });
