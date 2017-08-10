@@ -94,7 +94,17 @@ function CRUD(params) {
 CRUD.prototype.getItems = function (params) {
   var db = this.DATABASE || params.db;
   var items_per_page = params.items_per_page || this.ITEMS_PER_PAGE;
-  return db.collection(this.COLLECTION || params.collection).find(params.query || {}, params.projection || {}).sort(params.sort || { _id: 1 }).skip(params.skip || 0).limit(items_per_page).toArray().then(function (docs) {
+  var cursor = db.collection(this.COLLECTION || params.collection).find(params.query || {}, params.projection || {});
+
+  if (params.sort) {
+    cursor.sort(params.sort);
+  }
+
+  if (params.skip) {
+    cursor.skip(params.skip);
+  }
+
+  return cursor.limit(items_per_page).toArray().then(function (docs) {
     if (items_per_page > 1) {
       return docs;
     } else {
@@ -142,7 +152,7 @@ CRUD.prototype.searchItems = function (params) {
 CRUD.prototype.getPagination = function (params) {
   var that = this;
   var db = that.DATABASE || params.db;
-  return db.collection(this.COLLECTION || params.collection).find(params.query || {}).count().then(function (numItems) {
+  return db.collection(this.COLLECTION || params.collection).count(params.query || {}).then(function (numItems) {
     var items_per_page = params.items_per_page || that.ITEMS_PER_PAGE;
     var numPages = 0;
     if (numItems > items_per_page) {
@@ -202,7 +212,7 @@ var config = {
     main: '/promociones',
     storeList: '/tiendas'
   },
-  host: 'https://www.ofertadeo.com',
+  host: 'http://localhost:3000',
   paths: {
     root: path.resolve(__dirname, '../'),
     server: __dirname,
@@ -897,8 +907,7 @@ function slug() {
     var iterable = [crudInst.getItem({
       collection: conf.db.mainCollection,
       query: { slug: req.params.slug },
-      items_per_page: 1,
-      sort: { _id: -1 }
+      items_per_page: 1
     })];
 
     return Promise.all(iterable).then(function (results) {
