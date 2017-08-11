@@ -20,6 +20,17 @@ export default {
     getDate (format) {
       return moment().format(format || 'DD MMMM YYYY')
     },
+    getISODateStr (paramDate) {
+      let date
+      if (paramDate) {
+        date = new Date(paramDate)
+      } else {
+        date = new Date()
+      }
+      let substract = date.getTime() - (300 * 60 * 1000) // minus 5 hrs
+      let dateStr = new Date(substract).toISOString().split('.')[0]
+      return dateStr + '-05:00'
+    },
     getTextFromHtml (strHtml) {
       return striptags(strHtml)
     },

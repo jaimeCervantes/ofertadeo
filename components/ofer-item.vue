@@ -17,8 +17,8 @@
           <img itemprop="url" :src="$store.state.host + '/favicons/apple-touch-icon-60x60.png'" width="60" height="60">
         </span>
       </span>
-      <span class="visually-hidden" itemprop="datePublished" v-html="item.published"></span>
-      <span class="visually-hidden" itemprop="dateModified" v-html="item.modified"></span>
+      <span class="visually-hidden" itemprop="datePublished" v-html="getISODateStr(item.published)"></span>
+      <span class="visually-hidden" itemprop="dateModified" v-html="getISODateStr(item.modified)"></span>
       <span itemprop="position" class="visually-hidden" v-html="position"></span>
       <v-card-row class="item__store" v-if="item.stores || item.categories">
         <div class="pl-2 pr-2">

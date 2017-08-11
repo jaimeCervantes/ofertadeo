@@ -14,7 +14,7 @@ var config = {
     shard3: 'pensemosweb-shard-00-02-147ev.mongodb.net:27017',
     queryString: '?ssl=true&replicaSet=pensemosweb-shard-0&authSource=admin',
     mainCollection: 'offers',
-    itemsPerPage: 12,
+    itemsPerPage: 18,
     collections: {
       main: 'offers',
       secundary: 'stores',
