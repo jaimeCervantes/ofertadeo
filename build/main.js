@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 32);
+/******/ 	return __webpack_require__(__webpack_require__.s = 31);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -258,7 +258,7 @@ module.exports = require("wagner-core");
 "use strict";
 
 
-var MongoClient = __webpack_require__(27).MongoClient;
+var MongoClient = __webpack_require__(26).MongoClient;
 
 function getConnection(config) {
   //connPromise is pending when trying to connect to mongodb atlas
@@ -292,7 +292,7 @@ var utils = __webpack_require__(8);
 var config = __webpack_require__(2)();
 var sm = __webpack_require__(9);
 var fs = __webpack_require__(3);
-var request = __webpack_require__(30);
+var request = __webpack_require__(29);
 
 config.paths.static = '/home/jaime/xml';
 var offers = '/sitemap-ofertas.xml';
@@ -413,11 +413,17 @@ var config = __webpack_require__(2)(wagner);
 __webpack_require__(6)(wagner);
 var CRUD = __webpack_require__(1);
 var fs = __webpack_require__(3);
-var zlib = __webpack_require__(31);
+var zlib = __webpack_require__(30);
 
-function getDate() {
-  var date = new Date();
-  var substract = date.getTime() - 300 * 60 * 1000;
+function getDate(dateObj) {
+  var date;
+  if (dateObj) {
+    date = new Date(dateObj);
+  } else {
+    date = new Date();
+  }
+
+  var substract = date.getTime() - 300 * 60 * 1000; // minus 5 hrs
   var dateStr = new Date(substract).toISOString().split('.')[0];
   return dateStr + '-05:00';
 }
@@ -464,7 +470,7 @@ function addToSitemap(sitemap, data, params) {
       url: params.route + '/' + current.slug,
       changefreq: params.changefreq || 'daily',
       priority: params.priority || 0.5,
-      lastmodISO: current.modified || getDate()
+      lastmodISO: getDate(current.modified)
     });
   });
 
@@ -575,7 +581,7 @@ router.use(upload(wagner));
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-var cron = __webpack_require__(29);
+var cron = __webpack_require__(28);
 var csm = __webpack_require__(7);
 var utils = __webpack_require__(8);
 var config = __webpack_require__(2)();
@@ -589,7 +595,7 @@ function checkDate() {
 		collecttion: config.db.collections.main,
 		query: {},
 		items_per_page: 1,
-		sort: { _id: -1 },
+		sort: { modified: -1 },
 		projection: { modified: 1 }
 	}).then(function (doc) {
 		var lastOfferDate = new Date(doc.modified);
@@ -599,9 +605,9 @@ function checkDate() {
 		var minus12hrsDate = new Date(minus12hrsDateTime);
 		var resp = {
 			lastOffer: doc.modified,
-			lastOfferDate: lastOfferDate,
+			lastOfferDate: utils.getDate(lastOfferDate),
 			lastOfferDateTime: lastOfferDateTime,
-			minus12hrsDate: minus12hrsDate,
+			minus12hrsDate: utils.getDate(minus12hrsDate),
 			minus12hrsDateTime: minus12hrsDateTime,
 			ping: false
 		};
@@ -616,6 +622,7 @@ function checkDate() {
 }
 
 function ping() {
+	//cron.schedule('*/1 * * * *', function (){
 	cron.schedule('1 12 * * *', function () {
 		//run every day at 12:00 hrs
 		checkDate().then(function (res) {
@@ -628,6 +635,7 @@ function ping() {
 		});
 	});
 
+	//cron.schedule('*/1 * * * *', function (){
 	cron.schedule('50 23 * * *', function () {
 		//run every day at 23:50 hours
 		checkDate().then(function (res) {
@@ -724,7 +732,7 @@ function _id() {
       query: { categories: req.params._id },
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
-      sort: { _id: -1 },
+      sort: { published: -1 },
       projection: {
         name: 1,
         thumbnail: 1,
@@ -834,7 +842,7 @@ function index() {
       collection: conf.db.collections.main,
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
-      sort: { _id: -1 },
+      sort: { published: -1 },
       projection: {
         name: 1,
         thumbnail: 1,
@@ -872,7 +880,6 @@ function index() {
 
 var express = __webpack_require__(0);
 var router = express.Router();
-var utils = __webpack_require__(24);
 var CRUD = __webpack_require__(1);
 var csm = __webpack_require__(7);
 
@@ -945,10 +952,10 @@ function getFormDataPromotions() {
 
 function createPromotion() {
   router.post('/promotions/new', function (req, res) {
-    var rightNow = utils.getDate();
+    var rightNow = new Date();
     var data = Object.assign({ modified: rightNow, published: rightNow }, req.body);
     crudInst.setItem({
-      collection: conf.db.mainCollection,
+      collection: conf.db.collections.main,
       document: data
     }).then(function (result) {
       res.json(result);
@@ -956,17 +963,13 @@ function createPromotion() {
         // @TODO, when we use more than one category and more than one store, the updateOne 
         // operation should be execute for each element in the arrary categories and stores
         return Promise.all([crudInst.updateOne({
-          collection: conf.db.collections.main,
-          query: { _id: result.insertedId },
-          update: { $set: { modified: utils.getDate() } }
-        }), crudInst.updateOne({
           collection: conf.db.collections.secundary,
           query: { _id: data.stores[0] },
-          update: { $set: { modified: utils.getDate() } }
+          update: { $set: { modified: rightNow } }
         }), crudInst.updateOne({
           collection: conf.db.collections.categories,
           query: { _id: data.categories[0] },
-          update: { $set: { modified: utils.getDate() } }
+          update: { $set: { modified: rightNow } }
         })]);
       }
     }).then(function (results) {
@@ -1023,7 +1026,7 @@ function _id() {
       query: { stores: req.params._id },
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
-      sort: { _id: -1 },
+      sort: { published: -1 },
       projection: {
         name: 1,
         thumbnail: 1,
@@ -1099,17 +1102,17 @@ function index() {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_multer__);
 
 
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(1);
-var mkdirp = __webpack_require__(26);
+var mkdirp = __webpack_require__(25);
 var path = __webpack_require__(4);
 
-var jimp = __webpack_require__(25);
+var jimp = __webpack_require__(24);
 
 var crudInst;
 var conf;
@@ -1203,61 +1206,46 @@ function mkdirPromise(pathFile) {
 /* 24 */
 /***/ function(module, exports) {
 
-function getDate() {
-  var date = new Date();
-  var substract = date.getTime() - 300 * 60 * 1000;
-  var dateStr = new Date(substract).toISOString().split('.')[0];
-  return dateStr + '-05:00';
-}
-
-module.exports = {
-  getDate: getDate
-};
+module.exports = require("jimp");
 
 /***/ },
 /* 25 */
 /***/ function(module, exports) {
 
-module.exports = require("jimp");
+module.exports = require("mkdirp");
 
 /***/ },
 /* 26 */
 /***/ function(module, exports) {
 
-module.exports = require("mkdirp");
+module.exports = require("mongodb");
 
 /***/ },
 /* 27 */
 /***/ function(module, exports) {
 
-module.exports = require("mongodb");
+module.exports = require("multer");
 
 /***/ },
 /* 28 */
 /***/ function(module, exports) {
 
-module.exports = require("multer");
+module.exports = require("node-cron");
 
 /***/ },
 /* 29 */
 /***/ function(module, exports) {
 
-module.exports = require("node-cron");
+module.exports = require("request");
 
 /***/ },
 /* 30 */
 /***/ function(module, exports) {
 
-module.exports = require("request");
-
-/***/ },
-/* 31 */
-/***/ function(module, exports) {
-
 module.exports = require("zlib");
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
