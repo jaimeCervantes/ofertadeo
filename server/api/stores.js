@@ -39,7 +39,7 @@ function _id() {
         query: { stores: req.params._id },
         items_per_page: conf.db.itemsPerPage,
         skip: conf.db.itemsPerPage*page,
-        sort: { _id: -1},
+        sort: { published: -1},
         projection: {
           name: 1,
           thumbnail: 1,

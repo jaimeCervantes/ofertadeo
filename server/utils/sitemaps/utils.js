@@ -6,9 +6,15 @@ var CRUD = require('../../db/crud.js');
 var fs = require('fs');
 var zlib = require('zlib');
 
-function getDate () {
-  var date = new Date();
-  var substract = date.getTime() - (300*60*1000);
+function getDate (dateObj) {
+  var date;
+  if(dateObj) {
+    date = dateObj;
+  } else {
+    date = new Date();
+  }
+  
+  var substract = date.getTime() - (300*60*1000);// minus 5 hrs
   var dateStr = new Date(substract).toISOString().split('.')[0];
   return dateStr + '-05:00';
 }
@@ -60,7 +66,7 @@ function addToSitemap(sitemap, data, params) {
       url: params.route + '/' + current.slug,
       changefreq: params.changefreq || 'daily',
       priority: params.priority || 0.5,
-      lastmodISO: current.modified || getDate()
+      lastmodISO: getDate(current.modified)
     });
   });
 
