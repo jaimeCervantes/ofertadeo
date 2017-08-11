@@ -95,7 +95,7 @@ export default {
       { hid: 'article:publisher', property: 'article:publisher', content: this.$store.state.publisher.fb },
       { hid: 'article:tag', property: 'article:tag', content: this.arrayToString(this.item.stores) },
       { hid: 'article:section', property: 'article:section', content: this.arrayToString(this.categories) },
-      { hid: 'article:published_time', property: 'article:published_time', content: this.item.modified },
+      { hid: 'article:published_time', property: 'article:published_time', content: this.getISODateStr(this.item.modified) },
       { hid: 'og:image', property: 'og:image', content: this.item.img },
       { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.item.img },
       { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
@@ -129,8 +129,8 @@ export default {
                 'height': this.item.img_data && this.item.img_data.height ? this.item.img_data.height : 600,
                 'width': this.item.img_data && this.item.img_data.width ? this.item.img_data.width : 600
               },
-              'datePublished': this.item.published,
-              'dateModified': this.item.modified,
+              'datePublished': this.getISODateStr(this.item.published),
+              'dateModified': this.getISODateStr(this.item.modified),
               'author': {
                 '@type': 'Organization',
                 'name': 'Ofertadeo'

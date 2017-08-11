@@ -2,7 +2,6 @@
 
 var express = require('express');
 var router = express.Router();
-var utils = require('./utils');
 var CRUD = require('../db/crud.js');
 var csm = require('../utils/sitemaps/create-sitemap.js');
 
@@ -89,10 +88,10 @@ function getFormDataPromotions() {
 
 function createPromotion () {
   router.post('/promotions/new', function(req, res) {
-    var rightNow = utils.getDate();
+    var rightNow = new Date();
     var data = Object.assign({ modified: rightNow, published: rightNow }, req.body);
     crudInst.setItem({
-      collection: conf.db.mainCollection,
+      collection: conf.db.collections.main,
       document: data
     })
     .then(function(result){
@@ -101,22 +100,17 @@ function createPromotion () {
         // @TODO, when we use more than one category and more than one store, the updateOne 
         // operation should be execute for each element in the arrary categories and stores
         return Promise.all([
-            crudInst.updateOne({
-              collection: conf.db.collections.main,
-              query: { _id: result.insertedId },
-              update: { $set: { modified: utils.getDate() } }
-            }),
-            crudInst.updateOne({
-              collection: conf.db.collections.secundary,
-              query: { _id: data.stores[0] },
-              update: { $set: { modified: utils.getDate() } }
-            }),
-            crudInst.updateOne({
-              collection: conf.db.collections.categories,
-              query: { _id: data.categories[0] },
-              update: { $set: { modified: utils.getDate() } }
-            })
-          ])
+          crudInst.updateOne({
+            collection: conf.db.collections.secundary,
+            query: { _id: data.stores[0] },
+            update: { $set: { modified: rightNow } }
+          }),
+          crudInst.updateOne({
+            collection: conf.db.collections.categories,
+            query: { _id: data.categories[0] },
+            update: { $set: { modified: rightNow } }
+          })
+        ])
       }
     })
     .then(function(results) {

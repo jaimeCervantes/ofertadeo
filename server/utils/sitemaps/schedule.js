@@ -13,7 +13,7 @@ function checkDate () {
 		collecttion: config.db.collections.main,
 		query: {},
 		items_per_page: 1,
-		sort: { _id: -1 },
+		sort: { modified: -1 },
 		projection: { modified: 1 }
 	}).then(function(doc){
 		let lastOfferDate = new Date(doc.modified);
@@ -23,9 +23,9 @@ function checkDate () {
 		let minus12hrsDate = new Date(minus12hrsDateTime);
 		let resp = {
 			lastOffer: doc.modified,
-			lastOfferDate: lastOfferDate,
+			lastOfferDate: utils.getDate(lastOfferDate),
 			lastOfferDateTime: lastOfferDateTime,
-			minus12hrsDate: minus12hrsDate,
+			minus12hrsDate: utils.getDate(minus12hrsDate),
 			minus12hrsDateTime: minus12hrsDateTime,
 			ping: false
 		};
@@ -42,6 +42,7 @@ function checkDate () {
 
 
 function ping () {
+	//cron.schedule('*/1 * * * *', function (){
 	cron.schedule('1 12 * * *', function (){ //run every day at 12:00 hrs
 	  checkDate().then(function(res) {
 	  	if(res && res.ping) {
@@ -53,6 +54,7 @@ function ping () {
 	  });
 	});
 
+	//cron.schedule('*/1 * * * *', function (){
 	cron.schedule('50 23 * * *', function () {//run every day at 23:50 hours
 			checkDate().then(function(res) {
 		  	if(res && res.ping) {
