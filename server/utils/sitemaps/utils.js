@@ -9,7 +9,7 @@ var zlib = require('zlib');
 function getDate (dateObj) {
   var date;
   if(dateObj) {
-    date = dateObj;
+    date = new Date(dateObj);
   } else {
     date = new Date();
   }
