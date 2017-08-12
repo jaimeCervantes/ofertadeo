@@ -1,7 +1,7 @@
 var config = require('../../config.js').config;
 var wagner = require('wagner-core');
 var Crud = require(config.paths.server + '/db/crud.js');
-var Feed = require('feed');
+var Feed = require('./feed');
 var fs = require('fs');
 var striptags = require('striptags');
 var utils = require(config.paths.server + '/utils/index.js');
