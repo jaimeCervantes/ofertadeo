@@ -83,8 +83,8 @@ module.exports = {
 
 	schedule () {
 		var index = this;
-		cron.schedule('*/1 * * * *', function (){
-		//cron.schedule('1 12 * * *', function (){ //run every day at 12:00 hrs
+		//cron.schedule('*/1 * * * *', function (){
+		cron.schedule('1 12 * * *', function (){ //run every day at 12:00 hrs
 		  utils
 		  .checkIfNewOffers()
 		  .then(function(res) {
@@ -98,8 +98,8 @@ module.exports = {
 		  });
 		});
 
-		cron.schedule('*/1 * * * *', function (){
-		//cron.schedule('50 23 * * *', function () {//run every day at 23:50 hours
+		//cron.schedule('*/1 * * * *', function (){
+		cron.schedule('50 23 * * *', function () {//run every day at 23:50 hours
 				utils
 		  	.checkIfNewOffers()
 				.then(function(res) {
