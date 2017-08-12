@@ -20,6 +20,7 @@
     "cross-env": "^4.0.0",
     "express": "^4.14.0",
     "express-preconditions": "^1.0.4",
+    "feed": "^1.1.0",
     "helmet": "^3.6.1",
     "jimp": "^0.2.28",
     "mkdirp": "^0.5.1",
