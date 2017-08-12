@@ -1,8 +1,8 @@
-const utils = require('./utils');
+const cudUtils = require('./utils');
 const config = require('../../config.js');
 let conf = config();
 
-utils.update({
+cudUtils.update({
 	collections: ['offers', 'pages', 'categories', 'stores'],
 	query: { published: { $exists: true} },
 	projection: { published: 1 },
@@ -12,7 +12,7 @@ utils.update({
 	}
 });
 
-utils.update({
+cudUtils.update({
 	collections: ['offers', 'pages', 'categories', 'stores'],
 	query: { modified: { $exists: true} },
 	projection: { modified: 1 },

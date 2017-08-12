@@ -9,6 +9,7 @@ import rfs from 'rotating-file-stream'
 import path from 'path'
 import fs from 'fs'
 import sitemapSchedule from './utils/sitemaps/schedule'
+import feed from './utils/feed/'
 
 const develop = !(process.env.NODE_ENV === 'production')
 const app = express()
@@ -69,3 +70,4 @@ app.listen(port)
 console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
 //Schedule ping to web search engines
 sitemapSchedule.ping()
+feed.schedule()
