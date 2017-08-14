@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 31);
+/******/ 	return __webpack_require__(__webpack_require__.s = 36);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -79,9 +79,66 @@ module.exports = require("express");
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(__dirname) {
+
+var wagner = __webpack_require__(4);
+var path = __webpack_require__(5);
+
+var config = {
+  db: {
+    user: "ofertadeo_publisher",
+    password: "Cdop_2017*",
+    name: 'ofertadeo',
+    host: 'localhost:27017',
+    shard1: 'pensemosweb-shard-00-00-147ev.mongodb.net:27017',
+    shard2: 'pensemosweb-shard-00-01-147ev.mongodb.net:27017',
+    shard3: 'pensemosweb-shard-00-02-147ev.mongodb.net:27017',
+    queryString: '?ssl=true&replicaSet=pensemosweb-shard-0&authSource=admin',
+    mainCollection: 'offers',
+    itemsPerPage: 18,
+    collections: {
+      main: 'offers',
+      secundary: 'stores',
+      categories: 'categories',
+      pages: 'pages'
+    }
+  },
+  routes: {
+    categories: '/categorias',
+    categoriesList: '/categorias',
+    stores: '/promociones',
+    main: '/promociones',
+    storeList: '/tiendas'
+  },
+  host: 'https://www.ofertadeo.com',
+  paths: {
+    root: path.resolve(__dirname, '../'),
+    server: __dirname,
+    static: path.resolve(__dirname, '../static')
+  },
+  app_status: 'deploy'
+};
+
+module.exports = function (wagner) {
+  if (wagner) {
+    wagner.factory('config', function () {
+      return config;
+    });
+  }
+  return config;
+};
+
+module.exports.config = config;
+/* WEBPACK VAR INJECTION */}.call(exports, "server"))
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
 
 
-var config = __webpack_require__(2).config;
+var config = __webpack_require__(1).config;
 
 module.exports = CRUD;
 
@@ -177,63 +234,6 @@ CRUD.prototype.aggregation = function (params) {
 };
 
 /***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(__dirname) {
-
-var wagner = __webpack_require__(5);
-var path = __webpack_require__(4);
-
-var config = {
-  db: {
-    user: "ofertadeo_publisher",
-    password: "Cdop_2017*",
-    name: 'ofertadeo',
-    host: 'localhost:27017',
-    shard1: 'pensemosweb-shard-00-00-147ev.mongodb.net:27017',
-    shard2: 'pensemosweb-shard-00-01-147ev.mongodb.net:27017',
-    shard3: 'pensemosweb-shard-00-02-147ev.mongodb.net:27017',
-    queryString: '?ssl=true&replicaSet=pensemosweb-shard-0&authSource=admin',
-    mainCollection: 'offers',
-    itemsPerPage: 18,
-    collections: {
-      main: 'offers',
-      secundary: 'stores',
-      categories: 'categories',
-      pages: 'pages'
-    }
-  },
-  routes: {
-    categories: '/categorias',
-    categoriesList: '/categorias',
-    stores: '/promociones',
-    main: '/promociones',
-    storeList: '/tiendas'
-  },
-  host: 'https://www.ofertadeo.com',
-  paths: {
-    root: path.resolve(__dirname, '../'),
-    server: __dirname,
-    static: path.resolve(__dirname, '../static')
-  },
-  app_status: 'deploy'
-};
-
-module.exports = function (wagner) {
-  if (wagner) {
-    wagner.factory('config', function () {
-      return config;
-    });
-  }
-  return config;
-};
-
-module.exports.config = config;
-/* WEBPACK VAR INJECTION */}.call(exports, "server"))
-
-/***/ },
 /* 3 */
 /***/ function(module, exports) {
 
@@ -243,13 +243,13 @@ module.exports = require("fs");
 /* 4 */
 /***/ function(module, exports) {
 
-module.exports = require("path");
+module.exports = require("wagner-core");
 
 /***/ },
 /* 5 */
 /***/ function(module, exports) {
 
-module.exports = require("wagner-core");
+module.exports = require("path");
 
 /***/ },
 /* 6 */
@@ -258,7 +258,7 @@ module.exports = require("wagner-core");
 "use strict";
 
 
-var MongoClient = __webpack_require__(26).MongoClient;
+var MongoClient = __webpack_require__(30).MongoClient;
 
 function getConnection(config) {
   //connPromise is pending when trying to connect to mongodb atlas
@@ -288,11 +288,89 @@ module.exports = function (wagner) {
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-var utils = __webpack_require__(8);
-var config = __webpack_require__(2)();
-var sm = __webpack_require__(9);
+var config = __webpack_require__(1).config;
+var wagner = __webpack_require__(4);
+var Crud = __webpack_require__(2);
+
+__webpack_require__(1)(wagner);
+__webpack_require__(6)(wagner);
+
+function getCrud() {
+  return wagner.invoke(function (conn) {
+    return conn;
+  }).then(function (conn) {
+    return new Crud({ db: conn });
+  });
+}
+
+function formatDateStr(date, format) {
+  var dateStr = new Date(date);
+  if (format && format.toUpperCase() === 'GMT') {
+    return dateStr.toGMTString().split('GMT')[0] + '-0500';
+  }
+  return dateStr.toISOString().split('.')[0] + '-05:00';
+}
+
+function getDate(dateObj, format) {
+  var date;
+  if (dateObj) {
+    date = new Date(dateObj);
+  } else {
+    date = new Date();
+  }
+
+  var substract = date.getTime() - 300 * 60 * 1000; // minus 5 hrs
+
+  return formatDateStr(substract, format);
+}
+
+function checkIfNewOffers() {
+  return getCrud().then(function (crud) {
+    return crud.getItem({
+      collection: config.db.collections.main,
+      query: {},
+      sort: { published: -1 },
+      projection: { published: 1 }
+    });
+  }).then(function (doc) {
+    var lastOfferDate = new Date(doc.published);
+    var lastOfferDateTime = new Date(doc.published).getTime();
+    var hours = 12 * 60 * 60 * 1000;
+    var minus12hrsDateTime = new Date().getTime() - hours;
+    var minus12hrsDate = new Date(minus12hrsDateTime);
+    var resp = {
+      lastOffer: doc.published,
+      lastOfferDate: getDate(lastOfferDate),
+      lastOfferDateTime: lastOfferDateTime,
+      minus12hrsDate: getDate(minus12hrsDate),
+      minus12hrsDateTime: minus12hrsDateTime,
+      news: false
+    };
+
+    if (lastOfferDateTime >= minus12hrsDateTime) {
+      resp.news = true;
+      return resp;
+    }
+
+    return resp;
+  });
+}
+
+module.exports = {
+  getDate: getDate,
+  checkIfNewOffers: checkIfNewOffers,
+  getCrud: getCrud
+};
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+var utils = __webpack_require__(27);
+var config = __webpack_require__(1)();
+var sm = __webpack_require__(10);
 var fs = __webpack_require__(3);
-var request = __webpack_require__(29);
+var request = __webpack_require__(32);
 
 config.paths.static = '/home/jaime/xml';
 var offers = '/sitemap-ofertas.xml';
@@ -404,106 +482,19 @@ module.exports = {
 };
 
 /***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/* 9 */
+/***/ function(module, exports) {
 
-var wagner = __webpack_require__(5);
-var sm = __webpack_require__(9);
-var config = __webpack_require__(2)(wagner);
-__webpack_require__(6)(wagner);
-var CRUD = __webpack_require__(1);
-var fs = __webpack_require__(3);
-var zlib = __webpack_require__(30);
-
-function getDate(dateObj) {
-  var date;
-  if (dateObj) {
-    date = new Date(dateObj);
-  } else {
-    date = new Date();
-  }
-
-  var substract = date.getTime() - 300 * 60 * 1000; // minus 5 hrs
-  var dateStr = new Date(substract).toISOString().split('.')[0];
-  return dateStr + '-05:00';
-}
-
-function getData(params) {
-  return wagner.invoke(function (conn) {
-    return conn;
-  }).then(function (db) {
-    return new CRUD({ db: db });
-  }).then(function (crud) {
-    return crud.getItems({
-      collection: params.collection || 'offers',
-      query: params.query || {},
-      projection: params.projection || { slug: 1, modified: 1 },
-      items_per_page: params.items_per_page || 10000,
-      sort: { _id: -1 }
-    });
-  });
-}
-
-function compress(path) {
-  var readable = fs.createReadStream(path);
-  var writable = fs.createWriteStream(path + '.gz');
-  var gzip = zlib.createGzip();
-  readable.pipe(gzip).pipe(writable);
-  gzip.on('end', function () {
-    writable.end();
-    console.log(path + ' sitemap file is compressed!!');
-  });
-}
-
-function createSitemap() {
-  var sitemap = sm.createSitemap({
-    hostname: config.host,
-    xmlNs: 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n      xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"\n      xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"\n      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n      xmlns:xhtml="http://www.w3.org/1999/xhtml"\n      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"'
-  });
-
-  return sitemap;
-}
-
-function addToSitemap(sitemap, data, params) {
-  data.forEach(function (current) {
-    sitemap.add({
-      url: params.route + '/' + current.slug,
-      changefreq: params.changefreq || 'daily',
-      priority: params.priority || 0.5,
-      lastmodISO: getDate(current.modified)
-    });
-  });
-
-  return sitemap;
-}
-
-function createSitemapFile(sitemap, params) {
-  fs.writeFile(params.sitemap_path, sitemap.toString(), function (err) {
-    if (err) {
-      return console.log(err);
-    }
-    console.log(params.sitemapName + ' sitemap has been created!!');
-    compress(params.sitemap_path);
-  });
-}
-
-module.exports = {
-  createSitemap: createSitemap,
-  createSitemapFile: createSitemapFile,
-  compress: compress,
-  addToSitemap: addToSitemap,
-  getData: getData,
-  getDate: getDate
-};
+module.exports = require("node-cron");
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 module.exports = require("sitemap");
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 module.exports = {
@@ -550,21 +541,21 @@ module.exports = {
 };
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
 
-var wagner = __webpack_require__(5);
-var home = __webpack_require__(20);
-var categories = __webpack_require__(19);
-var stores = __webpack_require__(22);
-var promotions = __webpack_require__(21);
-var upload = __webpack_require__(23);
+var wagner = __webpack_require__(4);
+var home = __webpack_require__(22);
+var categories = __webpack_require__(21);
+var stores = __webpack_require__(24);
+var promotions = __webpack_require__(23);
+var upload = __webpack_require__(25);
 
-__webpack_require__(2)(wagner);
+__webpack_require__(1)(wagner);
 __webpack_require__(6)(wagner);
 
 var router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
@@ -578,55 +569,136 @@ router.use(upload(wagner));
 /* harmony default export */ exports["a"] = router;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-var cron = __webpack_require__(28);
-var csm = __webpack_require__(7);
-var utils = __webpack_require__(8);
-var config = __webpack_require__(2)();
+var config = __webpack_require__(1).config;
+var Feed = __webpack_require__(26);
+var fs = __webpack_require__(3);
+var striptags = __webpack_require__(33);
+var utils = __webpack_require__(7);
+var cron = __webpack_require__(9);
+
+config.paths.static = '/home/jaime/static/feed';
+
+module.exports = {
+	create: function create() {
+		utils.getCrud().then(function (crud) {
+			return crud.getItems({
+				collection: config.db.collections.main,
+				items_per_page: 10,
+				sort: { published: -1 }
+			});
+		}).then(function (docs) {
+			var feedXml = new Feed({
+				title: 'Ofertadeo',
+				description: 'Nuevas ofertas',
+				link: config.host,
+				image: config.host + '/logo.png',
+				favicon: config.host + '/favicons/favicon.ico',
+				copyright: 'Ofertadeo',
+				updated: new Date(),
+				generator: 'ofertadeo',
+				feedLinks: {
+					json: config.host + '/feed/feed-json.json',
+					atom: config.host + '/feed/feed-atom.xml'
+				}
+			});
+
+			docs.forEach(function (doc) {
+				var content = striptags(doc.content);
+				var description = content.slice(0, 150);
+				if (description.length === 150) {
+					description += '...';
+				}
+				feedXml.addItem({
+					title: doc.title,
+					link: config.host + config.routes.main + '/' + doc.slug,
+					description: description,
+					content: doc.content,
+					category: doc.categories[0],
+					date: doc.published,
+					image: doc.img
+				});
+			});
+
+			fs.writeFile(config.paths.static + '/feed-rss2.xml', feedXml.rss2(), 'utf8', function (err) {
+				if (err) {
+					return console.log(err);
+				}
+				console.log('RSS2 was created :=)');
+			});
+
+			fs.writeFile(config.paths.static + '/feed-atom.xml', feedXml.atom1(), 'utf8', function (err) {
+				if (err) {
+					return console.log(err);
+				}
+				console.log('Atom was created :=)');
+			});
+
+			fs.writeFile(config.paths.static + '/feed-json.json', feedXml.atom1(), 'utf8', function (err) {
+				if (err) {
+					return console.log(err);
+				}
+				console.log('JSON was created :=)');
+			});
+		}).then(function () {
+			console.log('OK');
+		}).catch(function (err) {
+			console.log(err);
+		});
+	},
+	schedule: function schedule() {
+		var index = this;
+		//cron.schedule('*/1 * * * *', function (){
+		cron.schedule('1 12 * * *', function () {
+			//run every day at 12:00 hrs
+			utils.checkIfNewOffers().then(function (res) {
+				console.log('feedburne');
+				if (res && res.news) {
+					index.create();
+				}
+				console.log(res);
+			}).catch(function (err) {
+				console.log(err);
+			});
+		});
+
+		//cron.schedule('*/1 * * * *', function (){
+		cron.schedule('50 23 * * *', function () {
+			//run every day at 23:50 hours
+			utils.checkIfNewOffers().then(function (res) {
+				console.log('feedburne');
+				if (res && res.news) {
+					index.create();
+				}
+				console.log(res);
+			}).catch(function (err) {
+				console.log(err);
+			});
+		});
+	}
+};
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+var cron = __webpack_require__(9);
+var csm = __webpack_require__(8);
+var utils = __webpack_require__(7);
 
 var schedule = {
 	ping: ping
 };
 
-function checkDate() {
-	return utils.getData({
-		collecttion: config.db.collections.main,
-		query: {},
-		items_per_page: 1,
-		sort: { modified: -1 },
-		projection: { modified: 1 }
-	}).then(function (doc) {
-		var lastOfferDate = new Date(doc.modified);
-		var lastOfferDateTime = new Date(doc.modified).getTime();
-		var hours = 12 * 60 * 60 * 1000;
-		var minus12hrsDateTime = new Date().getTime() - hours;
-		var minus12hrsDate = new Date(minus12hrsDateTime);
-		var resp = {
-			lastOffer: doc.modified,
-			lastOfferDate: utils.getDate(lastOfferDate),
-			lastOfferDateTime: lastOfferDateTime,
-			minus12hrsDate: utils.getDate(minus12hrsDate),
-			minus12hrsDateTime: minus12hrsDateTime,
-			ping: false
-		};
-
-		if (lastOfferDateTime >= minus12hrsDateTime) {
-			resp.ping = true;
-			return resp;
-		}
-
-		return resp;
-	});
-}
-
 function ping() {
 	//cron.schedule('*/1 * * * *', function (){
 	cron.schedule('1 12 * * *', function () {
 		//run every day at 12:00 hrs
-		checkDate().then(function (res) {
-			if (res && res.ping) {
+		utils.checkIfNewOffers().then(function (res) {
+			console.log('sitemaps');
+			if (res && res.news) {
 				csm.ping();
 			}
 			console.log(res);
@@ -638,8 +710,9 @@ function ping() {
 	//cron.schedule('*/1 * * * *', function (){
 	cron.schedule('50 23 * * *', function () {
 		//run every day at 23:50 hours
-		checkDate().then(function (res) {
-			if (res && res.ping) {
+		utils.checkIfNewOffers().then(function (res) {
+			console.log('sitemaps');
+			if (res && res.news) {
 				console.log(res);
 				csm.ping();
 			}
@@ -652,43 +725,43 @@ function ping() {
 module.exports = schedule;
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 module.exports = require("body-parser");
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 module.exports = require("compression");
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 module.exports = require("helmet");
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports) {
 
 module.exports = require("morgan");
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 module.exports = require("nuxt");
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports) {
 
 module.exports = require("rotating-file-stream");
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -696,7 +769,7 @@ module.exports = require("rotating-file-stream");
 
 var express = __webpack_require__(0);
 var router = express.Router();
-var CRUD = __webpack_require__(1);
+var CRUD = __webpack_require__(2);
 
 var crudInst;
 var conf;
@@ -801,7 +874,7 @@ function index() {
 }
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -809,7 +882,7 @@ function index() {
 
 var express = __webpack_require__(0);
 var router = express.Router();
-var CRUD = __webpack_require__(1);
+var CRUD = __webpack_require__(2);
 var crudInst;
 var conf;
 
@@ -872,7 +945,7 @@ function index() {
 }
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -880,8 +953,8 @@ function index() {
 
 var express = __webpack_require__(0);
 var router = express.Router();
-var CRUD = __webpack_require__(1);
-var csm = __webpack_require__(7);
+var CRUD = __webpack_require__(2);
+var csm = __webpack_require__(8);
 
 var crudInst;
 var conf;
@@ -985,7 +1058,7 @@ function createPromotion() {
 }
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -993,7 +1066,7 @@ function createPromotion() {
 
 var express = __webpack_require__(0);
 var router = express.Router();
-var CRUD = __webpack_require__(1);
+var CRUD = __webpack_require__(2);
 var crudInst;
 var conf;
 
@@ -1097,22 +1170,22 @@ function index() {
 }
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_multer__);
 
 
 var express = __webpack_require__(0);
 var router = express.Router();
-var CRUD = __webpack_require__(1);
-var mkdirp = __webpack_require__(25);
-var path = __webpack_require__(4);
+var CRUD = __webpack_require__(2);
+var mkdirp = __webpack_require__(29);
+var path = __webpack_require__(5);
 
-var jimp = __webpack_require__(24);
+var jimp = __webpack_require__(28);
 
 var crudInst;
 var conf;
@@ -1203,74 +1276,659 @@ function mkdirPromise(pathFile) {
 }
 
 /***/ },
-/* 24 */
-/***/ function(module, exports) {
-
-module.exports = require("jimp");
-
-/***/ },
-/* 25 */
-/***/ function(module, exports) {
-
-module.exports = require("mkdirp");
-
-/***/ },
 /* 26 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-module.exports = require("mongodb");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var xml = __webpack_require__(34);
+var utils = __webpack_require__(7);
+
+var GENERATOR = 'Feed for Node.js';
+var DOCTYPE = '<?xml version="1.0" encoding="utf-8"?>\n';
+
+var Feed = function () {
+  function Feed(options) {
+    _classCallCheck(this, Feed);
+
+    this.options = options;
+    this.items = [];
+    this.categories = [];
+    this.contributors = [];
+  }
+
+  _createClass(Feed, [{
+    key: 'addItem',
+    value: function addItem(item) {
+      this.items.push(item);
+    }
+  }, {
+    key: 'addCategory',
+    value: function addCategory(category) {
+      this.categories.push(category);
+    }
+  }, {
+    key: 'addContributor',
+    value: function addContributor(contributor) {
+      this.contributors.push(contributor);
+    }
+  }, {
+    key: 'render',
+    value: function render(format) {
+      console.warn('DEPRECATED: use atom1() or rss2() instead of render()');
+      if (format === 'atom-1.0') {
+        return this.atom1();
+      } else {
+        return this.rss2();
+      }
+    }
+  }, {
+    key: 'atom1',
+    value: function atom1() {
+      var options = this.options;
+
+
+      var feed = [{ _attr: { xmlns: 'http://www.w3.org/2005/Atom' } }, { id: options.id }, { title: options.title }, { updated: options.updated ? utils.getDate(options.updated) : utils.getDate(new Date()) }, { generator: options.generator || GENERATOR }];
+
+      var root = [{ feed: feed }];
+
+      if (options.author) {
+        var _options$author = options.author,
+            name = _options$author.name,
+            email = _options$author.email,
+            link = _options$author.link;
+
+        var author = [];
+
+        if (name) {
+          author.push({ name: name });
+        }
+
+        if (email) {
+          author.push({ email: email });
+        }
+
+        if (link) {
+          author.push({ uri: link });
+        }
+
+        feed.push({ author: author });
+      }
+
+      // link (rel="alternate")
+      if (options.link) {
+        feed.push({ link: { _attr: { rel: 'alternate', href: options.link } } });
+      }
+
+      // link (rel="self")
+      var atomLink = options.feed || options.feedLinks && options.feedLinks.atom;
+      if (atomLink) {
+        feed.push({ "link": { _attr: { rel: 'self', href: atomLink } } });
+      }
+
+      // link (rel="hub")
+      if (options.hub) {
+        feed.push({ link: { _attr: { rel: 'hub', href: options.hub } } });
+      }
+
+      /**************************************************************************
+       * "feed" node: optional elements
+       *************************************************************************/
+
+      if (options.description) {
+        feed.push({ subtitle: options.description });
+      }
+
+      if (options.image) {
+        feed.push({ logo: options.image });
+      }
+
+      if (options.favicon) {
+        feed.push({ icon: options.favicon });
+      }
+
+      if (options.copyright) {
+        feed.push({ rights: options.copyright });
+      }
+
+      this.categories.forEach(function (category) {
+        feed.push({ category: [{ _attr: { term: category } }] });
+      });
+
+      this.contributors.forEach(function (item) {
+        var name = item.name,
+            email = item.email,
+            link = item.link;
+
+        var contributor = [];
+
+        if (name) {
+          contributor.push({ name: name });
+        }
+
+        if (email) {
+          contributor.push({ email: email });
+        }
+
+        if (link) {
+          contributor.push({ uri: link });
+        }
+
+        feed.push({ contributor: contributor });
+      });
+
+      // icon
+
+      /**************************************************************************
+       * "entry" nodes
+       *************************************************************************/
+      this.items.forEach(function (item) {
+        //
+        // entry: required elements
+        //
+
+        var entry = [{ title: { _attr: { type: 'html' }, _cdata: item.title } }, { id: item.id || item.link }, { link: [{ _attr: { href: item.link } }] }, { updated: utils.getDate(item.date) }];
+
+        //
+        // entry: recommended elements
+        //
+        if (item.description) {
+          entry.push({ summary: { _attr: { type: 'html' }, _cdata: item.description } });
+        }
+
+        if (item.content) {
+          entry.push({ content: { _attr: { type: 'html' }, _cdata: item.content } });
+        }
+
+        // entry author(s)
+        if (Array.isArray(item.author)) {
+          item.author.forEach(function (oneAuthor) {
+            var name = oneAuthor.name,
+                email = oneAuthor.email,
+                link = oneAuthor.link;
+
+            var author = [];
+
+            if (name) {
+              author.push({ name: name });
+            }
+
+            if (email) {
+              author.push({ email: email });
+            }
+
+            if (link) {
+              author.push({ uri: link });
+            }
+
+            entry.push({ author: author });
+          });
+        }
+
+        // content
+
+        // link - relative link to article
+
+        //
+        // entry: optional elements
+        //
+
+        // category
+
+        // contributor
+        if (Array.isArray(item.contributor)) {
+          item.contributor.forEach(function (item) {
+            var name = item.name,
+                email = item.email,
+                link = item.link;
+
+            var contributor = [];
+
+            if (name) {
+              contributor.push({ name: name });
+            }
+
+            if (email) {
+              contributor.push({ email: email });
+            }
+
+            if (link) {
+              contributor.push({ uri: link });
+            }
+
+            entry.push({ contributor: contributor });
+          });
+        }
+
+        // published
+        if (item.published) {
+          entry.push({ published: utils.getDate(item.published) });
+        }
+
+        // source
+
+        // rights
+        if (item.copyright) {
+          entry.push({ rights: item.copyright });
+        }
+
+        feed.push({ entry: entry });
+      });
+
+      return DOCTYPE + xml(root, true);
+    }
+  }, {
+    key: 'rss2',
+    value: function rss2() {
+      var options = this.options;
+
+      var isAtom = false;
+      var isContent = false;
+
+      var channel = [{ title: options.title }, { link: options.link }, { description: options.description }, { lastBuildDate: options.updated ? utils.getDate(options.updated) : utils.getDate(new Date()) }, { docs: 'http://blogs.law.harvard.edu/tech/rss' }, { generator: options.generator || GENERATOR }];
+
+      var rss = [{ _attr: { version: '2.0' } }, { channel: channel }];
+
+      var root = [{ rss: rss }];
+
+      /**
+       * Channel Image
+       * http://cyber.law.harvard.edu/rss/rss.html#ltimagegtSubelementOfLtchannelgt
+       */
+      if (options.image) {
+        channel.push({
+          image: [{ title: options.title }, { url: options.image }, { link: options.link }]
+        });
+      }
+
+      /**
+       * Channel Copyright
+       * http://cyber.law.harvard.edu/rss/rss.html#optionalChannelElements
+       */
+      if (options.copyright) {
+        channel.push({ copyright: options.copyright });
+      }
+
+      /**
+       * Channel Categories
+       * http://cyber.law.harvard.edu/rss/rss.html#comments
+       */
+      this.categories.forEach(function (category) {
+        channel.push({ category: category });
+      });
+
+      /**
+       * Feed URL
+       * http://validator.w3.org/feed/docs/warning/MissingAtomSelfLink.html
+       */
+      var atomLink = options.feed || options.feedLinks && options.feedLinks.atom;
+      if (atomLink) {
+        isAtom = true;
+
+        channel.push({
+          "atom:link": {
+            _attr: {
+              href: atomLink,
+              rel: 'self',
+              type: 'application/rss+xml'
+            }
+          }
+        });
+      }
+
+      /**
+       * Hub for PubSubHubbub
+       * https://code.google.com/p/pubsubhubbub/
+       */
+      if (options.hub) {
+        isAtom = true;
+        channel.push({
+          "atom:link": {
+            _attr: {
+              href: options.hub,
+              rel: 'hub'
+            }
+          }
+        });
+      }
+
+      /**
+       * Channel Categories
+       * http://cyber.law.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
+       */
+      this.items.forEach(function (entry) {
+        var item = [];
+
+        if (entry.title) {
+          item.push({ title: { _cdata: entry.title } });
+        }
+
+        if (entry.link) {
+          item.push({ link: entry.link });
+        }
+
+        if (entry.guid) {
+          item.push({ guid: entry.guid });
+        } else if (entry.link) {
+          item.push({ guid: entry.link });
+        }
+
+        if (entry.date) {
+          item.push({ pubDate: utils.getDate(entry.date, 'GMT') });
+        }
+
+        if (entry.description) {
+          item.push({ description: { _cdata: entry.description } });
+        }
+
+        if (entry.content) {
+          isContent = true;
+          item.push({ 'content:encoded': { _cdata: entry.content } });
+        }
+        /**
+         * Item Author
+         * http://cyber.law.harvard.edu/rss/rss.html#ltauthorgtSubelementOfLtitemgt
+         */
+        if (Array.isArray(entry.author)) {
+          entry.author.some(function (author) {
+            if (author.email && author.name) {
+              item.push({ author: author.email + ' (' + author.name + ')' });
+              return true;
+            } else {
+              return false;
+            }
+          });
+        }
+
+        if (item.image) {
+          item.push({ enclosure: [{ _attr: { url: entry.image } }] });
+        }
+
+        channel.push({ item: item });
+      });
+
+      if (isContent) {
+        rss[0]._attr['xmlns:content'] = 'http://purl.org/rss/1.0/modules/content/';
+      }
+
+      if (isAtom) {
+        rss[0]._attr['xmlns:atom'] = 'http://www.w3.org/2005/Atom';
+      }
+
+      return DOCTYPE + xml(root, true);
+    }
+  }, {
+    key: 'json1',
+    value: function json1() {
+      var options = this.options,
+          items = this.items;
+
+      var feed = {
+        version: 'https://jsonfeed.org/version/1',
+        title: options.title
+      };
+
+      if (options.link) {
+        feed.home_page_url = options.link;
+      }
+
+      if (options.feedLinks && options.feedLinks.json) {
+        feed.feed_url = options.feedLinks.json;
+      }
+
+      if (options.description) {
+        feed.description = options.description;
+      }
+
+      if (options.image) {
+        feed.icon = options.image;
+      }
+
+      if (options.author) {
+        feed.author = {};
+        if (options.author.name) {
+          feed.author.name = options.author.name;
+        }
+        if (options.author.link) {
+          feed.author.url = options.author.link;
+        }
+      }
+      feed.items = items.map(function (item) {
+        var feedItem = {
+          id: item.id,
+          // json_feed distinguishes between html and text content
+          // but since we only take a single type, we'll assume HTML
+          html_content: item.content
+        };
+        if (item.link) {
+          feedItem.url = item.link;
+        }
+        if (item.title) {
+          feedItem.title = item.title;
+        }
+        if (item.description) {
+          feedItem.summary = item.description;
+        }
+
+        if (item.image) {
+          feedItem.image = item.image;
+        }
+
+        if (item.date) {
+          feedItem.date_modified = utils.getDate(item.date);
+        }
+        if (item.published) {
+          feedItem.date_published = utils.getDate(item.published);
+        }
+
+        if (item.author) {
+          var author = item.author;
+          if (author instanceof Array) {
+            // json feed only supports 1 author per post
+            author = author[0];
+          }
+          feedItem.author = {};
+          if (author.name) {
+            feedItem.author.name = author.name;
+          }
+          if (author.link) {
+            feedItem.author.url = author.link;
+          }
+        }
+        return feedItem;
+      });
+
+      return JSON.stringify(feed, null, 4);
+    }
+  }, {
+    key: 'ISODateString',
+    value: function ISODateString(d) {
+      function pad(n) {
+        return n < 10 ? '0' + n : n;
+      }
+
+      return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds()) + 'Z';
+    }
+  }]);
+
+  return Feed;
+}();
+
+module.exports = Feed;
 
 /***/ },
 /* 27 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-module.exports = require("multer");
+var wagner = __webpack_require__(4);
+var sm = __webpack_require__(10);
+var config = __webpack_require__(1)(wagner);
+__webpack_require__(6)(wagner);
+var CRUD = __webpack_require__(2);
+var fs = __webpack_require__(3);
+var zlib = __webpack_require__(35);
+
+function getDate(dateObj) {
+  var date;
+  if (dateObj) {
+    date = new Date(dateObj);
+  } else {
+    date = new Date();
+  }
+
+  var substract = date.getTime() - 300 * 60 * 1000; // minus 5 hrs
+  var dateStr = new Date(substract).toISOString().split('.')[0];
+  return dateStr + '-05:00';
+}
+
+function getData(params) {
+  return wagner.invoke(function (conn) {
+    return conn;
+  }).then(function (db) {
+    return new CRUD({ db: db });
+  }).then(function (crud) {
+    return crud.getItems({
+      collection: params.collection || 'offers',
+      query: params.query || {},
+      projection: params.projection || { slug: 1, modified: 1 },
+      items_per_page: params.items_per_page || 10000,
+      sort: { published: -1 }
+    });
+  });
+}
+
+function compress(path) {
+  var readable = fs.createReadStream(path);
+  var writable = fs.createWriteStream(path + '.gz');
+  var gzip = zlib.createGzip();
+  readable.pipe(gzip).pipe(writable);
+  gzip.on('end', function () {
+    writable.end();
+    console.log(path + ' sitemap file is compressed!!');
+  });
+}
+
+function createSitemap() {
+  var sitemap = sm.createSitemap({
+    hostname: config.host,
+    xmlNs: 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n      xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"\n      xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"\n      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n      xmlns:xhtml="http://www.w3.org/1999/xhtml"\n      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"'
+  });
+
+  return sitemap;
+}
+
+function addToSitemap(sitemap, data, params) {
+  data.forEach(function (current) {
+    sitemap.add({
+      url: params.route + '/' + current.slug,
+      changefreq: params.changefreq || 'daily',
+      priority: params.priority || 0.5,
+      lastmodISO: getDate(current.modified)
+    });
+  });
+
+  return sitemap;
+}
+
+function createSitemapFile(sitemap, params) {
+  fs.writeFile(params.sitemap_path, sitemap.toString(), function (err) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log(params.sitemapName + ' sitemap has been created!!');
+    compress(params.sitemap_path);
+  });
+}
+
+module.exports = {
+  createSitemap: createSitemap,
+  createSitemapFile: createSitemapFile,
+  compress: compress,
+  addToSitemap: addToSitemap,
+  getData: getData,
+  getDate: getDate
+};
 
 /***/ },
 /* 28 */
 /***/ function(module, exports) {
 
-module.exports = require("node-cron");
+module.exports = require("jimp");
 
 /***/ },
 /* 29 */
 /***/ function(module, exports) {
 
-module.exports = require("request");
+module.exports = require("mkdirp");
 
 /***/ },
 /* 30 */
 /***/ function(module, exports) {
 
-module.exports = require("zlib");
+module.exports = require("mongodb");
 
 /***/ },
 /* 31 */
+/***/ function(module, exports) {
+
+module.exports = require("multer");
+
+/***/ },
+/* 32 */
+/***/ function(module, exports) {
+
+module.exports = require("request");
+
+/***/ },
+/* 33 */
+/***/ function(module, exports) {
+
+module.exports = require("striptags");
+
+/***/ },
+/* 34 */
+/***/ function(module, exports) {
+
+module.exports = require("xml");
+
+/***/ },
+/* 35 */
+/***/ function(module, exports) {
+
+module.exports = require("zlib");
+
+/***/ },
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(__dirname) {Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nuxt__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_compression__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_helmet__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_body_parser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_morgan__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_path__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_fs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_feed___ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_feed____default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__utils_feed___);
+
 
 
 
@@ -1316,7 +1974,7 @@ app.use(__WEBPACK_IMPORTED_MODULE_3_helmet___default()());
 app.disable('x-powered-by');
 
 // Import and Set Nuxt.js options
-var nuxtConfig = __webpack_require__(10);
+var nuxtConfig = __webpack_require__(11);
 nuxtConfig.dev = develop;
 
 // Init Nuxt.js
@@ -1341,6 +1999,7 @@ app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
 //Schedule ping to web search engines
 __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default.a.ping();
+__WEBPACK_IMPORTED_MODULE_11__utils_feed____default.a.schedule();
 /* WEBPACK VAR INJECTION */}.call(exports, "server"))
 
 /***/ }
