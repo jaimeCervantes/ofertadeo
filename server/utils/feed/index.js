@@ -29,8 +29,8 @@ module.exports = {
 			  updated: new Date(),
 			  generator: 'ofertadeo',
 			  feedLinks: {
-			    json: config.host + '/feed/json',
-			    atom: config.host + '/feed/atom',
+			    json: config.host + '/feed/feed-json.json`',
+			    atom: config.host + '/feed/feed-atom.xml',
 			  }
 			});
 
