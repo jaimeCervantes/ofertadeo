@@ -1,9 +1,18 @@
 <script>
 import moment from 'moment'
 import striptags from '~plugins/striptags'
+import OferConfig from '~components/mixins/ofer-config.js'
 moment.locale('es')
 
 export default {
+  props: {
+    config: {
+      type: Object,
+      default: function () {
+        return OferConfig
+      }
+    }
+  },
   computed: {
     date () {
       var date = this.getDate('MMMM YYYY')
