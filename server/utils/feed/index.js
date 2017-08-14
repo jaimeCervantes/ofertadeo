@@ -29,7 +29,7 @@ module.exports = {
 			  updated: new Date(),
 			  generator: 'ofertadeo',
 			  feedLinks: {
-			    json: config.host + '/feed/feed-json.json`',
+			    json: config.host + '/feed/feed-json.json',
 			    atom: config.host + '/feed/feed-atom.xml',
 			  }
 			});
@@ -89,9 +89,9 @@ module.exports = {
 		  .checkIfNewOffers()
 		  .then(function(res) {
 		  	console.log('feedburne');
-		  	//if(res && res.news) {
+		  	if(res && res.news) {
 		  		index.create();
-		  	//}
+		  	}
 		  	console.log(res);
 		  }).catch(function(err) {
 		  	console.log(err);
@@ -104,9 +104,9 @@ module.exports = {
 		  	.checkIfNewOffers()
 				.then(function(res) {
 					console.log('feedburne');
-			  	//if(res && res.news) {
+			  	if(res && res.news) {
 			  		index.create();
-			  	//}
+			  	}
 			  	console.log(res);
 			  }).catch(function(err) {
 			  	console.log(err);
