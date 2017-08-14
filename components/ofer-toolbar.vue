@@ -14,7 +14,7 @@
       <v-toolbar-items>
         <v-toolbar-item itemprop="url" :href="$store.state.host" ripple>Ofertadeo</v-toolbar-item>
         <li>
-          <a class="toolbar__item" :href="config.feed.rss" title="Suscribete a las ultimas ofertas" rel="alternate" type="application/rss+xml" ripple target="_blank">
+          <a class="toolbar__item" :href="config.feed.rss" title="Suscribete a las últimas ofertas" rel="alternate" type="application/rss+xml" ripple target="_blank">
             <img id="img-rss" src="//feedburner.google.com/fb/images/pub/feed-icon32x32.png" alt="Ultimas ofertas" />Últimas ofertas
           </a>
         </li>
