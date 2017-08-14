@@ -24,8 +24,8 @@ export default {
     main: '/promociones',
     storeList: '/tiendas'
   },
-  host: 'https://www.ofertadeo.com:3000',
-  urlLogo: 'https://www.ofertadeo.com:3000/logo.png',
+  host: 'https://www.ofertadeo.com',
+  urlLogo: 'https://www.ofertadeo.com/logo.png',
   txt: {
     categories: 'Categorías',
     stores: 'Tiendas'
