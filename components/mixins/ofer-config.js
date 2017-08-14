@@ -38,6 +38,6 @@ export default {
     pinterest: 'https://es.pinterest.com/ofertadeo/'
   },
   feed: {
-    rss: 'http://feeds.feedburner.com/ofertadeo'
+    rss: 'http://feedburner.google.com/fb/a/mailverify?uri=ofertadeo&loc=es_ES'
   }
 }
