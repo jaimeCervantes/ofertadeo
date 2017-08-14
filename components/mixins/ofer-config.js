@@ -24,8 +24,8 @@ export default {
     main: '/promociones',
     storeList: '/tiendas'
   },
-  host: 'http://localhost:3000',
-  urlLogo: 'http://localhost:3000/logo.png',
+  host: 'http://45.55.71.33:3000',
+  urlLogo: 'http://45.55.71.33:3000/logo.png',
   txt: {
     categories: 'Categorías',
     stores: 'Tiendas'
