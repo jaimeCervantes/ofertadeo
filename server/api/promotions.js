@@ -124,8 +124,8 @@ function createPromotion () {
         pn.all({
           title: data.title,
           url: conf.host + conf.routes.main + '/' + data.slug,
-          message: data.meta_description
-          //,image_url: data.thumbnail
+          message: data.meta_description,
+          image_url: data.thumbnail
         });
       }
     })
