@@ -90,5 +90,10 @@ if (process.browser) {
   
 }
 
+if (process.browser) {
+  require('~plugins/pc.js')
+  
+}
+
 
 export { app, router, store, NuxtError }
