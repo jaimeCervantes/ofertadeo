@@ -114,7 +114,9 @@ var config = {
   paths: {
     root: path.resolve(__dirname, '../'),
     server: __dirname,
-    static: path.resolve(__dirname, '../static')
+    static: path.resolve(__dirname, '../static'),
+    xml: '/home/jaime/xml',
+    feed: '/home/jaime/static/feed'
   }
 };
 
@@ -371,7 +373,7 @@ var sm = __webpack_require__(10);
 var fs = __webpack_require__(3);
 var request = __webpack_require__(32);
 
-config.paths.static = '/home/jaime/xml';
+var rootXml = config.paths.xml;
 var offers = '/sitemap-ofertas.xml';
 var stores_categories_pages = '/sitemap-paginas.xml';
 
@@ -405,7 +407,7 @@ function smPages() {
     });
   }).then(function () {
     utils.createSitemapFile(compoundSitemap, {
-      sitemap_path: config.paths.static + stores_categories_pages,
+      sitemap_path: rootXml + stores_categories_pages,
       sitemapName: stores_categories_pages
     });
   });
@@ -422,7 +424,7 @@ function smOffers() {
     });
   }).then(function () {
     utils.createSitemapFile(offersSitemap, {
-      sitemap_path: config.paths.static + offers,
+      sitemap_path: rootXml + offers,
       sitemapName: offers
     });
   });
@@ -431,7 +433,7 @@ function smOffers() {
 function smIndex() {
   var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemap-paginas.xml</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemap-ofertas.xml</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n</sitemapindex>';
 
-  fs.writeFile(config.paths.static + '/sitemap.xml', content, 'utf8', function (err) {
+  fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function (err) {
     if (err) {
       return console.log(err);
     }
@@ -548,11 +550,11 @@ module.exports = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
 
 var wagner = __webpack_require__(4);
-var home = __webpack_require__(22);
-var categories = __webpack_require__(21);
-var stores = __webpack_require__(24);
-var promotions = __webpack_require__(23);
-var upload = __webpack_require__(25);
+var home = __webpack_require__(21);
+var categories = __webpack_require__(20);
+var stores = __webpack_require__(23);
+var promotions = __webpack_require__(22);
+var upload = __webpack_require__(24);
 
 __webpack_require__(1)(wagner);
 __webpack_require__(6)(wagner);
@@ -569,118 +571,6 @@ router.use(upload(wagner));
 
 /***/ },
 /* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-var config = __webpack_require__(1).config;
-var Feed = __webpack_require__(26);
-var fs = __webpack_require__(3);
-var striptags = __webpack_require__(33);
-var utils = __webpack_require__(7);
-var cron = __webpack_require__(9);
-
-config.paths.static = '/home/jaime/static/feed';
-
-module.exports = {
-	create: function create() {
-		utils.getCrud().then(function (crud) {
-			return crud.getItems({
-				collection: config.db.collections.main,
-				items_per_page: 10,
-				sort: { published: -1 }
-			});
-		}).then(function (docs) {
-			var feedXml = new Feed({
-				title: 'Ofertadeo',
-				description: 'Nuevas ofertas',
-				link: config.host,
-				image: config.host + '/logo.png',
-				favicon: config.host + '/favicons/favicon.ico',
-				copyright: 'Ofertadeo',
-				updated: new Date(),
-				generator: 'ofertadeo',
-				feedLinks: {
-					json: config.host + '/feed/json',
-					atom: config.host + '/feed/atom'
-				}
-			});
-
-			docs.forEach(function (doc) {
-				var content = striptags(doc.content);
-				var description = content.slice(0, 150);
-				if (description.length === 150) {
-					description += '...';
-				}
-				feedXml.addItem({
-					title: doc.title,
-					link: config.host + config.routes.main + '/' + doc.slug,
-					description: description,
-					content: doc.content,
-					category: doc.categories[0],
-					date: doc.published,
-					image: doc.img
-				});
-			});
-
-			fs.writeFile(config.paths.static + '/feed-rss2.xml', feedXml.rss2(), 'utf8', function (err) {
-				if (err) {
-					return console.log(err);
-				}
-				console.log('RSS2 was created :=)');
-			});
-
-			fs.writeFile(config.paths.static + '/feed-atom.xml', feedXml.atom1(), 'utf8', function (err) {
-				if (err) {
-					return console.log(err);
-				}
-				console.log('Atom was created :=)');
-			});
-
-			fs.writeFile(config.paths.static + '/feed-json.json', feedXml.atom1(), 'utf8', function (err) {
-				if (err) {
-					return console.log(err);
-				}
-				console.log('JSON was created :=)');
-			});
-		}).then(function () {
-			console.log('OK');
-		}).catch(function (err) {
-			console.log(err);
-		});
-	},
-	schedule: function schedule() {
-		var index = this;
-		//cron.schedule('*/1 * * * *', function (){
-		cron.schedule('1 12 * * *', function () {
-			//run every day at 12:00 hrs
-			utils.checkIfNewOffers().then(function (res) {
-				console.log('feedburne');
-				//if(res && res.news) {
-				index.create();
-				//}
-				console.log(res);
-			}).catch(function (err) {
-				console.log(err);
-			});
-		});
-
-		//cron.schedule('*/1 * * * *', function (){
-		cron.schedule('50 23 * * *', function () {
-			//run every day at 23:50 hours
-			utils.checkIfNewOffers().then(function (res) {
-				console.log('feedburne');
-				//if(res && res.news) {
-				index.create();
-				//}
-				console.log(res);
-			}).catch(function (err) {
-				console.log(err);
-			});
-		});
-	}
-};
-
-/***/ },
-/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 var cron = __webpack_require__(9);
@@ -724,43 +614,43 @@ function ping() {
 module.exports = schedule;
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports) {
 
 module.exports = require("body-parser");
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports) {
 
 module.exports = require("compression");
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports) {
 
 module.exports = require("helmet");
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports) {
 
 module.exports = require("morgan");
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports) {
 
 module.exports = require("nuxt");
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports) {
 
 module.exports = require("rotating-file-stream");
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -873,7 +763,7 @@ function index() {
 }
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -944,7 +834,7 @@ function index() {
 }
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -954,6 +844,7 @@ var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(2);
 var csm = __webpack_require__(8);
+var feed = __webpack_require__(26);
 
 var crudInst;
 var conf;
@@ -1049,6 +940,7 @@ function createPromotion() {
         csm.pages();
         csm.offers();
         csm.index();
+        feed.create();
       }
     }).catch(function (err) {
       res.json(err);
@@ -1057,7 +949,7 @@ function createPromotion() {
 }
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1169,7 +1061,7 @@ function index() {
 }
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1275,7 +1167,7 @@ function mkdirPromise(pathFile) {
 }
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1758,6 +1650,118 @@ var Feed = function () {
 module.exports = Feed;
 
 /***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+var config = __webpack_require__(1).config;
+var Feed = __webpack_require__(25);
+var fs = __webpack_require__(3);
+var striptags = __webpack_require__(33);
+var utils = __webpack_require__(7);
+var cron = __webpack_require__(9);
+
+var rootFeed = config.paths.feed;
+
+module.exports = {
+	create: function create() {
+		utils.getCrud().then(function (crud) {
+			return crud.getItems({
+				collection: config.db.collections.main,
+				items_per_page: 10,
+				sort: { published: -1 }
+			});
+		}).then(function (docs) {
+			var feedXml = new Feed({
+				title: 'Ofertadeo',
+				description: 'Nuevas ofertas',
+				link: config.host,
+				image: config.host + '/logo.png',
+				favicon: config.host + '/favicons/favicon.ico',
+				copyright: 'Ofertadeo',
+				updated: new Date(),
+				generator: 'ofertadeo',
+				feedLinks: {
+					json: config.host + '/feed/feed-json.json',
+					atom: config.host + '/feed/feed-atom.xml'
+				}
+			});
+
+			docs.forEach(function (doc) {
+				var content = striptags(doc.content);
+				var description = content.slice(0, 150);
+				if (description.length === 150) {
+					description += '...';
+				}
+				feedXml.addItem({
+					title: doc.title,
+					link: config.host + config.routes.main + '/' + doc.slug,
+					description: description,
+					content: doc.content,
+					category: doc.categories[0],
+					date: doc.published,
+					image: doc.img
+				});
+			});
+
+			fs.writeFile(rootFeed + '/feed-rss2.xml', feedXml.rss2(), 'utf8', function (err) {
+				if (err) {
+					return console.log(err);
+				}
+				console.log('RSS2 was created :=)');
+			});
+
+			fs.writeFile(rootFeed + '/feed-atom.xml', feedXml.atom1(), 'utf8', function (err) {
+				if (err) {
+					return console.log(err);
+				}
+				console.log('Atom was created :=)');
+			});
+
+			fs.writeFile(rootFeed + '/feed-json.json', feedXml.atom1(), 'utf8', function (err) {
+				if (err) {
+					return console.log(err);
+				}
+				console.log('JSON was created :=)');
+			});
+		}).then(function () {
+			console.log('OK');
+		}).catch(function (err) {
+			console.log(err);
+		});
+	},
+	schedule: function schedule() {
+		var index = this;
+		//cron.schedule('*/1 * * * *', function (){
+		cron.schedule('1 12 * * *', function () {
+			//run every day at 12:00 hrs
+			utils.checkIfNewOffers().then(function (res) {
+				console.log('feedburne');
+				if (res && res.news) {
+					index.create();
+				}
+				console.log(res);
+			}).catch(function (err) {
+				console.log(err);
+			});
+		});
+
+		//cron.schedule('*/1 * * * *', function (){
+		cron.schedule('50 23 * * *', function () {
+			//run every day at 23:50 hours
+			utils.checkIfNewOffers().then(function (res) {
+				console.log('feedburne');
+				if (res && res.news) {
+					index.create();
+				}
+				console.log(res);
+			}).catch(function (err) {
+				console.log(err);
+			});
+		});
+	}
+};
+
+/***/ },
 /* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1904,30 +1908,27 @@ module.exports = require("zlib");
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(__dirname) {Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nuxt__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_compression__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_helmet__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_body_parser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_morgan__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_path__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_fs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_feed___ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils_feed____default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__utils_feed___);
-
 
 
 
@@ -1998,7 +1999,6 @@ app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
 //Schedule ping to web search engines
 __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default.a.ping();
-__WEBPACK_IMPORTED_MODULE_11__utils_feed____default.a.schedule();
 /* WEBPACK VAR INJECTION */}.call(exports, "server"))
 
 /***/ }
