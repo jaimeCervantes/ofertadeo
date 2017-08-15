@@ -1,11 +1,15 @@
 var request = require('request');
+var apiKey = '61e4d89d5d5d1391dc97ca0c471003d4';
+if (process.env.NODE_ENV === 'production') {
+	apiKey = 'e5dd4f8caaa635b423152ea1ad66ded8';
+}
 
 module.exports = {
 	all (data) {
 		request({
 			url: 'https://pushcrew.com/api/v1/send/all',
 			headers: {
-				'Authorization': 'key=61e4d89d5d5d1391dc97ca0c471003d4'
+				'Authorization': 'key=' + apiKey
 			},
 			method: 'POST'
 		})
