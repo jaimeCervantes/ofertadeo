@@ -5,7 +5,7 @@ var striptags = require('striptags');
 var utils = require('../index.js');
 var cron = require('node-cron');
 
-config.paths.static = '/home/jaime/static/feed';
+var rootFeed = config.paths.feed
 
 module.exports = {
 
@@ -51,21 +51,21 @@ module.exports = {
 			  });
 			});
 
-			fs.writeFile(config.paths.static + '/feed-rss2.xml', feedXml.rss2(), 'utf8', function(err) {
+			fs.writeFile(rootFeed + '/feed-rss2.xml', feedXml.rss2(), 'utf8', function(err) {
 		    if (err) {
 		      return console.log(err);
 		    }
 		    console.log('RSS2 was created :=)');
 		  });
 
-		  fs.writeFile(config.paths.static + '/feed-atom.xml', feedXml.atom1(), 'utf8', function(err) {
+		  fs.writeFile(rootFeed + '/feed-atom.xml', feedXml.atom1(), 'utf8', function(err) {
 		    if (err) {
 		      return console.log(err);
 		    }
 		    console.log('Atom was created :=)');
 		  });
 
-		  fs.writeFile(config.paths.static + '/feed-json.json', feedXml.atom1(), 'utf8', function(err) {
+		  fs.writeFile(rootFeed + '/feed-json.json', feedXml.atom1(), 'utf8', function(err) {
 		    if (err) {
 		      return console.log(err);
 		    }

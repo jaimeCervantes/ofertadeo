@@ -4,7 +4,7 @@ var sm = require('sitemap')
 var fs = require('fs');
 var request = require('request');
 
-config.paths.static = '/home/jaime/xml';
+var rootXml = config.paths.xml;
 var offers = '/sitemap-ofertas.xml';
 var stores_categories_pages = '/sitemap-paginas.xml';
 
@@ -44,7 +44,7 @@ function smPages () {
   })
   .then(function(){
     utils.createSitemapFile(compoundSitemap, {
-      sitemap_path: config.paths.static + stores_categories_pages,
+      sitemap_path: rootXml + stores_categories_pages,
       sitemapName: stores_categories_pages
     });    
   })
@@ -64,7 +64,7 @@ function smOffers () {
   })
   .then(function() {
     utils.createSitemapFile(offersSitemap, {
-      sitemap_path: config.paths.static + offers,
+      sitemap_path: rootXml + offers,
       sitemapName: offers
     });
   });
@@ -83,7 +83,7 @@ function smIndex () {
 </sitemap>
 </sitemapindex>`;
 
-  fs.writeFile(config.paths.static + '/sitemap.xml', content, 'utf8', function(err) {
+  fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function(err) {
     if (err) {
       return console.log(err);
     }
