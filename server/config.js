@@ -33,7 +33,9 @@ var config = {
   paths: {
     root: path.resolve(__dirname, '../'),
     server: __dirname,
-    static:  path.resolve(__dirname, '../static')
+    static:  path.resolve(__dirname, '../static'),
+    xml: '/home/jaime/xml',
+    feed: '/home/jaime/static/feed'
   }
 };
 

@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 var CRUD = require('../db/crud.js');
 var csm = require('../utils/sitemaps/create-sitemap.js');
+var feed = require('../utils/feed/');
 
 var crudInst;
 var conf;
@@ -115,9 +116,10 @@ function createPromotion () {
     })
     .then(function(results) {
       if(results && results.length > 0) {
-        csm.pages()
-        csm.offers()
-        csm.index()
+        csm.pages();
+        csm.offers();
+        csm.index();
+        feed.create();
       }
     })
     .catch(function(err){
