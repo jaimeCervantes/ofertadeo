@@ -5,6 +5,7 @@ var router = express.Router();
 var CRUD = require('../db/crud.js');
 var csm = require('../utils/sitemaps/create-sitemap.js');
 var feed = require('../utils/feed/');
+var pn = require('../utils/pn/');
 
 var crudInst;
 var conf;
@@ -120,6 +121,12 @@ function createPromotion () {
         csm.offers();
         csm.index();
         feed.create();
+        pn.all({
+          title: data.title,
+          url: conf.host + conf.routes.main + '/' + data.slug,
+          message: data.meta_description
+          //,image_url: data.thumbnail
+        });
       }
     })
     .catch(function(err){
