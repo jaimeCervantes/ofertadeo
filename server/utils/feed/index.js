@@ -5,7 +5,7 @@ var striptags = require('striptags');
 var utils = require('../index.js');
 var cron = require('node-cron');
 
-config.paths.static = '/home/jaime/static/feed';
+var rootFeed = config.paths.feed
 
 module.exports = {
 
@@ -29,8 +29,8 @@ module.exports = {
 			  updated: new Date(),
 			  generator: 'ofertadeo',
 			  feedLinks: {
-			    json: config.host + '/feed/json',
-			    atom: config.host + '/feed/atom',
+			    json: config.host + '/feed/feed-json.json',
+			    atom: config.host + '/feed/feed-atom.xml',
 			  }
 			});
 
@@ -51,21 +51,21 @@ module.exports = {
 			  });
 			});
 
-			fs.writeFile(config.paths.static + '/feed-rss2.xml', feedXml.rss2(), 'utf8', function(err) {
+			fs.writeFile(rootFeed + '/feed-rss2.xml', feedXml.rss2(), 'utf8', function(err) {
 		    if (err) {
 		      return console.log(err);
 		    }
 		    console.log('RSS2 was created :=)');
 		  });
 
-		  fs.writeFile(config.paths.static + '/feed-atom.xml', feedXml.atom1(), 'utf8', function(err) {
+		  fs.writeFile(rootFeed + '/feed-atom.xml', feedXml.atom1(), 'utf8', function(err) {
 		    if (err) {
 		      return console.log(err);
 		    }
 		    console.log('Atom was created :=)');
 		  });
 
-		  fs.writeFile(config.paths.static + '/feed-json.json', feedXml.atom1(), 'utf8', function(err) {
+		  fs.writeFile(rootFeed + '/feed-json.json', feedXml.atom1(), 'utf8', function(err) {
 		    if (err) {
 		      return console.log(err);
 		    }
@@ -89,9 +89,9 @@ module.exports = {
 		  .checkIfNewOffers()
 		  .then(function(res) {
 		  	console.log('feedburne');
-		  	//if(res && res.news) {
+		  	if(res && res.news) {
 		  		index.create();
-		  	//}
+		  	}
 		  	console.log(res);
 		  }).catch(function(err) {
 		  	console.log(err);
@@ -104,9 +104,9 @@ module.exports = {
 		  	.checkIfNewOffers()
 				.then(function(res) {
 					console.log('feedburne');
-			  	//if(res && res.news) {
+			  	if(res && res.news) {
 			  		index.create();
-			  	//}
+			  	}
 			  	console.log(res);
 			  }).catch(function(err) {
 			  	console.log(err);
