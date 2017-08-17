@@ -7,7 +7,7 @@ var config = {
     storeList: '/tiendas'
   },
   host: 'http://localhost:3000',
-  app_status: 'develop'
+  app_status: 'deploy'
 }
 
 export default { config }
