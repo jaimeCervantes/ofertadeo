@@ -65,7 +65,7 @@ function smCategories () {
     });
   })
   .then(function() {
-    smUtils.createSitemapFile(smStores, {
+    smUtils.createSitemapFile(smCategories, {
       sitemap_path: rootXml + '/' + categories_name,
       sitemapName: categories_name
     });

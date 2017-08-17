@@ -1,4 +1,4 @@
-import path from 'path'
+var path = require('path');
 
 var config = {
   db: {
@@ -33,16 +33,17 @@ var config = {
     static: path.resolve(__dirname, '../static'),
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
-  }
-}
+  },
+  app_status: 'develop'
+};
 
 module.exports = function (wagner) {
   if (wagner) {
     wagner.factory('config', function () {
-      return config
-    })
-  }
-  return config
-}
+      return config;
+    });
+  };
+  return config;
+};
 
-module.exports.config = config
+module.exports.config = config;
