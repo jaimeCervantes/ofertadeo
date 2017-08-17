@@ -1,39 +1,9 @@
 var wagner = require('wagner-core');
 var sm = require('sitemap')
 var config = require('../../config.js')(wagner);
-require('../../db/connection.js')(wagner);
-var CRUD = require('../../db/crud.js');
 var fs = require('fs');
 var zlib = require('zlib');
-
-function getDate (dateObj) {
-  var date;
-  if(dateObj) {
-    date = new Date(dateObj);
-  } else {
-    date = new Date();
-  }
-  
-  var substract = date.getTime() - (300*60*1000);// minus 5 hrs
-  var dateStr = new Date(substract).toISOString().split('.')[0];
-  return dateStr + '-05:00';
-}
-
-function getData (params) {
-  return wagner.invoke(function(conn) {
-      return conn;
-    }).then(function(db) {
-      return new CRUD({ db: db });
-    }).then(function(crud){
-      return crud.getItems({
-          collection: params.collection || 'offers',
-          query: params.query || {},
-          projection: params.projection || { slug: 1, modified: 1 },
-          items_per_page: params.items_per_page || 10000,
-          sort: { published: -1 }
-        })
-    });
-}
+var utils = require('../index.js')
 
 function compress(path) {
   var readable = fs.createReadStream(path);
@@ -66,7 +36,7 @@ function addToSitemap(sitemap, data, params) {
       url: params.route + '/' + current.slug,
       changefreq: params.changefreq || 'daily',
       priority: params.priority || 0.5,
-      lastmodISO: getDate(current.modified)
+      lastmodISO: utils.getDate(current.modified)
     });
   });
 
@@ -88,6 +58,4 @@ module.exports = {
   createSitemapFile: createSitemapFile,
   compress: compress,
   addToSitemap: addToSitemap,
-  getData: getData,
-  getDate: getDate
-} 
+};

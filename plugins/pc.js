@@ -1,5 +1,7 @@
+import config from '../server/config.js'
+
 let script = '9bb3dc20d980ec138bfbca444454fb5d.js'
-if (process.env.NODE_ENV === 'production') {
+if (config.app_status === 'deploy') {
   script = 'a93d53fc0723ce637666966cd5601748.js'
 }
 
