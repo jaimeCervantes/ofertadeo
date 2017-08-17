@@ -35,7 +35,7 @@ var config = {
     feed: '/home/jaime/static/feed'
   },
   app_status: 'deploy'
-};
+}
 
 module.exports = function (wagner) {
   if (wagner) {

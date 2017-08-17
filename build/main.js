@@ -79,15 +79,15 @@ module.exports = require("express");
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__dirname) {
+/* WEBPACK VAR INJECTION */(function(__dirname) {Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_path__);
 
-var wagner = __webpack_require__(4);
-var path = __webpack_require__(5);
 
 var config = {
   db: {
-    user: "ofertadeo_publisher",
-    password: "Cdop_2017*",
+    user: 'ofertadeo_publisher',
+    password: 'Cdop_2017*',
     name: 'ofertadeo',
     host: 'localhost:27017',
     shard1: 'pensemosweb-shard-00-00-147ev.mongodb.net:27017',
@@ -112,9 +112,9 @@ var config = {
   },
   host: 'https://www.ofertadeo.com',
   paths: {
-    root: path.resolve(__dirname, '../'),
+    root: __WEBPACK_IMPORTED_MODULE_0_path___default.a.resolve(__dirname, '../'),
     server: __dirname,
-    static: path.resolve(__dirname, '../static'),
+    static: __WEBPACK_IMPORTED_MODULE_0_path___default.a.resolve(__dirname, '../static'),
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
   },
@@ -237,65 +237,14 @@ CRUD.prototype.aggregation = function (params) {
 
 /***/ },
 /* 3 */
-/***/ function(module, exports) {
-
-module.exports = require("fs");
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-module.exports = require("wagner-core");
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-module.exports = require("path");
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var MongoClient = __webpack_require__(32).MongoClient;
-
-function getConnection(config) {
-  //connPromise is pending when trying to connect to mongodb atlas
-  // var shards = config.db.shard1 + ',' + config.db.shard2 + ',' + config.db.shard3;
-  // var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + shards + '/' + config.db.name + config.db.queryString;
-  var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + config.db.host + '/' + config.db.name;
-
-  return MongoClient.connect(url).then(function (conn) {
-    console.log('It is connected to db: ' + config.db.name + ' in ' + config.db.host);
-    return conn;
-  }).catch(function (err) {
-    console.log(err);
-    return err;
-  });
-}
-
-module.exports = function (wagner) {
-  wagner.invoke(function (config) {
-    var conn = getConnection(config);
-    wagner.factory('conn', function () {
-      return conn;
-    });
-  });
-};
-
-/***/ },
-/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 var config = __webpack_require__(1).config;
-var wagner = __webpack_require__(4);
+var wagner = __webpack_require__(6);
 var Crud = __webpack_require__(2);
 
 __webpack_require__(1)(wagner);
-__webpack_require__(6)(wagner);
+__webpack_require__(7)(wagner);
 
 function getCrud() {
   return wagner.invoke(function (conn) {
@@ -365,79 +314,173 @@ module.exports = {
 };
 
 /***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+module.exports = require("path");
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+module.exports = require("wagner-core");
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var MongoClient = __webpack_require__(32).MongoClient;
+
+function getConnection(config) {
+  //connPromise is pending when trying to connect to mongodb atlas
+  // var shards = config.db.shard1 + ',' + config.db.shard2 + ',' + config.db.shard3;
+  // var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + shards + '/' + config.db.name + config.db.queryString;
+  var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + config.db.host + '/' + config.db.name;
+
+  return MongoClient.connect(url).then(function (conn) {
+    console.log('It is connected to db: ' + config.db.name + ' in ' + config.db.host);
+    return conn;
+  }).catch(function (err) {
+    console.log(err);
+    return err;
+  });
+}
+
+module.exports = function (wagner) {
+  wagner.invoke(function (config) {
+    var conn = getConnection(config);
+    wagner.factory('conn', function () {
+      return conn;
+    });
+  });
+};
+
+/***/ },
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-var utils = __webpack_require__(29);
+var utils = __webpack_require__(3);
+var smUtils = __webpack_require__(29);
 var config = __webpack_require__(1)();
 var sm = __webpack_require__(11);
-var fs = __webpack_require__(3);
+var fs = __webpack_require__(4);
 var request = __webpack_require__(10);
-
 var rootXml = config.paths.xml;
-var offers = '/sitemap-ofertas.xml';
-var stores_categories_pages = '/sitemap-paginas.xml';
+var offers = 'sitemap-offers.xml';
+var pages_name = 'sitemap-pages.xml';
+var stores_name = 'sitemap-stores.xml';
+var categories_name = 'sitemap-categories.xml';
+
+function getData(params) {
+  return utils.getCrud().then(function (crud) {
+    return crud.getItems({
+      collection: params.collection || config.db.collections.main,
+      query: params.query || {},
+      projection: params.projection || { slug: 1, modified: 1 },
+      items_per_page: params.items_per_page || 10000,
+      sort: { published: -1 }
+    }).catch(function (err) {
+      return err;
+    });
+  }).catch(function (err) {
+    console.log(err);
+  });
+}
 
 function smPages() {
   var modified = utils.getDate();
-  var compoundSitemap = utils.createSitemap();
+  var compoundSitemap = smUtils.createSitemap();
 
   compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
 
-  utils.getData({ collection: config.db.collections.pages }).then(function (data) {
-    utils.addToSitemap(compoundSitemap, data, {
+  getData({ collection: config.db.collections.pages }).then(function (data) {
+    smUtils.addToSitemap(compoundSitemap, data, {
       route: '',
       changefreq: 'weekly',
       priority: 0.7
     });
-  }).then(function () {
-    return utils.getData({ collection: config.db.collections.secundary });
-  }).then(function (data) {
-    utils.addToSitemap(compoundSitemap, data, {
-      route: config.routes.storeList,
-      changefreq: 'daily',
-      priority: 0.9
+  }).then(function (algo) {
+    smUtils.createSitemapFile(compoundSitemap, {
+      sitemap_path: rootXml + '/' + pages_name,
+      sitemapName: pages_name
     });
-  }).then(function () {
-    return utils.getData({ collection: config.db.collections.categories });
-  }).then(function (data) {
-    utils.addToSitemap(compoundSitemap, data, {
+  }).catch(function (err) {
+    console.log(err);
+  });
+}
+
+function smCategories() {
+  var smCategories = smUtils.createSitemap();
+  getData({ collection: config.db.collections.categories }).then(function (data) {
+    smUtils.addToSitemap(smCategories, data, {
       route: config.routes.categories,
-      changefreq: 'daily',
+      changefreq: 'weekly',
       priority: 0.9
     });
   }).then(function () {
-    utils.createSitemapFile(compoundSitemap, {
-      sitemap_path: rootXml + stores_categories_pages,
-      sitemapName: stores_categories_pages
+    smUtils.createSitemapFile(smStores, {
+      sitemap_path: rootXml + '/' + categories_name,
+      sitemapName: categories_name
     });
+  }).catch(function (err) {
+    console.log(err);
+  });
+}
+
+function smStores() {
+  var smStores = smUtils.createSitemap();
+  getData({ collection: config.db.collections.secundary }).then(function (data) {
+    smUtils.addToSitemap(smStores, data, {
+      route: config.routes.storeList,
+      changefreq: 'weekly',
+      priority: 0.9
+    });
+  }).then(function () {
+    smUtils.createSitemapFile(smStores, {
+      sitemap_path: rootXml + '/' + stores_name,
+      sitemapName: stores_name
+    });
+  }).catch(function (err) {
+    console.log(err);
   });
 }
 
 function smOffers() {
-  var offersSitemap = utils.createSitemap();
+  var offersSitemap = smUtils.createSitemap();
 
-  utils.getData({ collection: config.db.collections.main }).then(function (data) {
-    utils.addToSitemap(offersSitemap, data, {
+  getData({ collection: config.db.collections.main }).then(function (data) {
+    smUtils.addToSitemap(offersSitemap, data, {
       route: config.routes.main,
-      changefreq: 'daily',
+      changefreq: 'monthly',
       priority: 0.5
     });
   }).then(function () {
-    utils.createSitemapFile(offersSitemap, {
-      sitemap_path: rootXml + offers,
+    smUtils.createSitemapFile(offersSitemap, {
+      sitemap_path: rootXml + '/' + offers,
       sitemapName: offers
     });
+  }).catch(function (err) {
+    console.log(err);
   });
 }
 
 function smIndex() {
-  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemap-paginas.xml</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n<sitemap>\n  <loc>https://www.ofertadeo.com/sitemap-ofertas.xml</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n</sitemapindex>';
+  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>' + config.host + '/' + pages_name + '.gz</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n<sitemap>\n  <loc>' + config.host + '/' + offers + '.gz</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n<sitemap>\n  <loc>' + config.host + '/' + stores_name + '.gz</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap><sitemap>\n  <loc>' + config.host + '/' + categories_name + '.gz</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n</sitemapindex>';
 
   fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function (err) {
     if (err) {
       return console.log(err);
     }
+    smUtils.compress(rootXml + '/sitemap.xml');
     console.log('Index sitemap is created :=)');
   });
 }
@@ -480,6 +523,8 @@ module.exports = {
   index: smIndex,
   pages: smPages,
   offers: smOffers,
+  stores: smStores,
+  categories: smCategories,
   ping: ping
 };
 
@@ -556,7 +601,7 @@ module.exports = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
 
-var wagner = __webpack_require__(4);
+var wagner = __webpack_require__(6);
 var home = __webpack_require__(22);
 var categories = __webpack_require__(21);
 var stores = __webpack_require__(24);
@@ -564,7 +609,7 @@ var promotions = __webpack_require__(23);
 var upload = __webpack_require__(25);
 
 __webpack_require__(1)(wagner);
-__webpack_require__(6)(wagner);
+__webpack_require__(7)(wagner);
 
 var router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
 // Add USERS Routes
@@ -582,7 +627,7 @@ router.use(upload(wagner));
 
 var cron = __webpack_require__(9);
 var csm = __webpack_require__(8);
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(3);
 
 var schedule = {
 	ping: ping
@@ -945,14 +990,20 @@ function createPromotion() {
       }
     }).then(function (results) {
       if (results && results.length > 0) {
+        //Update sitemaps
         csm.pages();
         csm.offers();
+        csm.stores();
+        csm.categories();
         csm.index();
+        //Update feed
         feed.create();
+        //Push notifications
         pn.all({
           title: data.title,
           url: conf.host + conf.routes.main + '/' + data.slug,
           message: data.meta_description
+          //@TODO: To set an image to the notifications using pushcrew, we need to create an PNG imgage 192X192
           //,image_url: data.thumbnail
         });
       }
@@ -1189,7 +1240,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var xml = __webpack_require__(35);
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(3);
 
 var GENERATOR = 'Feed for Node.js';
 var DOCTYPE = '<?xml version="1.0" encoding="utf-8"?>\n';
@@ -1669,9 +1720,9 @@ module.exports = Feed;
 
 var config = __webpack_require__(1).config;
 var Feed = __webpack_require__(26);
-var fs = __webpack_require__(3);
+var fs = __webpack_require__(4);
 var striptags = __webpack_require__(34);
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(3);
 var cron = __webpack_require__(9);
 
 var rootFeed = config.paths.feed;
@@ -1810,42 +1861,12 @@ module.exports = {
 /* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
-var wagner = __webpack_require__(4);
+var wagner = __webpack_require__(6);
 var sm = __webpack_require__(11);
 var config = __webpack_require__(1)(wagner);
-__webpack_require__(6)(wagner);
-var CRUD = __webpack_require__(2);
-var fs = __webpack_require__(3);
+var fs = __webpack_require__(4);
 var zlib = __webpack_require__(36);
-
-function getDate(dateObj) {
-  var date;
-  if (dateObj) {
-    date = new Date(dateObj);
-  } else {
-    date = new Date();
-  }
-
-  var substract = date.getTime() - 300 * 60 * 1000; // minus 5 hrs
-  var dateStr = new Date(substract).toISOString().split('.')[0];
-  return dateStr + '-05:00';
-}
-
-function getData(params) {
-  return wagner.invoke(function (conn) {
-    return conn;
-  }).then(function (db) {
-    return new CRUD({ db: db });
-  }).then(function (crud) {
-    return crud.getItems({
-      collection: params.collection || 'offers',
-      query: params.query || {},
-      projection: params.projection || { slug: 1, modified: 1 },
-      items_per_page: params.items_per_page || 10000,
-      sort: { published: -1 }
-    });
-  });
-}
+var utils = __webpack_require__(3);
 
 function compress(path) {
   var readable = fs.createReadStream(path);
@@ -1873,7 +1894,7 @@ function addToSitemap(sitemap, data, params) {
       url: params.route + '/' + current.slug,
       changefreq: params.changefreq || 'daily',
       priority: params.priority || 0.5,
-      lastmodISO: getDate(current.modified)
+      lastmodISO: utils.getDate(current.modified)
     });
   });
 
@@ -1894,9 +1915,7 @@ module.exports = {
   createSitemap: createSitemap,
   createSitemapFile: createSitemapFile,
   compress: compress,
-  addToSitemap: addToSitemap,
-  getData: getData,
-  getDate: getDate
+  addToSitemap: addToSitemap
 };
 
 /***/ },
@@ -1964,7 +1983,7 @@ module.exports = require("zlib");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_path__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_fs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__);
