@@ -2,8 +2,8 @@ import path from 'path'
 
 var config = {
   db: {
-    user: "ofertadeo",
-    password: "Cdo_2017*",
+    user: 'ofertadeo',
+    password: 'Cdo_2017*',
     name: 'ofertadeo',
     host: 'ds161471.mlab.com:61471',
     shard1: 'pensemosweb-shard-00-00-147ev.mongodb.net:27017',

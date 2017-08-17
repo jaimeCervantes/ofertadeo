@@ -79,15 +79,15 @@ module.exports = require("express");
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__dirname) {
+/* WEBPACK VAR INJECTION */(function(__dirname) {Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_path__);
 
-var wagner = __webpack_require__(5);
-var path = __webpack_require__(6);
 
 var config = {
   db: {
-    user: "ofertadeo",
-    password: "Cdo_2017*",
+    user: 'ofertadeo',
+    password: 'Cdo_2017*',
     name: 'ofertadeo',
     host: 'ds161471.mlab.com:61471',
     shard1: 'pensemosweb-shard-00-00-147ev.mongodb.net:27017',
@@ -112,9 +112,9 @@ var config = {
   },
   host: 'http://45.55.71.33',
   paths: {
-    root: path.resolve(__dirname, '../'),
+    root: __WEBPACK_IMPORTED_MODULE_0_path___default.a.resolve(__dirname, '../'),
     server: __dirname,
-    static: path.resolve(__dirname, '../static'),
+    static: __WEBPACK_IMPORTED_MODULE_0_path___default.a.resolve(__dirname, '../static'),
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
   }
@@ -239,7 +239,7 @@ CRUD.prototype.aggregation = function (params) {
 /***/ function(module, exports, __webpack_require__) {
 
 var config = __webpack_require__(1).config;
-var wagner = __webpack_require__(5);
+var wagner = __webpack_require__(6);
 var Crud = __webpack_require__(2);
 
 __webpack_require__(1)(wagner);
@@ -322,13 +322,13 @@ module.exports = require("fs");
 /* 5 */
 /***/ function(module, exports) {
 
-module.exports = require("wagner-core");
+module.exports = require("path");
 
 /***/ },
 /* 6 */
 /***/ function(module, exports) {
 
-module.exports = require("path");
+module.exports = require("wagner-core");
 
 /***/ },
 /* 7 */
@@ -600,7 +600,7 @@ module.exports = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
 
-var wagner = __webpack_require__(5);
+var wagner = __webpack_require__(6);
 var home = __webpack_require__(22);
 var categories = __webpack_require__(21);
 var stores = __webpack_require__(24);
@@ -1138,7 +1138,7 @@ var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(2);
 var mkdirp = __webpack_require__(31);
-var path = __webpack_require__(6);
+var path = __webpack_require__(5);
 
 var jimp = __webpack_require__(30);
 
@@ -1860,7 +1860,7 @@ module.exports = {
 /* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
-var wagner = __webpack_require__(5);
+var wagner = __webpack_require__(6);
 var sm = __webpack_require__(11);
 var config = __webpack_require__(1)(wagner);
 var fs = __webpack_require__(4);
@@ -1980,7 +1980,7 @@ module.exports = require("zlib");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_morgan__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_path__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_fs__);
