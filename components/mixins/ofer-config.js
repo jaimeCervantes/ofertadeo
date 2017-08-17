@@ -39,5 +39,6 @@ export default {
   },
   feed: {
     rss: 'http://feeds.feedburner.com/ofertadeo-develop'
-  }
+  },
+  app_status: 'develop'
 }

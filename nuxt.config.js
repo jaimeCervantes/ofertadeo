@@ -38,10 +38,10 @@ module.exports = {
   /*
   ** Global CSS
   */
-  plugins: [
-    { src: '~plugins/ga.js', ssr: false },
-    { src: '~plugins/pc.js', ssr: false }
-  ],
+  // plugins: [
+  //   { src: '~plugins/ga.js', ssr: false },
+  //   { src: '~plugins/pc.js', ssr: false }
+  // ],
   /*
   ** Add axios globally
   */

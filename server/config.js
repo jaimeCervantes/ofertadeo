@@ -33,7 +33,8 @@ var config = {
     static: path.resolve(__dirname, '../static'),
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
-  }
+  },
+  app_status: 'develop'
 };
 
 module.exports = function (wagner) {
