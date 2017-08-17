@@ -117,14 +117,20 @@ function createPromotion () {
     })
     .then(function(results) {
       if(results && results.length > 0) {
+        //Update sitemaps
         csm.pages();
         csm.offers();
+        csm.stores();
+        csm.categories();
         csm.index();
+        //Update feed
         feed.create();
+        //Push notifications
         pn.all({
           title: data.title,
           url: conf.host + conf.routes.main + '/' + data.slug,
           message: data.meta_description
+          //@TODO: To set an image to the notifications using pushcrew, we need to create an PNG imgage 192X192
           //,image_url: data.thumbnail
         });
       }
