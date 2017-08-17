@@ -71,8 +71,6 @@ export function getContext (context) {
   if (context.res) ctx.res = context.res
   // Inject external plugins in context
   
-  
-  
   return ctx
 }
 
