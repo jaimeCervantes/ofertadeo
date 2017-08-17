@@ -78,11 +78,7 @@ module.exports = require("express");
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(__dirname) {Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_path__);
-
+/* WEBPACK VAR INJECTION */(function(__dirname) {var path = __webpack_require__(5);
 
 var config = {
   db: {
@@ -112,9 +108,9 @@ var config = {
   },
   host: 'https://www.ofertadeo.com',
   paths: {
-    root: __WEBPACK_IMPORTED_MODULE_0_path___default.a.resolve(__dirname, '../'),
+    root: path.resolve(__dirname, '../'),
     server: __dirname,
-    static: __WEBPACK_IMPORTED_MODULE_0_path___default.a.resolve(__dirname, '../static'),
+    static: path.resolve(__dirname, '../static'),
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
   },
@@ -126,7 +122,7 @@ module.exports = function (wagner) {
     wagner.factory('config', function () {
       return config;
     });
-  }
+  };
   return config;
 };
 
@@ -427,7 +423,7 @@ function smCategories() {
       priority: 0.9
     });
   }).then(function () {
-    smUtils.createSitemapFile(smStores, {
+    smUtils.createSitemapFile(smCategories, {
       sitemap_path: rootXml + '/' + categories_name,
       sitemapName: categories_name
     });
