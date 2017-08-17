@@ -1,12 +1,9 @@
-'use strict';
-
-var wagner = require('wagner-core');
-var path = require('path');
+import path from 'path'
 
 var config = {
   db: {
-    user: "ofertadeo_publisher",
-    password: "Cdop_2017*",
+    user: 'ofertadeo_publisher',
+    password: 'Cdop_2017*',
     name: 'ofertadeo',
     host: 'localhost:27017',
     shard1: 'pensemosweb-shard-00-00-147ev.mongodb.net:27017',
@@ -33,19 +30,19 @@ var config = {
   paths: {
     root: path.resolve(__dirname, '../'),
     server: __dirname,
-    static:  path.resolve(__dirname, '../static'),
+    static: path.resolve(__dirname, '../static'),
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
   }
-};
+}
 
 module.exports = function (wagner) {
   if (wagner) {
-    wagner.factory('config', function (){
-      return config;
-    });
+    wagner.factory('config', function () {
+      return config
+    })
   }
-  return config;
-};
+  return config
+}
 
-module.exports.config = config;
+module.exports.config = config
