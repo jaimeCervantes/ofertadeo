@@ -1,4 +1,4 @@
-import config from '../server/config.js'
+import config from '../config.js'
 
 let script = '9bb3dc20d980ec138bfbca444454fb5d.js'
 if (config.app_status === 'deploy') {
