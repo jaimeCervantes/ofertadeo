@@ -32,12 +32,22 @@ function createSitemap () {
 
 function addToSitemap(sitemap, data, params) {
   data.forEach(function(current) {
-    sitemap.add({
+    var obj = {
       url: params.route + '/' + current.slug,
       changefreq: params.changefreq || 'daily',
       priority: params.priority || 0.5,
       lastmodISO: utils.getDate(current.modified)
-    });
+    };
+
+    if (current.img) {
+      obj.img = {
+        url: current.img,
+        caption: current.img_alt,
+        title: current.img_title,
+      };
+    }
+             
+    sitemap.add(obj);
   });
 
   return sitemap
