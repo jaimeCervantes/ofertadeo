@@ -16,10 +16,6 @@ module.exports = function(wagner, params) {
       db:db
     });
   })
-  .catch(function(err) {
-    //some configuration to notify no database connection working
-    console.log(err);
-  })
   .then(function(){
     if(crudInst) {
       index();  
@@ -27,6 +23,10 @@ module.exports = function(wagner, params) {
       indexNoDB();
     }
     
+  })
+  .catch(function(err) {
+    //some configuration to notify no database connection working
+    console.log(err);
   });
 
   return router;

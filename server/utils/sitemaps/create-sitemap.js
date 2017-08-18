@@ -17,7 +17,7 @@ function getData (params) {
       return crud.getItems({
           collection: params.collection || config.db.collections.main,
           query: params.query || {},
-          projection: params.projection || { slug: 1, modified: 1 },
+          projection: params.projection || { slug: 1, modified: 1, img: 1, img_title: 1, img_alt: 1 },
           items_per_page: params.items_per_page || 10000,
           sort: { published: -1 }
         }).catch(function(err) {
