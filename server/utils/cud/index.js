@@ -1,4 +1,5 @@
 const cudUtils = require('./utils');
+const utils = require('../index.js');
 const config = require('../../config.js');
 var csm = require('../sitemaps/create-sitemap.js');
 let conf = config();
@@ -25,8 +26,64 @@ let conf = config();
 
 
 //Update sitemaps
-csm.pages();
-csm.offers();
-csm.stores();
-csm.categories();
-csm.index();
+// csm.pages();
+// csm.offers();
+// csm.stores();
+// csm.categories();
+// csm.index();
+// 
+
+var crudInst = utils.getCrud()
+crudInst.then(function(crud) {
+	return crud.getItems({
+		collection: conf.db.collections.main,
+		projection: { categories: 1, stores: 1},
+		items_per_page: 200
+	});
+})
+// Obtener el nombre de la tienda y de la categoria de cada oferta
+.then(function(docs){
+	return Promise.all(docs.map(function(doc) {
+		return crudInst.then(function(crud){
+			return crud.getItem({
+				collection: conf.db.collections.secundary,
+				query: { _id: doc.stores[0] },
+				projection: { name: 1}
+			});
+		}).
+		then(function(store) {
+			return crudInst
+			.then(function(crud) {
+				return crud.getItem({
+					collection: conf.db.collections.categories,
+					query: { _id: doc.categories[0] },
+					projection: { name: 1}	
+				});
+			})
+			.then(function(cat) {
+				return { _id: doc._id, categories: [cat], stores: [store] };
+			});
+		})
+		.catch(function(err){
+			console.log(err);
+			return Error(err);
+		})
+	}))
+})
+// Ya que tenemos las categorias y tiendas de cada oferta, la actualizamos
+.then(function(docs) {
+	docs.forEach(function(doc) {
+		console.log(doc);
+		crudInst
+		.then(function(crud) {
+			crud.updateOne({
+				collection: conf.db.collections.main,
+				query: {_id: doc._id},
+				update: { $set: { categories: doc.categories, stores: doc.stores } }
+			});
+		});
+	});
+})
+.catch(function(err){
+	console.log(err);
+});
