@@ -16,15 +16,15 @@ module.exports = function(wagner, params) {
       db:db
     });
   })
-  .catch(function(err) {
-    //some configuration to notify no database connection working
-    console.log(err);
-  })
   .then(function(){
     if(crudInst) {
       _id();
       index();
     }
+  })
+  .catch(function(err) {
+    //some configuration to notify no database connection working
+    console.log(err);
   });
 
   return router;
