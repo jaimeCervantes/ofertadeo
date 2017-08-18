@@ -381,7 +381,7 @@ function getData(params) {
     return crud.getItems({
       collection: params.collection || config.db.collections.main,
       query: params.query || {},
-      projection: params.projection || { slug: 1, modified: 1 },
+      projection: params.projection || { slug: 1, modified: 1, img: 1, img_title: 1, img_alt: 1 },
       items_per_page: params.items_per_page || 10000,
       sort: { published: -1 }
     }).catch(function (err) {
@@ -721,9 +721,6 @@ module.exports = function (wagner, params) {
     crudInst = new CRUD({
       db: db
     });
-  }).catch(function (err) {
-    //some configuration to notify no database connection working
-    console.log(err);
   }).then(function () {
     if (crudInst) {
       _id();
@@ -731,6 +728,8 @@ module.exports = function (wagner, params) {
     } else {
       indexNoDB();
     }
+  }).catch(function (err) {
+    console.log(error);
   });
 
   return router;
@@ -834,15 +833,15 @@ module.exports = function (wagner, params) {
     crudInst = new CRUD({
       db: db
     });
-  }).catch(function (err) {
-    //some configuration to notify no database connection working
-    console.log(err);
   }).then(function () {
     if (crudInst) {
       index();
     } else {
       indexNoDB();
     }
+  }).catch(function (err) {
+    //some configuration to notify no database connection working
+    console.log(err);
   });
 
   return router;
@@ -908,15 +907,15 @@ module.exports = function (wagner, params) {
     crudInst = new CRUD({
       db: db
     });
-  }).catch(function (err) {
-    //some configuration to notify no database connection working
-    console.log(err);
   }).then(function () {
     if (crudInst) {
       slug();
       getFormDataPromotions();
       createPromotion();
     }
+  }).catch(function (err) {
+    //some configuration to notify no database connection working
+    console.log(err);
   });
 
   return router;
@@ -1033,14 +1032,14 @@ module.exports = function (wagner, params) {
     crudInst = new CRUD({
       db: db
     });
-  }).catch(function (err) {
-    //some configuration to notify no database connection working
-    console.log(err);
   }).then(function () {
     if (crudInst) {
       _id();
       index();
     }
+  }).catch(function (err) {
+    //some configuration to notify no database connection working
+    console.log(err);
   });
 
   return router;
@@ -1153,13 +1152,13 @@ module.exports = function (wagner, params) {
     crudInst = new CRUD({
       db: db
     });
-  }).catch(function (err) {
-    //some configuration to notify no database connection working
-    console.log(err);
   }).then(function () {
     if (crudInst) {
       upload();
     }
+  }).catch(function (err) {
+    //some configuration to notify no database connection working
+    console.log(err);
   });
 
   return router;
@@ -1889,12 +1888,22 @@ function createSitemap() {
 
 function addToSitemap(sitemap, data, params) {
   data.forEach(function (current) {
-    sitemap.add({
+    var obj = {
       url: params.route + '/' + current.slug,
       changefreq: params.changefreq || 'daily',
       priority: params.priority || 0.5,
       lastmodISO: utils.getDate(current.modified)
-    });
+    };
+
+    if (current.img) {
+      obj.img = {
+        url: current.img,
+        caption: current.img_alt,
+        title: current.img_title
+      };
+    }
+
+    sitemap.add(obj);
   });
 
   return sitemap;
