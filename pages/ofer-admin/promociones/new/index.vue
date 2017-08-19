@@ -110,7 +110,7 @@ export default {
     },
     setArrayValues (data) {
       return data.map(function (elem) {
-        return elem.value
+        return { _id: elem.value, name: elem.text }
       })
     },
     getImgs (resp) {
