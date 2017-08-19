@@ -22,8 +22,8 @@
       <span itemprop="position" class="visually-hidden" v-html="position"></span>
       <v-card-row class="item__store" v-if="item.stores || item.categories">
         <div class="pl-2 pr-2">
-          <nuxt-link v-if="type!=='store'" :to="getAdditionalLinks(type)">Ofertas {{arrayToString(item.stores).toUpperCase()}}</nuxt-link>
-          <nuxt-link v-if="type==='store'" :to="getAdditionalLinks(type)">{{arrayToString(item.categories || false).toUpperCase()}}</nuxt-link>
+          <nuxt-link v-if="type!=='store'" :to="getAdditionalLinks(type)">Ofertas {{item.stores[0].name}}</nuxt-link>
+          <nuxt-link v-if="type==='store'" :to="getAdditionalLinks(type)">{{item.categories[0].name}}</nuxt-link>
         </div>
       </v-card-row>
       <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
@@ -44,13 +44,11 @@ export default {
   methods: {
     getAdditionalLinks (type) {
       if (type !== 'store') {
-        let lastPart = (this.item.stores && this.item.stores[0]) ? this.item.stores[0] : ''
-        return `${this.$store.state.routes.storeList}/${lastPart}`
+        return `${this.$store.state.routes.storeList}/${this.item.stores[0]._id}`
       }
 
       if (type === 'store') {
-        let lastPart = (this.item.categories && this.item.categories[0]) ? this.item.categories[0] : ''
-        return `${this.$store.state.routes.categoriesList}/${lastPart}`
+        return `${this.$store.state.routes.categoriesList}/${this.item.categories[0]._id}`
       }
     }
   }

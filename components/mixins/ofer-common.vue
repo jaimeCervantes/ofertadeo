@@ -57,7 +57,12 @@ export default {
       if (!paramArray) return ''
       if (Array.isArray(paramArray) && paramArray[0]) {
         return paramArray.reduce(function (prev, curr) {
-          return prev.split('-').join(' ') + curr.split('-').join(' ')
+          let comma = ', '
+          if (!prev) {
+            comma = ''
+          }
+          console.log(curr)
+          return prev.split('-').join(' ') + comma + curr.split('-').join(' ')
         }, '')
       }
     }
