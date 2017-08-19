@@ -82,8 +82,8 @@ export default {
       img: '',
       img_data: {},
       thumbnail: '',
-      categorySelected: [{ value: 'frutas-y-verduras', text: 'Frutas y Verduras' }],
-      storeSelected: [{ value: 'walmart', text: 'Walmart' }],
+      categorySelected: [],
+      storeSelected: [],
       validation: {
         slug: {
           val: true

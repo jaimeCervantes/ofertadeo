@@ -54,7 +54,8 @@ export default {
 	},
 	created () {
 		if (process.BROWSER_BUILD) {
-			this.googleAnalytics()
+			// @TODO: By the momento GA is not working good inside a component	
+			// this.googleAnalytics()
 			this.pushcrew()	
 		}
 	}
