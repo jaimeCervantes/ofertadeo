@@ -741,7 +741,7 @@ function _id() {
 
     var iterable = [crudInst.getItems({
       collection: conf.db.collections.main,
-      query: { categories: req.params._id },
+      query: { 'categories._id': req.params._id },
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { published: -1 },
@@ -762,7 +762,7 @@ function _id() {
       query: { _id: req.params._id },
       projection: { name: 1, thumbnail: 1, slug: 1, content: 1, img: 1, img_alt: 1, img_title: 1, img_data: 1 }
     }), crudInst.getPagination({
-      query: { categories: req.params._id },
+      query: { 'categories._id': req.params._id },
       collection: conf.db.collections.main
     })];
 
@@ -1050,7 +1050,7 @@ function _id() {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
       collection: conf.db.collections.main,
-      query: { stores: req.params._id },
+      query: { 'stores._id': req.params._id },
       items_per_page: conf.db.itemsPerPage,
       skip: conf.db.itemsPerPage * page,
       sort: { published: -1 },
@@ -1072,7 +1072,7 @@ function _id() {
       query: { _id: req.params._id },
       projection: { name: 1, thumbnail: 1, slug: 1, content: 1, url_site: 1, img: 1, img_alt: 1, img_title: 1, img_data: 1 }
     }), crudInst.getPagination({
-      query: { stores: req.params._id },
+      query: { 'stores._id': req.params._id },
       collection: conf.db.collections.main
     })];
 
@@ -1880,7 +1880,7 @@ function compress(path) {
 function createSitemap() {
   var sitemap = sm.createSitemap({
     hostname: config.host,
-    xmlNs: 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n      xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"\n      xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"\n      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n      xmlns:xhtml="http://www.w3.org/1999/xhtml"\n      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"'
+    xmlNs: 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n      xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"\n      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n      xmlns:xhtml="http://www.w3.org/1999/xhtml"\n      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"'
   });
 
   return sitemap;
