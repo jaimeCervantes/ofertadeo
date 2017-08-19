@@ -2,51 +2,29 @@
   <ofer-content>
     <template slot="info-section" v-if="exists(item)">
       <p class="promotion-data">
-        <nuxt-link :to="$store.state.routes.storeList + '/' + item.stores[0]">
-          Ofertas 
-          <span class="promotion-data__store">{{arrayToString(item.stores)}}</span>
-        </nuxt-link>
+        Ofertas 
+        <nuxt-link class="taxonomy" :to="config.routes.storeList + '/' + store._id" v-for="(store,i) in item.stores" :key="i">
+          <span class="promotion-data__store" v-text="store.name"></span>
+        </nuxt-link> 
         |
-        <nuxt-link :to="createLinkToCategories()">
-          <span class="promotion__category" v-text="arrayToString(item.categories)"></span>
+        <nuxt-link class="taxonomy" :to="config.routes.categories + '/' + category._id" v-for="(category, i) in item.categories" :key="i">
+          <span class="promotion__category" v-text="category.name"></span>
         </nuxt-link>
       </p>
-      <h1>{{item.name}}</h1>      
+      <h1>{{item.name}}</h1>
     </template>
     <template slot="content">
       <v-row v-if="exists(item)">
         <v-col class="mt-3 mb-3" xs12 sm12 md9 lg9 xl9>
-          <div class="promotion">
+          <section class="promotion">
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
               <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
-              <social-sharing :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`" inline-template :media="item.img" twitter-user="ofertadeo" :title="item.title">
-                <div id="social-sharing">
-                  <network network="facebook">
-                    <v-btn>
-                      <img src="/icons/facebook.svg" alt="Compartir en facebook" title="Compartir">
-                    </v-btn>
-                  </network>
-                  <network network="twitter">
-                    <v-btn>
-                      <img src="/icons/twitter.svg" alt="Compartir en Twitter+" title="Compartir">
-                    </v-btn>
-                  </network>
-                  <network network="googleplus">
-                    <v-btn>
-                      <img src="/icons/google-plus.svg" alt="Compartir en Google+" title="Compartir">
-                    </v-btn>
-                  </network>
-                  <network network="pinterest">
-                    <v-btn>
-                      <img src="/icons/pinterest.svg" alt="Compartir en Pinterest+" title="Compartir">
-                    </v-btn>
-                  </network>
-                </div>
-              </social-sharing>
+              <share-buttons :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
+              ></share-buttons>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
-          </div>
+          </section>
         </v-col>
       </v-row>
       <ofer-not-exists v-if="!exists(item)" v-bind:title="notExistTitle"></ofer-not-exists>
@@ -59,15 +37,26 @@ import axios from '~plugins/axios'
 import OferContent from '~components/ofer-content.vue'
 import OferCommon from '~components/mixins/ofer-common.vue'
 import OferNotExists from '~components/ofer-not-exists.vue'
-import Vue from 'vue'
-import SocialSharing from 'vue-social-sharing'
-
-Vue.use(SocialSharing)
+import ShareButtons from '~components/share-buttons.vue'
 
 export default {
   mixins: [OferCommon],
   data () {
-    return { item: {}, notExistTitle: 'La oferta no existe. Te recomendamos verificar la url.' }
+    return {
+      item: {},
+      storesOffer: [
+        { _id: 'amazon', name: 'Amazon', slug: 'amazon' },
+        { _id: 'costco', name: 'Costco', slug: 'costco' },
+        { _id: 'sears', name: 'Sears', slug: 'sears' },
+        { _id: 'sanborns', name: 'Sanborns', slug: 'sanborns' },
+        { _id: 'suburbia', name: 'Suburbia', slug: 'suburbia' },
+        { _id: 'cinepolis', name: 'Cinepolis', slug: 'cinepolis' },
+        { _id: 'palacio-de-hierro', name: 'Palacio de Hierro', slug: 'palacio-de-hierro' },
+        { _id: 'cyamoda', name: 'C&A', slug: 'cyamoda' },
+        { _id: 'bodega-alianza', name: 'Bodega Alianza', slug: 'bodega-alianza' }
+      ],
+      notExistTitle: 'La oferta no existe. Te recomendamos verificar la url.'
+    }
   },
   async asyncData ({ params, route }) {
     let { data } = await axios.get('/api/promotions/' + params.slug)
@@ -77,22 +66,19 @@ export default {
     },
     data)
   },
-  methods: {
-    createLinkToCategories () {
-      return this.$store.state.routes.categories + '/' + (this.item.categories && this.item.categories[0])
-    }
-  },
   components: {
     OferContent,
     OferCommon,
-    OferNotExists
+    OferNotExists,
+    ShareButtons
   },
   head () {
     let host = this.$store.state.host
-    let urlLogo = `${host}/logo.png`
+    let urlLogo = `${host}/favicons/apple-touch-icon-60x60.png`
     let urlPromociones = `${this.$store.state.host}${this.$store.state.routes.stores}`
     let url = `${urlPromociones}/${this.item.slug}`
-    let description = `${this.getTextFromHtml(this.item.content).slice(0, 150)}...`
+    let content = `${this.getTextFromHtml(this.item.content)}`
+    let description = `${content.slice(0, 150)}...`
 
     let metas = [
       { hid: 'title', name: 'title', content: `${this.item.name} | Ofertadeo` },
@@ -102,9 +88,9 @@ export default {
       { hid: 'og:description', property: 'og:description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
       { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.main}/${this.item.slug}` },
       { hid: 'article:publisher', property: 'article:publisher', content: this.$store.state.publisher.fb },
-      { hid: 'article:tag', property: 'article:tag', content: this.arrayToString(this.item.stores) },
-      { hid: 'article:section', property: 'article:section', content: this.arrayToString(this.categories) },
-      { hid: 'article:published_time', property: 'article:published_time', content: this.item.modified },
+      { hid: 'article:tag', property: 'article:tag', content: this.item.stores[0].name },
+      { hid: 'article:section', property: 'article:section', content: this.item.categories[0].name },
+      { hid: 'article:published_time', property: 'article:published_time', content: this.getISODateStr(this.item.modified) },
       { hid: 'og:image', property: 'og:image', content: this.item.img },
       { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.item.img },
       { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
@@ -129,52 +115,17 @@ export default {
           innerHTML: JSON.stringify(
             {
               '@context': 'http://schema.org',
-              '@type': 'BreadcrumbList',
-              'itemListElement': [{
-                '@type': 'ListItem',
-                'position': 1,
-                'item': {
-                  '@id': host,
-                  'name': 'Ofertadeo'
-                }
-              },
-              {
-                '@type': 'ListItem',
-                'position': 2,
-                'item': {
-                  '@id': urlPromociones,
-                  'name': 'Promociones'
-                }
-              },
-              {
-                '@type': 'ListItem',
-                'position': 3,
-                'item': {
-                  '@id': url,
-                  'name': 'Promociones'
-                }
-              }]
-            }),
-          type: 'application/ld+json'
-        },
-        {
-          innerHTML: JSON.stringify(
-            {
-              '@context': 'http://schema.org',
               '@type': 'Article',
-              'mainEntityOfPage': {
-                '@type': 'WebPage',
-                '@id': url
-              },
+              'mainEntityOfPage': url,
               'headline': this.item.name,
               'image': {
                 '@type': 'ImageObject',
-                'url': this.item.thumbnail,
-                'height': this.item.img_data.height,
-                'width': this.item.img_data.width
+                'url': this.item.img,
+                'height': this.item.img_data && this.item.img_data.height ? this.item.img_data.height : 600,
+                'width': this.item.img_data && this.item.img_data.width ? this.item.img_data.width : 600
               },
-              'datePublished': this.item.published,
-              'dateModified': this.item.modified,
+              'datePublished': this.getISODateStr(this.item.published),
+              'dateModified': this.getISODateStr(this.item.modified),
               'author': {
                 '@type': 'Organization',
                 'name': 'Ofertadeo'
@@ -185,11 +136,12 @@ export default {
                 'logo': {
                   '@type': 'ImageObject',
                   'url': urlLogo,
-                  'width': 200,
-                  'height': 200
+                  'width': 60,
+                  'height': 60
                 }
               },
-              'description': description
+              'description': description,
+              'articleBody': content
             }),
           type: 'application/ld+json'
         }
@@ -206,8 +158,11 @@ export default {
     text-align:center;
     img {
       display: block;
-      max-width: 200px;
+      max-width: 300px;
       margin: 0 auto;
+      @media(max-width: 600px) {
+        max-width:200px;
+      }
     }
   }
 }
@@ -218,6 +173,10 @@ p.promotion-data {
   text-transform: uppercase
   :first-letter {
     text-transform: uppercase;
+  }
+  
+  .taxonomy {
+    margin-right: 5px;
   }
 
   a {
@@ -231,20 +190,4 @@ p.promotion-data {
     }
   }
 }
-</style>
-
-<style lang="stylus">
-  #social-sharing {
-    .btn {
-      width:30px;
-      min-width:30px;
-      min-height:30px;
-      padding:0;
-      background-color: #fff;
-      border-radius: 0;
-      img {
-        width: 30px;
-      }
-    }
-  }
 </style>

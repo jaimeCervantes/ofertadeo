@@ -2,16 +2,16 @@
   <ofer-content>
     <template slot="info-section" v-if="exists(item)">
       <p class="promotion-data">
-        <nuxt-link :to="$store.state.routes.storeList + '/' + item.stores[0]">
-          Ofertas 
-          <span class="promotion-data__store">{{arrayToString(item.stores)}}</span>
-        </nuxt-link>
+        Ofertas 
+        <nuxt-link class="taxonomy" :to="config.routes.storeList + '/' + store._id" v-for="(store,i) in item.stores" :key="i">
+          <span class="promotion-data__store" v-text="store.name"></span>
+        </nuxt-link> 
         |
-        <nuxt-link :to="createLinkToCategories()">
-          <span class="promotion__category" v-text="arrayToString(item.categories)"></span>
+        <nuxt-link class="taxonomy" :to="config.routes.categories + '/' + category._id" v-for="(category, i) in item.categories" :key="i">
+          <span class="promotion__category" v-text="category.name"></span>
         </nuxt-link>
       </p>
-      <h1>{{item.name}}</h1>      
+      <h1>{{item.name}}</h1>
     </template>
     <template slot="content">
       <v-row v-if="exists(item)">
@@ -66,11 +66,6 @@ export default {
     },
     data)
   },
-  methods: {
-    createLinkToCategories () {
-      return this.$store.state.routes.categories + '/' + (this.item.categories && this.item.categories[0])
-    }
-  },
   components: {
     OferContent,
     OferCommon,
@@ -93,8 +88,8 @@ export default {
       { hid: 'og:description', property: 'og:description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
       { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.main}/${this.item.slug}` },
       { hid: 'article:publisher', property: 'article:publisher', content: this.$store.state.publisher.fb },
-      { hid: 'article:tag', property: 'article:tag', content: this.arrayToString(this.item.stores) },
-      { hid: 'article:section', property: 'article:section', content: this.arrayToString(this.categories) },
+      { hid: 'article:tag', property: 'article:tag', content: this.item.stores[0].name },
+      { hid: 'article:section', property: 'article:section', content: this.item.categories[0].name },
       { hid: 'article:published_time', property: 'article:published_time', content: this.getISODateStr(this.item.modified) },
       { hid: 'og:image', property: 'og:image', content: this.item.img },
       { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.item.img },
@@ -178,6 +173,10 @@ p.promotion-data {
   text-transform: uppercase
   :first-letter {
     text-transform: uppercase;
+  }
+  
+  .taxonomy {
+    margin-right: 5px;
   }
 
   a {

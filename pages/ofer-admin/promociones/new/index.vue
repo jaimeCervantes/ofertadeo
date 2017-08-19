@@ -18,6 +18,7 @@
             <v-select
               v-bind:items="categories"
               v-model="categorySelected"
+              multiple
               label="Categoría"
               class="input-group--focused"
               item-value="text"
@@ -27,6 +28,7 @@
             <v-select
               v-bind:items="stores"
               v-model="storeSelected"
+              multiple
               label="Tiendas"
               class="input-group--focused"
               item-value="text"
@@ -80,8 +82,8 @@ export default {
       img: '',
       img_data: {},
       thumbnail: '',
-      categorySelected: { value: 'frutas-y-verduras', text: 'Frutas y Verduras' },
-      storeSelected: { value: 'walmart', text: 'Walmart' },
+      categorySelected: [{ value: 'frutas-y-verduras', text: 'Frutas y Verduras' }],
+      storeSelected: [{ value: 'walmart', text: 'Walmart' }],
       validation: {
         slug: {
           val: true
@@ -104,6 +106,11 @@ export default {
     setTextPropertyForSelect (data) {
       return data.map(function (elem) {
         return { value: elem._id, text: elem.name }
+      })
+    },
+    setArrayValues (data) {
+      return data.map(function (elem) {
+        return { _id: elem.value, name: elem.text }
       })
     },
     getImgs (resp) {
@@ -145,8 +152,8 @@ export default {
         img: this.img,
         img_data: this.img_data,
         thumbnail: this.thumbnail,
-        stores: [this.storeSelected.value],
-        categories: [this.categorySelected.value]
+        stores: this.setArrayValues(this.storeSelected),
+        categories: this.setArrayValues(this.categorySelected)
       })
       .then(function (res) {
         if (res.data.ok) {
