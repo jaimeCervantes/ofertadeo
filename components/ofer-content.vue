@@ -52,7 +52,7 @@ export default {
     }
   }
 
-  footer {
+  .after-items {
     padding-top:0.5rem;
     margin-bottom: 1.3rem;
     h2 {
