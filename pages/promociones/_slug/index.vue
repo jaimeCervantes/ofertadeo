@@ -184,8 +184,7 @@ p.promotion-data {
   }
   
   .taxonomy {
-    margin-right: 3px;
-    margin-left: 3px;
+    margin-right: 9px;
     text-transform: uppercase;
     color: #888;
     .promotion-data__store {
