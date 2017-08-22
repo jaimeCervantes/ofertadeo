@@ -81,7 +81,7 @@ export default {
     let description = `${content.slice(0, 150)}...`
 
     let metas = [
-      { hid: 'title', name: 'title', content: `${this.item.name} | Ofertadeo` },
+      { hid: 'title', name: 'title', content: `${this.item.name}` },
       { hid: 'description', name: 'description', content: description },
       { hid: 'og:type', property: 'og:type', content: 'article' },
       { hid: 'og:title', property: 'og:title', content: `${this.item.name}` },
