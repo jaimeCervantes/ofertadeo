@@ -10,7 +10,7 @@
     </template>
     <template slot="content">
       <v-row v-if="exists(item)">
-        <v-col class="mt-3 mb-3" xs12 sm12 md9 lg9 xl9>
+        <v-col xs12 sm12 md9 lg9 xl9>
           <section class="promotion">
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
@@ -160,6 +160,7 @@ h1 {
 }
 
 .promotion {
+  padding-top: 0.5rem;
   .thumbnail {
     float:right;
     text-align:center;
@@ -204,6 +205,7 @@ footer {
       text-transform:initial;
       margin-right:initial;
       margin-left: 0;
+      margin-top: 0;
       &:hover, :visited {
         text-decoration: none;
       }
