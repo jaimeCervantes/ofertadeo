@@ -19,18 +19,14 @@
               ></share-buttons>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
+            <p class="promotion-data">
+            <v-btn outline class="taxonomy" tag="a" :to="config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
+            </v-btn> 
+          </p>
           </section>
         </v-col>
       </v-row>
       <ofer-not-exists v-if="!exists(item)" v-bind:title="notExistTitle"></ofer-not-exists>
-    </template>
-    <template slot="content-footer">
-      <footer class="row">
-        <p class="promotion-data">
-          <v-btn outline class="taxonomy" tag="a" :to="config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
-          </v-btn> 
-        </p>
-      </footer>
     </template>
   </ofer-content>
 </template>
@@ -194,10 +190,7 @@ p.promotion-data {
   }
 }
 
-
-footer {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+.promotion  {
   .promotion-data {
     .taxonomy {
       color: #1976d2;
