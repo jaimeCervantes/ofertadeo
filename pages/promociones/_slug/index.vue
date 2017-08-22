@@ -2,12 +2,8 @@
   <ofer-content>
     <template slot="info-section" v-if="exists(item)">
       <p class="promotion-data">
-        <nuxt-link class="taxonomy" :to="config.routes.storeList + '/' + item.stores[0]._id">
-          <span class="promotion-data__store" v-text="`Ofertas ${item.stores[0].name}`"></span>
-        </nuxt-link> 
-        |
-        <nuxt-link class="taxonomy" :to="config.routes.categories + '/' + item.categories[0]._id">
-          <span class="promotion__category" v-text="item.categories[0].name"></span>
+        <nuxt-link class="taxonomy" :to="config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+          <span class="promotion-data__category" v-text="category.name"></span>
         </nuxt-link>
       </p>
       <h1>{{item.name}}</h1>
@@ -27,6 +23,17 @@
         </v-col>
       </v-row>
       <ofer-not-exists v-if="!exists(item)" v-bind:title="notExistTitle"></ofer-not-exists>
+    </template>
+    <template slot="content-footer">
+      <v-divider class="section-divider"></v-divider>
+      <footer class="row">
+        <p class="promotion-data">
+          <nuxt-link class="taxonomy" :to="config.routes.storeList + '/' + item.stores[0]._id">
+            Ofertas y promociones en 
+            <span class="promotion-data__store" v-text="item.stores[0].name"></span>
+          </nuxt-link> 
+        </p>
+      </footer>
     </template>
   </ofer-content>
 </template>
@@ -151,6 +158,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+h1 {
+  margin-bottom: 0.5rem;
+}
+
 .promotion {
   .thumbnail {
     float:right;
@@ -167,25 +178,33 @@ export default {
 }
 
 p.promotion-data {
-  color: #888;
   font-size: 1rem;
-  text-transform: uppercase
   :first-letter {
     text-transform: uppercase;
   }
   
   .taxonomy {
-    margin-right: 5px;
-  }
-
-  a {
+    margin-right: 9px;
+    text-transform: uppercase;
     color: #888;
+    .promotion-data__store {
+      display: inline;
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
   }
+}
 
-  .promotion-data__store {
-    display: inline;
-    &::first-letter {
-      text-transform: uppercase;
+
+footer {
+  padding: 0.5rem;
+  .promotion-data {
+    a.taxonomy {
+      color: #1976d2;
+      .promotion-data__store {
+        font-weight:bold;
+      }
     }
   }
 }
