@@ -105,7 +105,7 @@ export default {
       )
     }
     return this.exists(this.item) ? {
-      title: `${this.item.name} | Ofertadeo`,
+      title: `${this.item.name}`,
       meta: metas,
       link: [
         { rel: 'canonical', href: url }
