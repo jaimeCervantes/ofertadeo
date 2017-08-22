@@ -202,7 +202,6 @@ footer {
   .promotion-data {
     a.taxonomy {
       color: #1976d2;
-      text-transform: initial;
       .promotion-data__store {
         font-weight:bold;
       }
