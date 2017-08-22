@@ -2,13 +2,12 @@
   <ofer-content>
     <template slot="info-section" v-if="exists(item)">
       <p class="promotion-data">
-        Ofertas 
-        <nuxt-link class="taxonomy" :to="config.routes.storeList + '/' + store._id" v-for="(store,i) in item.stores" :key="i">
-          <span class="promotion-data__store" v-text="store.name"></span>
+        <nuxt-link class="taxonomy" :to="config.routes.storeList + '/' + item.stores[0]._id">
+          <span class="promotion-data__store" v-text="`Ofertas ${item.stores[0].name}`"></span>
         </nuxt-link> 
         |
-        <nuxt-link class="taxonomy" :to="config.routes.categories + '/' + category._id" v-for="(category, i) in item.categories" :key="i">
-          <span class="promotion__category" v-text="category.name"></span>
+        <nuxt-link class="taxonomy" :to="config.routes.categories + '/' + item.categories[0]._id">
+          <span class="promotion__category" v-text="item.categories[0].name"></span>
         </nuxt-link>
       </p>
       <h1>{{item.name}}</h1>
