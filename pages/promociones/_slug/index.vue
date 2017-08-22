@@ -25,13 +25,10 @@
       <ofer-not-exists v-if="!exists(item)" v-bind:title="notExistTitle"></ofer-not-exists>
     </template>
     <template slot="content-footer">
-      <v-divider class="section-divider"></v-divider>
       <footer class="row">
         <p class="promotion-data">
-          <nuxt-link class="taxonomy" :to="config.routes.storeList + '/' + item.stores[0]._id">
-            Ofertas y promociones en 
-            <span class="promotion-data__store" v-text="item.stores[0].name"></span>
-          </nuxt-link> 
+          <v-btn outline class="taxonomy" tag="a" :to="config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
+          </v-btn> 
         </p>
       </footer>
     </template>
@@ -184,7 +181,7 @@ p.promotion-data {
   }
   
   .taxonomy {
-    margin-right: 9px;
+    margin-right: 10px;
     text-transform: uppercase;
     color: #888;
     .promotion-data__store {
@@ -198,12 +195,17 @@ p.promotion-data {
 
 
 footer {
-  padding: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   .promotion-data {
-    a.taxonomy {
+    .taxonomy {
       color: #1976d2;
-      .promotion-data__store {
-        font-weight:bold;
+      font-weight:bold;
+      text-transform:initial;
+      margin-right:initial;
+      margin-left: 0;
+      &:hover, :visited {
+        text-decoration: none;
       }
     }
   }
