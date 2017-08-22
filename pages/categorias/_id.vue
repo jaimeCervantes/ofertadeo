@@ -24,10 +24,10 @@
     </template>
     <template slot="content-footer" v-if="exists(info)">
       <v-divider class="section-divider"></v-divider>
-      <footer>
+      <section class="after-items">
         <h2 v-html="'Promociones ' + info.name"></h2>
         <div v-html="info.content"></div>
-      </footer>
+      </section>
     </template>
   </ofer-content>
 </template>
@@ -83,9 +83,9 @@ export default {
     let url = `${urlCategories}/${this.id}`
 
     let metas = [
-      { hid: 'title', name: 'title', content: `Descuentos, promociones y ofertas en ${this.info.name} | Ofertadeo` },
+      { hid: 'title', name: 'title', content: `Descuentos, promociones y ofertas en ${this.info.name}` },
       { hid: 'description', name: 'description', content: this.info.description },
-      { hid: 'og:title', property: 'og:title', content: `Descuentos, promociones y ofertas en ${this.info.name} | Ofertadeo` },
+      { hid: 'og:title', property: 'og:title', content: `Descuentos, promociones y ofertas en ${this.info.name}` },
       { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en ofertadeo. Descuentos, promociones y ofertas en ${this.info.name}. ✓ ¡Ahorra dinero ya!` },
       { hid: 'og:url', property: 'og:url', content: url },
       { hid: 'og:image', property: 'og:image', content: this.info.img },
@@ -104,7 +104,7 @@ export default {
     }
 
     return (this.info && this.info.name) ? {
-      title: `Descuentos, promociones y ofertas en ${this.info.name} | Ofertadeo`,
+      title: `Descuentos, promociones y ofertas en ${this.info.name}`,
       meta: metas,
       link: [
         { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.categoriesList}/${this.id}` }
