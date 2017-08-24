@@ -8,34 +8,14 @@
             <v-text-field v-model="slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
             <vue-editor v-model="content"></vue-editor>
-            <v-text-field v-model="url" name="url" label="Url origen" required></v-text-field>
+            <v-text-field v-model="url" name="url" label="Url de la Tienda" required></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
             <v-text-field v-model="title" name="title" label="Titulo, h1" required></v-text-field>
             <v-text-field v-model="meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
             <v-text-field v-model="img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
             <v-text-field v-model="img_title" name="img_title" label="Title (img)" required></v-text-field>
             <v-text-field v-model="meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
-            <v-select
-              v-bind:items="categories"
-              v-model="categorySelected"
-              multiple
-              label="Categoría"
-              class="input-group--focused"
-              item-value="text"
-              required
-              autocomplete
-            ></v-select>
-            <v-select
-              v-bind:items="stores"
-              v-model="storeSelected"
-              multiple
-              label="Tiendas"
-              class="input-group--focused"
-              item-value="text"
-              required
-              autocomplete
-            ></v-select>
-            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Oferta</v-btn>
+            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Tienda</v-btn>
           </form>
         </v-col>
       </v-row>
@@ -82,18 +62,12 @@ export default {
       img: '',
       img_data: {},
       thumbnail: '',
-      categorySelected: [],
-      storeSelected: [],
       validation: {
         slug: {
           val: true
         }
       }
     }
-  },
-  async asyncData () {
-    let { data } = await axios.get('/api/formdata/promotions')
-    return data
   },
   components: {
     OferContent,
@@ -103,16 +77,6 @@ export default {
     VueEditor
   },
   methods: {
-    setTextPropertyForSelect (data) {
-      return data.map(function (elem) {
-        return { value: elem._id, text: elem.name }
-      })
-    },
-    setArrayValues (data) {
-      return data.map(function (elem) {
-        return { _id: elem.value, name: elem.text }
-      })
-    },
     getImgs (resp) {
       this.img = resp.img
       this.thumbnail = resp.thumbnail
@@ -128,21 +92,21 @@ export default {
       }
 
       if (!this.img || !this.thumbnail) {
-        alert('Asegurate de primero subir la imagen de la oferta')
+        alert('Asegurate de primero subir la imagen de la Tienda')
         return
       }
-      if (!this.name || !this.url || !this.content || !this.stores || !this.categories) {
-        alert('Todavia te faltan datos importantes antes de guardar la oferta. Recuerda subir la imagen seleccionada antes de crear la oferta')
+      if (!this.name || !this.url || !this.content) {
+        alert('Todavia te faltan datos importantes antes de guardar la Tienda. Recuerda subir la imagen seleccionada antes de crear la oferta')
         return
       }
 
       this.loading = true
       this.disabled = true
 
-      axios.post('/api/promotions/new', {
+      axios.post('/api/stores/new', {
         name: this.name,
         slug: this.slug,
-        url: this.url,
+        url_site: this.url,
         title: this.title,
         meta_title: this.meta_title,
         meta_description: this.meta_description,
@@ -151,19 +115,17 @@ export default {
         content: this.content,
         img: this.img,
         img_data: this.img_data,
-        thumbnail: this.thumbnail,
-        stores: this.setArrayValues(this.storeSelected),
-        categories: this.setArrayValues(this.categorySelected)
+        thumbnail: this.thumbnail
       })
       .then(function (res) {
         if (res.data.ok) {
-          that.$router.push(`/ofer-admin/promociones/${that.slug}`)
+          that.$router.push(`/ofer-admin/tiendas/${that.slug}`)
         } else {
-          alert('Algo salió mal, al insertar un nuevo documento en la base de datos')
+          alert('Algo salió mal, alinsertar un nueva tienda en la base de datos, ')
         }
       })
       .catch(function (err) {
-        alert('ocurrio un error al crear la oferta')
+        alert('ocurrio un error al crear la Tienda')
         console.log(err)
       })
       .then(function () {
@@ -176,15 +138,11 @@ export default {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get('/api/promotions/' + currSlug)
-      if (this.exists(data)) {
+      let { data } = await axios.get('/api/stores/' + currSlug)
+      if (data && data.info) {
         this.validation.slug.val = false
       }
     }
-  },
-  created () {
-    this.categories = this.setTextPropertyForSelect(this.categories)
-    this.stores = this.setTextPropertyForSelect(this.stores)
   },
   watch: {
     name (newName) {
@@ -205,7 +163,7 @@ export default {
   },
   head () {
     return {
-      title: `Nueva oferta | Ofertadeo`
+      title: `Nueva Tienda | Ofertadeo`
     }
   }
 }
