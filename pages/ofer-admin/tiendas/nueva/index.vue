@@ -147,8 +147,8 @@ export default {
   watch: {
     name (newName) {
       this.slug = slug(newName)
-      this.title = `${newName}`
-      this.meta_title = `${newName}`
+      this.title = `${newName} – Ofertas y promociones`
+      this.meta_title = `Descuentos, ofertas y promociones en ${newName}`
       this.img_alt = `${newName}`
       this.img_title = `${newName}`
     },

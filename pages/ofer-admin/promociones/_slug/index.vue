@@ -2,20 +2,15 @@
   <ofer-content>
     <template slot="info-section" v-if="exists(item)">
       <p class="promotion-data">
-        Ofertas 
-        <nuxt-link class="taxonomy" :to="config.routes.storeList + '/' + store._id" v-for="(store,i) in item.stores" :key="i">
-          <span class="promotion-data__store" v-text="store.name"></span>
-        </nuxt-link> 
-        |
-        <nuxt-link class="taxonomy" :to="config.routes.categories + '/' + category._id" v-for="(category, i) in item.categories" :key="i">
-          <span class="promotion__category" v-text="category.name"></span>
+        <nuxt-link class="taxonomy" :to="config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+          <span class="promotion-data__category" v-text="category.name"></span>
         </nuxt-link>
       </p>
       <h1>{{item.name}}</h1>
     </template>
     <template slot="content">
       <v-row v-if="exists(item)">
-        <v-col class="mt-3 mb-3" xs12 sm12 md9 lg9 xl9>
+        <v-col xs12 sm12 md9 lg9 xl9>
           <section class="promotion">
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
@@ -24,6 +19,10 @@
               ></share-buttons>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
+            <p class="promotion-data">
+            <v-btn outline class="taxonomy" tag="a" :to="config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
+            </v-btn> 
+          </p>
           </section>
         </v-col>
       </v-row>
@@ -81,7 +80,7 @@ export default {
     let description = `${content.slice(0, 150)}...`
 
     let metas = [
-      { hid: 'title', name: 'title', content: `${this.item.name} | Ofertadeo` },
+      { hid: 'title', name: 'title', content: `${this.item.name}` },
       { hid: 'description', name: 'description', content: description },
       { hid: 'og:type', property: 'og:type', content: 'article' },
       { hid: 'og:title', property: 'og:title', content: `${this.item.name}` },
@@ -105,7 +104,7 @@ export default {
       )
     }
     return this.exists(this.item) ? {
-      title: `${this.item.name} | Ofertadeo`,
+      title: `${this.item.name}`,
       meta: metas,
       link: [
         { rel: 'canonical', href: url }
@@ -152,7 +151,12 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+h1 {
+  margin-bottom: 0.5rem;
+}
+
 .promotion {
+  padding-top: 0.5rem;
   .thumbnail {
     float:right;
     text-align:center;
@@ -168,25 +172,36 @@ export default {
 }
 
 p.promotion-data {
-  color: #888;
   font-size: 1rem;
-  text-transform: uppercase
   :first-letter {
     text-transform: uppercase;
   }
   
   .taxonomy {
-    margin-right: 5px;
-  }
-
-  a {
+    margin-right: 10px;
+    text-transform: uppercase;
     color: #888;
+    .promotion-data__store {
+      display: inline;
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
   }
+}
 
-  .promotion-data__store {
-    display: inline;
-    &::first-letter {
-      text-transform: uppercase;
+.promotion  {
+  .promotion-data {
+    .taxonomy {
+      color: #1976d2;
+      font-weight:bold;
+      text-transform:initial;
+      margin-right:initial;
+      margin-left: 0;
+      margin-top: 0;
+      &:hover, :visited {
+        text-decoration: none;
+      }
     }
   }
 }

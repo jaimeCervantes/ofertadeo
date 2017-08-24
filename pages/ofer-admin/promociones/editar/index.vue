@@ -16,7 +16,7 @@
             <v-text-field v-model="img_title" name="img_title" label="Title (img)" required></v-text-field>
             <v-text-field v-model="meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
             <v-select
-              v-bind:items="categories"
+              v-bind:items="allCategories"
               v-model="categorySelected"
               multiple
               label="Categoría"
@@ -26,7 +26,7 @@
               autocomplete
             ></v-select>
             <v-select
-              v-bind:items="stores"
+              v-bind:items="allStores"
               v-model="storeSelected"
               multiple
               label="Tiendas"
@@ -91,8 +91,9 @@ export default {
       }
     }
   },
-  async asyncData () {
-    let { data } = await axios.get('/api/formdata/promotions')
+  async asyncData ({ params }) {
+    let { data } = await axios.get('/api/formdata/promotions/' + params.slug)
+    console.log(data)
     return data
   },
   components: {
@@ -131,9 +132,13 @@ export default {
         alert('Asegurate de primero subir la imagen de la oferta')
         return
       }
-      if (!this.name || !this.url || !this.content || !this.stores || !this.categories) {
+      if (!this.name || !this.url || !this.content) {
         alert('Todavia te faltan datos importantes antes de guardar la oferta. Recuerda subir la imagen seleccionada antes de crear la oferta')
         return
+      }
+
+      if (this.categorySelected.length === 0 || this.categorySelected.length === 0) {
+        alert('Seleccionada al menos una categoria y una tienda')
       }
 
       this.loading = true
@@ -183,8 +188,8 @@ export default {
     }
   },
   created () {
-    this.categories = this.setTextPropertyForSelect(this.categories)
-    this.stores = this.setTextPropertyForSelect(this.stores)
+    this.allCategories = this.setTextPropertyForSelect(this.allCategories)
+    this.allStores = this.setTextPropertyForSelect(this.allStores)
   },
   watch: {
     name (newName) {
@@ -200,12 +205,12 @@ export default {
       }
     },
     content (newContent) {
-      this.meta_description = this.sliceTextFromHtml(newContent, this.config.seo.description.charsLimit)
+      this.meta_description = `${this.getTextFromHtml(newContent).slice(0, 150)}...`
     }
   },
   head () {
     return {
-      title: `Nueva oferta | Ofertadeo`
+      title: `Editar oferta | Ofertadeo`
     }
   }
 }

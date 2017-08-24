@@ -24,6 +24,7 @@ module.exports = function(wagner, params) {
       slug();
       getFormDataPromotions();
       createPromotion();
+      editPromotion();
     }    
   })
   .catch(function(err) {
@@ -38,7 +39,7 @@ function slug() {
   router.get('/promotions/:slug', function(req, res) {
     var iterable = [
       crudInst.getItem({
-        collection: conf.db.mainCollection,
+        collection: conf.db.collections.main,
         query: { slug: req.params.slug },
         items_per_page: 1
       })
@@ -84,7 +85,40 @@ function getFormDataPromotions() {
       .catch(function(error) {
         res.json(error);
       });
+  });
 
+  router.get('/formdata/promotions/:slug', function(req, res) {
+    var iterable = [
+      crudInst.getItem({
+        collection: conf.db.collections.main,
+        query: { slug: req.params.slug },
+        items_per_page: 1
+      }),
+      crudInst.getItems({
+        collection: conf.db.collections.secundary,
+        items_per_page: 100,
+        projection: { name: 1 },
+        sort: { name: 1}
+      }),
+      crudInst.getItems({
+        collection: conf.db.collections.categories,
+        items_per_page: 100,
+        projection: { name: 1 },
+        sort: { name: 1}
+      })
+    ];
+
+    Promise.all(iterable)
+      .then(function(results) {
+        res.json({
+            item: results[0],
+            allStores: results[1],
+            allCategories: results[2]
+          });
+      })
+      .catch(function(error) {
+        res.json(error);
+      });
   });
 }
 
@@ -136,6 +170,23 @@ function createPromotion () {
       }
     })
     .catch(function(err){
+      res.json(err);
+    });
+  });
+}
+
+function editPromotion () {
+  router.post('/promotions/edit/:slug', function(req, res) {
+    var data = Object.assign({ modified: new Date() }, req.body);
+    crudInst.updateOne({
+      collection: conf.db.collections.main,
+      query: { slug: req.params.slug },
+      update: { $set: data }
+    })
+    .then(function(result) {
+      res.json(result);
+    })
+    .catch(function(err) {
       res.json(err);
     });
   });
