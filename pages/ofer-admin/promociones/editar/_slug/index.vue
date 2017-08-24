@@ -4,8 +4,8 @@
       <v-row>
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
-            <v-text-field v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field v-model="slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
+            <v-text-field disabled v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
+            <v-text-field disabled v-model="slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
             <vue-editor v-model="content"></vue-editor>
             <v-text-field v-model="url" name="url" label="Url origen" required></v-text-field>
