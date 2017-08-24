@@ -12,7 +12,7 @@
             <template slot="item-content">
               <v-card-row class="item__name" v-if="item.name">
                 <div class="pl-2 pr-2">
-                  <v-btn small primary dark tag="a" :to="`.${config.routes.main}/editar/${item.slug}`">Editar</v-btn>
+                  <v-btn small primary dark tag="a" :to="`${config.host}${config.routes.admin}${config.routes.main}/editar/${item.slug}`">Editar</v-btn>
                 </div>
               </v-card-row>
             </template>
