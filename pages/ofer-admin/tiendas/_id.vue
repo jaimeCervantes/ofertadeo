@@ -14,7 +14,15 @@
       <h2 v-if="exists(info)">Lista de ofertas y promociones {{info.name}}</h2>
       <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-          <ofer-item :item="item" type="store" :to-link="$store.state.routes.stores + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
+          <ofer-item :item="item" type="store" :to-link="$store.state.routes.stores + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+            <template slot="item-content">
+              <v-card-row>
+                <div class="pl-2 pr-2">
+                  <v-btn small primary dark tag="a" :to="`${config.host}${config.routes.admin}${config.routes.main}/editar/${item.slug}`">Editar</v-btn>
+                </div>
+              </v-card-row>
+            </template>
+          </ofer-item>
         </v-col>
       </v-row>
       <ofer-not-exists v-if="!exists(info)" v-bind:title="notExistTitle"></ofer-not-exists>
