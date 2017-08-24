@@ -10,7 +10,7 @@
     </template>
     <template slot="content">
       <v-row v-if="exists(item)">
-        <v-col class="mt-3 mb-3" xs12 sm12 md9 lg9 xl9>
+        <v-col xs12 sm12 md9 lg9 xl9>
           <section class="promotion">
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
@@ -19,21 +19,14 @@
               ></share-buttons>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
+            <p class="promotion-data">
+            <v-btn outline class="taxonomy" tag="a" :to="config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
+            </v-btn> 
+          </p>
           </section>
         </v-col>
       </v-row>
       <ofer-not-exists v-if="!exists(item)" v-bind:title="notExistTitle"></ofer-not-exists>
-    </template>
-    <template slot="content-footer">
-      <v-divider class="section-divider"></v-divider>
-      <footer class="row">
-        <p class="promotion-data">
-          <nuxt-link class="taxonomy" :to="config.routes.storeList + '/' + item.stores[0]._id">
-            Ofertas y promociones en 
-            <span class="promotion-data__store" v-text="item.stores[0].name"></span>
-          </nuxt-link> 
-        </p>
-      </footer>
     </template>
   </ofer-content>
 </template>
@@ -163,6 +156,7 @@ h1 {
 }
 
 .promotion {
+  padding-top: 0.5rem;
   .thumbnail {
     float:right;
     text-align:center;
@@ -184,7 +178,7 @@ p.promotion-data {
   }
   
   .taxonomy {
-    margin-right: 9px;
+    margin-right: 10px;
     text-transform: uppercase;
     color: #888;
     .promotion-data__store {
@@ -196,15 +190,17 @@ p.promotion-data {
   }
 }
 
-
-footer {
-  padding: 0.5rem;
+.promotion  {
   .promotion-data {
-    a.taxonomy {
+    .taxonomy {
       color: #1976d2;
-      text-transform: initial;
-      .promotion-data__store {
-        font-weight:bold;
+      font-weight:bold;
+      text-transform:initial;
+      margin-right:initial;
+      margin-left: 0;
+      margin-top: 0;
+      &:hover, :visited {
+        text-decoration: none;
       }
     }
   }
