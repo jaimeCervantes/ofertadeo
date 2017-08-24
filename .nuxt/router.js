@@ -26,7 +26,7 @@ const _4e1499c9 = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-
 
 const _547ec73f = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/tiendas/index.vue' /* webpackChunkName: "pages/ofer-admin-tiendas" */)
 
-const _0c2c8ecc = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/promociones/new/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-new" */)
+const _b7a922ba = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/promociones/nueva/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-nueva" */)
 
 const _1d4d28d7 = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/promociones/editar/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-editar" */)
 
@@ -127,9 +127,9 @@ export default new Router({
 			name: "ofer-admin-tiendas"
 		},
 		{
-			path: "/ofer-admin/promociones/new",
-			component: _0c2c8ecc,
-			name: "ofer-admin-promociones-new"
+			path: "/ofer-admin/promociones/nueva",
+			component: _b7a922ba,
+			name: "ofer-admin-promociones-nueva"
 		},
 		{
 			path: "/ofer-admin/promociones/editar",
