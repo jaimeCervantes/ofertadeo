@@ -40,5 +40,10 @@ export default {
   feed: {
     rss: 'http://feeds.feedburner.com/ofertadeo-develop'
   },
+  seo: {
+    description: {
+      charsLimit: 150
+    }
+  },
   app_status: 'develop'
 }

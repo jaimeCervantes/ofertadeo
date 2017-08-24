@@ -43,6 +43,14 @@ export default {
     getTextFromHtml (strHtml) {
       return striptags(strHtml)
     },
+    sliceTextFromHtml (strHtml, limit) {
+      let text = striptags(strHtml)
+      if (text.length <= limit) {
+        return text
+      } else {
+        return text.slice(0, limit - 3) + '...'
+      }
+    },
     exists (data) {
       if (!data) {
         return false
@@ -61,7 +69,6 @@ export default {
           if (!prev) {
             comma = ''
           }
-          console.log(curr)
           return prev.split('-').join(' ') + comma + curr.split('-').join(' ')
         }, '')
       }
