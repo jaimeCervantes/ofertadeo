@@ -22,7 +22,8 @@ export default {
     categoriesList: '/categorias',
     stores: '/promociones',
     main: '/promociones',
-    storeList: '/tiendas'
+    storeList: '/tiendas',
+    admin: '/ofer-admin'
   },
   host: 'http://45.55.71.33',
   urlLogo: 'http://45.55.71.33/logo.png',
