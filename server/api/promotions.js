@@ -176,15 +176,28 @@ function savePromotion(operation, cb) {
       console.log(err);
       res.json(err);
     })
-    .then(function(dbResponse) {
+    .then(function(dbResponse){
       if (dbResponse.result && dbResponse.result.ok ) {
+        return crudInst.update({
+          collection: conf.db.collections.pages,
+          query: {},
+          update: { $set: { modified: rightNow } },
+          options: { multi: true }
+        })
+      }
+    })
+    .catch(function(err) {
+      console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:')
+      console.log(err);
+    })
+    .then(function(dbResponse) {
+      if (dbResponse && dbResponse.result && dbResponse.result.ok ) {
         return updateStoresAndCategories({ stores: data.stores, categories: data.categories }, rightNow);
       }
     })
     .catch(function() {
       console.log('Ocurrió un error al tratar de actualizar tiendas y categorias despues de guardar una promoción:')
       console.log(err);
-      res.json(err);
     })
     .then(function(results) {
       if(results && results.length > 0) {
@@ -194,7 +207,6 @@ function savePromotion(operation, cb) {
     .catch(function(err) {
       console.log('Ocurrió un error al tratar de actualizar los sitemas y el feed despues de guardar una promoción:')
       console.log(err);
-      res.json(err);
     })
     .then(function(result){
       if(result) {
@@ -202,8 +214,7 @@ function savePromotion(operation, cb) {
       }
     })
     .catch(function(err){
-      console.log(res);
-      res.json(err);
+      console.log(err);
     });
   });
 }

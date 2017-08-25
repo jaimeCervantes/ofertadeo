@@ -138,6 +138,19 @@ function createStore () {
       console.log(err);
       res.json(err);
     })
+    .then(function(dbResponse){
+      if (dbResponse.result && dbResponse.result.ok ) {
+        return crudInst.updateOne({
+          collection: conf.db.collections.pages,
+          query: { $set: { slug: '/tiendas' } },
+          update: { modified: rightNow }
+        });
+      }
+    })
+    .catch(function(err) {
+      console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:')
+      console.log(err);
+    })
     .then(function(dbResponse) {
       if (dbResponse.result && dbResponse.result.ok ) {
         return true
@@ -151,7 +164,7 @@ function createStore () {
       }
     })
     .catch(function(err){
-      res.json(err);
+      console.log(err);
     });
   });
 }

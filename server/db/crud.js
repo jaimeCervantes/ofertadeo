@@ -66,6 +66,18 @@ CRUD.prototype.updateOne = function (params) {
   });
 }
 
+CRUD.prototype.update = function (params) {
+  var db = this.DATABASE || params.db;
+  return db.collection(params.collection || this.COLLECTION)
+  .update(params.query, params.update, params.options)
+  .then(function(res) {
+    return res;
+  })
+  .catch(function(err) {
+    return err;
+  });
+}
+
 CRUD.prototype.searchItems = function (params) {
   var db = this.DATABASE || params.db;
   return db.collection(this.COLLECTION || params.collection)
