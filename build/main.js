@@ -909,6 +909,7 @@ module.exports = function (wagner, params) {
       slug();
       getFormDataPromotions();
       createPromotion();
+      editPromotion();
     }
   }).catch(function (err) {
     //some configuration to notify no database connection working
@@ -921,7 +922,7 @@ module.exports = function (wagner, params) {
 function slug() {
   router.get('/promotions/:slug', function (req, res) {
     var iterable = [crudInst.getItem({
-      collection: conf.db.mainCollection,
+      collection: conf.db.collections.main,
       query: { slug: req.params.slug },
       items_per_page: 1
     })];
@@ -954,6 +955,34 @@ function getFormDataPromotions() {
       res.json({
         stores: results[0],
         categories: results[1]
+      });
+    }).catch(function (error) {
+      res.json(error);
+    });
+  });
+
+  router.get('/formdata/promotions/:slug', function (req, res) {
+    var iterable = [crudInst.getItem({
+      collection: conf.db.collections.main,
+      query: { slug: req.params.slug },
+      items_per_page: 1
+    }), crudInst.getItems({
+      collection: conf.db.collections.secundary,
+      items_per_page: 100,
+      projection: { name: 1 },
+      sort: { name: 1 }
+    }), crudInst.getItems({
+      collection: conf.db.collections.categories,
+      items_per_page: 100,
+      projection: { name: 1 },
+      sort: { name: 1 }
+    })];
+
+    Promise.all(iterable).then(function (results) {
+      res.json({
+        item: results[0],
+        allStores: results[1],
+        allCategories: results[2]
       });
     }).catch(function (error) {
       res.json(error);
@@ -1008,6 +1037,21 @@ function createPromotion() {
   });
 }
 
+function editPromotion() {
+  router.post('/promotions/edit/:slug', function (req, res) {
+    var data = Object.assign({ modified: new Date() }, req.body);
+    crudInst.updateOne({
+      collection: conf.db.collections.main,
+      query: { slug: req.params.slug },
+      update: { $set: data }
+    }).then(function (result) {
+      res.json(result);
+    }).catch(function (err) {
+      res.json(err);
+    });
+  });
+}
+
 /***/ },
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
@@ -1033,6 +1077,7 @@ module.exports = function (wagner, params) {
     if (crudInst) {
       _id();
       index();
+      createStore();
     }
   }).catch(function (err) {
     //some configuration to notify no database connection working
@@ -1116,6 +1161,21 @@ function index() {
     }).catch(function (error) {
       console.log(error);
       res.json(error);
+    });
+  });
+}
+
+function createStore() {
+  router.post('/stores/new', function (req, res) {
+    var rightNow = new Date();
+    var data = Object.assign({ modified: rightNow, published: rightNow, _id: req.body.slug }, req.body);
+    crudInst.setItem({
+      collection: conf.db.collections.secundary,
+      document: data
+    }).then(function (result) {
+      res.json(result);
+    }).catch(function (err) {
+      res.json(err);
     });
   });
 }

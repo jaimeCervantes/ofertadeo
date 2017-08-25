@@ -4,8 +4,8 @@
       <v-row>
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
-            <v-text-field v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field v-model="slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
+            <v-text-field disabled v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
+            <v-text-field disabled v-model="slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
             <vue-editor v-model="content"></vue-editor>
             <v-text-field v-model="url" name="url" label="Url origen" required></v-text-field>
@@ -16,7 +16,7 @@
             <v-text-field v-model="img_title" name="img_title" label="Title (img)" required></v-text-field>
             <v-text-field v-model="meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
             <v-select
-              v-bind:items="categories"
+              v-bind:items="allCategories"
               v-model="categorySelected"
               multiple
               label="Categoría"
@@ -26,7 +26,7 @@
               autocomplete
             ></v-select>
             <v-select
-              v-bind:items="stores"
+              v-bind:items="allStores"
               v-model="storeSelected"
               multiple
               label="Tiendas"
@@ -35,7 +35,7 @@
               required
               autocomplete
             ></v-select>
-            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Oferta</v-btn>
+            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Editar Oferta</v-btn>
           </form>
         </v-col>
       </v-row>
@@ -91,9 +91,11 @@ export default {
       }
     }
   },
-  async asyncData () {
-    let { data } = await axios.get('/api/formdata/promotions')
-    return data
+  async asyncData ({ params }) {
+    let { data } = await axios.get('/api/formdata/promotions/' + params.slug)
+    let item = data.item
+    delete data.item
+    return Object.assign(data, item)
   },
   components: {
     OferContent,
@@ -131,15 +133,19 @@ export default {
         alert('Asegurate de primero subir la imagen de la oferta')
         return
       }
-      if (!this.name || !this.url || !this.content || !this.stores || !this.categories) {
-        alert('Todavia te faltan datos importantes antes de guardar la oferta. Recuerda subir la imagen seleccinada antes de crear la oferta')
+      if (!this.name || !this.url || !this.content) {
+        alert('Todavia te faltan datos importantes antes de guardar la oferta. Recuerda subir la imagen seleccionada antes de crear la oferta')
         return
+      }
+
+      if (this.categorySelected.length === 0 || this.categorySelected.length === 0) {
+        alert('Seleccionada al menos una categoria y una tienda')
       }
 
       this.loading = true
       this.disabled = true
 
-      axios.post('/api/promotions/new', {
+      axios.post('/api/promotions/edit/' + this.slug, {
         name: this.name,
         slug: this.slug,
         url: this.url,
@@ -163,7 +169,7 @@ export default {
         }
       })
       .catch(function (err) {
-        alert('ocurrio un error al crear la oferta')
+        alert('ocurrio un error al editar la oferta')
         console.log(err)
       })
       .then(function () {
@@ -183,14 +189,16 @@ export default {
     }
   },
   created () {
-    this.categories = this.setTextPropertyForSelect(this.categories)
-    this.stores = this.setTextPropertyForSelect(this.stores)
+    this.allCategories = this.setTextPropertyForSelect(this.allCategories)
+    this.allStores = this.setTextPropertyForSelect(this.allStores)
+    this.categorySelected = this.setTextPropertyForSelect(this.categories)
+    this.storeSelected = this.setTextPropertyForSelect(this.stores)
   },
   watch: {
     name (newName) {
       this.slug = slug(newName)
-      this.title = `${newName} | Ofertadeo`
-      this.meta_title = `${newName} | Ofertadeo`
+      this.title = `${newName}`
+      this.meta_title = `${newName}`
       this.img_alt = `${newName}`
       this.img_title = `${newName}`
     },
@@ -198,14 +206,11 @@ export default {
       if (newSlug.length > 5) {
         this.validateSlug(newSlug)
       }
-    },
-    content (newContent) {
-      this.meta_description = `${this.getTextFromHtml(newContent).slice(0, 150)}...`
     }
   },
   head () {
     return {
-      title: `Nueva oferta | Ofertadeo`
+      title: `Editar oferta | Ofertadeo`
     }
   }
 }

@@ -20,6 +20,7 @@ module.exports = function(wagner, params) {
     if(crudInst) {
       _id();
       index();
+      createStore();
     }
   })
   .catch(function(err) {
@@ -115,6 +116,23 @@ function index() {
     .catch(function(error) {
       console.log(error);
       res.json(error);
+    });
+  });
+}
+
+function createStore () {
+  router.post('/stores/new', function(req, res) {
+    var rightNow = new Date();
+    var data = Object.assign({ modified: rightNow, published: rightNow, _id: req.body.slug }, req.body);
+    crudInst.setItem({
+      collection: conf.db.collections.secundary,
+      document: data
+    })
+    .then(function(result){
+      res.json(result);
+    })
+    .catch(function(err){
+      res.json(err);
     });
   });
 }

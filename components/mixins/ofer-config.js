@@ -22,7 +22,8 @@ export default {
     categoriesList: '/categorias',
     stores: '/promociones',
     main: '/promociones',
-    storeList: '/tiendas'
+    storeList: '/tiendas',
+    admin: '/ofer-admin'
   },
   host: 'https://www.ofertadeo.com',
   urlLogo: 'https://www.ofertadeo.com/logo.png',
@@ -39,6 +40,11 @@ export default {
   },
   feed: {
     rss: 'http://feeds.feedburner.com/ofertadeo-develop'
+  },
+  seo: {
+    description: {
+      charsLimit: 150
+    }
   },
   app_status: 'deploy'
 }
