@@ -147,7 +147,7 @@ export default {
   watch: {
     name (newName) {
       this.slug = slug(newName)
-      this.title = `${newName} – Ofertas y promociones`
+      this.title = `${newName} – Ofertas, promociones y descuentos`
       this.meta_title = `Descuentos, ofertas y promociones en ${newName}`
       this.img_alt = `${newName}`
       this.img_title = `${newName}`
@@ -158,7 +158,7 @@ export default {
       }
     },
     content (newContent) {
-      this.meta_description = `${this.getTextFromHtml(newContent).slice(0, 150)}...`
+      this.meta_description = this.sliceTextFromHtml(newContent, this.config.seo.description.charsLimit)
     }
   },
   head () {
