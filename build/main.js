@@ -193,6 +193,15 @@ CRUD.prototype.updateOne = function (params) {
   });
 };
 
+CRUD.prototype.update = function (params) {
+  var db = this.DATABASE || params.db;
+  return db.collection(params.collection || this.COLLECTION).update(params.query, params.update, params.options).then(function (res) {
+    return res;
+  }).catch(function (err) {
+    return err;
+  });
+};
+
 CRUD.prototype.searchItems = function (params) {
   var db = this.DATABASE || params.db;
   return db.collection(this.COLLECTION || params.collection)
@@ -236,11 +245,11 @@ CRUD.prototype.aggregation = function (params) {
 /***/ function(module, exports, __webpack_require__) {
 
 var config = __webpack_require__(1).config;
-var wagner = __webpack_require__(6);
+var wagner = __webpack_require__(7);
 var Crud = __webpack_require__(2);
 
 __webpack_require__(1)(wagner);
-__webpack_require__(7)(wagner);
+__webpack_require__(8)(wagner);
 
 function getCrud() {
   return wagner.invoke(function (conn) {
@@ -323,45 +332,6 @@ module.exports = require("path");
 
 /***/ },
 /* 6 */
-/***/ function(module, exports) {
-
-module.exports = require("wagner-core");
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var MongoClient = __webpack_require__(32).MongoClient;
-
-function getConnection(config) {
-  //connPromise is pending when trying to connect to mongodb atlas
-  // var shards = config.db.shard1 + ',' + config.db.shard2 + ',' + config.db.shard3;
-  // var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + shards + '/' + config.db.name + config.db.queryString;
-  var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + config.db.host + '/' + config.db.name;
-
-  return MongoClient.connect(url).then(function (conn) {
-    console.log('It is connected to db: ' + config.db.name + ' in ' + config.db.host);
-    return conn;
-  }).catch(function (err) {
-    console.log(err);
-    return err;
-  });
-}
-
-module.exports = function (wagner) {
-  wagner.invoke(function (config) {
-    var conn = getConnection(config);
-    wagner.factory('conn', function () {
-      return conn;
-    });
-  });
-};
-
-/***/ },
-/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 var utils = __webpack_require__(3);
@@ -388,7 +358,7 @@ function getData(params) {
       return err;
     });
   }).catch(function (err) {
-    console.log(err);
+    return err;
   });
 }
 
@@ -398,86 +368,122 @@ function smPages() {
 
   compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
 
-  getData({ collection: config.db.collections.pages }).then(function (data) {
-    smUtils.addToSitemap(compoundSitemap, data, {
+  return getData({ collection: config.db.collections.pages }).then(function (data) {
+    return smUtils.addToSitemap(compoundSitemap, data, {
       route: '',
       changefreq: 'weekly',
       priority: 0.7
     });
   }).then(function (algo) {
-    smUtils.createSitemapFile(compoundSitemap, {
+    return smUtils.createSitemapFile(compoundSitemap, {
       sitemap_path: rootXml + '/' + pages_name,
       sitemapName: pages_name
     });
   }).catch(function (err) {
-    console.log(err);
+    return err;
   });
 }
 
 function smCategories() {
   var smCategories = smUtils.createSitemap();
-  getData({ collection: config.db.collections.categories }).then(function (data) {
+  return getData({ collection: config.db.collections.categories }).then(function (data) {
     smUtils.addToSitemap(smCategories, data, {
       route: config.routes.categories,
       changefreq: 'weekly',
       priority: 0.9
     });
   }).then(function () {
-    smUtils.createSitemapFile(smCategories, {
+    return smUtils.createSitemapFile(smCategories, {
       sitemap_path: rootXml + '/' + categories_name,
       sitemapName: categories_name
     });
   }).catch(function (err) {
-    console.log(err);
+    return err;
   });
 }
 
 function smStores() {
   var smStores = smUtils.createSitemap();
-  getData({ collection: config.db.collections.secundary }).then(function (data) {
-    smUtils.addToSitemap(smStores, data, {
+  return getData({ collection: config.db.collections.secundary }).then(function (data) {
+    return smUtils.addToSitemap(smStores, data, {
       route: config.routes.storeList,
       changefreq: 'weekly',
       priority: 0.9
     });
   }).then(function () {
-    smUtils.createSitemapFile(smStores, {
+    return smUtils.createSitemapFile(smStores, {
       sitemap_path: rootXml + '/' + stores_name,
       sitemapName: stores_name
     });
   }).catch(function (err) {
-    console.log(err);
+    return err;
   });
 }
 
 function smOffers() {
   var offersSitemap = smUtils.createSitemap();
 
-  getData({ collection: config.db.collections.main }).then(function (data) {
+  return getData({ collection: config.db.collections.main }).then(function (data) {
     smUtils.addToSitemap(offersSitemap, data, {
       route: config.routes.main,
       changefreq: 'monthly',
       priority: 0.5
     });
   }).then(function () {
-    smUtils.createSitemapFile(offersSitemap, {
+    return smUtils.createSitemapFile(offersSitemap, {
       sitemap_path: rootXml + '/' + offers,
       sitemapName: offers
     });
   }).catch(function (err) {
-    console.log(err);
+    return err;
   });
 }
 
 function smIndex() {
-  var content = '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<sitemap>\n  <loc>' + config.host + '/' + pages_name + '.gz</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n<sitemap>\n  <loc>' + config.host + '/' + offers + '.gz</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n<sitemap>\n  <loc>' + config.host + '/' + stores_name + '.gz</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap><sitemap>\n  <loc>' + config.host + '/' + categories_name + '.gz</loc>\n  <lastmod>' + utils.getDate() + '</lastmod>\n</sitemap>\n</sitemapindex>';
 
-  fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function (err) {
-    if (err) {
-      return console.log(err);
-    }
-    smUtils.compress(rootXml + '/sitemap.xml');
-    console.log('Index sitemap is created :=)');
+  var iterable = [new Promise(function (resolve, reject) {
+    fs.stat(rootXml + '/' + pages_name + '.gz', function (err, stat) {
+      if (err) {
+        reject(err);
+      }
+      resolve(stat);
+    });
+  }), new Promise(function (resolve, reject) {
+    fs.stat(rootXml + '/' + offers + '.gz', function (err, stat) {
+      if (err) {
+        reject(err);
+      }
+      resolve(stat);
+    });
+  }), new Promise(function (resolve, reject) {
+    fs.stat(rootXml + '/' + stores_name + '.gz', function (err, stat) {
+      if (err) {
+        reject(err);
+      }
+      resolve(stat);
+    });
+  }), new Promise(function (resolve, reject) {
+    fs.stat(rootXml + '/' + categories_name + '.gz', function (err, stat) {
+      if (err) {
+        reject(err);
+      }
+      resolve(stat);
+    });
+  })];
+
+  return Promise.all(iterable).then(function (results) {
+    var content = '<?xml version="1.0" encoding="UTF-8"?>\n      <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n      <sitemap>\n        <loc>' + config.host + '/' + pages_name + '.gz</loc>\n        <lastmod>' + utils.getDate(results[0].mtime) + '</lastmod>\n      </sitemap>\n      <sitemap>\n        <loc>' + config.host + '/' + offers + '.gz</loc>\n        <lastmod>' + utils.getDate(results[1].mtime) + '</lastmod>\n      </sitemap>\n      <sitemap>\n        <loc>' + config.host + '/' + stores_name + '.gz</loc>\n        <lastmod>' + utils.getDate(results[2].mtime) + '</lastmod>\n      </sitemap><sitemap>\n        <loc>' + config.host + '/' + categories_name + '.gz</loc>\n        <lastmod>' + utils.getDate(results[3].mtime) + '</lastmod>\n      </sitemap>\n      </sitemapindex>';
+
+    fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function (err) {
+      if (err) {
+        return err;
+      }
+      smUtils.compress(rootXml + '/sitemap.xml');
+      console.log('Index sitemap is created :=)');
+      return 'Index sitemap is created :=)';
+    });
+  }).catch(function (err) {
+    return err;
   });
 }
 
@@ -522,6 +528,45 @@ module.exports = {
   stores: smStores,
   categories: smCategories,
   ping: ping
+};
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+module.exports = require("wagner-core");
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var MongoClient = __webpack_require__(32).MongoClient;
+
+function getConnection(config) {
+  //connPromise is pending when trying to connect to mongodb atlas
+  // var shards = config.db.shard1 + ',' + config.db.shard2 + ',' + config.db.shard3;
+  // var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + shards + '/' + config.db.name + config.db.queryString;
+  var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + config.db.host + '/' + config.db.name;
+
+  return MongoClient.connect(url).then(function (conn) {
+    console.log('It is connected to db: ' + config.db.name + ' in ' + config.db.host);
+    return conn;
+  }).catch(function (err) {
+    console.log(err);
+    return err;
+  });
+}
+
+module.exports = function (wagner) {
+  wagner.invoke(function (config) {
+    var conn = getConnection(config);
+    wagner.factory('conn', function () {
+      return conn;
+    });
+  });
 };
 
 /***/ },
@@ -597,7 +642,7 @@ module.exports = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
 
-var wagner = __webpack_require__(6);
+var wagner = __webpack_require__(7);
 var home = __webpack_require__(22);
 var categories = __webpack_require__(21);
 var stores = __webpack_require__(24);
@@ -605,7 +650,7 @@ var promotions = __webpack_require__(23);
 var upload = __webpack_require__(25);
 
 __webpack_require__(1)(wagner);
-__webpack_require__(7)(wagner);
+__webpack_require__(8)(wagner);
 
 var router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
 // Add USERS Routes
@@ -622,7 +667,7 @@ router.use(upload(wagner));
 /***/ function(module, exports, __webpack_require__) {
 
 var cron = __webpack_require__(9);
-var csm = __webpack_require__(8);
+var csm = __webpack_require__(6);
 var utils = __webpack_require__(3);
 
 var schedule = {
@@ -890,7 +935,7 @@ function index() {
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(2);
-var csm = __webpack_require__(8);
+var csm = __webpack_require__(6);
 var feed = __webpack_require__(27);
 var pn = __webpack_require__(28);
 
@@ -908,8 +953,12 @@ module.exports = function (wagner, params) {
     if (crudInst) {
       slug();
       getFormDataPromotions();
-      createPromotion();
-      editPromotion();
+      savePromotion('create', function (data, req) {
+        return crudInst.setItem({ collection: conf.db.collections.main, document: data });
+      });
+      savePromotion('update', function (data, req) {
+        return crudInst.updateOne({ collection: conf.db.collections.main, query: { slug: req.params.slug }, update: { $set: data } });
+      });
     }
   }).catch(function (err) {
     //some configuration to notify no database connection working
@@ -990,64 +1039,93 @@ function getFormDataPromotions() {
   });
 }
 
-function createPromotion() {
-  router.post('/promotions/new', function (req, res) {
-    var rightNow = new Date();
-    var data = Object.assign({ modified: rightNow, published: rightNow }, req.body);
-    crudInst.setItem({
-      collection: conf.db.collections.main,
-      document: data
-    }).then(function (result) {
-      res.json(result);
-      if (result.insertedId) {
-        // @TODO, when we use more than one category and more than one store, the updateOne 
-        // operation should be execute for each element in the arrary categories and stores
-        return Promise.all([crudInst.updateOne({
-          collection: conf.db.collections.secundary,
-          query: { _id: data.stores[0] },
-          update: { $set: { modified: rightNow } }
-        }), crudInst.updateOne({
-          collection: conf.db.collections.categories,
-          query: { _id: data.categories[0] },
-          update: { $set: { modified: rightNow } }
-        })]);
-      }
-    }).then(function (results) {
+function updateStoresAndCategories(data, date) {
+  var iterable = data.categories.map(function (currCat) {
+    return crudInst.updateOne({ collection: conf.db.collections.categories, query: { _id: currCat._id }, update: { $set: { modified: date } } });
+  });
+  //We are not using map because then we have to merge with concat and left two arrays of promises running
+  data.stores.forEach(function (currStore) {
+    iterable.push(crudInst.updateOne({ collection: conf.db.collections.secundary, query: { _id: currStore._id }, update: { $set: { modified: date } } }));
+  });
+
+  return Promise.all(iterable);
+}
+function updateSitemaps() {
+  //Update sitemaps
+  return new Promise(function (resolve, reject) {
+    return Promise.all([csm.pages(), csm.offers(), csm.stores(), csm.categories()]).then(function (results) {
       if (results && results.length > 0) {
-        //Update sitemaps
-        csm.pages();
-        csm.offers();
-        csm.stores();
-        csm.categories();
-        csm.index();
-        //Update feed
-        feed.create();
-        //Push notifications
-        pn.all({
-          title: data.title,
-          url: conf.host + conf.routes.main + '/' + data.slug,
-          message: data.meta_description
-          //@TODO: To set an image to the notifications using pushcrew, we need to create an PNG imgage 192X192
-          //,image_url: data.thumbnail
+        csm.index().then(function (res) {
+          resolve(res);
         });
       }
     }).catch(function (err) {
-      res.json(err);
+      reject(Error(err));
     });
   });
 }
-
-function editPromotion() {
-  router.post('/promotions/edit/:slug', function (req, res) {
-    var data = Object.assign({ modified: new Date() }, req.body);
-    crudInst.updateOne({
-      collection: conf.db.collections.main,
-      query: { slug: req.params.slug },
-      update: { $set: data }
-    }).then(function (result) {
-      res.json(result);
+function sendPushNotification(data) {
+  //Push notifications
+  pn.all({
+    title: data.title,
+    url: conf.host + conf.routes.main + '/' + data.slug,
+    message: data.meta_description
+    //@TODO: To set an image to the notifications using pushcrew, we need to create an PNG imgage 192X192
+    //,image_url: data.thumbnail
+  });
+}
+function savePromotion(operation, cb) {
+  var urls = { create: '/promotions/new', update: '/promotions/edit/:slug' };
+  router.post(urls[operation], function (req, res) {
+    var rightNow = new Date(),
+        missingData = { modified: rightNow };
+    if (operation === 'create') {
+      missingData.published = rightNow;
+    }
+    var data = Object.assign(missingData, req.body);
+    cb(data, req).then(function (dbResponse) {
+      res.json(dbResponse);
+      return dbResponse;
     }).catch(function (err) {
+      console.log('Ocurrió un error al tratar de Guardar una promoción:');
+      console.log(err);
       res.json(err);
+    }).then(function (dbResponse) {
+      if (dbResponse.result && dbResponse.result.ok) {
+        return crudInst.update({
+          collection: conf.db.collections.pages,
+          query: {},
+          update: { $set: { modified: rightNow } },
+          options: { multi: true }
+        });
+      }
+    }).catch(function (err) {
+      console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:');
+      console.log(err);
+    }).then(function (dbResponse) {
+      if (dbResponse && dbResponse.result && dbResponse.result.ok) {
+        return updateStoresAndCategories({ stores: data.stores, categories: data.categories }, rightNow);
+      } else {
+        return Error(dbResponse);
+      }
+    }).catch(function (err) {
+      console.log('Ocurrió un error al tratar de actualizar tiendas y categorias despues de guardar una promoción:');
+      console.log(err);
+    }).then(function (results) {
+      if (results && results.length > 0) {
+        //Update feed
+        feed.create();
+        return updateSitemaps();
+      }
+    }).catch(function (err) {
+      console.log('Ocurrió un error al tratar de actualizar los sitemas y el feed despues de guardar una promoción:');
+      console.log(err);
+    }).then(function (result) {
+      if (result) {
+        sendPushNotification(data);
+      }
+    }).catch(function (err) {
+      console.log(err);
     });
   });
 }
@@ -1062,6 +1140,7 @@ function editPromotion() {
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(2);
+var csm = __webpack_require__(6);
 var crudInst;
 var conf;
 
@@ -1172,10 +1251,45 @@ function createStore() {
     crudInst.setItem({
       collection: conf.db.collections.secundary,
       document: data
-    }).then(function (result) {
-      res.json(result);
+    }).then(function (dbResponse) {
+      res.json(dbResponse);
+      return dbResponse;
     }).catch(function (err) {
+      console.log('Ocurrió un error al tratar de Guardar una Tienda:');
+      console.log(err);
       res.json(err);
+    }).then(function (dbResponse) {
+      if (dbResponse.result && dbResponse.result.ok) {
+        return crudInst.updateOne({
+          collection: conf.db.collections.pages,
+          query: { slug: '/tiendas' },
+          update: { $set: { modified: rightNow } }
+        });
+      }
+    }).catch(function (err) {
+      console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:');
+      console.log(err);
+    }).then(function (dbResponse) {
+      if (dbResponse.result && dbResponse.result.ok) {
+        return true;
+      } else {
+        return Error(dbResponse);
+      }
+    }).then(function (result) {
+      if (result === true) {
+        Promise.all([csm.stores(), csm.pages()]).then(function (results) {
+          if (results && results.length > 0) {
+            return csm.index();
+          }
+        }).catch(function (err) {
+          console.log(err);
+          return err;
+        });
+      } else {
+        console.log(result);
+      }
+    }).catch(function (err) {
+      console.log(err);
     });
   });
 }
@@ -1237,23 +1351,27 @@ function upload() {
         res.json(error);
       }
 
-      var path = getPath();
-      var file = req.files[0];
-      var originalName = file.originalname;
-      var name = originalName.split('.')[0];
-      var extension = originalName.split('.')[1];
-      var filePath = path + '/' + originalName;
-      var finalRootPath = path.split(rootPathUploads)[1];
+      if (req.files && req.files[0]) {
+        var path = getPath();
+        var file = req.files[0];
+        var originalName = file.originalname;
+        var name = originalName.split('.')[0];
+        var extension = originalName.split('.')[1];
+        var filePath = path + '/' + originalName;
+        var finalRootPath = path.split(rootPathUploads)[1];
 
-      jimp.read(filePath).then(function (img) {
-        return img.scaleToFit(300, 300) // resize
-        .quality(50) // set JPEG quality
-        .write(path + '/' + name + '_thumb.' + extension); // save
-      }).then(function (result) {
-        res.json({ success: true, img: conf.host + filePath.split(rootPathUploads)[1], thumbnail: '' + conf.host + finalRootPath + '/' + name + '_thumb.' + extension });
-      }).catch(function (err) {
-        res.json(err);
-      });
+        jimp.read(filePath).then(function (img) {
+          return img.scaleToFit(300, 300) // resize
+          .quality(50) // set JPEG quality
+          .write(path + '/' + name + '_thumb.' + extension); // save
+        }).then(function (result) {
+          res.json({ success: true, img: conf.host + filePath.split(rootPathUploads)[1], thumbnail: '' + conf.host + finalRootPath + '/' + name + '_thumb.' + extension });
+        }).catch(function (err) {
+          res.json(err);
+        });
+      } else {
+        res.json({ success: false, msg: 'No obtuvimos ningun archivo de la peticón' });
+      }
     });
   });
 }
@@ -1916,7 +2034,7 @@ module.exports = {
 /* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
-var wagner = __webpack_require__(6);
+var wagner = __webpack_require__(7);
 var sm = __webpack_require__(11);
 var config = __webpack_require__(1)(wagner);
 var fs = __webpack_require__(4);
@@ -1927,11 +2045,8 @@ function compress(path) {
   var readable = fs.createReadStream(path);
   var writable = fs.createWriteStream(path + '.gz');
   var gzip = zlib.createGzip();
-  readable.pipe(gzip).pipe(writable);
-  gzip.on('end', function () {
-    writable.end();
-    console.log(path + ' sitemap file is compressed!!');
-  });
+
+  return readable.pipe(gzip).pipe(writable);
 }
 
 function createSitemap() {
@@ -1967,12 +2082,28 @@ function addToSitemap(sitemap, data, params) {
 }
 
 function createSitemapFile(sitemap, params) {
-  fs.writeFile(params.sitemap_path, sitemap.toString(), function (err) {
-    if (err) {
-      return console.log(err);
-    }
-    console.log(params.sitemapName + ' sitemap has been created!!');
-    compress(params.sitemap_path);
+  return new Promise(function (resolve, reject) {
+    fs.writeFile(params.sitemap_path, sitemap.toString(), function (err) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      }
+
+      var readable = fs.createReadStream(params.sitemap_path);
+      var writable = fs.createWriteStream(params.sitemap_path + '.gz');
+      var gzip = zlib.createGzip();
+
+      readable.pipe(gzip).pipe(writable);
+
+      gzip.on('error', function (err) {
+        console.log(err);
+        reject(err);
+      }).on('end', function () {
+        writable.end();
+        console.log(params.sitemap_path + ' sitemap file is compressed!!');
+        resolve(params.sitemap_path + ' sitemap file is compressed!!');
+      });
+    });
   });
 }
 
