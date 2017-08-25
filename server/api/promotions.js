@@ -137,16 +137,21 @@ function updateStoresAndCategories (data, date) {
 
   return Promise.all(iterable);
 }
-function updateSitemapsFeed() {
+function updateSitemaps() {
   //Update sitemaps
-  csm.pages();
-  csm.offers();
-  csm.stores();
-  csm.categories();
-  csm.index();
-  //Update feed
-  feed.create();
-  return true;
+  return new Promise(function(resolve, reject) {
+    return Promise.all([csm.pages(), csm.offers(), csm.stores(), csm.categories()])
+    .then(function(results) {
+      if(results && results.length > 0) {
+        csm.index().then(function(res){
+          resolve(res);
+        });
+      }
+    })
+    .catch(function(err){
+      reject(Error(err));
+    });
+  });  
 }
 function sendPushNotification(data) {
   //Push notifications
@@ -193,15 +198,19 @@ function savePromotion(operation, cb) {
     .then(function(dbResponse) {
       if (dbResponse && dbResponse.result && dbResponse.result.ok ) {
         return updateStoresAndCategories({ stores: data.stores, categories: data.categories }, rightNow);
+      } else {
+        return Error(dbResponse);
       }
     })
-    .catch(function() {
+    .catch(function(err) {
       console.log('Ocurrió un error al tratar de actualizar tiendas y categorias despues de guardar una promoción:')
       console.log(err);
     })
     .then(function(results) {
       if(results && results.length > 0) {
-        return updateSitemapsFeed();
+          //Update feed
+        feed.create();
+        return updateSitemaps();
       }
     })
     .catch(function(err) {

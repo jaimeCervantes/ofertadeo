@@ -142,8 +142,8 @@ function createStore () {
       if (dbResponse.result && dbResponse.result.ok ) {
         return crudInst.updateOne({
           collection: conf.db.collections.pages,
-          query: { $set: { slug: '/tiendas' } },
-          update: { modified: rightNow }
+          query: { slug: '/tiendas' },
+          update: { $set: { modified: rightNow } }
         });
       }
     })
@@ -154,13 +154,24 @@ function createStore () {
     .then(function(dbResponse) {
       if (dbResponse.result && dbResponse.result.ok ) {
         return true
+      } else {
+        return Error(dbResponse);
       }
     })
     .then(function(result) {
-      if(result) {
-        csm.stores();
-        csm.pages();
-        csm.index();
+      if(result===true) {
+        Promise.all([csm.stores(), csm.pages()])
+        .then(function(results) {
+          if (results && results.length > 0) {
+            return csm.index();
+          }
+        })
+        .catch(function(err){
+          console.log(err);
+          return err;
+        })
+      } else {
+        console.log(result);
       }
     })
     .catch(function(err){
