@@ -206,9 +206,6 @@ export default {
       if (newSlug.length > 5) {
         this.validateSlug(newSlug)
       }
-    },
-    content (newContent) {
-      this.meta_description = this.sliceTextFromHtml(newContent, this.config.seo.description.charsLimit)
     }
   },
   head () {
