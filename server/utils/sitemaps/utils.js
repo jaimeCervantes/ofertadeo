@@ -9,11 +9,8 @@ function compress(path) {
   var readable = fs.createReadStream(path);
   var writable = fs.createWriteStream(path + '.gz');
   var gzip = zlib.createGzip();
-  readable.pipe(gzip).pipe(writable);
-  gzip.on('end', function () {
-    writable.end();
-    console.log(path + ' sitemap file is compressed!!');
-  });
+  
+  return readable.pipe(gzip).pipe(writable);
 }
 
 function createSitemap () {
@@ -53,12 +50,31 @@ function addToSitemap(sitemap, data, params) {
 }
 
 function createSitemapFile (sitemap, params) {
-  fs.writeFile(params.sitemap_path, sitemap.toString(), function(err) {
-    if (err) {
-      return console.log(err);
-    }
-    console.log(params.sitemapName + ' sitemap has been created!!');
-    compress(params.sitemap_path);
+  return new Promise(function(resolve, reject) {
+    fs.writeFile(params.sitemap_path, sitemap.toString(), function(err) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      }
+
+      var readable = fs.createReadStream(params.sitemap_path);
+      var writable = fs.createWriteStream(params.sitemap_path + '.gz');
+      var gzip = zlib.createGzip();
+      
+      readable.pipe(gzip).pipe(writable);
+
+      gzip
+      .on('error', function(err){
+        console.log(err);
+        reject(err);
+      })
+      .on('end', function () {
+        writable.end();
+        console.log(params.sitemap_path + ' sitemap file is compressed!!')
+        resolve(params.sitemap_path + ' sitemap file is compressed!!');
+      });
+      
+    });
   });
 }
 

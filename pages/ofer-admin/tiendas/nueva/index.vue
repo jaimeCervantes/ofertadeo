@@ -151,14 +151,12 @@ export default {
       this.meta_title = `Descuentos, ofertas y promociones en ${newName}`
       this.img_alt = `${newName}`
       this.img_title = `${newName}`
+      this.meta_description = `Descubre las mejores ofertas y promociones de ${newName}. Descuentos, promociones y ofertas en ${newName} 2017. ❤ ¡Ahorra ya!`
     },
     slug (newSlug) {
       if (newSlug.length > 5) {
         this.validateSlug(newSlug)
       }
-    },
-    content (newContent) {
-      this.meta_description = this.sliceTextFromHtml(newContent, this.config.seo.description.charsLimit)
     }
   },
   head () {

@@ -3,6 +3,7 @@
 var express = require('express');
 var router = express.Router();
 var CRUD = require('../db/crud.js');
+var csm = require('../utils/sitemaps/create-sitemap.js');
 var crudInst;
 var conf;
 
@@ -128,11 +129,53 @@ function createStore () {
       collection: conf.db.collections.secundary,
       document: data
     })
-    .then(function(result){
-      res.json(result);
+    .then(function(dbResponse){
+      res.json(dbResponse);
+      return dbResponse;
     })
     .catch(function(err){
+      console.log('Ocurrió un error al tratar de Guardar una Tienda:');
+      console.log(err);
       res.json(err);
+    })
+    .then(function(dbResponse){
+      if (dbResponse.result && dbResponse.result.ok ) {
+        return crudInst.updateOne({
+          collection: conf.db.collections.pages,
+          query: { slug: '/tiendas' },
+          update: { $set: { modified: rightNow } }
+        });
+      }
+    })
+    .catch(function(err) {
+      console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:')
+      console.log(err);
+    })
+    .then(function(dbResponse) {
+      if (dbResponse.result && dbResponse.result.ok ) {
+        return true
+      } else {
+        return Error(dbResponse);
+      }
+    })
+    .then(function(result) {
+      if(result===true) {
+        Promise.all([csm.stores(), csm.pages()])
+        .then(function(results) {
+          if (results && results.length > 0) {
+            return csm.index();
+          }
+        })
+        .catch(function(err){
+          console.log(err);
+          return err;
+        })
+      } else {
+        console.log(result);
+      }
+    })
+    .catch(function(err){
+      console.log(err);
     });
   });
 }

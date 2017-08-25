@@ -30,27 +30,42 @@ export default {
   },
   methods: {
     uploadFile (file) {
-      this.loading = true
-      this.disabled = true
-      var config = {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      if (file) {
+        this.loading = true
+        this.disabled = true
+        var config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }
+        var fd = new FormData()
+        fd.append('offerFile', file, this.originalname)
+        fd.append('extension', this.extension)
+        fd.append('originalname', this.originalname)
+        return axios.post('/api/upload', fd, config)
       }
-      var fd = new FormData()
-      fd.append('offerFile', file, this.originalname)
-      fd.append('extension', this.extension)
-      fd.append('originalname', this.originalname)
-      return axios.post('/api/upload', fd, config)
+
+      return Promise.resolve('Selecciona un archivo por favor.')
     },
     uploadImg () {
       var that = this
       this.uploadFile(this.inMemoryImg)
       .then(function (res) {
-        that.loading = false
-        that.disabled = false
-        that.$emit('on-uploaded', { img: res.data.img, thumbnail: res.data.thumbnail })
-        alert('La imagen se subió correctamente')
+        console.log(res)
+        if (res && res.data && res.data.success) {
+          that.$emit('on-uploaded', { img: res.data.img, thumbnail: res.data.thumbnail })
+          alert('La imagen se subió correctamente')
+          return
+        }
+
+        if (res && res.data && res.data.msg) {
+          alert(res.data.msg)
+          return
+        }
+
+        if (res && !res.status) {
+          alert(res)
+        }
       })
       .catch(function (err) {
         console.log(err)
