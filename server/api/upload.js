@@ -50,24 +50,28 @@ function upload() {
         res.json(error);
       }
 
-      var path = getPath();
-      var file = req.files[0];
-      var originalName = file.originalname
-      var name = originalName.split('.')[0];
-      var extension = originalName.split('.')[1];
-      var filePath = `${path}/${originalName}`;
-      var finalRootPath = path.split(rootPathUploads)[1];
+      if(req.files && req.files[0]) {
+        var path = getPath();
+        var file = req.files[0];
+        var originalName = file.originalname
+        var name = originalName.split('.')[0];
+        var extension = originalName.split('.')[1];
+        var filePath = `${path}/${originalName}`;
+        var finalRootPath = path.split(rootPathUploads)[1];
 
-      jimp.read(filePath)
-      .then(function (img) {
-          return img.scaleToFit(300, 300)// resize
-               .quality(50)// set JPEG quality
-               .write(`${path}/${name}_thumb.${extension}`); // save
-      }).then(function(result) {
-        res.json({ success: true, img: conf.host + filePath.split(rootPathUploads)[1], thumbnail: `${conf.host}${finalRootPath}/${name}_thumb.${extension}`});
-      }).catch(function (err) {
-        res.json(err);
-      });      
+        jimp.read(filePath)
+        .then(function (img) {
+            return img.scaleToFit(300, 300)// resize
+                 .quality(50)// set JPEG quality
+                 .write(`${path}/${name}_thumb.${extension}`); // save
+        }).then(function(result) {
+          res.json({ success: true, img: conf.host + filePath.split(rootPathUploads)[1], thumbnail: `${conf.host}${finalRootPath}/${name}_thumb.${extension}`});
+        }).catch(function (err) {
+          res.json(err);
+        });
+      } else {
+        res.json({ success: false, msg: 'No obtuvimos ningun archivo de la peticón'});
+      }    
     });
   });
 }

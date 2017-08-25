@@ -25,7 +25,7 @@ function getData (params) {
         });
     })
     .catch(function(err){
-      console.log(err)
+      return err;
     });
 }
 
@@ -35,28 +35,28 @@ function smPages () {
   
   compoundSitemap.add({url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified});
 
-  getData({ collection: config.db.collections.pages })
+  return getData({ collection: config.db.collections.pages })
   .then(function(data) {
-    smUtils.addToSitemap(compoundSitemap, data,  {
+    return smUtils.addToSitemap(compoundSitemap, data,  {
       route: '',
       changefreq: 'weekly',
       priority: 0.7
     });
   })
   .then(function(algo){
-    smUtils.createSitemapFile(compoundSitemap, {
+    return smUtils.createSitemapFile(compoundSitemap, {
       sitemap_path: rootXml + '/' + pages_name,
       sitemapName: pages_name
     });    
   })
   .catch(function(err) {
-    console.log(err);
+    return err;
   });
 }
 
 function smCategories () {
   var smCategories = smUtils.createSitemap();
-  getData( { collection: config.db.collections.categories } )
+  return getData( { collection: config.db.collections.categories } )
   .then(function(data) {
      smUtils.addToSitemap(smCategories, data,  {
       route: config.routes.categories,
@@ -65,41 +65,41 @@ function smCategories () {
     });
   })
   .then(function() {
-    smUtils.createSitemapFile(smCategories, {
+    return smUtils.createSitemapFile(smCategories, {
       sitemap_path: rootXml + '/' + categories_name,
       sitemapName: categories_name
     });
   })
   .catch(function(err) {
-    console.log(err);
+    return err;
   });
 }
 
 function smStores () {
   var smStores = smUtils.createSitemap();
-  getData( { collection: config.db.collections.secundary } )  
+  return getData( { collection: config.db.collections.secundary } )  
   .then(function(data) {
-    smUtils.addToSitemap(smStores, data,  {
+    return smUtils.addToSitemap(smStores, data,  {
       route: config.routes.storeList,
       changefreq: 'weekly',
       priority: 0.9
     });
   })
   .then(function() {
-    smUtils.createSitemapFile(smStores, {
+    return smUtils.createSitemapFile(smStores, {
       sitemap_path: rootXml + '/' + stores_name,
       sitemapName: stores_name
     });
   })
   .catch(function(err) {
-    console.log(err);
+    return err;
   });
 }
 
 function smOffers () {
   var offersSitemap = smUtils.createSitemap();
 
-  getData({collection: config.db.collections.main })
+  return getData({collection: config.db.collections.main })
   .then(function (data) {
     smUtils.addToSitemap(offersSitemap, data, {
       route: config.routes.main,
@@ -108,42 +108,85 @@ function smOffers () {
     });
   })
   .then(function() {
-    smUtils.createSitemapFile(offersSitemap, {
+    return smUtils.createSitemapFile(offersSitemap, {
       sitemap_path: rootXml + '/' + offers,
       sitemapName: offers
     });
   })
   .catch(function(err) {
-    console.log(err);
+    return err;
   });
 }
 
 function smIndex () {
-  var content = `<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<sitemap>
-  <loc>${config.host}/${pages_name}.gz</loc>
-  <lastmod>${utils.getDate()}</lastmod>
-</sitemap>
-<sitemap>
-  <loc>${config.host}/${offers}.gz</loc>
-  <lastmod>${utils.getDate()}</lastmod>
-</sitemap>
-<sitemap>
-  <loc>${config.host}/${stores_name}.gz</loc>
-  <lastmod>${utils.getDate()}</lastmod>
-</sitemap><sitemap>
-  <loc>${config.host}/${categories_name}.gz</loc>
-  <lastmod>${utils.getDate()}</lastmod>
-</sitemap>
-</sitemapindex>`;
 
-  fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function(err) {
-    if (err) {
-      return console.log(err);
-    }
-    smUtils.compress(rootXml + '/sitemap.xml');
-    console.log('Index sitemap is created :=)');
+  let iterable = [
+    new Promise(function(resolve, reject){
+      fs.stat(`${rootXml}/${pages_name}.gz`, function(err, stat) {
+        if(err) {
+          reject(err);
+        }
+        resolve(stat)
+      });
+    }),
+    new Promise(function(resolve, reject){
+      fs.stat(`${rootXml}/${offers}.gz`, function(err, stat) {
+        if(err) {
+          reject(err);
+        }
+        resolve(stat)
+      });
+    }),
+    new Promise(function(resolve, reject){
+      fs.stat(`${rootXml}/${stores_name}.gz`, function(err, stat) {
+        if(err) {
+          reject(err);
+        }
+        resolve(stat)
+      });
+    }),
+    new Promise(function(resolve, reject){
+      fs.stat(`${rootXml}/${categories_name}.gz`, function(err, stat) {
+        if(err) {
+          reject(err);
+        }
+        resolve(stat)
+      });
+    })
+  ];
+
+  return Promise.all(iterable)
+  .then(function(results){
+    var content = `<?xml version="1.0" encoding="UTF-8"?>
+      <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      <sitemap>
+        <loc>${config.host}/${pages_name}.gz</loc>
+        <lastmod>${utils.getDate(results[0].mtime)}</lastmod>
+      </sitemap>
+      <sitemap>
+        <loc>${config.host}/${offers}.gz</loc>
+        <lastmod>${utils.getDate(results[1].mtime)}</lastmod>
+      </sitemap>
+      <sitemap>
+        <loc>${config.host}/${stores_name}.gz</loc>
+        <lastmod>${utils.getDate(results[2].mtime)}</lastmod>
+      </sitemap><sitemap>
+        <loc>${config.host}/${categories_name}.gz</loc>
+        <lastmod>${utils.getDate(results[3].mtime)}</lastmod>
+      </sitemap>
+      </sitemapindex>`;
+
+    fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function(err) {
+      if (err) {
+        return err;
+      }
+      smUtils.compress(rootXml + '/sitemap.xml');
+      console.log('Index sitemap is created :=)');
+      return 'Index sitemap is created :=)';
+    });
+  })
+  .catch(function(err){
+    return err
   });
 }
 
