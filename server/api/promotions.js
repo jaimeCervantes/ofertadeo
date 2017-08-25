@@ -23,8 +23,12 @@ module.exports = function(wagner, params) {
     if(crudInst) {
       slug();
       getFormDataPromotions();
-      createPromotion();
-      editPromotion();
+      savePromotion('create', function (data, req){
+        return crudInst.setItem({ collection: conf.db.collections.main, document: data });
+      });
+      savePromotion('update', function (data, req){
+        return crudInst.updateOne({ collection: conf.db.collections.main, query: { slug: req.params.slug }, update: { $set: data } });
+      });
     }    
   })
   .catch(function(err) {
@@ -122,71 +126,83 @@ function getFormDataPromotions() {
   });
 }
 
-function createPromotion () {
-  router.post('/promotions/new', function(req, res) {
-    var rightNow = new Date();
-    var data = Object.assign({ modified: rightNow, published: rightNow }, req.body);
-    crudInst.setItem({
-      collection: conf.db.collections.main,
-      document: data
+function updateStoresAndCategories (data, date) {
+  let iterable = data.categories.map(function(currCat) {
+        return crudInst.updateOne({ collection: conf.db.collections.categories, query: { _id: currCat._id }, update: { $set: { modified: date } } });
+      });
+  //We are not using map because then we have to merge with concat and left two arrays of promises running
+  data.stores.forEach(function(currStore){
+    iterable.push(crudInst.updateOne({ collection: conf.db.collections.secundary, query: { _id: currStore._id }, update: { $set: { modified: date } } }));
+  });
+
+  return Promise.all(iterable);
+}
+function updateSitemapsFeed() {
+  //Update sitemaps
+  csm.pages();
+  csm.offers();
+  csm.stores();
+  csm.categories();
+  csm.index();
+  //Update feed
+  feed.create();
+  return true;
+}
+function sendPushNotification(data) {
+  //Push notifications
+  pn.all({
+    title: data.title,
+    url: conf.host + conf.routes.main + '/' + data.slug,
+    message: data.meta_description
+    //@TODO: To set an image to the notifications using pushcrew, we need to create an PNG imgage 192X192
+    //,image_url: data.thumbnail
+  });
+}
+function savePromotion(operation, cb) {
+  var urls = { create: '/promotions/new', update: '/promotions/edit/:slug' };
+  router.post(urls[operation], function(req, res) {
+    var rightNow = new Date(), missingData = { modified: rightNow };
+    if( operation === 'create') {
+      missingData.published = rightNow;
+    }
+    var data = Object.assign(missingData, req.body);
+    cb(data, req)
+    .then(function(dbResponse){
+      res.json(dbResponse);
+      return dbResponse;
     })
-    .then(function(result){
-      res.json(result);
-      if(result.insertedId) {
-        // @TODO, when we use more than one category and more than one store, the updateOne 
-        // operation should be execute for each element in the arrary categories and stores
-        return Promise.all([
-          crudInst.updateOne({
-            collection: conf.db.collections.secundary,
-            query: { _id: data.stores[0] },
-            update: { $set: { modified: rightNow } }
-          }),
-          crudInst.updateOne({
-            collection: conf.db.collections.categories,
-            query: { _id: data.categories[0] },
-            update: { $set: { modified: rightNow } }
-          })
-        ])
+    .catch(function(err){
+      console.log('Ocurrió un error al tratar de Guardar una promoción:');
+      console.log(err);
+      res.json(err);
+    })
+    .then(function(dbResponse) {
+      if (dbResponse.result && dbResponse.result.ok ) {
+        return updateStoresAndCategories({ stores: data.stores, categories: data.categories }, rightNow);
       }
+    })
+    .catch(function() {
+      console.log('Ocurrió un error al tratar de actualizar tiendas y categorias despues de guardar una promoción:')
+      console.log(err);
+      res.json(err);
     })
     .then(function(results) {
       if(results && results.length > 0) {
-        //Update sitemaps
-        csm.pages();
-        csm.offers();
-        csm.stores();
-        csm.categories();
-        csm.index();
-        //Update feed
-        feed.create();
-        //Push notifications
-        pn.all({
-          title: data.title,
-          url: conf.host + conf.routes.main + '/' + data.slug,
-          message: data.meta_description
-          //@TODO: To set an image to the notifications using pushcrew, we need to create an PNG imgage 192X192
-          //,image_url: data.thumbnail
-        });
+        return updateSitemapsFeed();
+      }
+    })
+    .catch(function(err) {
+      console.log('Ocurrió un error al tratar de actualizar los sitemas y el feed despues de guardar una promoción:')
+      console.log(err);
+      res.json(err);
+    })
+    .then(function(result){
+      if(result) {
+        sendPushNotification(data);
       }
     })
     .catch(function(err){
-      res.json(err);
-    });
-  });
-}
-
-function editPromotion () {
-  router.post('/promotions/edit/:slug', function(req, res) {
-    var data = Object.assign({ modified: new Date() }, req.body);
-    crudInst.updateOne({
-      collection: conf.db.collections.main,
-      query: { slug: req.params.slug },
-      update: { $set: data }
-    })
-    .then(function(result) {
-      res.json(result);
-    })
-    .catch(function(err) {
+      console.log(res);
       res.json(err);
     });
   });
