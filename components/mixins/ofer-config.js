@@ -39,7 +39,7 @@ export default {
     pinterest: 'https://es.pinterest.com/ofertadeo/'
   },
   feed: {
-    rss: 'http://feeds.feedburner.com/ofertadeo-develop'
+    rss: 'http://feedburner.google.com/fb/a/mailverify?uri=ofertadeo&loc=es_ES'
   },
   seo: {
     description: {
