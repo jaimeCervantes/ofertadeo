@@ -44,7 +44,6 @@ export default {
   }
   .info-description {
     margin-top: 0.8rem;
-    font-weight:600;
   }
 }
 
