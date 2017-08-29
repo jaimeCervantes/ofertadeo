@@ -183,6 +183,7 @@ function savePromotion(operation, cb) {
     })
     .then(function(dbResponse){
       if (dbResponse.result && dbResponse.result.ok ) {
+        sendPushNotification(data);
         return crudInst.update({
           collection: conf.db.collections.pages,
           query: {},
@@ -216,14 +217,6 @@ function savePromotion(operation, cb) {
     .catch(function(err) {
       console.log('Ocurrió un error al tratar de actualizar los sitemas y el feed despues de guardar una promoción:')
       console.log(err);
-    })
-    .then(function(result){
-      if(result) {
-        sendPushNotification(data);
-      }
-    })
-    .catch(function(err){
-      console.log(err);
-    });
+    });  
   });
 }

@@ -1,5 +1,5 @@
 <template>
-  <ofer-content>
+  <ofer-content-article>
     <template slot="info-section" v-if="exists(item)">
       <p class="promotion-data">
         <nuxt-link class="taxonomy" :to="config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
@@ -28,12 +28,12 @@
       </v-row>
       <ofer-not-exists v-if="!exists(item)" v-bind:title="notExistTitle"></ofer-not-exists>
     </template>
-  </ofer-content>
+  </ofer-content-article>
 </template>
 
 <script>
 import axios from '~plugins/axios'
-import OferContent from '~components/ofer-content.vue'
+import OferContentArticle from '~components/ofer-content-article.vue'
 import OferCommon from '~components/mixins/ofer-common.vue'
 import OferNotExists from '~components/ofer-not-exists.vue'
 import ShareButtons from '~components/share-buttons.vue'
@@ -66,7 +66,7 @@ export default {
     data)
   },
   components: {
-    OferContent,
+    OferContentArticle,
     OferCommon,
     OferNotExists,
     ShareButtons
