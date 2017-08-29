@@ -1,11 +1,6 @@
 <template>
   <article>
     <v-card hover raised class="item">
-      <header>
-        <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
-              <h3 class="pl-2 pr-2" itemprop="headline"><a itemprop="name" :href="`${config.host}${toLink}`" :title="item.name">{{sliceTextFromHtml(item.name, 45)}}</a></h3>
-        </v-card-row>
-      </header>
       <a itemprop="url" :href="`${config.host}${toLink}`" :title="item.name">
         <v-card-row v-if="item.thumbnail" class="item__img">
           <img :class="type" :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
@@ -26,13 +21,17 @@
         <span class="visually-hidden" itemprop="datePublished" v-html="getISODateStr(item.published)"></span>
         <span class="visually-hidden" itemprop="dateModified" v-html="getISODateStr(item.modified)"></span>
         <span itemprop="position" class="visually-hidden" v-html="position"></span>
-        <v-card-row class="item__store" v-if="item.stores || item.categories">
-          <div class="pl-2 pr-2">
+        <slot name="item-content"></slot>
+        <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
+          <div class="pl-2 pr-2" itemprop="headline">
+            <a itemprop="name" :href="`${config.host}${toLink}`" :title="item.name">{{sliceTextFromHtml(item.name, 45)}}</a>
+          </div>
+        </v-card-row>
+        <v-card-row class="item__store pl-2 pr-2" v-if="item.stores || item.categories">
             <a v-if="type!=='store'" :href="getAdditionalLinks(type)" :title="item.stores[0].name">Ofertas {{item.stores[0].name}}</a>
             <a v-if="type==='store'" :href="getAdditionalLinks(type)" :title="item.categories[0].name">{{item.categories[0].name}}</a>
           </div>
         </v-card-row>
-        <slot name="item-content"></slot>
     </v-card>
   </article>
 </template>
@@ -81,17 +80,9 @@ export default {
   color: #424242;
   min-height: 18px;
   font-weight:bold;
-  h2,h3 {
-    font-size:1rem;
-    font-weight:bold;
-    padding-top:5px;
-    line-height:1.3;
-    margin-bottom:0;
-  }
 }
 
 .item__store a {
   color:#888;
-  font-size:0.8rem;
 }
 </style>
