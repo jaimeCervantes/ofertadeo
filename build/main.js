@@ -471,19 +471,23 @@ function smIndex() {
     });
   })];
 
-  return Promise.all(iterable).then(function (results) {
-    var content = '<?xml version="1.0" encoding="UTF-8"?>\n      <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n      <sitemap>\n        <loc>' + config.host + '/' + pages_name + '.gz</loc>\n        <lastmod>' + utils.getDate(results[0].mtime) + '</lastmod>\n      </sitemap>\n      <sitemap>\n        <loc>' + config.host + '/' + offers + '.gz</loc>\n        <lastmod>' + utils.getDate(results[1].mtime) + '</lastmod>\n      </sitemap>\n      <sitemap>\n        <loc>' + config.host + '/' + stores_name + '.gz</loc>\n        <lastmod>' + utils.getDate(results[2].mtime) + '</lastmod>\n      </sitemap><sitemap>\n        <loc>' + config.host + '/' + categories_name + '.gz</loc>\n        <lastmod>' + utils.getDate(results[3].mtime) + '</lastmod>\n      </sitemap>\n      </sitemapindex>';
+  return new Promise(function (resolve, reject) {
+    Promise.all(iterable).then(function (results) {
+      var content = '<?xml version="1.0" encoding="UTF-8"?>\n        <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n        <sitemap>\n          <loc>' + config.host + '/' + pages_name + '.gz</loc>\n          <lastmod>' + utils.getDate(results[0].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + offers + '.gz</loc>\n          <lastmod>' + utils.getDate(results[1].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + stores_name + '.gz</loc>\n          <lastmod>' + utils.getDate(results[2].mtime) + '</lastmod>\n        </sitemap><sitemap>\n          <loc>' + config.host + '/' + categories_name + '.gz</loc>\n          <lastmod>' + utils.getDate(results[3].mtime) + '</lastmod>\n        </sitemap>\n        </sitemapindex>';
 
-    fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function (err) {
-      if (err) {
-        return err;
-      }
-      smUtils.compress(rootXml + '/sitemap.xml');
-      console.log('Index sitemap is created :=)');
-      return 'Index sitemap is created :=)';
+      fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function (err) {
+        if (err) {
+          console.log(Error(err));
+          reject(Error(err));
+        }
+        smUtils.compress(rootXml + '/sitemap.xml');
+        console.log('Index sitemap is created :=)');
+        resolve('Index sitemap is created :=)');
+      });
+    }).catch(function (err) {
+      console.log(Error(err));
+      reject(err);
     });
-  }).catch(function (err) {
-    return err;
   });
 }
 
