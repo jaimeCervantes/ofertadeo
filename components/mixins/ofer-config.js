@@ -20,7 +20,7 @@ export default {
   routes: {
     categories: '/categorias',
     categoriesList: '/categorias',
-    stores: '/promociones',
+    stores: '/tiendas',
     main: '/promociones',
     storeList: '/tiendas',
     admin: '/ofer-admin'

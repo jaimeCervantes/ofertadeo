@@ -2005,7 +2005,7 @@ module.exports = {
 
 var request = __webpack_require__(10);
 var apiKey = '61e4d89d5d5d1391dc97ca0c471003d4';
-if (true) {
+if (false) {
 	apiKey = 'e5dd4f8caaa635b423152ea1ad66ded8';
 }
 
@@ -2195,7 +2195,7 @@ module.exports = require("zlib");
 
 
 
-var develop = !("production" === 'production');
+var develop = !("development" === 'production');
 var app = __WEBPACK_IMPORTED_MODULE_1_express___default()();
 var host = process.env.HOST || '127.0.0.1';
 var port = process.env.PORT || 3000;

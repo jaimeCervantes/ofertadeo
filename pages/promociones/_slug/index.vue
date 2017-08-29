@@ -15,7 +15,7 @@
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
               <v-btn tag="a" :href="item.url" rel="nofollow" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
-              <share-buttons :url="`${$store.state.host}${$store.state.routes.stores}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
+              <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
               ></share-buttons>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
@@ -72,9 +72,9 @@ export default {
     ShareButtons
   },
   head () {
-    let host = this.$store.state.host
+    let host = this.config.host
     let urlLogo = `${host}/favicons/apple-touch-icon-60x60.png`
-    let urlPromociones = `${this.$store.state.host}${this.$store.state.routes.stores}`
+    let urlPromociones = `${this.config.host}${this.config.routes.main}`
     let url = `${urlPromociones}/${this.item.slug}`
     let content = this.getTextFromHtml(this.item.content)
     let description = this.sliceTextFromHtml(this.item.content, this.config.seo.description.charsLimit)
@@ -85,8 +85,8 @@ export default {
       { hid: 'og:type', property: 'og:type', content: 'article' },
       { hid: 'og:title', property: 'og:title', content: `${this.item.name}` },
       { hid: 'og:description', property: 'og:description', content: description },
-      { hid: 'og:url', property: 'og:url', content: `${this.$store.state.host}${this.$store.state.routes.main}/${this.item.slug}` },
-      { hid: 'article:publisher', property: 'article:publisher', content: this.$store.state.publisher.fb },
+      { hid: 'og:url', property: 'og:url', content: `${this.config.host}${this.config.routes.main}/${this.item.slug}` },
+      { hid: 'article:publisher', property: 'article:publisher', content: this.config.publisher.fb },
       { hid: 'article:tag', property: 'article:tag', content: this.item.stores[0].name },
       { hid: 'article:section', property: 'article:section', content: this.item.categories[0].name },
       { hid: 'article:published_time', property: 'article:published_time', content: this.getISODateStr(this.item.modified) },

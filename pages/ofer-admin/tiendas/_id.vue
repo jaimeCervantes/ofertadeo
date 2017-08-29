@@ -4,7 +4,7 @@
       <ofer-header-info :info="info" rel="nofollow">
         <template slot="social-network">
           <share-buttons
-            :url="`${$store.state.host}${$store.state.routes.storeList}/${id}`"
+            :url="`${config.host}${config.routes.storeList}/${id}`"
             :media="info.thumbnail" twitter-user="ofertadeo" :title="info.name"
           ></share-buttons>
         </template>
@@ -14,7 +14,7 @@
       <h2 v-if="exists(info)">Lista de ofertas y promociones {{info.name}}</h2>
       <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-          <ofer-item :item="item" type="store" :to-link="$store.state.routes.stores + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+          <ofer-item :item="item" type="store" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
             <template slot="item-content">
               <v-card-row>
                 <div class="pl-2 pr-2">

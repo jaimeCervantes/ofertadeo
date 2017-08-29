@@ -5,11 +5,11 @@
     <nav role="navigation" id="nav-tiendas" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
       <v-list dense>
         <v-subheader class="white--text">
-          <h3>{{$store.state.txt.stores}}</h3>
-          <nuxt-link :to="$store.state.routes.storeList"><v-btn primary light>Ver todas</v-btn></nuxt-link>
+          <h3>{{config.txt.stores}}</h3>
+          <nuxt-link :to="config.routes.storeList"><v-btn primary light>Ver todas</v-btn></nuxt-link>
         </v-subheader>
-        <v-list-item  v-for="(item,i) in $store.state.stores" :key="i">
-          <v-list-tile ripple router nuxt :href="$store.state.routes.storeList + '/' + item._id" class="list__tile">
+        <v-list-item  v-for="(item,i) in config.stores" :key="i">
+          <v-list-tile ripple router nuxt :href="config.routes.storeList + '/' + item._id" class="list__tile">
             <v-list-tile-content>
               <v-list-tile-title v-text="item.name" />
             </v-list-tile-content>
@@ -21,11 +21,11 @@
       <v-list dense>
         <v-divider/>
         <v-subheader class="white--text">
-          <h3>{{$store.state.txt.categories}}</h3>
-          <nuxt-link :to="$store.state.routes.categories"><v-btn primary light>Ver todas</v-btn></nuxt-link>
+          <h3>{{config.txt.categories}}</h3>
+          <nuxt-link :to="config.routes.categories"><v-btn primary light>Ver todas</v-btn></nuxt-link>
         </v-subheader>
-        <v-list-item v-for="(item,i) in $store.state.categories" :key="i">
-          <v-list-tile ripple router nuxt :href="$store.state.routes.categories + '/' + item._id" class="list__tile">
+        <v-list-item v-for="(item,i) in config.categories" :key="i">
+          <v-list-tile ripple router nuxt :href="config.routes.categories + '/' + item._id" class="list__tile">
             <v-list-tile-content>
               <v-list-tile-title v-text="item.name" />
             </v-list-tile-content>
@@ -37,7 +37,9 @@
 </template>
 
 <script>
+import OferCommon from '~components/mixins/ofer-common.vue'
 export default {
+  mixins: [OferCommon],
   props: ['opened']
 }
 </script>

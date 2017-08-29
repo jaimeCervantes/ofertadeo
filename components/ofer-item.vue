@@ -1,10 +1,10 @@
 <template>
   <v-card hover raised class="item">
-    <nuxt-link itemprop="url" :to="toLink" >
+    <a itemprop="url" :href="`${config.host}${toLink}`" :title="item.name">
       <v-card-row v-if="item.thumbnail" class="item__img">
         <img :class="type" :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
       </v-card-row>
-    </nuxt-link>
+    </a>
       <span class="visually-hidden" itemscope itemprop="image" itemtype="http://schema.org/ImageObject">
         <img :src="item.thumbnail" itemprop="url">
         <span itemprop="width"  v-html="item.img_data && item.img_data.width ? item.img_data.width: 200"></span>
@@ -14,7 +14,7 @@
       <span class="visually-hidden" itemscope itemprop="publisher" itemtype="http://schema.org/Organization">
         <span itemprop="name">Ofertadeo</span>
         <span itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-          <img itemprop="url" :src="$store.state.host + '/favicons/apple-touch-icon-60x60.png'" width="60" height="60">
+          <img itemprop="url" :src="config.host + '/favicons/apple-touch-icon-60x60.png'" width="60" height="60">
         </span>
       </span>
       <span class="visually-hidden" itemprop="datePublished" v-html="getISODateStr(item.published)"></span>
@@ -22,12 +22,12 @@
       <span itemprop="position" class="visually-hidden" v-html="position"></span>
       <v-card-row class="item__store" v-if="item.stores || item.categories">
         <div class="pl-2 pr-2">
-          <nuxt-link v-if="type!=='store'" :to="getAdditionalLinks(type)">Ofertas {{item.stores[0].name}}</nuxt-link>
-          <nuxt-link v-if="type==='store'" :to="getAdditionalLinks(type)">{{item.categories[0].name}}</nuxt-link>
+          <a v-if="type!=='store'" :href="getAdditionalLinks(type)" :title="item.stores[0].name">Ofertas {{item.stores[0].name}}</a>
+          <a v-if="type==='store'" :href="getAdditionalLinks(type)" :title="item.categories[0].name">{{item.categories[0].name}}</a>
         </div>
       </v-card-row>
       <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
-        <div class="pl-2 pr-2" itemprop="headline"><nuxt-link itemprop="name" :to="toLink" :title="item.name">{{item.name.slice(0,45) + '...'}}</nuxt-link></div>
+        <div class="pl-2 pr-2" itemprop="headline"><a itemprop="name" :href="`${config.host}${toLink}`" :title="item.name">{{sliceTextFromHtml(item.name, 45)}}</a></div>
       </v-card-row>
       <slot name="item-content"></slot>
   </v-card>
@@ -44,11 +44,11 @@ export default {
   methods: {
     getAdditionalLinks (type) {
       if (type !== 'store') {
-        return `${this.$store.state.routes.storeList}/${this.item.stores[0]._id}`
+        return `${this.config.host}${this.config.routes.storeList}/${this.item.stores[0]._id}`
       }
 
       if (type === 'store') {
-        return `${this.$store.state.routes.categoriesList}/${this.item.categories[0]._id}`
+        return `${this.config.host}${this.config.routes.categoriesList}/${this.item.categories[0]._id}`
       }
     }
   }

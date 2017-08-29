@@ -53,9 +53,10 @@
 
 <script>
 import OferPaths from '~components/mixins/ofer-paths.vue'
+import OfferCommon from '~components/mixins/ofer-common.vue'
 import OferContent from '~components/ofer-content.vue'
 export default {
-  mixins: [OferPaths],
+  mixins: [OferPaths, OfferCommon],
   data () {
     return {
       path: '/privacidad'
@@ -69,7 +70,7 @@ export default {
         { hid: 'description', name: 'description', content: 'Este es el aviso de privacidad, mismo al que queda usted sujeto por el solo hecho de visitar nuestro sitio Web. Por ello garantizamos la confidencialidad...' }
       ],
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}/privacidad` }
+        { rel: 'canonical', href: `${this.config.host}/privacidad` }
       ]
     }
   },
