@@ -1,6 +1,6 @@
 <template>
 <section class="content">
-  <div class="container container--fluid">
+  <article class="container container--fluid">
     <header class="row">
       <div class="breadcrumbs-info-section">
         <v-breadcrumbs divider="">
@@ -22,7 +22,7 @@
       <slot name="more-content"></slot>
     </section>
     <slot name="content-footer"></slot>
-  </div>
+  </article>
 </section>
 </template>
 
