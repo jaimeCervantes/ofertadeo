@@ -11,27 +11,27 @@
         <div>Siguenos:</div>
         <ul id="follow">
           <li>
-            <v-btn tag="a" href="https://www.facebook.com/ofertadeo/" target="_blank">
+            <v-btn tag="a" href="https://www.facebook.com/ofertadeo/" target="_blank" rel="nofollow noopener">
               <img src="/icons/facebook.svg" alt="Facebook Ofertadeo" title="Facebook Ofertadeo" width="30" height="30">
             </v-btn>
           </li>
           <li>
-            <v-btn tag="a" href="https://twitter.com/ofertadeo" target="_blank">
+            <v-btn tag="a" href="https://twitter.com/ofertadeo" target="_blank" rel="nofollow noopener">
               <img src="/icons/twitter.svg" alt="twitter Ofertadeo" title="Twitter Ofertadeo" width="30" height="30">
             </v-btn>
           </li>
           <li>
-            <v-btn tag="a" href="https://plus.google.com/110009950298317863923" target="_blank">
+            <v-btn tag="a" href="https://plus.google.com/110009950298317863923" target="_blank" rel="nofollow noopener">
               <img src="/icons/google-plus.svg" alt="Google plus Ofertadeo" title="Google+ Ofertadeo" width="30" height="30">
             </v-btn>
           </li>
           <li>
-            <v-btn tag="a" href="https://www.youtube.com/channel/UCG8yl6wupq3kHem9SE4qa0g" target="_blank">
+            <v-btn tag="a" href="https://www.youtube.com/channel/UCG8yl6wupq3kHem9SE4qa0g" target="_blank" rel="nofollow noopener">
               <img src="/icons/youtube.svg" alt="Google plus Ofertadeo" title="Google+ Ofertadeo" width="30" height="30">
             </v-btn>
           </li>
           <li>
-            <v-btn tag="a" href="https://es.pinterest.com/ofertadeo/" target="_blank">
+            <v-btn tag="a" href="https://es.pinterest.com/ofertadeo/" target="_blank" rel="nofollow noopener">
               <img src="/icons/pinterest.svg" alt="Pinteres Ofertadeo" title="Pinterest Ofertadeo" width="30" height="30">
             </v-btn>
           </li>
