@@ -1,7 +1,7 @@
 <template>
   <ofer-content :breadcrumbs="exists(info) ? breadcrumbs : null">
     <template slot="info-section" v-if="exists(info)">
-      <ofer-header-info :info="info" rel="nofollow">
+      <ofer-header-info :info="info" rel="nofollow noopener">
         <template slot="social-network">
           <share-buttons
             :url="`${config.host}${config.routes.storeList}/${id}`"
