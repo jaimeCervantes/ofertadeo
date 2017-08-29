@@ -5,16 +5,17 @@
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
             <v-text-field v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field v-model="slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
+            <v-text-field v-model.trim="item.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
-            <vue-editor v-model="content"></vue-editor>
-            <v-text-field v-model="url" name="url" label="Url de la Tienda" required></v-text-field>
+
+            <vue-editor v-model="item.content"></vue-editor>
+            <v-text-field v-model="item.url" name="url" label="Url de la Tienda" required></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
-            <v-text-field v-model="title" name="title" label="Titulo, h1" required></v-text-field>
-            <v-text-field v-model="meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
-            <v-text-field v-model="img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
-            <v-text-field v-model="img_title" name="img_title" label="Title (img)" required></v-text-field>
-            <v-text-field v-model="meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
+            <v-text-field v-model="item.title" name="title" label="Titulo, h1" required></v-text-field>
+            <v-text-field v-model="item.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
+            <v-text-field v-model="item.img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
+            <v-text-field v-model="item.img_title" name="img_title" label="Title (img)" required></v-text-field>
+            <v-text-field v-model="item.meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
             <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Tienda</v-btn>
           </form>
         </v-col>
@@ -50,18 +51,20 @@ export default {
     return {
       loading: false,
       disabled: false,
-      name: '',
-      slug: '',
-      url: '',
-      title: '',
-      meta_title: '',
-      meta_description: '',
-      img_alt: '',
-      img_title: '',
-      content: '',
-      img: '',
-      img_data: {},
-      thumbnail: '',
+      item: {
+        name: '',
+        slug: '',
+        url: '',
+        title: '',
+        meta_title: '',
+        meta_description: '',
+        img_alt: '',
+        img_title: '',
+        content: '',
+        img: '',
+        img_data: {},
+        thumbnail: ''
+      },
       validation: {
         slug: {
           val: true
@@ -145,17 +148,24 @@ export default {
     }
   },
   watch: {
-    name (newName) {
-      this.slug = slug(newName)
-      this.title = `${newName} – Ofertas, promociones y descuentos`
-      this.meta_title = `Descuentos, ofertas y promociones en ${newName}`
-      this.img_alt = `${newName}`
-      this.img_title = `${newName}`
-      this.meta_description = `Descubre las mejores ofertas y promociones de ${newName}. Descuentos, promociones y ofertas en ${newName} 2017. ❤ ¡Ahorra ya!`
-    },
     slug (newSlug) {
       if (newSlug.length > 5) {
         this.validateSlug(newSlug)
+      }
+    }
+  },
+  computed: {
+    name: {
+      get () {
+        return this.item.name
+      },
+      set (newValue) {
+        this.item.slug = slug(newValue)
+        this.item.title = `${newValue} – Ofertas, promociones y descuentos`
+        this.item.meta_title = `Descuentos, ofertas y promociones en ${newValue}`
+        this.item.img_alt = `${newValue}`
+        this.item.img_title = `${newValue}`
+        this.item.meta_description = `Descubre las mejores ofertas y promociones de ${newValue}. Descuentos, promociones y ofertas en ${newValue} 2017. ❤ ¡Ahorra ya!`
       }
     }
   },
