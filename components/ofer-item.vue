@@ -86,6 +86,7 @@ export default {
     font-weight:bold;
     padding-top:5px;
     line-height:1.3;
+    margin-bottom:0;
   }
 }
 
