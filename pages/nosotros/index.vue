@@ -27,9 +27,10 @@
 
 <script>
 import OferPaths from '~components/mixins/ofer-paths.vue'
+import OferCommon from '~components/mixins/ofer-common.vue'
 import OferContent from '~components/ofer-content.vue'
 export default {
-  mixins: [OferPaths],
+  mixins: [OferPaths, OferCommon],
   data () {
     return {
       path: '/nosotros'
@@ -43,7 +44,7 @@ export default {
         { hid: 'description', name: 'description', content: 'Ofertadeo.com fue fundado con el fin de ayudar ahorrar a cualquier persona que requiera comprar cualquier producto. Actualmente ahorrar desde 1 peso es...' }
       ],
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}/nosotros` }
+        { rel: 'canonical', href: `${this.config.host}/nosotros` }
       ]
     }
   },

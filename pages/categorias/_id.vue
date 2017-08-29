@@ -4,7 +4,7 @@
       <ofer-header-info :info="info">
       <template slot="social-network">
         <share-buttons
-          :url="`${$store.state.host}${$store.state.routes.categoriesList}/${id}`"
+          :url="`${config.host}${config.routes.categoriesList}/${id}`"
           :media="info.thumbnail" twitter-user="ofertadeo" :title="info.name"
         ></share-buttons>
       </template>
@@ -14,7 +14,7 @@
       <h2 v-if="exists(info)">Ofertas de {{info.name}}</h2>
       <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-          <ofer-item :item="item" :to-link="$store.state.routes.stores + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
+          <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
         </v-col>
       </v-row>
       <ofer-not-exists v-if="!exists(info)" v-bind:title="notExistTitle"></ofer-not-exists>
@@ -78,8 +78,8 @@ export default {
     ShareButtons
   },
   head () {
-    let host = this.$store.state.host
-    let urlCategories = `${host}${this.$store.state.routes.categoriesList}`
+    let host = this.config.host
+    let urlCategories = `${host}${this.config.routes.categoriesList}`
     let url = `${urlCategories}/${this.id}`
 
     let metas = [
@@ -107,7 +107,7 @@ export default {
       title: `Descuentos, promociones y ofertas en ${this.info.name}`,
       meta: metas,
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}${this.$store.state.routes.categoriesList}/${this.id}` }
+        { rel: 'canonical', href: `${this.config.host}${this.config.routes.categoriesList}/${this.id}` }
       ],
       script: [
         {

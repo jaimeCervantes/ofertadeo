@@ -38,8 +38,9 @@
 <script>
 import OferPaths from '~components/mixins/ofer-paths.vue'
 import OferContent from '~components/ofer-content.vue'
+import OferCommon from '~components/mixins/ofer-common.vue'
 export default {
-  mixins: [OferPaths],
+  mixins: [OferPaths, OferCommon],
   data () {
     return {
       path: '/terminos'
@@ -53,7 +54,7 @@ export default {
         { hid: 'description', name: 'description', content: 'Estos son los términos y condiciones a los que de ahora en adelante quedas sujeto al visitar nuestro sitio Web. Las Ofertas y Promociones que encontrarás...' }
       ],
       link: [
-        { rel: 'canonical', href: `${this.$store.state.host}/terminos` }
+        { rel: 'canonical', href: `${this.config.host}/terminos` }
       ]
     }
   },

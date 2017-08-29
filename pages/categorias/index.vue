@@ -7,7 +7,7 @@
     <template slot="content">
       <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-          <ofer-item :item="item" :to-link="$store.state.routes.categories + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
+          <ofer-item :item="item" :to-link="config.routes.categories + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
         </v-col>
       </v-row>
     </template>
@@ -46,9 +46,9 @@ export default {
     OferCommon
   },
   head () {
-    let host = this.$store.state.host
+    let host = this.config.host
     let urlLogo = `${host}/logo.png`
-    let urlCategories = `${host}${this.$store.state.routes.categoriesList}`
+    let urlCategories = `${host}${this.config.routes.categoriesList}`
 
     return {
       title: 'Ofertas, promociones y descuentos por Categorías',
