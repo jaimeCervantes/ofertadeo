@@ -1,4 +1,5 @@
 <script>
+import config from '~components/mixins/ofer-config.js'
 export default {
   computed: {
     breadcrumbs () {
@@ -21,7 +22,7 @@ export default {
 
                       return {
                         text: text,
-                        href: href,
+                        href: config.host + href,
                         disabled: false,
                         target: '_self'
                       }
@@ -29,7 +30,7 @@ export default {
 
       paths.unshift({
         text: 'Inicio /',
-        href: '/',
+        href: config.host,
         disabled: false,
         target: '_self'
       })

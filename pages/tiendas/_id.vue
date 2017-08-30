@@ -11,7 +11,7 @@
       </ofer-header-info>
     </template> 
     <template slot="content">
-      <h2 v-if="exists(info)">Lista de ofertas y promociones {{info.name}}</h2>
+      <h2 v-if="exists(info)" v-html="seo.h2"></h2>
       <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
           <ofer-item :item="item" type="store" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
@@ -25,7 +25,7 @@
     <template slot="content-footer" v-if="exists(info)">
       <v-divider class="section-divider"></v-divider>
       <section class="after-items">
-        <h2 v-text="`Promociones y descuentos ${info.name}`"></h2>
+        <h2 v-text="seo.h2_0"></h2>
         <div v-html="info.content"></div>
       </section>
     </template>
@@ -58,8 +58,10 @@ export default {
   async asyncData ({ params, route }) {
     let { data } = await axios.get(urlReq + params.id)
     if (data && data.info) {
-      data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${data.info.name} ${OferCommon.methods.getDate('YYYY')}. ❤ ¡Ahorra ya!`
-      data.info.title_front = `${data.info.name} - Ofertas, promociones y descuentos`
+      // data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${data.info.name} ${OferCommon.methods.getDate('YYYY')}. ❤ ¡Ahorra ya!`
+      data.seo = OferCommon.methods.getSEOData(data.seo, data.info)
+      data.info.h1 = data.seo.h1
+      data.info.description = data.seo.description
     }
 
     return Object.assign({ path: route.path, id: params.id }, data)
@@ -79,10 +81,10 @@ export default {
     let url = `${urlStoreList}/${this.id}`
 
     let metas = [
-      { hid: 'title', name: 'title', content: `Descuentos, ofertas y promociones en ${this.info.name}` },
-      { hid: 'description', name: 'description', content: this.info.description },
+      { hid: 'title', name: 'title', content: this.seo.meta_title },
+      { hid: 'description', name: 'description', content: this.seo.meta_description },
       { hid: 'og:title', property: 'og:title', content: `${this.info.name} – Ofertas y promociones` },
-      { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${this.info.name} ${this.year}. ❤ ¡Ahorra ya!` },
+      { hid: 'og:description', property: 'og:description', content: this.seo.meta_description },
       { hid: 'og:url', property: 'og:url', content: url },
       { hid: 'og:image', property: 'og:image', content: this.info.img },
       { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img },
@@ -100,7 +102,7 @@ export default {
     }
 
     return (this.info && this.info.name) ? {
-      title: `Descuentos, ofertas y promociones en ${this.info.name}`,
+      title: this.seo.title,
       meta: metas,
       link: [
         { rel: 'canonical', href: url }

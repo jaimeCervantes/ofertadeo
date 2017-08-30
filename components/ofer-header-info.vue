@@ -5,7 +5,7 @@
         <img :src="info.thumbnail" :alt="info.img_alt" :title="info.img_title" />  
       </div>
       <div>
-        <h1 class="title content__title" v-html="info.title_front"></h1>
+        <h1 class="title content__title" v-html="info.h1 || info.title_front"></h1>
         <v-btn tag="a" v-if="rel" :rel="rel" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Ir a {{info.name}}</v-btn>
         <slot name="social-network"></slot>
       </div>
@@ -44,7 +44,6 @@ export default {
   }
   .info-description {
     margin-top: 0.8rem;
-    font-weight:600;
   }
 }
 

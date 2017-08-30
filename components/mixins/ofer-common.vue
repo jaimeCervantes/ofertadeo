@@ -40,12 +40,9 @@ export default {
       let dateStr = new Date(substract).toISOString().split('.')[0]
       return dateStr + '-05:00'
     },
-    getTextFromHtml (strHtml) {
-      return striptags(strHtml)
-    },
     sliceTextFromHtml (strHtml, limit) {
       let text = striptags(strHtml)
-      if (text.length <= limit) {
+      if (text.length <= limit || !limit) {
         return text
       } else {
         return text.slice(0, limit - 3) + '...'
@@ -57,21 +54,17 @@ export default {
       }
       return (Object.keys(data).length > 0)
     },
-    /**
-     * @param  {Object} { arrObj, fieldName }
-     * @return {[type]}
-     */
-    arrayToString (paramArray) {
-      if (!paramArray) return ''
-      if (Array.isArray(paramArray) && paramArray[0]) {
-        return paramArray.reduce(function (prev, curr) {
-          let comma = ', '
-          if (!prev) {
-            comma = ''
-          }
-          return prev.split('-').join(' ') + comma + curr.split('-').join(' ')
-        }, '')
+    getSEOData (seoData, data) {
+      let res = {}
+      for (let d in seoData) {
+        if (seoData.hasOwnProperty(d)) {
+          res[d] = seoData[d]
+          Object.keys(data).forEach(function (curr) {
+            res[d] = res[d].replace('{' + curr + '}', data[curr])
+          })
+        }
       }
+      return res
     }
   }
 }

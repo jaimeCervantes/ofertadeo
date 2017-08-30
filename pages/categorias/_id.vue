@@ -59,7 +59,7 @@ export default {
     let { data } = await axios.get(urlReq + params.id)
     if (data && data.info) {
       data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en ofertadeo. Descuentos, promociones y ofertas en ${data.info.name}. ✓ ¡Ahorra dinero ya!`
-      data.info.title_front = data.info.name
+      data.info.h1 = data.info.name
     }
 
     return Object.assign({
