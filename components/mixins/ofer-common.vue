@@ -19,7 +19,7 @@ export default {
       return date.charAt(0).toUpperCase() + date.slice(1)
     },
     year () {
-      return moment().format('YYYY').toUpperCase()
+      return moment().format('YYYY')
     }
   },
   methods: {
@@ -59,8 +59,12 @@ export default {
       for (let d in seoData) {
         if (seoData.hasOwnProperty(d)) {
           res[d] = seoData[d]
-          Object.keys(data).forEach(function (curr) {
-            res[d] = res[d].replace('{' + curr + '}', data[curr])
+          Object.keys(data).concat(['year']).forEach(function (curr) {
+            let value = data[curr]
+            if (curr === 'year') {
+              value = moment().format('YYYY')
+            }
+            res[d] = res[d].replace('{' + curr + '}', value)
           })
         }
       }
