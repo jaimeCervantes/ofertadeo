@@ -40,7 +40,9 @@ export default {
   },
   async asyncData ({ params, route }) {
     let { data } = await axios.get('/api/seo/stores')
-    return { seo: data }
+    if (data) {
+      return { seo: data }
+    }
   },
   methods: {
     async save () {
