@@ -2,9 +2,9 @@
   <ofer-content-article>
     <template slot="info-section" v-if="exists(item)">
       <p class="promotion-data">
-        <nuxt-link class="taxonomy" :to="config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+        <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
           <span class="promotion-data__category" v-text="category.name"></span>
-        </nuxt-link>
+        </a>
       </p>
       <h1>{{item.name}}</h1>
     </template>
@@ -20,7 +20,7 @@
             </div>
             <div class="promotion-content" v-html="item.content"></div>
             <p class="promotion-data">
-            <v-btn outline class="taxonomy" tag="a" :to="config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
+            <v-btn outline class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
             </v-btn> 
           </p>
           </section>

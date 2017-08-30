@@ -6,10 +6,10 @@
       <v-list dense>
         <v-subheader class="white--text">
           <h3>{{config.txt.stores}}</h3>
-          <nuxt-link :to="config.routes.storeList"><v-btn primary light>Ver todas</v-btn></nuxt-link>
+          <v-btn tag="a" :to="config.host + config.routes.storeList" primary light>Ver todas</v-btn>
         </v-subheader>
         <v-list-item  v-for="(item,i) in config.stores" :key="i">
-          <v-list-tile ripple router nuxt :href="config.routes.storeList + '/' + item._id" class="list__tile">
+          <v-list-tile ripple tag="a" :href="config.host + config.routes.storeList + '/' + item._id" class="list__tile">
             <v-list-tile-content>
               <v-list-tile-title v-text="item.name" />
             </v-list-tile-content>
@@ -22,10 +22,10 @@
         <v-divider/>
         <v-subheader class="white--text">
           <h3>{{config.txt.categories}}</h3>
-          <nuxt-link :to="config.routes.categories"><v-btn primary light>Ver todas</v-btn></nuxt-link>
+          <v-btn tag="a" :to="config.host + config.routes.categories" primary light>Ver todas</v-btn>
         </v-subheader>
         <v-list-item v-for="(item,i) in config.categories" :key="i">
-          <v-list-tile ripple router nuxt :href="config.routes.categories + '/' + item._id" class="list__tile">
+          <v-list-tile ripple :href="config.host + config.routes.categories + '/' + item._id" class="list__tile">
             <v-list-tile-content>
               <v-list-tile-title v-text="item.name" />
             </v-list-tile-content>
