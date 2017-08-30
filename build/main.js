@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 37);
+/******/ 	return __webpack_require__(__webpack_require__.s = 38);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -96,7 +96,8 @@ var config = {
       main: 'offers',
       secundary: 'stores',
       categories: 'categories',
-      pages: 'pages'
+      pages: 'pages',
+      seo: 'seo'
     }
   },
   routes: {
@@ -335,7 +336,7 @@ module.exports = require("path");
 /***/ function(module, exports, __webpack_require__) {
 
 var utils = __webpack_require__(3);
-var smUtils = __webpack_require__(29);
+var smUtils = __webpack_require__(30);
 var config = __webpack_require__(1)();
 var sm = __webpack_require__(11);
 var fs = __webpack_require__(4);
@@ -547,7 +548,7 @@ module.exports = require("wagner-core");
 "use strict";
 
 
-var MongoClient = __webpack_require__(32).MongoClient;
+var MongoClient = __webpack_require__(33).MongoClient;
 
 function getConnection(config) {
   //connPromise is pending when trying to connect to mongodb atlas
@@ -649,20 +650,21 @@ module.exports = {
 var wagner = __webpack_require__(7);
 var home = __webpack_require__(22);
 var categories = __webpack_require__(21);
-var stores = __webpack_require__(24);
+var stores = __webpack_require__(25);
 var promotions = __webpack_require__(23);
-var upload = __webpack_require__(25);
+var upload = __webpack_require__(26);
+var seo = __webpack_require__(24);
 
 __webpack_require__(1)(wagner);
 __webpack_require__(8)(wagner);
 
 var router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
-// Add USERS Routes
 router.use(home(wagner));
 router.use(categories(wagner));
 router.use(stores(wagner));
 router.use(promotions(wagner));
 router.use(upload(wagner));
+router.use(seo(wagner));
 
 /* harmony default export */ exports["a"] = router;
 
@@ -940,8 +942,8 @@ var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(2);
 var csm = __webpack_require__(6);
-var feed = __webpack_require__(27);
-var pn = __webpack_require__(28);
+var feed = __webpack_require__(28);
+var pn = __webpack_require__(29);
 
 var crudInst;
 var conf;
@@ -1139,6 +1141,81 @@ function savePromotion(operation, cb) {
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(2);
+var crudInst;
+var conf;
+
+module.exports = function (wagner, params) {
+  wagner.invoke(function (conn, config) {
+    conf = config;
+    return conn;
+  }).then(function (db) {
+    crudInst = new CRUD({
+      db: db
+    });
+  }).then(function () {
+    if (crudInst) {
+      save();
+      get();
+    }
+  }).catch(function (err) {
+    //some configuration to notify no database connection working
+    console.log(err);
+  });
+
+  return router;
+};
+
+function get() {
+  router.get('/seo/:id', function (req, res) {
+    crudInst.getItem({
+      collection: conf.db.collections.seo,
+      query: { _id: req.params.id }
+    }).then(function (dbRes) {
+      res.json(dbRes);
+      return dbRes;
+    }).catch(function (err) {
+      console.log('Ocurrió un error al tratar de conseguir la configuracion seo de tiendas:');
+      console.log(err);
+      res.json(err);
+    });
+  });
+}
+
+function save() {
+  router.post('/seo/:id', function (req, res) {
+    var rightNow = new Date();
+    var missingData = { modified: rightNow };
+
+    if (!req.body.date) {
+      missingData.date = rightNow;
+    }
+
+    crudInst.update({
+      collection: conf.db.collections.seo,
+      query: { _id: req.params.id },
+      update: Object.assign(missingData, req.body),
+      options: { upsert: true }
+    }).then(function (dbRes) {
+      res.json(dbRes);
+      return dbRes;
+    }).catch(function (err) {
+      console.log('Ocurrió un error al tratar de Guardar la configuracion seo de tiendas:');
+      console.log(err);
+      res.json(err);
+    });
+  });
+}
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var express = __webpack_require__(0);
+var router = express.Router();
+var CRUD = __webpack_require__(2);
 var csm = __webpack_require__(6);
 var crudInst;
 var conf;
@@ -1194,13 +1271,17 @@ function _id() {
     }), crudInst.getPagination({
       query: { 'stores._id': req.params._id },
       collection: conf.db.collections.main
+    }), crudInst.getItem({
+      collection: conf.db.collections.seo,
+      query: { _id: 'stores' }
     })];
 
     Promise.all(iterable).then(function (results) {
       res.json({
         items: results[0],
         info: results[1],
-        pagination: results[2]
+        pagination: results[2],
+        seo: results[3]
       });
     }).catch(function (error) {
       res.json(error);
@@ -1294,22 +1375,22 @@ function createStore() {
 }
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_multer__);
 
 
 var express = __webpack_require__(0);
 var router = express.Router();
 var CRUD = __webpack_require__(2);
-var mkdirp = __webpack_require__(31);
+var mkdirp = __webpack_require__(32);
 var path = __webpack_require__(5);
 
-var jimp = __webpack_require__(30);
+var jimp = __webpack_require__(31);
 
 var crudInst;
 var conf;
@@ -1404,14 +1485,14 @@ function mkdirPromise(pathFile) {
 }
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var xml = __webpack_require__(35);
+var xml = __webpack_require__(36);
 var utils = __webpack_require__(3);
 
 var GENERATOR = 'Feed for Node.js';
@@ -1887,13 +1968,13 @@ var Feed = function () {
 module.exports = Feed;
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 var config = __webpack_require__(1).config;
-var Feed = __webpack_require__(26);
+var Feed = __webpack_require__(27);
 var fs = __webpack_require__(4);
-var striptags = __webpack_require__(34);
+var striptags = __webpack_require__(35);
 var utils = __webpack_require__(3);
 var cron = __webpack_require__(9);
 
@@ -1999,7 +2080,7 @@ module.exports = {
 };
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 var request = __webpack_require__(10);
@@ -2030,14 +2111,14 @@ module.exports = {
 };
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 var wagner = __webpack_require__(7);
 var sm = __webpack_require__(11);
 var config = __webpack_require__(1)(wagner);
 var fs = __webpack_require__(4);
-var zlib = __webpack_require__(36);
+var zlib = __webpack_require__(37);
 var utils = __webpack_require__(3);
 
 function compress(path) {
@@ -2114,49 +2195,49 @@ module.exports = {
 };
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports) {
 
 module.exports = require("jimp");
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports) {
 
 module.exports = require("mkdirp");
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports) {
 
 module.exports = require("mongodb");
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 module.exports = require("multer");
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 module.exports = require("striptags");
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports) {
 
 module.exports = require("xml");
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
