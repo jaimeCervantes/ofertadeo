@@ -16,7 +16,8 @@ var config = {
       main: 'offers',
       secundary: 'stores',
       categories: 'categories',
-      pages: 'pages'
+      pages: 'pages',
+      seo: 'seo'
     }
   },
   routes: {

@@ -76,7 +76,7 @@ export default {
     let urlLogo = `${host}/favicons/apple-touch-icon-60x60.png`
     let urlPromociones = `${this.config.host}${this.config.routes.main}`
     let url = `${urlPromociones}/${this.item.slug}`
-    let content = this.getTextFromHtml(this.item.content)
+    let content = this.sliceTextFromHtml(this.item.content)
     let description = this.sliceTextFromHtml(this.item.content, this.config.seo.description.charsLimit)
 
     let metas = [
