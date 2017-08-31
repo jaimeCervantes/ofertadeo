@@ -60,6 +60,7 @@ export default {
     return {
       meta: [
         { hid: 'title', name: 'title', content: 'Ofertas, promociones y descuentos en México | Ofertadeo' },
+        { hid: 'robots', name: 'robots', content: 'noindex, nofollow' },
         { hid: 'publisher', rel: 'publisher', href: 'https://plus.google.com/110009950298317863923' },
         { hid: 'description', name: 'description', content: 'Descubre las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad.  ✓ ¡Ahorra con ofertadeo!' },
         { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },

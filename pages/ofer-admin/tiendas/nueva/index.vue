@@ -161,7 +161,10 @@ export default {
   },
   head () {
     return {
-      title: `Nueva Tienda | Ofertadeo`
+      title: `Nueva Tienda | Ofertadeo`,
+      meta: [
+        { hid: 'robots', name: 'robots', content: 'noindex, nofollow' }
+      ]
     }
   }
 }

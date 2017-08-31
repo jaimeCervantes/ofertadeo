@@ -205,7 +205,10 @@ export default {
   },
   head () {
     return {
-      title: `Nueva oferta | Ofertadeo`
+      title: `Nueva oferta | Ofertadeo`,
+      meta: [
+        { hid: 'robots', name: 'robots', content: 'noindex, nofollow' }
+      ]
     }
   }
 }
