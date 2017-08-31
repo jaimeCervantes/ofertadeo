@@ -76,15 +76,15 @@ export default {
     let urlLogo = `${host}/favicons/apple-touch-icon-60x60.png`
     let urlPromociones = `${this.config.host}${this.config.routes.main}`
     let url = `${urlPromociones}/${this.item.slug}`
-    let content = `${this.getTextFromHtml(this.item.content)}`
-    let description = `${content.slice(0, 150)}...`
+    let content = this.sliceTextFromHtml(this.item.content)
+    let description = this.sliceTextFromHtml(this.item.description, this.config.seo.description.charsLimit)
 
     let metas = [
       { hid: 'title', name: 'title', content: `${this.item.name}` },
       { hid: 'description', name: 'description', content: description },
       { hid: 'og:type', property: 'og:type', content: 'article' },
       { hid: 'og:title', property: 'og:title', content: `${this.item.name}` },
-      { hid: 'og:description', property: 'og:description', content: `${this.getTextFromHtml(this.item.content).slice(0, 150)}...` },
+      { hid: 'og:description', property: 'og:description', content: content },
       { hid: 'og:url', property: 'og:url', content: `${this.config.host}${this.config.routes.main}/${this.item.slug}` },
       { hid: 'article:publisher', property: 'article:publisher', content: this.config.publisher.fb },
       { hid: 'article:tag', property: 'article:tag', content: this.item.stores[0].name },

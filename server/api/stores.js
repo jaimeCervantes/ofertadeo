@@ -64,6 +64,10 @@ function _id() {
       crudInst.getPagination({
         query: { 'stores._id': req.params._id },
         collection: conf.db.collections.main
+      }),
+      crudInst.getItem({
+        collection: conf.db.collections.seo,
+        query: {_id: 'stores'},
       })
     ];
 
@@ -72,7 +76,8 @@ function _id() {
       res.json({
           items: results[0],
           info: results[1],
-          pagination: results[2]
+          pagination: results[2],
+          seo: results[3]
         });
     })
     .catch(function(error) {
