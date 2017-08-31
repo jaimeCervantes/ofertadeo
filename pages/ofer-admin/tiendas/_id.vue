@@ -83,7 +83,10 @@ export default {
   },
   head () {
     return {
-      title: `${this.info.name} | Ofertadeo`
+      title: `${this.info.name} | Ofertadeo`,
+      meta: [
+        { hid: 'robots', name: 'robots', content: 'noindex, nofollow' }
+      ]
     }
   }
 }

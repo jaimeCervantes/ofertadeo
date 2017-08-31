@@ -54,8 +54,7 @@ export default {
     return {
       title: 'Admin panel | Promociones',
       meta: [
-      ],
-      link: [
+        { hid: 'robots', name: 'robots', content: 'noindex, nofollow' }
       ]
     }
   }

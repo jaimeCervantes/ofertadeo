@@ -210,7 +210,10 @@ export default {
   },
   head () {
     return {
-      title: `Editar oferta | Ofertadeo`
+      title: `Editar oferta | Ofertadeo`,
+      meta: [
+        { hid: 'robots', name: 'robots', content: 'noindex, nofollow' }
+      ]
     }
   }
 }

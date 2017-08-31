@@ -64,7 +64,7 @@ export default {
             if (curr === 'year') {
               value = moment().format('YYYY')
             }
-            res[d] = res[d].replace('{' + curr + '}', value)
+            res[d] = res[d].replace(new RegExp('{' + curr + '}', 'g'), value)
           })
         }
       }
