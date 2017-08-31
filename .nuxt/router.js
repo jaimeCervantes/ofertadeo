@@ -10,15 +10,15 @@ const _882722d6 = () => import('/home/jaime/develop/ofertadeo-deploy/pages/index
 
 const _6c810184 = () => import('/home/jaime/develop/ofertadeo-deploy/pages/tiendas/index.vue' /* webpackChunkName: "pages/tiendas" */)
 
-const _489086cf = () => import('/home/jaime/develop/ofertadeo-deploy/pages/nosotros/index.vue' /* webpackChunkName: "pages/nosotros" */)
-
 const _8d069d76 = () => import('/home/jaime/develop/ofertadeo-deploy/pages/terminos/index.vue' /* webpackChunkName: "pages/terminos" */)
 
-const _c144c0a0 = () => import('/home/jaime/develop/ofertadeo-deploy/pages/categorias/index.vue' /* webpackChunkName: "pages/categorias" */)
+const _489086cf = () => import('/home/jaime/develop/ofertadeo-deploy/pages/nosotros/index.vue' /* webpackChunkName: "pages/nosotros" */)
 
 const _442b3a48 = () => import('/home/jaime/develop/ofertadeo-deploy/pages/promociones/index.vue' /* webpackChunkName: "pages/promociones" */)
 
 const _795f70d4 = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/index.vue' /* webpackChunkName: "pages/ofer-admin" */)
+
+const _c144c0a0 = () => import('/home/jaime/develop/ofertadeo-deploy/pages/categorias/index.vue' /* webpackChunkName: "pages/categorias" */)
 
 const _2173285f = () => import('/home/jaime/develop/ofertadeo-deploy/pages/privacidad/index.vue' /* webpackChunkName: "pages/privacidad" */)
 
@@ -26,11 +26,13 @@ const _4e1499c9 = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-
 
 const _547ec73f = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/tiendas/index.vue' /* webpackChunkName: "pages/ofer-admin-tiendas" */)
 
-const _b7a922ba = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/promociones/nueva/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-nueva" */)
+const _e4c1a8ce = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/tiendas/nueva/index.vue' /* webpackChunkName: "pages/ofer-admin-tiendas-nueva" */)
 
 const _1d4d28d7 = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/promociones/editar/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-editar" */)
 
-const _e4c1a8ce = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/tiendas/nueva/index.vue' /* webpackChunkName: "pages/ofer-admin-tiendas-nueva" */)
+const _b7a922ba = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/promociones/nueva/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-nueva" */)
+
+const _38df140d = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/seo/tiendas/index.vue' /* webpackChunkName: "pages/ofer-admin-seo-tiendas" */)
 
 const _c686325c = () => import('/home/jaime/develop/ofertadeo-deploy/pages/ofer-admin/promociones/editar/_slug/index.vue' /* webpackChunkName: "pages/ofer-admin-promociones-editar-slug" */)
 
@@ -87,19 +89,14 @@ export default new Router({
 			name: "tiendas"
 		},
 		{
-			path: "/nosotros",
-			component: _489086cf,
-			name: "nosotros"
-		},
-		{
 			path: "/terminos",
 			component: _8d069d76,
 			name: "terminos"
 		},
 		{
-			path: "/categorias",
-			component: _c144c0a0,
-			name: "categorias"
+			path: "/nosotros",
+			component: _489086cf,
+			name: "nosotros"
 		},
 		{
 			path: "/promociones",
@@ -110,6 +107,11 @@ export default new Router({
 			path: "/ofer-admin",
 			component: _795f70d4,
 			name: "ofer-admin"
+		},
+		{
+			path: "/categorias",
+			component: _c144c0a0,
+			name: "categorias"
 		},
 		{
 			path: "/privacidad",
@@ -127,9 +129,9 @@ export default new Router({
 			name: "ofer-admin-tiendas"
 		},
 		{
-			path: "/ofer-admin/promociones/nueva",
-			component: _b7a922ba,
-			name: "ofer-admin-promociones-nueva"
+			path: "/ofer-admin/tiendas/nueva",
+			component: _e4c1a8ce,
+			name: "ofer-admin-tiendas-nueva"
 		},
 		{
 			path: "/ofer-admin/promociones/editar",
@@ -137,9 +139,14 @@ export default new Router({
 			name: "ofer-admin-promociones-editar"
 		},
 		{
-			path: "/ofer-admin/tiendas/nueva",
-			component: _e4c1a8ce,
-			name: "ofer-admin-tiendas-nueva"
+			path: "/ofer-admin/promociones/nueva",
+			component: _b7a922ba,
+			name: "ofer-admin-promociones-nueva"
+		},
+		{
+			path: "/ofer-admin/seo/tiendas",
+			component: _38df140d,
+			name: "ofer-admin-seo-tiendas"
 		},
 		{
 			path: "/ofer-admin/promociones/editar/:slug",
