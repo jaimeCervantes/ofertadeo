@@ -2,11 +2,11 @@
 
 var express = require('express');
 var router = express.Router();
-var CRUD = require('../db/crud.js');
+var crud = require('../db/crud.js');
 var mkdirp = require('mkdirp');
 var path = require('path');
-import multer from 'multer'
-var jimp = require('jimp')
+var multer = require('multer');
+var jimp = require('jimp');
 
 var crudInst;
 var conf;
@@ -17,9 +17,7 @@ module.exports = function(wagner, params) {
     return conn;
   })
   .then(function(db){
-    crudInst = new CRUD({
-      db:db
-    });
+    crudInst = crud({ db:db });
   })
   .then(function(){
     if(crudInst) {
@@ -45,8 +43,8 @@ function getPath(file) {
 
 function upload() {
   router.post('/upload', function(req, res) {
-    return multerUpload(req, res, function (err) {
-      if (err) {
+    return multerUpload(req, res, function (error) {
+      if (error) {
         res.json(error);
       }
 

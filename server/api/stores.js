@@ -2,7 +2,7 @@
 
 var express = require('express');
 var router = express.Router();
-var CRUD = require('../db/crud.js');
+var crud = require('../db/crud.js');
 var csm = require('../utils/sitemaps/create-sitemap.js');
 var crudInst;
 var conf;
@@ -13,9 +13,7 @@ module.exports = function(wagner, params) {
     return conn;
   })
   .then(function(db){
-    crudInst = new CRUD({
-      db:db
-    });
+    crudInst = crud({ db:db });
   })
   .then(function(){
     if(crudInst) {

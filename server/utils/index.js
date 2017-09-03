@@ -1,6 +1,6 @@
 var config = require('../config.js').config;
 var wagner = require('wagner-core');
-var Crud = require('../db/crud.js');
+var crud = require('../db/crud.js');
 
 require('../config.js')(wagner)
 require('../db/connection.js')(wagner);
@@ -11,7 +11,7 @@ function getCrud() {
     return conn;
   })
   .then(function(conn){
-    return new Crud({ db: conn });
+    return crud({ db: conn });
   });
 }
 
