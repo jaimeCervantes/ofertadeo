@@ -390,7 +390,7 @@ function smCategories() {
   return getData({ collection: config.db.collections.categories }).then(function (data) {
     smUtils.addToSitemap(smCategories, data, {
       route: config.routes.categories,
-      changefreq: 'weekly',
+      changefreq: 'daily',
       priority: 0.9
     });
   }).then(function () {
@@ -408,7 +408,7 @@ function smStores() {
   return getData({ collection: config.db.collections.secundary }).then(function (data) {
     return smUtils.addToSitemap(smStores, data, {
       route: config.routes.storeList,
-      changefreq: 'weekly',
+      changefreq: 'daily',
       priority: 0.9
     });
   }).then(function () {
