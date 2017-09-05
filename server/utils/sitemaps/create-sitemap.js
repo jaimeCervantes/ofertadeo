@@ -60,7 +60,7 @@ function smCategories () {
   .then(function(data) {
      smUtils.addToSitemap(smCategories, data,  {
       route: config.routes.categories,
-      changefreq: 'weekly',
+      changefreq: 'daily',
       priority: 0.9
     });
   })
@@ -81,7 +81,7 @@ function smStores () {
   .then(function(data) {
     return smUtils.addToSitemap(smStores, data,  {
       route: config.routes.storeList,
-      changefreq: 'weekly',
+      changefreq: 'daily',
       priority: 0.9
     });
   })
