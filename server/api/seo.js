@@ -58,7 +58,7 @@ function save() {
     crudInst.update({
       collection: conf.db.collections.seo,
       query: { _id: req.params.id },
-      update: Object.assign(missingData, req.body),
+      update: { $set: Object.assign(missingData, req.body) },
       options: { upsert: true }
     })
     .then(function(dbRes) {

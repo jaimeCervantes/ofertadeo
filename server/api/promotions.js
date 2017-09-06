@@ -1,32 +1,30 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
+var router = require('express').Router();
 var crud = require('../db/crud.js');
 var csm = require('../utils/sitemaps/create-sitemap.js');
 var feed = require('../utils/feed/');
 var pn = require('../utils/pn/');
 
-var crudInst;
-var conf;
 module.exports = function(wagner, params) {
+  let conf;
   wagner.invoke(function(conn, config) {
     conf = config;
     return conn;
   })
   .then(function(db){
-    crudInst = crud({ db:db });
+    return {
+      crud: crud({ db:db }),
+      config: conf
+    };
   })
-  .then(function(){
-    if(crudInst) {
-      slug();
-      getFormDataPromotions();
-      savePromotion('create', function (data, req){
-        return crudInst.setItem({ collection: conf.db.collections.main, document: data });
-      });
-      savePromotion('update', function (data, req){
-        return crudInst.updateOne({ collection: conf.db.collections.main, query: { slug: req.params.slug }, update: { $set: data } });
-      });
+  .then(function(resp){
+    if(resp && resp.crud && resp.config) {
+      resp.router = router;
+      slug(resp);
+      getFormDataPromotions(resp);
+      savePromotion(Object.assign({ path: '/promotions/new' }, resp));
+      savePromotion(Object.assign({ path: '/promotions/edit/:slug' }, resp));
     }    
   })
   .catch(function(err) {
@@ -37,11 +35,12 @@ module.exports = function(wagner, params) {
   return router;
 };
 
-function slug() {
-  router.get('/promotions/:slug', function(req, res) {
+// We can define functions after use them because of function hoisting
+function slug(params) {
+  params.router.get('/promotions/:slug', function(req, res) {
     var iterable = [
-      crudInst.getItem({
-        collection: conf.db.collections.main,
+      params.crudInst.getItem({
+        collection: params.conf.db.collections.main,
         query: { slug: req.params.slug },
         items_per_page: 1
       })
@@ -60,7 +59,12 @@ function slug() {
 }
 
 
-function getFormDataPromotions() {
+function getFormDataPromotions(params) {
+  let conf = params.config;
+  let crudInst = params.crud;
+  let router = params.router;
+
+  // formdata for create and edit promotions
   router.get('/formdata/promotions', function(req, res) {
     var iterable = [
       crudInst.getItems({
@@ -89,6 +93,7 @@ function getFormDataPromotions() {
       });
   });
 
+  // get an specific promotions, query by slug property
   router.get('/formdata/promotions/:slug', function(req, res) {
     var iterable = [
       crudInst.getItem({
@@ -124,21 +129,37 @@ function getFormDataPromotions() {
   });
 }
 
-function updateStoresAndCategories (data, date) {
+function updateStoresAndCategories (data, params) {
   let iterable = data.categories.map(function(currCat) {
-        return crudInst.updateOne({ collection: conf.db.collections.categories, query: { _id: currCat._id }, update: { $set: { modified: date } } });
+        return params.crud.updateOne({
+          collection: params.config.db.collections.categories,
+          query: { _id: currCat._id },
+          update: { $set: { modified: params.date } } 
+        });
       });
+
   //We are not using map because then we have to merge with concat and left two arrays of promises running
   data.stores.forEach(function(currStore){
-    iterable.push(crudInst.updateOne({ collection: conf.db.collections.secundary, query: { _id: currStore._id }, update: { $set: { modified: date } } }));
+    iterable.push(crud.updateOne({
+      collection: params.config.db.collections.secundary,
+      query: { _id: currStore._id },
+      update: { $set: { modified: params.date } } 
+    }));
   });
 
   return Promise.all(iterable);
 }
+
 function updateSitemaps() {
+  
   //Update sitemaps
   return new Promise(function(resolve, reject) {
-    return Promise.all([csm.pages(), csm.offers(), csm.stores(), csm.categories()])
+    return Promise.all([
+      csm.pages(),
+      csm.offers(),
+      csm.stores(),
+      csm.categories()
+    ])
     .then(function(results) {
       if(results && results.length > 0) {
         csm.index().then(function(res){
@@ -151,25 +172,40 @@ function updateSitemaps() {
     });
   });  
 }
+
 function sendPushNotification(data) {
+  
   //Push notifications
   pn.all({
     title: data.title,
     url: conf.host + conf.routes.main + '/' + data.slug,
     message: data.meta_description
+
     //@TODO: To set an image to the notifications using pushcrew, we need to create an PNG imgage 192X192
     //,image_url: data.thumbnail
   });
 }
-function savePromotion(operation, cb) {
-  var urls = { create: '/promotions/new', update: '/promotions/edit/:slug' };
-  router.post(urls[operation], function(req, res) {
-    var rightNow = new Date(), missingData = { modified: rightNow };
-    if( operation === 'create') {
-      missingData.published = rightNow;
+
+function savePromotion(params) {
+  let conf = params.config;
+  let crudInst = params.crud;
+
+  router.post(params.path, function(req, res) {
+    let rightNow = new Date(), missingData = { modified: rightNow };
+    let data = Object.assign(missingData, req.body);
+
+    if(!data.pusblished) {
+      data.pusblished = rightNow;
     }
-    var data = Object.assign(missingData, req.body);
-    cb(data, req)
+
+    crudInst.update({
+      collection: conf.db.collections.main,
+      query: { slug: req.params.slug },
+      update: { $set: data },
+      options: {
+        upsert: true
+      }
+    })
     .then(function(dbResponse){
       res.json(dbResponse);
       return dbResponse;
@@ -180,8 +216,10 @@ function savePromotion(operation, cb) {
       res.json(err);
     })
     .then(function(dbResponse){
+
       if (dbResponse.result && dbResponse.result.ok ) {
         sendPushNotification(data);
+        
         return crudInst.update({
           collection: conf.db.collections.pages,
           query: {},
@@ -196,7 +234,19 @@ function savePromotion(operation, cb) {
     })
     .then(function(dbResponse) {
       if (dbResponse && dbResponse.result && dbResponse.result.ok ) {
-        return updateStoresAndCategories({ stores: data.stores, categories: data.categories }, rightNow);
+        
+        return updateStoresAndCategories(
+          {
+            stores: data.stores,
+            categories: data.categories
+          },
+          {
+            crud: crudInst,
+            config: conf,
+            date: rightNow
+          }
+        );
+        
       } else {
         return Error(dbResponse);
       }

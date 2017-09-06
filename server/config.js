@@ -46,5 +46,5 @@ module.exports = function (wagner) {
   };
   return config;
 };
-
+// function is an object, so we can add a property to an object
 module.exports.config = config;

@@ -1,22 +1,24 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var crud = require('../db/crud.js');
-var crudInst;
-var conf;
+let router = require('express').Router()
+let crud = require('../db/crud.js');
 
 module.exports = function(wagner, params) {
+  let conf;
   wagner.invoke(function(conn, config) {
     conf = config;
     return conn;
   })
   .then(function(db){
-    crudInst = crud({ db:db });
+    return {
+      crud: crud({ db:db }),
+      config: conf
+    };
   })
-  .then(function(){
-    if(crudInst) {
-      index();  
+  .then(function(resp){
+    if(resp && resp.crud && resp.config) {
+      resp.router = router;
+      index(resp);  
     } else {
       console.log('There is not database instance');
     }
@@ -30,10 +32,13 @@ module.exports = function(wagner, params) {
   return router;
 };
 
-function index() {
-  router.get('/home', function(req, res) {
-    var page = req.query.page ? Number(req.query.page) : 0;
-    var iterable = [
+// We can define functions after use them because of function hoisting
+function index(params) {
+  let crudInst = params.crud;
+  let conf = params.config;
+  params.router.get('/home', function(req, res) {
+    let page = req.query.page ? Number(req.query.page) : 0;
+    let iterable = [
       crudInst.getItems({
         collection: conf.db.collections.main,
         items_per_page: conf.db.itemsPerPage, 

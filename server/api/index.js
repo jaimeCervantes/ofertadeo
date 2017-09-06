@@ -1,16 +1,15 @@
-import { Router } from 'express'
-var wagner = require('wagner-core');
-var home = require('./home');
-var categories = require('./categories');
-var stores = require('./stores');
-var promotions = require('./promotions');
-var upload = require('./upload');
-var seo = require('./seo');
+let router = require('express').Router();
+let wagner = require('wagner-core');
+let home = require('./home');
+let categories = require('./categories');
+let stores = require('./stores');
+let promotions = require('./promotions');
+let upload = require('./upload');
+let seo = require('./seo');
 
 require('../config.js')(wagner);
 require('../db/connection.js')(wagner);
 
-var router = Router()
 router.use(home(wagner))
 router.use(categories(wagner))
 router.use(stores(wagner))
