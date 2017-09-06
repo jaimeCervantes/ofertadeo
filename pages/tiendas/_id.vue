@@ -83,7 +83,7 @@ export default {
     let metas = [
       { hid: 'title', name: 'title', content: this.seo.meta_title },
       { hid: 'description', name: 'description', content: this.seo.meta_description },
-      { hid: 'og:title', property: 'og:title', content: `${this.info.name} – Ofertas y promociones` },
+      { hid: 'og:title', property: 'og:title', content: this.seo.meta_title },
       { hid: 'og:description', property: 'og:description', content: this.seo.meta_description },
       { hid: 'og:url', property: 'og:url', content: url },
       { hid: 'og:image', property: 'og:image', content: this.info.img },
