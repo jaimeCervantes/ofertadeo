@@ -1,29 +1,62 @@
-let router = require('express').Router();
-let wagner = require('wagner-core');
+let router = require('express').Router()
+let config = require('../config.js')
+let conn = require('../db/connection.js')(config)
+let crud = require('../db/crud.js')
+let csm = require('../utils/sitemaps/create-sitemap.js')
+let feed = require('../utils/feed/')
+let pn = require('../utils/pn/')
 
-let routesHome = require('./home');
+let home = require('./home')
+let categories = require('./categories')
+let promotions = require('./promotions')
+let stores = require('./stores')
+let upload = require('./upload')
+let seo = require('./seo')
 
-let categories = require('./categories');
-let stores = require('./stores');
+home({ router: router, crud: crud, conn: conn, config: config })
 
-let promotions = require('./handlers/promotions');
-let routesPromotions = require('./promotions');
+categories({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: require('./handlers/categories')
+})
 
-let upload = require('./upload');
-let seo = require('./seo');
-let crud = require('../db/crud.js');
+promotions({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: require('./handlers/promotions'),
+  csm: csm,
+  feed: feed,
+  pn: pn
+})
 
-require('../config.js')(wagner);
-require('../db/connection.js')(wagner);
+stores({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: require('./handlers/stores'),
+  csm: csm
+})
 
-routesHome(wagner, { router: router, crud: crud })
+upload({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: require('./handlers/upload')
+})
 
-router.use(categories(wagner))
-router.use(stores(wagner))
-
-routesPromotions(wagner, { router: router, crud: crud, handler: promotions })
-
-router.use(upload(wagner))
-router.use(seo(wagner))
+seo({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: require('./handlers/seo')
+})
 
 export default router
