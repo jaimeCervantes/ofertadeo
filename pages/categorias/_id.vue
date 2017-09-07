@@ -60,6 +60,7 @@ export default {
     if (data && data.info) {
       data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en ofertadeo. Descuentos, promociones y ofertas en ${data.info.name}. ✓ ¡Ahorra dinero ya!`
       data.info.h1 = data.info.name
+      data.info.img_alt = `Ofertas ${data.info.name}`
     }
 
     return Object.assign({

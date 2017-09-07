@@ -62,6 +62,7 @@ export default {
       data.seo = OferCommon.methods.getSEOData(data.seo, data.info)
       data.info.h1 = data.seo.h1
       data.info.description = data.seo.description
+      data.info.img_alt = `Ofertas ${data.info.name}`
     }
 
     return Object.assign({ path: route.path, id: params.id }, data)
