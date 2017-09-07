@@ -11,7 +11,7 @@ function getCrud() {
     return conn;
   })
   .then(function(conn){
-    return crud({ db: conn });
+    return crud({ db: conn, config: config });
   });
 }
 

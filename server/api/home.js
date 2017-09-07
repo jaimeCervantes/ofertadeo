@@ -1,35 +1,28 @@
 'use strict';
 
-let router = require('express').Router()
-let crud = require('../db/crud.js');
-
 module.exports = function(wagner, params) {
-  let conf;
   wagner.invoke(function(conn, config) {
-    conf = config;
-    return conn;
-  })
-  .then(function(db){
-    return {
-      crud: crud({ db:db }),
-      config: conf
-    };
-  })
-  .then(function(resp){
-    if(resp && resp.crud && resp.config) {
-      resp.router = router;
-      index(resp);  
-    } else {
-      console.log('There is not database instance');
-    }
-    
-  })
-  .catch(function(err) {
-    //some configuration to notify no database connection working
-    console.log(err);
+    conn
+    .then(function(db){
+      return {
+        crud: params.crud({ db:db, config: config }),
+        config: config
+      };
+    })
+    .then(function(resp){
+      if(resp && resp.crud && resp.config) {
+        resp.router = params.router;
+        index(resp);  
+      } else {
+        console.log('There is not database instance');
+      }
+      
+    })
+    .catch(function(err) {
+      //some configuration to notify no database connection working
+      console.log(err);
+    });
   });
-
-  return router;
 };
 
 // We can define functions after use them because of function hoisting

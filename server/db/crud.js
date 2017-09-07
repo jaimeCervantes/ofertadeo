@@ -1,14 +1,12 @@
 'use strict';
-let config = require('../config').config;
-
 module.exports = function crud(spec, shared) {
   let that = {};
   spec = spec || {};
   shared = shared || {}
 
-  spec.DATABASE = spec.db || config.db.name;
-  spec.COLLECTION = spec.collection || config.db.collections.main;
-  spec.ITEMS_PER_PAGE = spec.items_per_page || config.db.itemsPerPage;
+  spec.DATABASE = spec.db || spec.config.db.name;
+  spec.COLLECTION = spec.collection || spec.config.db.collections.main;
+  spec.ITEMS_PER_PAGE = spec.items_per_page || spec.config.db.itemsPerPage;
 
   let getItems = function (params) {
     let db = params.db || spec.DATABASE;

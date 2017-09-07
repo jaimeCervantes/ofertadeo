@@ -17,7 +17,7 @@ module.exports = function(wagner, params) {
     return conn;
   })
   .then(function(db){
-    crudInst = crud({ db:db });
+    crudInst = crud({ db:db, config: config });
   })
   .then(function(){
     if(crudInst) {
