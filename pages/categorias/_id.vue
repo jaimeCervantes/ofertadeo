@@ -10,6 +10,9 @@
       </template>
       </ofer-header-info>
     </template>
+    <template slot="content-header">
+      <div class="info-content" v-html="info.content"></div>
+    </template>
     <template slot="content">
       <h2 v-if="exists(info)">Ofertas de {{info.name}}</h2>
       <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
@@ -21,13 +24,6 @@
     </template>
     <template slot="more-content" v-if="exists(info)">
       <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
-    </template>
-    <template slot="content-footer" v-if="exists(info)">
-      <v-divider class="section-divider"></v-divider>
-      <section class="after-items">
-        <h2 v-html="'Promociones ' + info.name"></h2>
-        <div v-html="info.content"></div>
-      </section>
     </template>
   </ofer-content>
 </template>
@@ -140,3 +136,8 @@ export default {
   }
 }
 </script>
+<style lang="stylus" scoped>
+  .info-content {
+    margin-bottom: 0.6rem;
+  }
+</style>
