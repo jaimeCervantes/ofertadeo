@@ -7,6 +7,10 @@ module.exports = function (spec) {
   let that = {}
   spec = spec || {}
 
+  /**
+   * Manage the Offer request, query by slug property
+   * @return {Object} For cascade purposes
+   */
   function getBySlug () {
     spec.router.get('/promotions/:slug', function (req, res) {
       let iterable = [
@@ -32,7 +36,7 @@ module.exports = function (spec) {
   }
 
   /**
-   * Contains the request for creating and editing Offers(promotions)
+   * Manage the request for creating and editing Offers(promotions)
    * @return {Object} For cascade purposes
    */
   function getFormData () {
@@ -69,7 +73,7 @@ module.exports = function (spec) {
         })
     })
 
-    // get an specific promotions, query by slug property
+    // get an specific promotion data, query by slug property
     router.get('/formdata/promotions/:slug', function (req, res) {
       let iterable = [
         crudInst.getItem({
@@ -112,7 +116,7 @@ module.exports = function (spec) {
    * The modified property is useful for sitemaps, structure data and for users knowing the last update
    * of the promotion.
    * @param  {Object} data The object that contains an array of stores and an array of categories
-   * @param  {Date}   date Date for modified property for each category and store
+   * @param  {Date}   date Date for "modified" property for each category and store
    * @return {Promise}     Promise to know when the task is done
    */
   function updateStoresAndCategories (data, date) {
@@ -173,7 +177,7 @@ module.exports = function (spec) {
   }
 
   /**
-   * Creates or update an Offer(promotion)
+   * Creates or update an Offer(promotion), when editing the query is by slug
    * @param  {[type]} params Until now it contains the path of the request
    * @return {Object}        For cascade purpose
    */
@@ -186,7 +190,7 @@ module.exports = function (spec) {
       let missingData = { modified: rightNow }
       let data = Object.assign(missingData, req.body)
 
-      if (!data.published) {
+      if (!Object.hasOwnProperty('published')) {
         data.published = rightNow
       }
 
@@ -229,9 +233,7 @@ module.exports = function (spec) {
           return updateStoresAndCategories({
             stores: data.stores,
             categories: data.categories
-          },
-            rightNow
-          )
+          }, rightNow)
         } else {
           return Error(dbResponse)
         }

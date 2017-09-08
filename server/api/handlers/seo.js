@@ -27,7 +27,7 @@ module.exports = function (spec) {
       let rightNow = new Date()
       let missingData = { modified: rightNow }
 
-      if (!req.body.date) {
+      if (!req.body.hasOwnProperty('date')) {
         missingData.date = rightNow
       }
 

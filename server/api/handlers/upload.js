@@ -10,7 +10,7 @@ module.exports = function (spec) {
   function getPath (file) {
     let date = new Date()
     let finalPath = path.join(`${spec.config.paths.static}/uploads/${date.getFullYear()}/${(date.getMonth() + 1)}/${date.getDate()}`)
-    if (file) {
+    if (file && file.hasOwnProperty('originalname')) {
       finalPath = `${finalPath}/{file.originalname}`
     }
     return finalPath
@@ -53,7 +53,7 @@ module.exports = function (spec) {
           res.json(error)
         }
 
-        if (req.files && req.files[0]) {
+        if (req.files && req.files[0] && req.files[0].hasOwnProperty('originalname')) {
           let path = getPath()
           let file = req.files[0]
           let originalName = file.originalname
