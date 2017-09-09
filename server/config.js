@@ -1,4 +1,4 @@
-var path = require('path');
+var path = require('path')
 
 var config = {
   db: {
@@ -31,20 +31,12 @@ var config = {
   paths: {
     root: path.resolve(__dirname, '../'),
     server: __dirname,
-    static: path.resolve(__dirname, '../static'),
+    static: '/home/jaime/static',
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
+
   },
   app_status: 'develop'
-};
+}
 
-module.exports = function (wagner) {
-  if (wagner) {
-    wagner.factory('config', function () {
-      return config;
-    });
-  };
-  return config;
-};
-
-module.exports.config = config;
+module.exports = config

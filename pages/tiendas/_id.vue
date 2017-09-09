@@ -9,7 +9,10 @@
           ></share-buttons>
         </template>
       </ofer-header-info>
-    </template> 
+    </template>
+    <template slot="content-header">
+      <div class="info-content" v-html="info.content"></div>
+    </template>
     <template slot="content">
       <h2 v-if="exists(info)" v-html="seo.h2"></h2>
       <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
@@ -21,13 +24,6 @@
     </template>
     <template slot="more-content" v-if="exists(info)">
       <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
-    </template>
-    <template slot="content-footer" v-if="exists(info)">
-      <v-divider class="section-divider"></v-divider>
-      <section class="after-items">
-        <h2 v-text="seo.h2_0"></h2>
-        <div v-html="info.content"></div>
-      </section>
     </template>
   </ofer-content>
 </template>
@@ -62,6 +58,7 @@ export default {
       data.seo = OferCommon.methods.getSEOData(data.seo, data.info)
       data.info.h1 = data.seo.h1
       data.info.description = data.seo.description
+      data.info.img_alt = `Ofertas ${data.info.name}`
     }
 
     return Object.assign({ path: route.path, id: params.id }, data)
@@ -83,7 +80,7 @@ export default {
     let metas = [
       { hid: 'title', name: 'title', content: this.seo.meta_title },
       { hid: 'description', name: 'description', content: this.seo.meta_description },
-      { hid: 'og:title', property: 'og:title', content: `${this.info.name} – Ofertas y promociones` },
+      { hid: 'og:title', property: 'og:title', content: this.seo.meta_title },
       { hid: 'og:description', property: 'og:description', content: this.seo.meta_description },
       { hid: 'og:url', property: 'og:url', content: url },
       { hid: 'og:image', property: 'og:image', content: this.info.img },
@@ -138,3 +135,8 @@ export default {
   }
 }
 </script>
+<style lang="stylus" scoped>
+  .info-content {
+    margin-bottom: 0.6rem;
+  }
+</style>

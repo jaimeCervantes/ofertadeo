@@ -64,7 +64,7 @@ export default {
         }
 
         if (res && !res.status) {
-          alert(res)
+          alert(res.msg)
         }
       })
       .catch(function (err) {
