@@ -65,20 +65,14 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 38);
+/******/ 	return __webpack_require__(__webpack_require__.s = 42);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
-
-module.exports = require("express");
-
-/***/ },
-/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(__dirname) {var path = __webpack_require__(5);
+/* WEBPACK VAR INJECTION */(function(__dirname) {var path = __webpack_require__(3);
 
 var config = {
   db: {
@@ -111,152 +105,27 @@ var config = {
   paths: {
     root: path.resolve(__dirname, '../'),
     server: __dirname,
-    static: path.resolve(__dirname, '../static'),
+    static: '/home/jaime/static',
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
   },
   app_status: 'deploy'
 };
 
-module.exports = function (wagner) {
-  if (wagner) {
-    wagner.factory('config', function () {
-      return config;
-    });
-  };
-  return config;
-};
-
-module.exports.config = config;
+module.exports = config;
 /* WEBPACK VAR INJECTION */}.call(exports, "server"))
 
 /***/ },
-/* 2 */
+/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-var config = __webpack_require__(1).config;
-
-module.exports = CRUD;
-
-function CRUD(params) {
-  this.COLLECTION = params.collection;
-  this.DATABASE = params.db;
-  this.ITEMS_PER_PAGE = params.items_per_page || config.db.itemsPerPage;
-};
-
-CRUD.prototype.getItems = function (params) {
-  var db = this.DATABASE || params.db;
-  var items_per_page = params.items_per_page || this.ITEMS_PER_PAGE;
-  var cursor = db.collection(this.COLLECTION || params.collection).find(params.query || {}, params.projection || {});
-
-  if (params.sort) {
-    cursor.sort(params.sort);
-  }
-
-  if (params.skip) {
-    cursor.skip(params.skip);
-  }
-
-  return cursor.limit(items_per_page).toArray().then(function (docs) {
-    if (items_per_page > 1) {
-      return docs;
-    } else {
-      return docs[0];
-    }
-  }).catch(function (err) {
-    return err;
-  });
-};
-
-CRUD.prototype.getItem = function (params) {
-  params.items_per_page = 1;
-  return this.getItems(params);
-};
-
-CRUD.prototype.setItem = function (params) {
-  var db = this.DATABASE || params.db;
-  return db.collection(params.collection || this.COLLECTION).insertOne(params.document).then(function (res) {
-    return res;
-  }).catch(function (err) {
-    return err;
-  });
-};
-
-CRUD.prototype.updateOne = function (params) {
-  var db = this.DATABASE || params.db;
-  return db.collection(params.collection || this.COLLECTION).updateOne(params.query, params.update).then(function (res) {
-    return res;
-  }).catch(function (err) {
-    return err;
-  });
-};
-
-CRUD.prototype.update = function (params) {
-  var db = this.DATABASE || params.db;
-  return db.collection(params.collection || this.COLLECTION).update(params.query, params.update, params.options).then(function (res) {
-    return res;
-  }).catch(function (err) {
-    return err;
-  });
-};
-
-CRUD.prototype.searchItems = function (params) {
-  var db = this.DATABASE || params.db;
-  return db.collection(this.COLLECTION || params.collection)
-  //we project the textScore meta data and then we sort the results by the best matches first
-  .find(params.query, params.projection || { score: { $meta: 'textScore' } }).sort(params.sort || { score: { $meta: 'textScore' } }).skip(params.skip || 0).limit(params.items_per_page || this.ITEMS_PER_PAGE).toArray().then(function (docs) {
-    return docs;
-  }).catch(function (err) {
-    return err;
-  });
-};
-
-CRUD.prototype.getPagination = function (params) {
-  var that = this;
-  var db = that.DATABASE || params.db;
-  return db.collection(this.COLLECTION || params.collection).count(params.query || {}).then(function (numItems) {
-    var items_per_page = params.items_per_page || that.ITEMS_PER_PAGE;
-    var numPages = 0;
-    if (numItems > items_per_page) {
-      numPages = Math.ceil(numItems / items_per_page);
-    }
-    return {
-      pages: numPages,
-      total: numItems
-    };
-  }).catch(function (err) {
-    return err;
-  });
-};
-
-CRUD.prototype.aggregation = function (params) {
-  var db = this.DATABASE || params.db;
-  return db.collection(this.COLLECTION || params.collection).aggregate(params.aggregation).toArray().then(function (data) {
-    return data;
-  }).catch(function (err) {
-    return err;
-  });
-};
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-var config = __webpack_require__(1).config;
-var wagner = __webpack_require__(7);
-var Crud = __webpack_require__(2);
-
-__webpack_require__(1)(wagner);
-__webpack_require__(8)(wagner);
+var crud = __webpack_require__(6);
+var config = __webpack_require__(0);
+var conn = __webpack_require__(5)(config);
 
 function getCrud() {
-  return wagner.invoke(function (conn) {
-    return conn;
-  }).then(function (conn) {
-    return new Crud({ db: conn });
+  return conn.then(function (db) {
+    return crud({ db: db, config: config });
   });
 }
 
@@ -320,32 +189,182 @@ module.exports = {
 };
 
 /***/ },
-/* 4 */
+/* 2 */
 /***/ function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ },
-/* 5 */
+/* 3 */
 /***/ function(module, exports) {
 
 module.exports = require("path");
 
 /***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+module.exports = require("express");
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var MongoClient = __webpack_require__(36).MongoClient;
+
+module.exports = function (config) {
+  // connPromise is pending when trying to connect to mongodb atlas
+  // var shards = config.db.shard1 + ',' + config.db.shard2 + ',' + config.db.shard3;
+  // var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + shards + '/' + config.db.name + config.db.queryString;
+  var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + config.db.host + '/' + config.db.name;
+
+  return MongoClient.connect(url).then(function (conn) {
+    console.log('It is connected to db: ' + config.db.name + ' in ' + config.db.host);
+    return conn;
+  }).catch(function (err) {
+    console.log(err);
+    return err;
+  });
+};
+
+/***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-var utils = __webpack_require__(3);
-var smUtils = __webpack_require__(30);
-var config = __webpack_require__(1)();
-var sm = __webpack_require__(11);
-var fs = __webpack_require__(4);
-var request = __webpack_require__(10);
+"use strict";
+
+
+module.exports = function crud(spec, shared) {
+  var that = {};
+  spec = spec || {};
+  shared = shared || {};
+
+  spec.DATABASE = spec.db || spec.config.db.name;
+  spec.COLLECTION = spec.collection || spec.config.db.collections.main;
+  spec.ITEMS_PER_PAGE = spec.items_per_page || spec.config.db.itemsPerPage;
+
+  var getItems = function getItems(params) {
+    var db = params.db || spec.DATABASE;
+    var itemsPerPage = params.items_per_page || spec.ITEMS_PER_PAGE;
+    var cursor = db.collection(params.collection || spec.COLLECTION).find(params.query || {}, params.projection || {});
+
+    if (params.sort) {
+      cursor.sort(params.sort);
+    }
+
+    if (params.skip) {
+      cursor.skip(params.skip);
+    }
+
+    return cursor.limit(itemsPerPage).toArray().then(function (docs) {
+      if (itemsPerPage > 1) {
+        return docs;
+      } else {
+        return docs[0];
+      }
+    }).catch(function (err) {
+      return err;
+    });
+  };
+
+  var getItem = function getItem(params) {
+    params.items_per_page = 1;
+    return getItems(params);
+  };
+
+  var setItem = function setItem(params) {
+    var db = params.db || spec.DATABASE;
+    return db.collection(params.collection || spec.COLLECTION).insertOne(params.document).then(function (res) {
+      return res;
+    }).catch(function (err) {
+      return err;
+    });
+  };
+
+  var updateOne = function updateOne(params) {
+    var db = params.db || spec.DATABASE;
+    return db.collection(params.collection || spec.COLLECTION).updateOne(params.query, params.update).then(function (res) {
+      return res;
+    }).catch(function (err) {
+      return err;
+    });
+  };
+
+  var update = function update(params) {
+    var db = params.db || spec.DATABASE;
+    return db.collection(params.collection || spec.COLLECTION).update(params.query, params.update, params.options).then(function (res) {
+      return res;
+    }).catch(function (err) {
+      return err;
+    });
+  };
+
+  var searchItems = function searchItems(params) {
+    var db = params.db || spec.DATABASE;
+    return db.collection(params.collection || spec.COLLECTION)
+    // we project the textScore meta data and then we sort the results by the best matches first
+    .find(params.query, params.projection || { score: { $meta: 'textScore' } }).sort(params.sort || { score: { $meta: 'textScore' } }).skip(params.skip || 0).limit(params.items_per_page || spec.ITEMS_PER_PAGE).toArray().then(function (docs) {
+      return docs;
+    }).catch(function (err) {
+      return err;
+    });
+  };
+
+  var getPagination = function getPagination(params) {
+    var db = params.db || spec.DATABASE;
+    return db.collection(params.collection || spec.COLLECTION).count(params.query || {}).then(function (numItems) {
+      var itemsPerPage = params.items_per_page || spec.ITEMS_PER_PAGE;
+      var numPages = 0;
+      if (numItems > itemsPerPage) {
+        numPages = Math.ceil(numItems / itemsPerPage);
+      }
+      return {
+        pages: numPages,
+        total: numItems
+      };
+    }).catch(function (err) {
+      return err;
+    });
+  };
+
+  var aggregation = function aggregation(params) {
+    var db = params.db || spec.DATABASE;
+    return db.collection(params.collection || spec.COLLECTION).aggregate(params.aggregation).toArray().then(function (data) {
+      return data;
+    }).catch(function (err) {
+      return err;
+    });
+  };
+
+  that.getItems = getItems;
+  that.getItem = getItem;
+  that.setItem = setItem;
+  that.updateOne = updateOne;
+  that.update = update;
+  that.searchItems = searchItems;
+  that.getPagination = getPagination;
+  that.aggregation = aggregation;
+
+  return that;
+};
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+var utils = __webpack_require__(1);
+var smUtils = __webpack_require__(33);
+var config = __webpack_require__(0);
+var fs = __webpack_require__(2);
+var request = __webpack_require__(9);
 var rootXml = config.paths.xml;
 var offers = 'sitemap-offers.xml';
-var pages_name = 'sitemap-pages.xml';
-var stores_name = 'sitemap-stores.xml';
-var categories_name = 'sitemap-categories.xml';
+var pagesName = 'sitemap-pages.xml';
+var storesName = 'sitemap-stores.xml';
+var categoriesName = 'sitemap-categories.xml';
 
 function getData(params) {
   return utils.getCrud().then(function (crud) {
@@ -377,8 +396,8 @@ function smPages() {
     });
   }).then(function (algo) {
     return smUtils.createSitemapFile(compoundSitemap, {
-      sitemap_path: rootXml + '/' + pages_name,
-      sitemapName: pages_name
+      sitemap_path: rootXml + '/' + pagesName,
+      sitemapName: pagesName
     });
   }).catch(function (err) {
     return err;
@@ -395,8 +414,8 @@ function smCategories() {
     });
   }).then(function () {
     return smUtils.createSitemapFile(smCategories, {
-      sitemap_path: rootXml + '/' + categories_name,
-      sitemapName: categories_name
+      sitemap_path: rootXml + '/' + categoriesName,
+      sitemapName: categoriesName
     });
   }).catch(function (err) {
     return err;
@@ -413,8 +432,8 @@ function smStores() {
     });
   }).then(function () {
     return smUtils.createSitemapFile(smStores, {
-      sitemap_path: rootXml + '/' + stores_name,
-      sitemapName: stores_name
+      sitemap_path: rootXml + '/' + storesName,
+      sitemapName: storesName
     });
   }).catch(function (err) {
     return err;
@@ -441,9 +460,8 @@ function smOffers() {
 }
 
 function smIndex() {
-
   var iterable = [new Promise(function (resolve, reject) {
-    fs.stat(rootXml + '/' + pages_name + '.gz', function (err, stat) {
+    fs.stat(rootXml + '/' + pagesName + '.gz', function (err, stat) {
       if (err) {
         reject(err);
       }
@@ -457,14 +475,14 @@ function smIndex() {
       resolve(stat);
     });
   }), new Promise(function (resolve, reject) {
-    fs.stat(rootXml + '/' + stores_name + '.gz', function (err, stat) {
+    fs.stat(rootXml + '/' + storesName + '.gz', function (err, stat) {
       if (err) {
         reject(err);
       }
       resolve(stat);
     });
   }), new Promise(function (resolve, reject) {
-    fs.stat(rootXml + '/' + categories_name + '.gz', function (err, stat) {
+    fs.stat(rootXml + '/' + categoriesName + '.gz', function (err, stat) {
       if (err) {
         reject(err);
       }
@@ -474,7 +492,7 @@ function smIndex() {
 
   return new Promise(function (resolve, reject) {
     Promise.all(iterable).then(function (results) {
-      var content = '<?xml version="1.0" encoding="UTF-8"?>\n        <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n        <sitemap>\n          <loc>' + config.host + '/' + pages_name + '.gz</loc>\n          <lastmod>' + utils.getDate(results[0].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + offers + '.gz</loc>\n          <lastmod>' + utils.getDate(results[1].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + stores_name + '.gz</loc>\n          <lastmod>' + utils.getDate(results[2].mtime) + '</lastmod>\n        </sitemap><sitemap>\n          <loc>' + config.host + '/' + categories_name + '.gz</loc>\n          <lastmod>' + utils.getDate(results[3].mtime) + '</lastmod>\n        </sitemap>\n        </sitemapindex>';
+      var content = '<?xml version="1.0" encoding="UTF-8"?>\n        <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n        <sitemap>\n          <loc>' + config.host + '/' + pagesName + '.gz</loc>\n          <lastmod>' + utils.getDate(results[0].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + offers + '.gz</loc>\n          <lastmod>' + utils.getDate(results[1].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + storesName + '.gz</loc>\n          <lastmod>' + utils.getDate(results[2].mtime) + '</lastmod>\n        </sitemap><sitemap>\n          <loc>' + config.host + '/' + categoriesName + '.gz</loc>\n          <lastmod>' + utils.getDate(results[3].mtime) + '</lastmod>\n        </sitemap>\n        </sitemapindex>';
 
       fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function (err) {
         if (err) {
@@ -536,64 +554,19 @@ module.exports = {
 };
 
 /***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-module.exports = require("wagner-core");
-
-/***/ },
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var MongoClient = __webpack_require__(33).MongoClient;
-
-function getConnection(config) {
-  //connPromise is pending when trying to connect to mongodb atlas
-  // var shards = config.db.shard1 + ',' + config.db.shard2 + ',' + config.db.shard3;
-  // var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + shards + '/' + config.db.name + config.db.queryString;
-  var url = 'mongodb://' + config.db.user + ':' + config.db.password + '@' + config.db.host + '/' + config.db.name;
-
-  return MongoClient.connect(url).then(function (conn) {
-    console.log('It is connected to db: ' + config.db.name + ' in ' + config.db.host);
-    return conn;
-  }).catch(function (err) {
-    console.log(err);
-    return err;
-  });
-}
-
-module.exports = function (wagner) {
-  wagner.invoke(function (config) {
-    var conn = getConnection(config);
-    wagner.factory('conn', function () {
-      return conn;
-    });
-  });
-};
-
-/***/ },
-/* 9 */
 /***/ function(module, exports) {
 
 module.exports = require("node-cron");
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 module.exports = require("request");
 
 /***/ },
-/* 11 */
-/***/ function(module, exports) {
-
-module.exports = require("sitemap");
-
-/***/ },
-/* 12 */
+/* 10 */
 /***/ function(module, exports) {
 
 module.exports = {
@@ -640,263 +613,866 @@ module.exports = {
 };
 
 /***/ },
-/* 13 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
+var router = __webpack_require__(4).Router();
+var config = __webpack_require__(0);
+var conn = __webpack_require__(5)(config);
+var crud = __webpack_require__(6);
+var csm = __webpack_require__(7);
+var feed = __webpack_require__(31);
+var pn = __webpack_require__(32);
 
-var wagner = __webpack_require__(7);
-var home = __webpack_require__(22);
-var categories = __webpack_require__(21);
-var stores = __webpack_require__(25);
-var promotions = __webpack_require__(23);
-var upload = __webpack_require__(26);
-var seo = __webpack_require__(24);
+var home = __webpack_require__(25);
+var categories = __webpack_require__(19);
+var promotions = __webpack_require__(26);
+var stores = __webpack_require__(28);
+var upload = __webpack_require__(29);
+var seo = __webpack_require__(27);
 
-__webpack_require__(1)(wagner);
-__webpack_require__(8)(wagner);
+home({ router: router, crud: crud, conn: conn, config: config });
 
-var router = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
-router.use(home(wagner));
-router.use(categories(wagner));
-router.use(stores(wagner));
-router.use(promotions(wagner));
-router.use(upload(wagner));
-router.use(seo(wagner));
+categories({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: __webpack_require__(20)
+});
+
+promotions({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: __webpack_require__(21),
+  csm: csm,
+  feed: feed,
+  pn: pn
+});
+
+stores({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: __webpack_require__(23),
+  csm: csm
+});
+
+upload({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: __webpack_require__(24)
+});
+
+seo({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: __webpack_require__(22)
+});
 
 /* harmony default export */ exports["a"] = router;
 
 /***/ },
-/* 14 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-var cron = __webpack_require__(9);
-var csm = __webpack_require__(6);
-var utils = __webpack_require__(3);
+var cron = __webpack_require__(8);
+var csm = __webpack_require__(7);
+var utils = __webpack_require__(1);
 
 var schedule = {
-	ping: ping
+  ping: ping
 };
 
 function ping() {
-	//cron.schedule('*/1 * * * *', function (){
-	cron.schedule('1 12 * * *', function () {
-		//run every day at 12:00 hrs
-		utils.checkIfNewOffers().then(function (res) {
-			console.log('sitemaps');
-			if (res && res.news) {
-				csm.ping();
-			}
-			console.log(res);
-		}).catch(function (err) {
-			console.log(err);
-		});
-	});
+  // cron.schedule('*/1 * * * *', function (){
+  cron.schedule('1 12 * * *', function () {
+    // run every day at 12:00 hrs
+    utils.checkIfNewOffers().then(function (res) {
+      console.log('sitemaps');
+      if (res && res.news) {
+        csm.ping();
+      }
+      console.log(res);
+    }).catch(function (err) {
+      console.log(err);
+    });
+  });
 
-	//cron.schedule('*/1 * * * *', function (){
-	cron.schedule('50 23 * * *', function () {
-		//run every day at 23:50 hours
-		utils.checkIfNewOffers().then(function (res) {
-			console.log('sitemaps');
-			if (res && res.news) {
-				console.log(res);
-				csm.ping();
-			}
-		}).catch(function (err) {
-			console.log(err);
-		});
-	});
+  // cron.schedule('*/1 * * * *', function (){
+  cron.schedule('50 23 * * *', function () {
+    // run every day at 23:50 hours
+    utils.checkIfNewOffers().then(function (res) {
+      console.log('sitemaps');
+      if (res && res.news) {
+        console.log(res);
+        csm.ping();
+      }
+    }).catch(function (err) {
+      console.log(err);
+    });
+  });
 }
 
 module.exports = schedule;
 
 /***/ },
-/* 15 */
+/* 13 */
 /***/ function(module, exports) {
 
 module.exports = require("body-parser");
 
 /***/ },
-/* 16 */
+/* 14 */
 /***/ function(module, exports) {
 
 module.exports = require("compression");
 
 /***/ },
-/* 17 */
+/* 15 */
 /***/ function(module, exports) {
 
 module.exports = require("helmet");
 
 /***/ },
-/* 18 */
+/* 16 */
 /***/ function(module, exports) {
 
 module.exports = require("morgan");
 
 /***/ },
-/* 19 */
+/* 17 */
 /***/ function(module, exports) {
 
 module.exports = require("nuxt");
 
 /***/ },
-/* 20 */
+/* 18 */
 /***/ function(module, exports) {
 
 module.exports = require("rotating-file-stream");
 
 /***/ },
-/* 21 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var express = __webpack_require__(0);
-var router = express.Router();
-var CRUD = __webpack_require__(2);
-
-var crudInst;
-var conf;
-module.exports = function (wagner, params) {
-  wagner.invoke(function (conn, config) {
-    conf = config;
-    return conn;
-  }).then(function (db) {
-    crudInst = new CRUD({
-      db: db
-    });
-  }).then(function () {
-    if (crudInst) {
-      _id();
-      index();
+module.exports = function (params) {
+  params.conn.then(function (db) {
+    return params.crud({ db: db, config: params.config });
+  }).then(function (crud) {
+    if (crud) {
+      params.handler({ crud: crud, config: params.config, router: params.router }).getById().getIndex();
     } else {
-      indexNoDB();
+      console.log('There is not database instance');
     }
-  }).catch(function (err) {
+  }).catch(function (error) {
     console.log(error);
   });
-
-  return router;
 };
 
-function _id() {
-  router.get('/categories/:_id', function (req, res) {
-    var page = req.query.page ? Number(req.query.page) : 0;
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
 
-    var iterable = [crudInst.getItems({
-      collection: conf.db.collections.main,
-      query: { 'categories._id': req.params._id },
-      items_per_page: conf.db.itemsPerPage,
-      skip: conf.db.itemsPerPage * page,
-      sort: { published: -1 },
-      projection: {
-        name: 1,
-        thumbnail: 1,
-        stores: 1,
-        slug: 1,
-        img: 1,
-        img_data: 1,
-        img_alt: 1,
-        img_title: 1,
-        published: 1,
-        modified: 1
-      }
-    }), crudInst.getItem({
-      collection: conf.db.collections.categories,
-      query: { _id: req.params._id },
-      projection: { name: 1, thumbnail: 1, slug: 1, content: 1, img: 1, img_alt: 1, img_title: 1, img_data: 1 }
-    }), crudInst.getPagination({
-      query: { 'categories._id': req.params._id },
-      collection: conf.db.collections.main
-    })];
+module.exports = function (spec) {
+  var that = {};
+  spec = spec || {};
 
-    Promise.all(iterable).then(function (results) {
-      res.json({
-        items: results[0],
-        info: results[1],
-        pagination: results[2]
+  function getById() {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+
+    spec.router.get('/categories/:_id', function (req, res) {
+      var page = req.query.page ? Number(req.query.page) : 0;
+
+      var iterable = [crudInst.getItems({
+        collection: conf.db.collections.main,
+        query: { 'categories._id': req.params._id },
+        items_per_page: conf.db.itemsPerPage,
+        skip: conf.db.itemsPerPage * page,
+        sort: { published: -1 },
+        projection: {
+          name: 1,
+          thumbnail: 1,
+          stores: 1,
+          slug: 1,
+          img: 1,
+          img_data: 1,
+          img_alt: 1,
+          img_title: 1,
+          published: 1,
+          modified: 1
+        }
+      }), crudInst.getItem({
+        collection: conf.db.collections.categories,
+        query: { _id: req.params._id },
+        projection: {
+          name: 1,
+          thumbnail: 1,
+          slug: 1,
+          content: 1,
+          img: 1,
+          img_alt: 1,
+          img_title: 1,
+          img_data: 1
+        }
+      }), crudInst.getPagination({
+        query: { 'categories._id': req.params._id },
+        collection: conf.db.collections.main
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          items: results[0],
+          info: results[1],
+          pagination: results[2]
+        });
+      }).catch(function (error) {
+        res.json(error);
       });
-    }).catch(function (error) {
-      res.json(error);
     });
-  });
-}
 
-function index() {
-  router.get('/categories', function (req, res) {
-    var page = req.query.page ? Number(req.query.page) : 0;
-    var iterable = [crudInst.getItems({
-      collection: conf.db.collections.categories,
-      items_per_page: conf.db.itemsPerPage,
-      skip: conf.db.itemsPerPage * page,
-      sort: { name: 1 },
-      projection: {
-        name: 1,
-        slug: 1,
-        thumbnail: 1,
-        img: 1,
-        img_data: 1,
-        img_alt: 1,
-        img_title: 1,
-        published: 1,
-        modified: 1
-      }
-    }), crudInst.getPagination({
-      collection: conf.db.collections.categories
-    })];
+    return that;
+  }
 
-    Promise.all(iterable).then(function (results) {
-      res.json({
-        items: results[0],
-        pagination: results[1]
+  function getIndex(params) {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+
+    spec.router.get('/categories', function (req, res) {
+      var page = req.query.page ? Number(req.query.page) : 0;
+      var iterable = [crudInst.getItems({
+        collection: conf.db.collections.categories,
+        items_per_page: conf.db.itemsPerPage,
+        skip: conf.db.itemsPerPage * page,
+        sort: { name: 1 },
+        projection: {
+          name: 1,
+          slug: 1,
+          thumbnail: 1,
+          img: 1,
+          img_data: 1,
+          img_alt: 1,
+          img_title: 1,
+          published: 1,
+          modified: 1
+        }
+      }), crudInst.getPagination({
+        collection: conf.db.collections.categories
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          items: results[0],
+          pagination: results[1]
+        });
+      }).catch(function (error) {
+        res.json(error);
       });
-    }).catch(function (error) {
-      res.json(error);
     });
-  });
-}
+
+    return that;
+  }
+
+  that.getIndex = getIndex;
+  that.getById = getById;
+
+  return that;
+};
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+/**
+ * Promotions routes and functionality for promotions requests
+ * @param  {Object} spec Dependencies and more parameters for the correct behaviour
+ * @return {Object}
+ */
+module.exports = function (spec) {
+  var that = {};
+  spec = spec || {};
+
+  /**
+   * Manage the Offer request, query by slug property
+   * @return {Object} For cascade purposes
+   */
+  function getBySlug() {
+    spec.router.get('/promotions/:slug', function (req, res) {
+      var iterable = [spec.crud.getItem({
+        collection: spec.config.db.collections.main,
+        query: { slug: req.params.slug },
+        items_per_page: 1
+      })];
+
+      return Promise.all(iterable).then(function (results) {
+        res.json({
+          item: results[0]
+        });
+      }).catch(function (error) {
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
+
+  /**
+   * Manage the request for creating and editing Offers(promotions)
+   * @return {Object} For cascade purposes
+   */
+  function getFormData() {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+    var router = spec.router;
+
+    // formdata for create and edit promotions
+    router.get('/formdata/promotions', function (req, res) {
+      var iterable = [crudInst.getItems({
+        collection: conf.db.collections.secundary,
+        items_per_page: 100,
+        projection: { name: 1 },
+        sort: { name: 1 }
+      }), crudInst.getItems({
+        collection: conf.db.collections.categories,
+        items_per_page: 100,
+        projection: { name: 1 },
+        sort: { name: 1 }
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          stores: results[0],
+          categories: results[1]
+        });
+      }).catch(function (error) {
+        res.json(error);
+      });
+    });
+
+    // get an specific promotion data, query by slug property
+    router.get('/formdata/promotions/:slug', function (req, res) {
+      var iterable = [crudInst.getItem({
+        collection: conf.db.collections.main,
+        query: { slug: req.params.slug },
+        items_per_page: 1
+      }), crudInst.getItems({
+        collection: conf.db.collections.secundary,
+        items_per_page: 100,
+        projection: { name: 1 },
+        sort: { name: 1 }
+      }), crudInst.getItems({
+        collection: conf.db.collections.categories,
+        items_per_page: 100,
+        projection: { name: 1 },
+        sort: { name: 1 }
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          item: results[0],
+          allStores: results[1],
+          allCategories: results[2]
+        });
+      }).catch(function (error) {
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
+
+  /**
+   * Updates each category and store of a promotion, so the modified property is updated.
+   * The modified property is useful for sitemaps, structure data and for users knowing the last update
+   * of the promotion.
+   * @param  {Object} data The object that contains an array of stores and an array of categories
+   * @param  {Date}   date Date for "modified" property for each category and store
+   * @return {Promise}     Promise to know when the task is done
+   */
+  function updateStoresAndCategories(data, date) {
+    var iterable = data.categories.map(function (currCat) {
+      return spec.crud.updateOne({
+        collection: spec.config.db.collections.categories,
+        query: { _id: currCat._id },
+        update: { $set: { modified: date } }
+      });
+    });
+
+    //  We are not using map because then we have to merge with concat and left two arrays of promises running
+    data.stores.forEach(function (currStore) {
+      iterable.push(spec.crud.updateOne({
+        collection: spec.config.db.collections.secundary,
+        query: { _id: currStore._id },
+        update: { $set: { modified: date } }
+      }));
+    });
+
+    return Promise.all(iterable);
+  }
+
+  function updateSitemaps() {
+    var csm = spec.csm;
+
+    //  Update sitemaps
+    return new Promise(function (resolve, reject) {
+      return Promise.all([csm.pages(), csm.offers(), csm.stores(), csm.categories()]).then(function (results) {
+        if (results && results.length > 0) {
+          csm.index().then(function (res) {
+            resolve(res);
+          });
+        }
+      }).catch(function (err) {
+        reject(Error(err));
+      });
+    });
+  }
+
+  function sendPushNotification(data) {
+    //  Push notifications
+    spec.pn.all({
+      title: data.title,
+      url: spec.config.host + spec.config.routes.main + '/' + data.slug,
+      message: data.meta_description
+
+      //  @TODO: To set an image to the notifications using pushcrew, we need to create an PNG imgage 192X192
+      //  ,image_url: data.thumbnail
+    });
+  }
+
+  /**
+   * Creates or update an Offer(promotion), when editing the query is by slug
+   * @param  {[type]} params Until now it contains the path of the request
+   * @return {Object}        For cascade purpose
+   */
+  function save(params) {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+
+    spec.router.post(params.path, function (req, res) {
+      var rightNow = new Date();
+      var missingData = { modified: rightNow };
+      var data = Object.assign(missingData, req.body);
+
+      if (!Object.hasOwnProperty('published')) {
+        data.published = rightNow;
+      }
+
+      crudInst.update({
+        collection: conf.db.collections.main,
+        query: { slug: req.params.slug },
+        update: { $set: data },
+        options: {
+          upsert: true
+        }
+      }).then(function (dbResponse) {
+        //  return response to client with res object
+        res.json(dbResponse);
+        return dbResponse;
+      }).catch(function (err) {
+        console.log('Ocurrió un error al tratar de Guardar una promoción:');
+        console.log(err);
+        res.json(err);
+      }).then(function (dbResponse) {
+        if (dbResponse.result && dbResponse.result.ok) {
+          sendPushNotification(data);
+
+          return crudInst.update({
+            collection: conf.db.collections.pages,
+            query: {},
+            update: { $set: { modified: rightNow } },
+            options: { multi: true }
+          });
+        }
+      }).catch(function (err) {
+        console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:');
+        console.log(err);
+      }).then(function (dbResponse) {
+        if (dbResponse && dbResponse.result && dbResponse.result.ok) {
+          return updateStoresAndCategories({
+            stores: data.stores,
+            categories: data.categories
+          }, rightNow);
+        } else {
+          return Error(dbResponse);
+        }
+      }).catch(function (err) {
+        console.log('Ocurrió un error al tratar de actualizar tiendas y categorias despues de guardar una promoción:');
+        console.log(err);
+      }).then(function (results) {
+        if (results && results.length > 0) {
+          //  Update feed
+          spec.feed.create();
+          return updateSitemaps();
+        }
+      }).catch(function (err) {
+        console.log('Ocurrió un error al tratar de actualizar los sitemas y el feed despues de guardar una promoción:');
+        console.log(err);
+      });
+    });
+
+    return that;
+  }
+
+  that.save = save;
+  that.getFormData = getFormData;
+  that.getBySlug = getBySlug;
+
+  return that;
+};
 
 /***/ },
 /* 22 */
+/***/ function(module, exports) {
+
+module.exports = function (spec) {
+  var that = {};
+  spec = spec || {};
+
+  function get() {
+    spec.router.get('/seo/:id', function (req, res) {
+      spec.crud.getItem({
+        collection: spec.config.db.collections.seo,
+        query: { _id: req.params.id }
+      }).then(function (dbRes) {
+        res.json(dbRes);
+        return dbRes;
+      }).catch(function (err) {
+        console.log('Ocurrió un error al tratar de conseguir la configuracion seo de tiendas:');
+        console.log(err);
+        res.json(err);
+      });
+    });
+
+    return that;
+  }
+
+  function save() {
+    spec.router.post('/seo/:id', function (req, res) {
+      var rightNow = new Date();
+      var missingData = { modified: rightNow };
+
+      if (!req.body.hasOwnProperty('date')) {
+        missingData.date = rightNow;
+      }
+
+      spec.crud.update({
+        collection: spec.config.db.collections.seo,
+        query: { _id: req.params.id },
+        update: { $set: Object.assign(missingData, req.body) },
+        options: { upsert: true }
+      }).then(function (dbRes) {
+        res.json(dbRes);
+        return dbRes;
+      }).catch(function (err) {
+        console.log('Ocurrió un error al tratar de Guardar la configuracion seo de tiendas:');
+        console.log(err);
+        res.json(err);
+      });
+    });
+
+    return that;
+  }
+
+  that.get = get;
+  that.save = save;
+
+  return that;
+};
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+module.exports = function (spec) {
+  var that = {};
+  spec = spec || {};
+
+  function getById(params) {
+    var crudInst = spec.crud;
+    var conf = spec.config;
+
+    spec.router.get('/stores/:_id', function (req, res) {
+      var page = req.query.page ? Number(req.query.page) : 0;
+      var iterable = [crudInst.getItems({
+        collection: conf.db.collections.main,
+        query: { 'stores._id': req.params._id },
+        items_per_page: conf.db.itemsPerPage,
+        skip: conf.db.itemsPerPage * page,
+        sort: { published: -1 },
+        projection: {
+          name: 1,
+          thumbnail: 1,
+          stores: 1,
+          slug: 1,
+          img: 1,
+          img_data: 1,
+          img_alt: 1,
+          img_title: 1,
+          categories: 1,
+          published: 1,
+          modified: 1
+        }
+      }), crudInst.getItem({
+        collection: conf.db.collections.secundary,
+        query: { _id: req.params._id },
+        projection: { name: 1, thumbnail: 1, slug: 1, content: 1, url_site: 1, img: 1, img_alt: 1, img_title: 1, img_data: 1 }
+      }), crudInst.getPagination({
+        query: { 'stores._id': req.params._id },
+        collection: conf.db.collections.main
+      }), crudInst.getItem({
+        collection: conf.db.collections.seo,
+        query: { _id: 'stores' }
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          items: results[0],
+          info: results[1],
+          pagination: results[2],
+          seo: results[3]
+        });
+      }).catch(function (error) {
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
+
+  function getIndex(params) {
+    var crudInst = spec.crud;
+    var conf = spec.config;
+
+    spec.router.get('/stores', function (req, res) {
+      var page = req.query.page ? Number(req.query.page) : 0;
+      var iterable = [crudInst.getItems({
+        collection: conf.db.collections.secundary,
+        items_per_page: conf.db.itemsPerPage,
+        skip: conf.db.itemsPerPage * page,
+        sort: { name: 1 },
+        projection: {
+          name: 1,
+          slug: 1,
+          thumbnail: 1,
+          img: 1,
+          img_data: 1,
+          img_alt: 1,
+          img_title: 1,
+          published: 1,
+          modified: 1
+        }
+      }), crudInst.getPagination({
+        collection: conf.db.collections.secundary
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          items: results[0],
+          pagination: results[1]
+        });
+      }).catch(function (error) {
+        console.log(error);
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
+
+  function save(params) {
+    var crudInst = spec.crud;
+    var conf = spec.config;
+
+    spec.router.post('/stores/new', function (req, res) {
+      var rightNow = new Date();
+      var data = Object.assign({ modified: rightNow, published: rightNow, _id: req.body.slug }, req.body);
+      crudInst.setItem({
+        collection: conf.db.collections.secundary,
+        document: data
+      }).then(function (dbResponse) {
+        res.json(dbResponse);
+        return dbResponse;
+      }).catch(function (err) {
+        console.log('Ocurrió un error al tratar de Guardar una Tienda:');
+        console.log(err);
+        res.json(err);
+      }).then(function (dbResponse) {
+        if (dbResponse.result && dbResponse.result.ok) {
+          return crudInst.updateOne({
+            collection: conf.db.collections.pages,
+            query: { slug: '/tiendas' },
+            update: { $set: { modified: rightNow } }
+          });
+        }
+      }).catch(function (err) {
+        console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:');
+        console.log(err);
+      }).then(function (dbResponse) {
+        if (dbResponse.result && dbResponse.result.ok) {
+          return true;
+        } else {
+          return Error(dbResponse);
+        }
+      }).then(function (result) {
+        if (result === true) {
+          Promise.all([spec.csm.stores(), spec.csm.pages()]).then(function (results) {
+            if (results && results.length > 0) {
+              return spec.csm.index();
+            }
+          }).catch(function (err) {
+            console.log(err);
+            return err;
+          });
+        } else {
+          console.log(result);
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+    });
+
+    return that;
+  }
+
+  that.save = save;
+  that.getById = getById;
+  that.getIndex = getIndex;
+
+  return that;
+};
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+var mkdirp = __webpack_require__(35);
+var path = __webpack_require__(3);
+var multer = __webpack_require__(37);
+var jimp = __webpack_require__(34);
+
+module.exports = function (spec) {
+  var that = {};
+  spec = spec || {};
+
+  function getPath(file) {
+    var date = new Date();
+    var finalPath = path.join(spec.config.paths.static + '/uploads/' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
+    if (file && file.hasOwnProperty('originalname')) {
+      finalPath = finalPath + '/{file.originalname}';
+    }
+    return finalPath;
+  }
+
+  function mkdirPromise(pathFile) {
+    return new Promise(function (resolve, reject) {
+      mkdirp(pathFile, function (err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve('Directorio creado: ' + pathFile);
+        }
+      });
+    });
+  }
+
+  var storage = multer.diskStorage({
+    destination: function destination(req, file, callback) {
+      var pathFile = getPath();
+      mkdirPromise(pathFile).then(function (success) {
+        callback(null, pathFile);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    filename: function filename(req, file, callback) {
+      callback(null, file.originalname);
+    }
+  });
+
+  var multerUpload = multer({ storage: storage }).array('offerFile', 3); // Field name and max count
+
+  function upload() {
+    spec.router.post('/upload', function (req, res) {
+      return multerUpload(req, res, function (error) {
+        if (error) {
+          res.json(error);
+        }
+
+        if (req.files && req.files[0] && req.files[0].hasOwnProperty('originalname')) {
+          var _path = getPath();
+          var file = req.files[0];
+          var originalName = file.originalname;
+          var name = originalName.split('.')[0];
+          var extension = originalName.split('.')[1];
+          var filePath = _path + '/' + originalName;
+          var finalRootPath = _path.split(spec.config.paths.static)[1];
+
+          jimp.read(filePath).then(function (img) {
+            return img.scaleToFit(300, 300) // resize
+            .quality(50) // set JPEG quality
+            .write(_path + '/' + name + '_thumb.' + extension); // save
+          }).then(function (result) {
+            res.json({
+              success: true,
+              img: spec.config.host + filePath.split(spec.config.paths.static)[1],
+              thumbnail: '' + spec.config.host + finalRootPath + '/' + name + '_thumb.' + extension
+            });
+          }).catch(function (err) {
+            console.log('Error al tratar de Guardar o Leer la imagen');
+            console.log(err);
+            res.json({ success: false, msg: 'Ocurrio un error al guardar la imagen revisar con el desarrollador' });
+          });
+        } else {
+          res.json({ success: false, msg: 'No obtuvimos ningun archivo de la peticón' });
+        }
+      });
+    });
+  }
+
+  that.upload = upload;
+
+  return that;
+};
+
+/***/ },
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var express = __webpack_require__(0);
-var router = express.Router();
-var CRUD = __webpack_require__(2);
-var crudInst;
-var conf;
-
-module.exports = function (wagner, params) {
-  wagner.invoke(function (conn, config) {
-    conf = config;
-    return conn;
-  }).then(function (db) {
-    crudInst = new CRUD({
-      db: db
-    });
-  }).then(function () {
-    if (crudInst) {
-      index();
+module.exports = function (params) {
+  params.conn.then(function (db) {
+    return params.crud({ db: db, config: params.config });
+  }).then(function (crud) {
+    if (crud) {
+      index({ crud: crud, config: params.config, router: params.router });
     } else {
-      indexNoDB();
+      console.log('There is not database instance');
     }
   }).catch(function (err) {
-    //some configuration to notify no database connection working
+    // some configuration to notify no database connection working
     console.log(err);
   });
-
-  return router;
 };
 
-function index() {
-  router.get('/home', function (req, res) {
+// We can define functions after use them because of function hoisting
+function index(params) {
+  var crudInst = params.crud;
+  var conf = params.config;
+  params.router.get('/home', function (req, res) {
     var page = req.query.page ? Number(req.query.page) : 0;
     var iterable = [crudInst.getItems({
       collection: conf.db.collections.main,
@@ -932,568 +1508,106 @@ function index() {
 }
 
 /***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var express = __webpack_require__(0);
-var router = express.Router();
-var CRUD = __webpack_require__(2);
-var csm = __webpack_require__(6);
-var feed = __webpack_require__(28);
-var pn = __webpack_require__(29);
-
-var crudInst;
-var conf;
-module.exports = function (wagner, params) {
-  wagner.invoke(function (conn, config) {
-    conf = config;
-    return conn;
-  }).then(function (db) {
-    crudInst = new CRUD({
-      db: db
-    });
-  }).then(function () {
-    if (crudInst) {
-      slug();
-      getFormDataPromotions();
-      savePromotion('create', function (data, req) {
-        return crudInst.setItem({ collection: conf.db.collections.main, document: data });
-      });
-      savePromotion('update', function (data, req) {
-        return crudInst.updateOne({ collection: conf.db.collections.main, query: { slug: req.params.slug }, update: { $set: data } });
-      });
-    }
-  }).catch(function (err) {
-    //some configuration to notify no database connection working
-    console.log(err);
-  });
-
-  return router;
-};
-
-function slug() {
-  router.get('/promotions/:slug', function (req, res) {
-    var iterable = [crudInst.getItem({
-      collection: conf.db.collections.main,
-      query: { slug: req.params.slug },
-      items_per_page: 1
-    })];
-
-    return Promise.all(iterable).then(function (results) {
-      res.json({
-        item: results[0]
-      });
-    }).catch(function (error) {
-      res.json(error);
-    });
-  });
-}
-
-function getFormDataPromotions() {
-  router.get('/formdata/promotions', function (req, res) {
-    var iterable = [crudInst.getItems({
-      collection: conf.db.collections.secundary,
-      items_per_page: 100,
-      projection: { name: 1 },
-      sort: { name: 1 }
-    }), crudInst.getItems({
-      collection: conf.db.collections.categories,
-      items_per_page: 100,
-      projection: { name: 1 },
-      sort: { name: 1 }
-    })];
-
-    Promise.all(iterable).then(function (results) {
-      res.json({
-        stores: results[0],
-        categories: results[1]
-      });
-    }).catch(function (error) {
-      res.json(error);
-    });
-  });
-
-  router.get('/formdata/promotions/:slug', function (req, res) {
-    var iterable = [crudInst.getItem({
-      collection: conf.db.collections.main,
-      query: { slug: req.params.slug },
-      items_per_page: 1
-    }), crudInst.getItems({
-      collection: conf.db.collections.secundary,
-      items_per_page: 100,
-      projection: { name: 1 },
-      sort: { name: 1 }
-    }), crudInst.getItems({
-      collection: conf.db.collections.categories,
-      items_per_page: 100,
-      projection: { name: 1 },
-      sort: { name: 1 }
-    })];
-
-    Promise.all(iterable).then(function (results) {
-      res.json({
-        item: results[0],
-        allStores: results[1],
-        allCategories: results[2]
-      });
-    }).catch(function (error) {
-      res.json(error);
-    });
-  });
-}
-
-function updateStoresAndCategories(data, date) {
-  var iterable = data.categories.map(function (currCat) {
-    return crudInst.updateOne({ collection: conf.db.collections.categories, query: { _id: currCat._id }, update: { $set: { modified: date } } });
-  });
-  //We are not using map because then we have to merge with concat and left two arrays of promises running
-  data.stores.forEach(function (currStore) {
-    iterable.push(crudInst.updateOne({ collection: conf.db.collections.secundary, query: { _id: currStore._id }, update: { $set: { modified: date } } }));
-  });
-
-  return Promise.all(iterable);
-}
-function updateSitemaps() {
-  //Update sitemaps
-  return new Promise(function (resolve, reject) {
-    return Promise.all([csm.pages(), csm.offers(), csm.stores(), csm.categories()]).then(function (results) {
-      if (results && results.length > 0) {
-        csm.index().then(function (res) {
-          resolve(res);
-        });
-      }
-    }).catch(function (err) {
-      reject(Error(err));
-    });
-  });
-}
-function sendPushNotification(data) {
-  //Push notifications
-  pn.all({
-    title: data.title,
-    url: conf.host + conf.routes.main + '/' + data.slug,
-    message: data.meta_description
-    //@TODO: To set an image to the notifications using pushcrew, we need to create an PNG imgage 192X192
-    //,image_url: data.thumbnail
-  });
-}
-function savePromotion(operation, cb) {
-  var urls = { create: '/promotions/new', update: '/promotions/edit/:slug' };
-  router.post(urls[operation], function (req, res) {
-    var rightNow = new Date(),
-        missingData = { modified: rightNow };
-    if (operation === 'create') {
-      missingData.published = rightNow;
-    }
-    var data = Object.assign(missingData, req.body);
-    cb(data, req).then(function (dbResponse) {
-      res.json(dbResponse);
-      return dbResponse;
-    }).catch(function (err) {
-      console.log('Ocurrió un error al tratar de Guardar una promoción:');
-      console.log(err);
-      res.json(err);
-    }).then(function (dbResponse) {
-      if (dbResponse.result && dbResponse.result.ok) {
-        sendPushNotification(data);
-        return crudInst.update({
-          collection: conf.db.collections.pages,
-          query: {},
-          update: { $set: { modified: rightNow } },
-          options: { multi: true }
-        });
-      }
-    }).catch(function (err) {
-      console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:');
-      console.log(err);
-    }).then(function (dbResponse) {
-      if (dbResponse && dbResponse.result && dbResponse.result.ok) {
-        return updateStoresAndCategories({ stores: data.stores, categories: data.categories }, rightNow);
-      } else {
-        return Error(dbResponse);
-      }
-    }).catch(function (err) {
-      console.log('Ocurrió un error al tratar de actualizar tiendas y categorias despues de guardar una promoción:');
-      console.log(err);
-    }).then(function (results) {
-      if (results && results.length > 0) {
-        //Update feed
-        feed.create();
-        return updateSitemaps();
-      }
-    }).catch(function (err) {
-      console.log('Ocurrió un error al tratar de actualizar los sitemas y el feed despues de guardar una promoción:');
-      console.log(err);
-    });
-  });
-}
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var express = __webpack_require__(0);
-var router = express.Router();
-var CRUD = __webpack_require__(2);
-var crudInst;
-var conf;
-
-module.exports = function (wagner, params) {
-  wagner.invoke(function (conn, config) {
-    conf = config;
-    return conn;
-  }).then(function (db) {
-    crudInst = new CRUD({
-      db: db
-    });
-  }).then(function () {
-    if (crudInst) {
-      save();
-      get();
-    }
-  }).catch(function (err) {
-    //some configuration to notify no database connection working
-    console.log(err);
-  });
-
-  return router;
-};
-
-function get() {
-  router.get('/seo/:id', function (req, res) {
-    crudInst.getItem({
-      collection: conf.db.collections.seo,
-      query: { _id: req.params.id }
-    }).then(function (dbRes) {
-      res.json(dbRes);
-      return dbRes;
-    }).catch(function (err) {
-      console.log('Ocurrió un error al tratar de conseguir la configuracion seo de tiendas:');
-      console.log(err);
-      res.json(err);
-    });
-  });
-}
-
-function save() {
-  router.post('/seo/:id', function (req, res) {
-    var rightNow = new Date();
-    var missingData = { modified: rightNow };
-
-    if (!req.body.date) {
-      missingData.date = rightNow;
-    }
-
-    crudInst.update({
-      collection: conf.db.collections.seo,
-      query: { _id: req.params.id },
-      update: Object.assign(missingData, req.body),
-      options: { upsert: true }
-    }).then(function (dbRes) {
-      res.json(dbRes);
-      return dbRes;
-    }).catch(function (err) {
-      console.log('Ocurrió un error al tratar de Guardar la configuracion seo de tiendas:');
-      console.log(err);
-      res.json(err);
-    });
-  });
-}
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var express = __webpack_require__(0);
-var router = express.Router();
-var CRUD = __webpack_require__(2);
-var csm = __webpack_require__(6);
-var crudInst;
-var conf;
-
-module.exports = function (wagner, params) {
-  wagner.invoke(function (conn, config) {
-    conf = config;
-    return conn;
-  }).then(function (db) {
-    crudInst = new CRUD({
-      db: db
-    });
-  }).then(function () {
-    if (crudInst) {
-      _id();
-      index();
-      createStore();
-    }
-  }).catch(function (err) {
-    //some configuration to notify no database connection working
-    console.log(err);
-  });
-
-  return router;
-};
-
-function _id() {
-  router.get('/stores/:_id', function (req, res) {
-    var page = req.query.page ? Number(req.query.page) : 0;
-    var iterable = [crudInst.getItems({
-      collection: conf.db.collections.main,
-      query: { 'stores._id': req.params._id },
-      items_per_page: conf.db.itemsPerPage,
-      skip: conf.db.itemsPerPage * page,
-      sort: { published: -1 },
-      projection: {
-        name: 1,
-        thumbnail: 1,
-        stores: 1,
-        slug: 1,
-        img: 1,
-        img_data: 1,
-        img_alt: 1,
-        img_title: 1,
-        categories: 1,
-        published: 1,
-        modified: 1
-      }
-    }), crudInst.getItem({
-      collection: conf.db.collections.secundary,
-      query: { _id: req.params._id },
-      projection: { name: 1, thumbnail: 1, slug: 1, content: 1, url_site: 1, img: 1, img_alt: 1, img_title: 1, img_data: 1 }
-    }), crudInst.getPagination({
-      query: { 'stores._id': req.params._id },
-      collection: conf.db.collections.main
-    }), crudInst.getItem({
-      collection: conf.db.collections.seo,
-      query: { _id: 'stores' }
-    })];
-
-    Promise.all(iterable).then(function (results) {
-      res.json({
-        items: results[0],
-        info: results[1],
-        pagination: results[2],
-        seo: results[3]
-      });
-    }).catch(function (error) {
-      res.json(error);
-    });
-  });
-}
-
-function index() {
-  router.get('/stores', function (req, res) {
-    var page = req.query.page ? Number(req.query.page) : 0;
-    var iterable = [crudInst.getItems({
-      collection: conf.db.collections.secundary,
-      items_per_page: conf.db.itemsPerPage,
-      skip: conf.db.itemsPerPage * page,
-      sort: { name: 1 },
-      projection: {
-        name: 1,
-        slug: 1,
-        thumbnail: 1,
-        img: 1,
-        img_data: 1,
-        img_alt: 1,
-        img_title: 1,
-        published: 1,
-        modified: 1
-      }
-    }), crudInst.getPagination({
-      collection: conf.db.collections.secundary
-    })];
-
-    Promise.all(iterable).then(function (results) {
-      res.json({
-        items: results[0],
-        pagination: results[1]
-      });
-    }).catch(function (error) {
-      console.log(error);
-      res.json(error);
-    });
-  });
-}
-
-function createStore() {
-  router.post('/stores/new', function (req, res) {
-    var rightNow = new Date();
-    var data = Object.assign({ modified: rightNow, published: rightNow, _id: req.body.slug }, req.body);
-    crudInst.setItem({
-      collection: conf.db.collections.secundary,
-      document: data
-    }).then(function (dbResponse) {
-      res.json(dbResponse);
-      return dbResponse;
-    }).catch(function (err) {
-      console.log('Ocurrió un error al tratar de Guardar una Tienda:');
-      console.log(err);
-      res.json(err);
-    }).then(function (dbResponse) {
-      if (dbResponse.result && dbResponse.result.ok) {
-        return crudInst.updateOne({
-          collection: conf.db.collections.pages,
-          query: { slug: '/tiendas' },
-          update: { $set: { modified: rightNow } }
-        });
-      }
-    }).catch(function (err) {
-      console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:');
-      console.log(err);
-    }).then(function (dbResponse) {
-      if (dbResponse.result && dbResponse.result.ok) {
-        return true;
-      } else {
-        return Error(dbResponse);
-      }
-    }).then(function (result) {
-      if (result === true) {
-        Promise.all([csm.stores(), csm.pages()]).then(function (results) {
-          if (results && results.length > 0) {
-            return csm.index();
-          }
-        }).catch(function (err) {
-          console.log(err);
-          return err;
-        });
-      } else {
-        console.log(result);
-      }
-    }).catch(function (err) {
-      console.log(err);
-    });
-  });
-}
-
-/***/ },
 /* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_multer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_multer__);
 
 
-var express = __webpack_require__(0);
-var router = express.Router();
-var CRUD = __webpack_require__(2);
-var mkdirp = __webpack_require__(32);
-var path = __webpack_require__(5);
 
-var jimp = __webpack_require__(31);
-
-var crudInst;
-var conf;
-var rootPathUploads = '/home/jaime/static';
-module.exports = function (wagner, params) {
-  wagner.invoke(function (conn, config) {
-    conf = config;
-    return conn;
-  }).then(function (db) {
-    crudInst = new CRUD({
-      db: db
-    });
-  }).then(function () {
-    if (crudInst) {
-      upload();
+module.exports = function (params) {
+  params.conn.then(function (db) {
+    return params.crud({ db: db, config: params.config });
+  }).then(function (crud) {
+    if (crud) {
+      params.handler({
+        crud: crud,
+        config: params.config,
+        router: params.router,
+        csm: params.csm,
+        feed: params.feed,
+        pn: params.pn
+      }).getBySlug().getFormData().save({ path: '/promotions/new' }) // Create new Offer
+      .save({ path: '/promotions/edit/:slug' }); // Edit an Offer
     }
   }).catch(function (err) {
-    //some configuration to notify no database connection working
+    // some configuration to notify no database connection working
     console.log(err);
   });
-
-  return router;
 };
-
-function getPath(file) {
-  var date = new Date();
-  var finalPath = path.join(rootPathUploads + '/uploads/' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
-  if (file) {
-    finalPath = finalPath + '/{file.originalname}';
-  }
-  return finalPath;
-}
-
-function upload() {
-  router.post('/upload', function (req, res) {
-    return multerUpload(req, res, function (err) {
-      if (err) {
-        res.json(error);
-      }
-
-      if (req.files && req.files[0]) {
-        var path = getPath();
-        var file = req.files[0];
-        var originalName = file.originalname;
-        var name = originalName.split('.')[0];
-        var extension = originalName.split('.')[1];
-        var filePath = path + '/' + originalName;
-        var finalRootPath = path.split(rootPathUploads)[1];
-
-        jimp.read(filePath).then(function (img) {
-          return img.scaleToFit(300, 300) // resize
-          .quality(50) // set JPEG quality
-          .write(path + '/' + name + '_thumb.' + extension); // save
-        }).then(function (result) {
-          res.json({ success: true, img: conf.host + filePath.split(rootPathUploads)[1], thumbnail: '' + conf.host + finalRootPath + '/' + name + '_thumb.' + extension });
-        }).catch(function (err) {
-          res.json(err);
-        });
-      } else {
-        res.json({ success: false, msg: 'No obtuvimos ningun archivo de la peticón' });
-      }
-    });
-  });
-}
-
-var storage = __WEBPACK_IMPORTED_MODULE_0_multer___default.a.diskStorage({
-  destination: function destination(req, file, callback) {
-    var pathFile = getPath();
-    mkdirPromise(pathFile).then(function (success) {
-      callback(null, pathFile);
-    }).catch(function (err) {
-      console.log(err);
-    });
-  },
-  filename: function filename(req, file, callback) {
-    callback(null, file.originalname);
-  }
-});
-
-var multerUpload = __WEBPACK_IMPORTED_MODULE_0_multer___default()({ storage: storage }).array("offerFile", 3); //Field name and max count
-
-function mkdirPromise(pathFile) {
-  return new Promise(function (resolve, reject) {
-    mkdirp(pathFile, function (err) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve('Directorio creado: ' + pathFile);
-      }
-    });
-  });
-}
 
 /***/ },
 /* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (params) {
+  params.conn.then(function (db) {
+    return params.crud({ db: db, config: params.config });
+  }).then(function (crud) {
+    if (crud) {
+      params.handler({ crud: crud, config: params.config, router: params.router }).save().get();
+    }
+  }).catch(function (err) {
+    // some configuration to notify no database connection working
+    console.log(err);
+  });
+};
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (params) {
+  params.conn.then(function (db) {
+    return params.crud({ db: db, config: params.config });
+  }).then(function (crud) {
+    if (crud) {
+      params.handler({ crud: crud, router: params.router, config: params.config, csm: params.csm }).getById().getIndex().save();
+    }
+  }).catch(function (err) {
+    // some configuration to notify no database connection working
+    console.log(err);
+  });
+};
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (params) {
+  params.conn.then(function (db) {
+    return params.crud({ db: db, config: params.config });
+  }).then(function (crud) {
+    if (crud) {
+      params.handler({ crud: crud, config: params.config, router: params.router }).upload();
+    } else {
+      console.log('There is no crud instance');
+    }
+  }).catch(function (err) {
+    // some configuration to notify no database connection working
+    console.log(err);
+  });
+};
+
+/***/ },
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var xml = __webpack_require__(36);
-var utils = __webpack_require__(3);
+var xml = __webpack_require__(40);
+var utils = __webpack_require__(1);
 
 var GENERATOR = 'Feed for Node.js';
 var DOCTYPE = '<?xml version="1.0" encoding="utf-8"?>\n';
@@ -1574,7 +1688,7 @@ var Feed = function () {
       // link (rel="self")
       var atomLink = options.feed || options.feedLinks && options.feedLinks.atom;
       if (atomLink) {
-        feed.push({ "link": { _attr: { rel: 'self', href: atomLink } } });
+        feed.push({ 'link': { _attr: { rel: 'self', href: atomLink } } });
       }
 
       // link (rel="hub")
@@ -1777,7 +1891,7 @@ var Feed = function () {
         isAtom = true;
 
         channel.push({
-          "atom:link": {
+          'atom:link': {
             _attr: {
               href: atomLink,
               rel: 'self',
@@ -1794,7 +1908,7 @@ var Feed = function () {
       if (options.hub) {
         isAtom = true;
         channel.push({
-          "atom:link": {
+          'atom:link': {
             _attr: {
               href: options.hub,
               rel: 'hub'
@@ -1968,158 +2082,157 @@ var Feed = function () {
 module.exports = Feed;
 
 /***/ },
-/* 28 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-var config = __webpack_require__(1).config;
-var Feed = __webpack_require__(27);
-var fs = __webpack_require__(4);
-var striptags = __webpack_require__(35);
-var utils = __webpack_require__(3);
-var cron = __webpack_require__(9);
+var config = __webpack_require__(0);
+var Feed = __webpack_require__(30);
+var fs = __webpack_require__(2);
+var striptags = __webpack_require__(39);
+var utils = __webpack_require__(1);
+var cron = __webpack_require__(8);
 
 var rootFeed = config.paths.feed;
 
 module.exports = {
-	create: function create() {
-		utils.getCrud().then(function (crud) {
-			return crud.getItems({
-				collection: config.db.collections.main,
-				items_per_page: 10,
-				sort: { published: -1 }
-			});
-		}).then(function (docs) {
-			var feedXml = new Feed({
-				title: 'Ofertadeo',
-				description: 'Nuevas ofertas',
-				link: config.host,
-				image: config.host + '/logo.png',
-				favicon: config.host + '/favicons/favicon.ico',
-				copyright: 'Ofertadeo',
-				updated: new Date(),
-				generator: 'ofertadeo',
-				feedLinks: {
-					json: config.host + '/feed/feed-json.json',
-					atom: config.host + '/feed/feed-atom.xml'
-				}
-			});
+  create: function create() {
+    utils.getCrud().then(function (crud) {
+      return crud.getItems({
+        collection: config.db.collections.main,
+        items_per_page: 10,
+        sort: { published: -1 }
+      });
+    }).then(function (docs) {
+      var feedXml = new Feed({
+        title: 'Ofertadeo',
+        description: 'Nuevas ofertas',
+        link: config.host,
+        image: config.host + '/logo.png',
+        favicon: config.host + '/favicons/favicon.ico',
+        copyright: 'Ofertadeo',
+        updated: new Date(),
+        generator: 'ofertadeo',
+        feedLinks: {
+          json: config.host + '/feed/feed-json.json',
+          atom: config.host + '/feed/feed-atom.xml'
+        }
+      });
 
-			docs.forEach(function (doc) {
-				var content = striptags(doc.content);
-				var description = content.slice(0, 150);
-				if (description.length === 150) {
-					description += '...';
-				}
-				feedXml.addItem({
-					title: doc.title,
-					link: config.host + config.routes.main + '/' + doc.slug,
-					description: description,
-					content: doc.content,
-					category: doc.categories[0],
-					date: doc.published,
-					image: doc.img
-				});
-			});
+      docs.forEach(function (doc) {
+        var content = striptags(doc.content);
+        var description = content.slice(0, 150);
+        if (description.length === 150) {
+          description += '...';
+        }
+        feedXml.addItem({
+          title: doc.title,
+          link: config.host + config.routes.main + '/' + doc.slug,
+          description: description,
+          content: doc.content,
+          category: doc.categories[0],
+          date: doc.published,
+          image: doc.img
+        });
+      });
 
-			fs.writeFile(rootFeed + '/feed-rss2.xml', feedXml.rss2(), 'utf8', function (err) {
-				if (err) {
-					return console.log(err);
-				}
-				console.log('RSS2 was created :=)');
-			});
+      fs.writeFile(rootFeed + '/feed-rss2.xml', feedXml.rss2(), 'utf8', function (err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log('RSS2 was created :=)');
+      });
 
-			fs.writeFile(rootFeed + '/feed-atom.xml', feedXml.atom1(), 'utf8', function (err) {
-				if (err) {
-					return console.log(err);
-				}
-				console.log('Atom was created :=)');
-			});
+      fs.writeFile(rootFeed + '/feed-atom.xml', feedXml.atom1(), 'utf8', function (err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log('Atom was created :=)');
+      });
 
-			fs.writeFile(rootFeed + '/feed-json.json', feedXml.atom1(), 'utf8', function (err) {
-				if (err) {
-					return console.log(err);
-				}
-				console.log('JSON was created :=)');
-			});
-		}).then(function () {
-			console.log('OK');
-		}).catch(function (err) {
-			console.log(err);
-		});
-	},
-	schedule: function schedule() {
-		var index = this;
-		//cron.schedule('*/1 * * * *', function (){
-		cron.schedule('1 12 * * *', function () {
-			//run every day at 12:00 hrs
-			utils.checkIfNewOffers().then(function (res) {
-				console.log('feedburne');
-				if (res && res.news) {
-					index.create();
-				}
-				console.log(res);
-			}).catch(function (err) {
-				console.log(err);
-			});
-		});
+      fs.writeFile(rootFeed + '/feed-json.json', feedXml.atom1(), 'utf8', function (err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log('JSON was created :=)');
+      });
+    }).then(function () {
+      console.log('OK');
+    }).catch(function (err) {
+      console.log(err);
+    });
+  },
+  schedule: function schedule() {
+    var index = this;
+    // cron.schedule('*/1 * * * *', function (){
+    cron.schedule('1 12 * * *', function () {
+      // run every day at 12:00 hrs
+      utils.checkIfNewOffers().then(function (res) {
+        console.log('feedburne');
+        if (res && res.news) {
+          index.create();
+        }
+        console.log(res);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    });
 
-		//cron.schedule('*/1 * * * *', function (){
-		cron.schedule('50 23 * * *', function () {
-			//run every day at 23:50 hours
-			utils.checkIfNewOffers().then(function (res) {
-				console.log('feedburne');
-				if (res && res.news) {
-					index.create();
-				}
-				console.log(res);
-			}).catch(function (err) {
-				console.log(err);
-			});
-		});
-	}
+    // cron.schedule('*/1 * * * *', function (){
+    cron.schedule('50 23 * * *', function () {
+      // run every day at 23:50 hours
+      utils.checkIfNewOffers().then(function (res) {
+        console.log('feedburne');
+        if (res && res.news) {
+          index.create();
+        }
+        console.log(res);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    });
+  }
 };
 
 /***/ },
-/* 29 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-var request = __webpack_require__(10);
+var request = __webpack_require__(9);
 var apiKey = '61e4d89d5d5d1391dc97ca0c471003d4';
-if (true) {
-	apiKey = 'e5dd4f8caaa635b423152ea1ad66ded8';
+if (false) {
+  apiKey = 'e5dd4f8caaa635b423152ea1ad66ded8';
 }
 
 module.exports = {
-	all: function all(data) {
-		request({
-			url: 'https://pushcrew.com/api/v1/send/all',
-			headers: {
-				'Authorization': 'key=' + apiKey
-			},
-			method: 'POST'
-		}).form(data).on('response', function (response) {
-			console.log('Respuesta de https://pushcrew.com/api/v1/send/all');
-			console.log(response.status);
-			console.log(response.request_id);
-			console.log(response.statusCode);
-			console.log(response.statusMessage);
-		}).on('error', function (err) {
-			console.log('Error de https://pushcrew.com/api/v1/send/all');
-			console.log(err);
-		});
-	}
+  all: function all(data) {
+    request({
+      url: 'https://pushcrew.com/api/v1/send/all',
+      headers: {
+        'Authorization': 'key=' + apiKey
+      },
+      method: 'POST'
+    }).form(data).on('response', function (response) {
+      console.log('Respuesta de https://pushcrew.com/api/v1/send/all');
+      console.log(response.status);
+      console.log(response.request_id);
+      console.log(response.statusCode);
+      console.log(response.statusMessage);
+    }).on('error', function (err) {
+      console.log('Error de https://pushcrew.com/api/v1/send/all');
+      console.log(err);
+    });
+  }
 };
 
 /***/ },
-/* 30 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
-var wagner = __webpack_require__(7);
-var sm = __webpack_require__(11);
-var config = __webpack_require__(1)(wagner);
-var fs = __webpack_require__(4);
-var zlib = __webpack_require__(37);
-var utils = __webpack_require__(3);
+var sm = __webpack_require__(38);
+var config = __webpack_require__(0);
+var fs = __webpack_require__(2);
+var zlib = __webpack_require__(41);
+var utils = __webpack_require__(1);
 
 function compress(path) {
   var readable = fs.createReadStream(path);
@@ -2195,73 +2308,79 @@ module.exports = {
 };
 
 /***/ },
-/* 31 */
+/* 34 */
 /***/ function(module, exports) {
 
 module.exports = require("jimp");
 
 /***/ },
-/* 32 */
+/* 35 */
 /***/ function(module, exports) {
 
 module.exports = require("mkdirp");
 
 /***/ },
-/* 33 */
+/* 36 */
 /***/ function(module, exports) {
 
 module.exports = require("mongodb");
 
 /***/ },
-/* 34 */
+/* 37 */
 /***/ function(module, exports) {
 
 module.exports = require("multer");
 
 /***/ },
-/* 35 */
+/* 38 */
+/***/ function(module, exports) {
+
+module.exports = require("sitemap");
+
+/***/ },
+/* 39 */
 /***/ function(module, exports) {
 
 module.exports = require("striptags");
 
 /***/ },
-/* 36 */
+/* 40 */
 /***/ function(module, exports) {
 
 module.exports = require("xml");
 
 /***/ },
-/* 37 */
+/* 41 */
 /***/ function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ },
-/* 38 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(__dirname) {Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nuxt__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_compression___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_compression__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_helmet__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_body_parser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_morgan__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_path__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_fs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__);
 
 
@@ -2275,7 +2394,7 @@ module.exports = require("zlib");
 
 
 
-var develop = !("production" === 'production');
+var develop = !("development" === 'production');
 var app = __WEBPACK_IMPORTED_MODULE_1_express___default()();
 var host = process.env.HOST || '127.0.0.1';
 var port = process.env.PORT || 3000;
@@ -2292,32 +2411,32 @@ var accessLogStream = __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream___default
 
 app.set('port', port);
 
-//For some reason in develop, express precondition provoke an error when the user load more
-//offers using ajax
+// For some reason in develop, express precondition provoke an error when the user load more
+// offers using ajax
 if (!develop) {
-  //const preconditions = require('express-preconditions');
-  //app.use(preconditions())
-  //morganFormat = 'dev'
+  // const preconditions = require('express-preconditions');
+  // app.use(preconditions())
+  // morganFormat = 'dev'
 }
 app.use(__WEBPACK_IMPORTED_MODULE_5_body_parser___default.a.json());
 // Import API Routes
 app.use('/api', __WEBPACK_IMPORTED_MODULE_4__api__["a" /* default */]);
 app.use(__WEBPACK_IMPORTED_MODULE_6_morgan___default()(morganFormat, { stream: accessLogStream }));
-//Security
+// Security
 app.use(__WEBPACK_IMPORTED_MODULE_3_helmet___default()());
 app.disable('x-powered-by');
 
 // Import and Set Nuxt.js options
-var nuxtConfig = __webpack_require__(12);
+var nuxtConfig = __webpack_require__(10);
 nuxtConfig.dev = develop;
 
 // Init Nuxt.js
 var nuxt = new __WEBPACK_IMPORTED_MODULE_0_nuxt___default.a(nuxtConfig);
-//before nuxt render to compress data
-app.set('view cache', true); //Cache template compilation
-app.use(__WEBPACK_IMPORTED_MODULE_2_compression___default()()); //Compress all the data that the server response
+// before nuxt render to compress data
+app.set('view cache', true); // Cache template compilation
+app.use(__WEBPACK_IMPORTED_MODULE_2_compression___default()()); // Compress all the data that the server response
 
-//At the end because it won't call next()
+// At the end because it won't call next()
 app.use(nuxt.render);
 
 // Build only in dev mode
@@ -2331,7 +2450,7 @@ if (nuxtConfig.dev) {
 // Listen the server
 app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
-//Schedule ping to web search engines
+// Schedule ping to web search engines
 __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default.a.ping();
 /* WEBPACK VAR INJECTION */}.call(exports, "server"))
 

@@ -45,7 +45,7 @@ export default {
         return axios.post('/api/upload', fd, config)
       }
 
-      return Promise.resolve('Selecciona un archivo por favor.')
+      return Promise.resolve({ status: false, msg: 'Selecciona un archivo por favor.' })
     },
     uploadImg () {
       var that = this
@@ -64,7 +64,7 @@ export default {
         }
 
         if (res && !res.status) {
-          alert(res)
+          alert(res.msg)
         }
       })
       .catch(function (err) {

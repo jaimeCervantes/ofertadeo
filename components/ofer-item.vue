@@ -26,7 +26,6 @@
       </span>
       <span class="visually-hidden" itemprop="datePublished" v-html="getISODateStr(item.published)"></span>
       <span class="visually-hidden" itemprop="dateModified" v-html="getISODateStr(item.modified)"></span>
-      <span itemprop="position" class="visually-hidden" v-html="position"></span>
       
       <slot name="content">
         <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">

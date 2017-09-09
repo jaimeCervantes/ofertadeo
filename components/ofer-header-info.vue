@@ -1,17 +1,18 @@
 <template>
   <div class="header-info">
-    <div v-if="info.name" class="content__info-section">
-      <div class="img-container">
-        <img :src="info.thumbnail" :alt="info.img_alt" :title="info.img_title" />  
+    <slot name="content">
+      <div v-if="info.name" class="content__info-section">
+        <div class="img-container">
+          <img :src="info.thumbnail" :alt="info.img_alt" :title="info.img_title" />
+        </div>
+        <div>
+          <h1 class="title content__title" v-html="info.h1 || info.title_front"></h1>
+          <v-btn tag="a" v-if="rel" :rel="rel" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Ir a {{info.name}}</v-btn>
+          <slot name="social-network"></slot>
+        </div>
       </div>
-      <div>
-        <h1 class="title content__title" v-html="info.h1 || info.title_front"></h1>
-        <v-btn tag="a" v-if="rel" :rel="rel" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Ir a {{info.name}}</v-btn>
-        <slot name="social-network"></slot>
-      </div>
-    </div>
-    <slot name="info"></slot>
-    <div v-if="info.description" v-html="info.description" class="info-description"></div>
+    </slot>
+    <slot name="footer"></slot>
   </div>
 </template>
 
@@ -51,7 +52,7 @@ export default {
   display: flex;
   align-items: center;
   padding: 0;
-  
+
   .info-section__icon {
     justify-content: left;
   }

@@ -3,7 +3,7 @@ import express from 'express'
 import compression from 'compression'
 import helmet from 'helmet'
 import api from './api'
-import bodyParser from 'body-parser' 
+import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import rfs from 'rotating-file-stream'
 import path from 'path'
@@ -27,20 +27,20 @@ var accessLogStream = rfs('access.log', {
 
 app.set('port', port)
 
-//For some reason in develop, express precondition provoke an error when the user load more
-//offers using ajax
-if(!develop) {
-	//const preconditions = require('express-preconditions');
-	//app.use(preconditions())
-  //morganFormat = 'dev'
+// For some reason in develop, express precondition provoke an error when the user load more
+// offers using ajax
+if (!develop) {
+  // const preconditions = require('express-preconditions');
+  // app.use(preconditions())
+  // morganFormat = 'dev'
 }
 app.use(bodyParser.json())
 // Import API Routes
 app.use('/api', api)
 app.use(morgan(morganFormat, { stream: accessLogStream }))
-//Security
+// Security
 app.use(helmet())
-app.disable('x-powered-by');
+app.disable('x-powered-by')
 
 // Import and Set Nuxt.js options
 let nuxtConfig = require('../nuxt.config.js')
@@ -48,11 +48,11 @@ nuxtConfig.dev = develop
 
 // Init Nuxt.js
 const nuxt = new Nuxt(nuxtConfig)
-//before nuxt render to compress data
-app.set('view cache', true);//Cache template compilation
-app.use(compression());//Compress all the data that the server response
+// before nuxt render to compress data
+app.set('view cache', true)// Cache template compilation
+app.use(compression())// Compress all the data that the server response
 
-//At the end because it won't call next()
+// At the end because it won't call next()
 app.use(nuxt.render)
 
 // Build only in dev mode
@@ -67,5 +67,5 @@ if (nuxtConfig.dev) {
 // Listen the server
 app.listen(port)
 console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console
-//Schedule ping to web search engines
+// Schedule ping to web search engines
 sitemapSchedule.ping()
