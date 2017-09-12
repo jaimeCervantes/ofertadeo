@@ -1,6 +1,6 @@
 <template>
   <section class="content">
-    <slot name="container">
+    <slot>
         <slot name="header">
           <header class="row">
             <div class="breadcrumbs-info-section">
