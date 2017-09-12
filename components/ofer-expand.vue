@@ -21,7 +21,7 @@ export default {
     seeMore: {
       type: String,
       default () {
-        return 'Ver mas'
+        return 'Ver más'
       }
     },
     seeLess: {
