@@ -81,35 +81,44 @@ export default {
     OferSeo,
     ShareButtons
   },
+  methods: {
+    getMetas (params) {
+      if (this.exists(params.info) && this.exists(params.seo)) {
+        let metas = [
+          { hid: 'title', name: 'title', content: params.seo.meta_title },
+          { hid: 'description', name: 'description', content: params.seo.meta_description },
+          { hid: 'og:title', property: 'og:title', content: params.seo.meta_title },
+          { hid: 'og:description', property: 'og:description', content: params.seo.meta_description },
+          { hid: 'og:url', property: 'og:url', content: params.url },
+          { hid: 'og:image', property: 'og:image', content: params.info.img },
+          { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: params.info.img },
+          { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
+          { hid: 'og:type', property: 'og:type', content: 'website' },
+          { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
+        ]
+
+        if (params.info.img_data) {
+          metas.push(
+            { hid: 'og:image:width', property: 'og:image:width', content: params.info.img_data.width },
+            { hid: 'og:image:height', property: 'og:image:height', content: params.info.img_data.height },
+            { hid: 'og:image:type', property: 'og:image:type', content: params.info.img_data.type }
+          )
+        }
+
+        return metas
+      }
+
+      return []
+    }
+  },
   head () {
     let host = this.config.host
     let urlStoreList = `${host}${this.config.routes.storeList}`
     let url = `${urlStoreList}/${this.id}`
 
-    let metas = [
-      { hid: 'title', name: 'title', content: this.seo.meta_title },
-      { hid: 'description', name: 'description', content: this.seo.meta_description },
-      { hid: 'og:title', property: 'og:title', content: this.seo.meta_title },
-      { hid: 'og:description', property: 'og:description', content: this.seo.meta_description },
-      { hid: 'og:url', property: 'og:url', content: url },
-      { hid: 'og:image', property: 'og:image', content: this.info.img },
-      { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img },
-      { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
-      { hid: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:site_name', property: 'og:site_name', content: 'Ofertadeo' }
-    ]
-
-    if (this.info && this.info.img_data) {
-      metas.push(
-        { hid: 'og:image:width', property: 'og:image:width', content: this.info.img_data.width },
-        { hid: 'og:image:height', property: 'og:image:height', content: this.info.img_data.height },
-        { hid: 'og:image:type', property: 'og:image:type', content: this.info.img_data.type }
-      )
-    }
-
     return (this.info && this.info.name) ? {
       title: this.seo.title,
-      meta: metas,
+      meta: this.getMetas({ seo: this.seo, info: this.info, url: url }),
       link: [
         { rel: 'canonical', href: url }
       ],

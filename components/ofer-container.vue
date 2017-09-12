@@ -1,7 +1,6 @@
 <template>
   <section class="content">
     <slot name="container">
-      <div class="container container--fluid">
         <slot name="header">
           <header class="row">
             <div class="breadcrumbs-info-section">
@@ -22,7 +21,6 @@
         <slot name="content">
         </slot>
         <slot name="footer"></slot>
-      </div>
     </slot>
   </section>
 </template>
