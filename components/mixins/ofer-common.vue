@@ -11,6 +11,12 @@ export default {
       default: function () {
         return OferConfig
       }
+    },
+    dates: {
+      type: Function,
+      default: function () {
+        return moment()
+      }
     }
   },
   computed: {
@@ -53,22 +59,6 @@ export default {
         return false
       }
       return (Object.keys(data).length > 0)
-    },
-    getSEOData (seoData, data) {
-      let res = {}
-      for (let d in seoData) {
-        if (seoData.hasOwnProperty(d)) {
-          res[d] = seoData[d]
-          Object.keys(data).concat(['year']).forEach(function (curr) {
-            let value = data[curr]
-            if (curr === 'year') {
-              value = moment().format('YYYY')
-            }
-            res[d] = res[d].replace(new RegExp('{' + curr + '}', 'g'), value)
-          })
-        }
-      }
-      return res
     }
   }
 }

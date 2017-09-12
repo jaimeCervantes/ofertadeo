@@ -7,8 +7,6 @@
             <v-text-field v-model="title" name="title" label="Titulo del navegador" hint="Utiliza {name} para que se reemplace por la tienda actual y {year} para el año actual"  required></v-text-field>
             <v-text-field v-model="seo.h1" name="h1" label="Titulo h1" hint="Utiliza {name} para que se reemplace por la tienda actual  y {year} para el año actual" required></v-text-field>
             <v-text-field v-model="seo.h2" name="h2" label="Titulo h2" hint="Utiliza {name} para que se reemplace por la tienda actual  y {year} para el año actual" required></v-text-field>
-            <v-text-field v-model="seo.h2_0" name="h2_0" label="Segundo titulo h2" hint="Utiliza {name} para que se reemplace por la tienda actual  y {year} para el año actual" required></v-text-field>
-            <v-text-field v-model="description" name="description" label="Descripcion" hint="Utiliza {name} para que se reemplace por la tienda actual  y {year} para el año actual" multi-line required counter max="150"></v-text-field>
             <v-text-field v-model="seo.meta_title" name="meta_title" label="Meta titulo" hint="Utiliza {name} para que se reemplace por la tienda actual  y {year} para el año actual" required></v-text-field>
             <v-text-field v-model="seo.meta_description" name="meta_description" label="Meta description" hint="Utiliza {name} para que se reemplace por la tienda actual  y {year} para el año actual" multi-line required counter max="150"></v-text-field>
             <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Guardar</v-btn>
@@ -31,8 +29,6 @@ export default {
         title: '',
         h1: '',
         h2: '',
-        h2_0: '',
-        description: '',
         meta_title: '',
         meta_description: ''
       }
@@ -70,7 +66,6 @@ export default {
         this.seo.meta_title = newValue
         this.seo.h1 = newValue
         this.seo.h2 = newValue
-        this.seo.h2_0 = newValue
       }
     },
     description: {
