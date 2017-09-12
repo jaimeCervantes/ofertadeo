@@ -1,7 +1,6 @@
 <template>
   <ofer-container>
     <article v-if="exists(item)">
-
       <header>
         <p class="promotion-data">
           <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
@@ -10,7 +9,7 @@
           </p>
           <h1>{{item.name}}</h1>
       </header>
-
+      
       <v-divider class="section-divider"></v-divider>
 
       <v-row>

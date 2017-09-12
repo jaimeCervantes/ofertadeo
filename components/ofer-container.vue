@@ -1,27 +1,25 @@
 <template>
   <section class="content">
-    <slot>
-        <slot name="header">
-          <header class="row">
-            <div class="breadcrumbs-info-section">
-              <v-breadcrumbs divider="" v-if="breadcrumbs">
-                <v-breadcrumbs-item
-                  v-for="item in breadcrumbs" :key="item"
-                  :disabled="item.disabled"
-                  :href="item.href"
-                  :target="item.target || '_self'"
-                >
-                  {{ item.text }}
-                </v-breadcrumbs-item>
-              </v-breadcrumbs>
-              <slot name="info-section"></slot>
-            </div>
-          </header>
-        </slot>
-        <slot name="content">
-        </slot>
-        <slot name="footer"></slot>
+    <slot name="header">
+      <header class="row" v-if="breadcrumbs">
+        <div class="breadcrumbs-info-section">
+          <v-breadcrumbs divider="">
+            <v-breadcrumbs-item
+              v-for="item in breadcrumbs" :key="item"
+              :disabled="item.disabled"
+              :href="item.href"
+              :target="item.target || '_self'"
+            >
+              {{ item.text }}
+            </v-breadcrumbs-item>
+          </v-breadcrumbs>
+          <slot name="info-section"></slot>
+        </div>
+      </header>
     </slot>
+    <slot name="content"></slot>
+    <slot name="footer"></slot>
+    <slot></slot>
   </section>
 </template>
 
