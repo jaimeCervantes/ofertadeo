@@ -12,7 +12,7 @@
     </template>
     <template slot="content">
       <div v-if="exists(info)">
-        <div class="info-content"  v-html="info.content"></div>
+        <ofer-expand v-bind:content="info.content"></ofer-expand>
         <v-divider class="section-divider" v-if="exists(info)"></v-divider>
         <div class="middle-content">
           <h2 v-if="exists(info)">Ofertas de {{info.name}}</h2>
@@ -41,6 +41,7 @@ import OferItem from '~components/ofer-item.vue'
 import OferMoreItems from '~components/ofer-more-items.vue'
 import OferNotExists from '~components/ofer-not-exists.vue'
 import ShareButtons from '~components/share-buttons.vue'
+import OferExpand from '~components/ofer-expand.vue'
 
 // asyncData does not have acces to 'this' reference
 var urlReq = '/api/categories/'
@@ -75,7 +76,8 @@ export default {
     OferHeaderInfo,
     OferNotExists,
     OferCommon,
-    ShareButtons
+    ShareButtons,
+    OferExpand
   },
   head () {
     let host = this.config.host

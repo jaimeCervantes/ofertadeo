@@ -58,7 +58,7 @@ export default {
     display: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .expand__content {
     max-height: 58px;
     overflow: hidden;
