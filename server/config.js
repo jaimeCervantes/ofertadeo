@@ -39,7 +39,7 @@ var config = {
     categories: 'Categorías',
     stores: 'Tiendas',
     feed: {
-      title: 'Ofertas y Promociones en México - Ofertadeo'
+      title: 'Ofertas y Promociones en México - Ofertadeo',
       description: 'Encuentra las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad. ✓ ¡Ahorra con ofertadeo!'
     }
   },
