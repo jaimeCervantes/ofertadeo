@@ -14,8 +14,25 @@
       <v-toolbar-items>
         <v-toolbar-item itemprop="url" :href="config.host" ripple>Ofertadeo</v-toolbar-item>
         <li>
-          <a class="toolbar__item" :href="config.feed.rss" title="¡Suscríbete GRATIS!" rel="nofollow noopener alternate" type="application/rss+xml" ripple target="_blank">
-            <img id="img-rss"  src="//feedburner.google.com/fb/images/pub/feed-icon32x32.png" alt="Ultimas ofertas" />¡Suscríbete GRATIS!
+          <a class="toolbar__item"
+          :href="config.feed.rss"
+          title="Últimas ofertas"
+          rel="nofollow noopener alternate"
+          ripple
+          target="_blank">
+            <img id="img-rss"
+              src="//feedburner.google.com/fb/images/pub/feed-icon32x32.png"
+              alt="Últimas ofertas" />
+          </a>
+        </li>
+        <li>
+          <a class="toolbar__item"
+            :href="config.feed.rssSubscriber"
+            title="¡Suscríbete GRATIS!"
+            rel="nofollow noopener alternate"
+            type="application/rss+xml"
+            ripple
+            target="_blank">¡Suscríbete!
           </a>
         </li>
       </v-toolbar-items>
