@@ -1,6 +1,7 @@
+var config = require('../../config.js')
 var request = require('request')
 var apiKey = '61e4d89d5d5d1391dc97ca0c471003d4'
-if (process.env.NODE_ENV === 'production') {
+if (config.app_status === 'deploy') {
   apiKey = 'e5dd4f8caaa635b423152ea1ad66ded8'
 }
 
