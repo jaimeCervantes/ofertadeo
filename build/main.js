@@ -108,7 +108,6 @@ var config = {
     static: '/home/jaime/static',
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
-
   },
   app_status: 'develop'
 };
@@ -2105,8 +2104,8 @@ module.exports = {
       });
     }).then(function (docs) {
       var feedXml = new Feed({
-        title: 'Ofertadeo',
-        description: 'Nuevas ofertas',
+        title: 'Ofertas y Promociones en México - Ofertadeo',
+        description: 'Encuentra las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad. ✓ ¡Ahorra con ofertadeo!',
         link: config.host,
         image: config.host + '/logo.png',
         favicon: config.host + '/favicons/favicon.ico',
@@ -2121,15 +2120,15 @@ module.exports = {
 
       docs.forEach(function (doc) {
         var content = striptags(doc.content);
-        var description = content.slice(0, 150);
-        if (description.length === 150) {
+        var description = content.slice(0, 200);
+        if (description.length === 200) {
           description += '...';
         }
         feedXml.addItem({
           title: doc.title,
           link: config.host + config.routes.main + '/' + doc.slug,
           description: description,
-          content: doc.content,
+          content: description,
           category: doc.categories[0],
           date: doc.published,
           image: doc.img
