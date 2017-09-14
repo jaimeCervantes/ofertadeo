@@ -128,7 +128,15 @@ export default {
                 'position': 2,
                 'item': {
                   '@id': urlCategories,
-                  'name': 'Categorias'
+                  'name': 'Categorías'
+                }
+              },
+              {
+                '@type': 'ListItem',
+                'position': 3,
+                'item': {
+                  '@id': url,
+                  'name': this.info.name
                 }
               }]
             }),

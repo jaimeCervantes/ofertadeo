@@ -34,7 +34,6 @@ var config = {
     static: '/home/jaime/static',
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
-
   },
   app_status: 'develop'
 }

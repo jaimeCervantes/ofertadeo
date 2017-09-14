@@ -146,6 +146,14 @@ export default {
                     '@id': urlStoreList,
                     'name': 'Tiendas'
                   }
+                },
+                {
+                  '@type': 'ListItem',
+                  'position': 3,
+                  'item': {
+                    '@id': url,
+                    'name': this.info.name
+                  }
                 }]
             }),
           type: 'application/ld+json'
