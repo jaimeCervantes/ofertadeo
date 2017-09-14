@@ -101,6 +101,7 @@ var config = {
     main: '/promociones',
     storeList: '/tiendas'
   },
+
   host: 'http://45.55.71.33',
   paths: {
     root: path.resolve(__dirname, '../'),
@@ -108,6 +109,13 @@ var config = {
     static: '/home/jaime/static',
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
+  },
+  txt: {
+    categories: 'Categorías',
+    stores: 'Tiendas',
+    feed: {
+      title: 'Ofertadeo-develop'
+    }
   },
   app_status: 'develop'
 };
@@ -2104,7 +2112,7 @@ module.exports = {
       });
     }).then(function (docs) {
       var feedXml = new Feed({
-        title: 'Ofertas y Promociones en México - Ofertadeo',
+        title: config.txt.feed.title,
         description: 'Encuentra las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad. ✓ ¡Ahorra con ofertadeo!',
         link: config.host,
         image: config.host + '/logo.png',
@@ -2197,9 +2205,10 @@ module.exports = {
 /* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
+var config = __webpack_require__(0);
 var request = __webpack_require__(9);
 var apiKey = '61e4d89d5d5d1391dc97ca0c471003d4';
-if (true) {
+if (config.app_status === 'deploy') {
   apiKey = 'e5dd4f8caaa635b423152ea1ad66ded8';
 }
 

@@ -27,6 +27,7 @@ var config = {
     main: '/promociones',
     storeList: '/tiendas'
   },
+
   host: 'http://45.55.71.33',
   paths: {
     root: path.resolve(__dirname, '../'),
@@ -34,6 +35,13 @@ var config = {
     static: '/home/jaime/static',
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
+  },
+  txt: {
+    categories: 'Categorías',
+    stores: 'Tiendas',
+    feed: {
+      title: 'Ofertadeo-develop'
+    }
   },
   app_status: 'develop'
 }
