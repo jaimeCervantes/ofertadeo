@@ -35,6 +35,13 @@ var config = {
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
   },
+  txt: {
+    categories: 'Categorías',
+    stores: 'Tiendas',
+    feed: {
+      title: 'Ofertadeo-develop'
+    }
+  },
   app_status: 'develop'
 }
 
