@@ -35,6 +35,13 @@ var config = {
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
   },
+  txt: {
+    categories: 'Categorías',
+    stores: 'Tiendas',
+    feed: {
+      title: 'Encuentra las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad. ✓ ¡Ahorra con ofertadeo!'
+    }
+  },
   app_status: 'deploy'
 }
 

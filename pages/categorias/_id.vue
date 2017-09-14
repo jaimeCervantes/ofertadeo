@@ -1,5 +1,5 @@
 <template>
-  <ofer-content :breadcrumbs="exists(info) ? breadcrumbs : null">
+  <ofer-container :breadcrumbs="exists(info) ? breadcrumbs : null">
     <template slot="info-section" v-if="exists(info)">
       <ofer-header-info :info="info">
       <template slot="social-network">
@@ -10,27 +10,30 @@
       </template>
       </ofer-header-info>
     </template>
-    <template slot="content-header">
-      <div class="info-content" v-html="info.content"></div>
-    </template>
     <template slot="content">
-      <h2 v-if="exists(info)">Ofertas de {{info.name}}</h2>
-      <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
-        <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-          <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
-        </v-col>
-      </v-row>
+      <div v-if="exists(info)">
+        <ofer-expand v-bind:content="info.content"></ofer-expand>
+        <v-divider class="section-divider" v-if="exists(info)"></v-divider>
+        <div class="middle-content">
+          <h2 v-if="exists(info)">Ofertas de {{info.name}}</h2>
+          <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
+            <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
+              <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
+            </v-col>
+          </v-row>
+        </div>
+        <div>
+          <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
+        </div>
+      </div>
       <ofer-not-exists v-if="!exists(info)" v-bind:title="notExistTitle"></ofer-not-exists>
     </template>
-    <template slot="more-content" v-if="exists(info)">
-      <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
-    </template>
-  </ofer-content>
+  </ofer-container>
 </template>
 
 <script>
 import axios from '~plugins/axios'
-import OferContent from '~components/ofer-content.vue'
+import OferContainer from '~components/ofer-container.vue'
 import OferHeaderInfo from '~components/ofer-header-info.vue'
 import OferCommon from '~components/mixins/ofer-common.vue'
 import OferPaths from '~components/mixins/ofer-paths.vue'
@@ -38,6 +41,7 @@ import OferItem from '~components/ofer-item.vue'
 import OferMoreItems from '~components/ofer-more-items.vue'
 import OferNotExists from '~components/ofer-not-exists.vue'
 import ShareButtons from '~components/share-buttons.vue'
+import OferExpand from '~components/ofer-expand.vue'
 
 // asyncData does not have acces to 'this' reference
 var urlReq = '/api/categories/'
@@ -66,13 +70,14 @@ export default {
     data)
   },
   components: {
-    OferContent,
+    OferContainer,
     OferItem,
     OferMoreItems,
     OferHeaderInfo,
     OferNotExists,
     OferCommon,
-    ShareButtons
+    ShareButtons,
+    OferExpand
   },
   head () {
     let host = this.config.host
@@ -125,7 +130,15 @@ export default {
                 'position': 2,
                 'item': {
                   '@id': urlCategories,
-                  'name': 'Categorias'
+                  'name': 'Categorías'
+                }
+              },
+              {
+                '@type': 'ListItem',
+                'position': 3,
+                'item': {
+                  '@id': url,
+                  'name': this.info.name
                 }
               }]
             }),

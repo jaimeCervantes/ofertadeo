@@ -1,15 +1,18 @@
 <template>
-  <ofer-content-article>
-    <template slot="info-section" v-if="exists(item)">
-      <p class="promotion-data">
-        <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
-          <span class="promotion-data__category" v-text="category.name"></span>
-        </a>
-      </p>
-      <h1>{{item.name}}</h1>
-    </template>
-    <template slot="content">
-      <v-row v-if="exists(item)">
+  <ofer-container>
+    <article v-if="exists(item)">
+      <header>
+        <p class="promotion-data">
+          <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+            <span class="promotion-data__category" v-text="category.name"></span>
+            </a>
+          </p>
+          <h1>{{item.name}}</h1>
+      </header>
+      
+      <v-divider class="section-divider"></v-divider>
+
+      <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
           <section class="promotion">
             <div class="thumbnail ml-3">
@@ -26,14 +29,15 @@
           </section>
         </v-col>
       </v-row>
-      <ofer-not-exists v-if="!exists(item)" v-bind:title="notExistTitle"></ofer-not-exists>
-    </template>
-  </ofer-content-article>
+
+    </article>
+    <ofer-not-exists v-if="!exists(item)" v-bind:title="notExistTitle"></ofer-not-exists>
+  </ofer-container>
 </template>
 
 <script>
 import axios from '~plugins/axios'
-import OferContentArticle from '~components/ofer-content-article.vue'
+import OferContainer from '~components/ofer-container.vue'
 import OferCommon from '~components/mixins/ofer-common.vue'
 import OferNotExists from '~components/ofer-not-exists.vue'
 import ShareButtons from '~components/share-buttons.vue'
@@ -66,7 +70,7 @@ export default {
     data)
   },
   components: {
-    OferContentArticle,
+    OferContainer,
     OferCommon,
     OferNotExists,
     ShareButtons

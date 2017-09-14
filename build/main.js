@@ -109,6 +109,13 @@ var config = {
     xml: '/home/jaime/xml',
     feed: '/home/jaime/static/feed'
   },
+  txt: {
+    categories: 'Categorías',
+    stores: 'Tiendas',
+    feed: {
+      title: 'Encuentra las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad. ✓ ¡Ahorra con ofertadeo!'
+    }
+  },
   app_status: 'deploy'
 };
 
@@ -2104,8 +2111,8 @@ module.exports = {
       });
     }).then(function (docs) {
       var feedXml = new Feed({
-        title: 'Ofertadeo',
-        description: 'Nuevas ofertas',
+        title: config.txt.feed.title,
+        description: 'Encuentra las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad. ✓ ¡Ahorra con ofertadeo!',
         link: config.host,
         image: config.host + '/logo.png',
         favicon: config.host + '/favicons/favicon.ico',
@@ -2120,15 +2127,15 @@ module.exports = {
 
       docs.forEach(function (doc) {
         var content = striptags(doc.content);
-        var description = content.slice(0, 150);
-        if (description.length === 150) {
+        var description = content.slice(0, 200);
+        if (description.length === 200) {
           description += '...';
         }
         feedXml.addItem({
           title: doc.title,
           link: config.host + config.routes.main + '/' + doc.slug,
           description: description,
-          content: doc.content,
+          content: description,
           category: doc.categories[0],
           date: doc.published,
           image: doc.img
@@ -2197,9 +2204,10 @@ module.exports = {
 /* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
+var config = __webpack_require__(0);
 var request = __webpack_require__(9);
 var apiKey = '61e4d89d5d5d1391dc97ca0c471003d4';
-if (true) {
+if (config.app_status === 'deploy') {
   apiKey = 'e5dd4f8caaa635b423152ea1ad66ded8';
 }
 
