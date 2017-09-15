@@ -12,7 +12,11 @@
     </template>
     <template slot="content">
       <div v-if="exists(info)">
-        <ofer-expand v-bind:content="info.content"></ofer-expand>
+        <ofer-expand
+          :content="info.content"
+          :expanded="expanded"
+          @on-expanded="changeExpanded">
+        </ofer-expand>
         <v-divider class="section-divider" v-if="exists(info)"></v-divider>
       </div>
       <div class="middle-content" v-if="exists(info)">
@@ -54,6 +58,7 @@ export default {
     return {
       urlReq: urlReq,
       info: {},
+      expanded: false,
       notExistTitle: 'La tienda no existe. Te recomendamos verificar la url.'
     }
   },
@@ -84,6 +89,9 @@ export default {
     OferExpand
   },
   methods: {
+    changeExpanded (eventData) {
+      this.expanded = eventData.expanded
+    },
     getMetas (params) {
       if (this.exists(params.info) && this.exists(params.seo)) {
         let metas = [

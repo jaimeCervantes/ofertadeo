@@ -12,7 +12,11 @@
     </template>
     <template slot="content">
       <div v-if="exists(info)">
-        <ofer-expand v-bind:content="info.content"></ofer-expand>
+        <ofer-expand
+          :content="info.content"
+          :expanded="expanded"
+          @on-expanded="changeExpanded">
+        </ofer-expand>
         <v-divider class="section-divider" v-if="exists(info)"></v-divider>
         <div class="middle-content">
           <h2 v-if="exists(info)">Ofertas de {{info.name}}</h2>
@@ -52,6 +56,7 @@ export default {
     return {
       urlReq: urlReq,
       info: {},
+      expanded: false,
       notExistTitle: 'La categoría no existe. Te recomendamos verificar la url.'
     }
   },
@@ -78,6 +83,11 @@ export default {
     OferCommon,
     ShareButtons,
     OferExpand
+  },
+  methods: {
+    changeExpanded (eventData) {
+      this.expanded = eventData.expanded
+    }
   },
   head () {
     let host = this.config.host
