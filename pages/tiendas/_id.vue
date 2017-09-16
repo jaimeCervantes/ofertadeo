@@ -10,8 +10,8 @@
         </template>
       </ofer-header-info>
     </template>
-    <template slot="content">
-      <div v-if="exists(info)">
+    <template v-if="exists(info)" slot="content">
+      <div>
         <ofer-expand
           :content="info.content"
           :expanded="expanded"
@@ -19,17 +19,19 @@
         </ofer-expand>
         <v-divider class="section-divider" v-if="exists(info)"></v-divider>
       </div>
-      <div class="middle-content" v-if="exists(info)">
+      <div class="middle-content">
         <h2 v-html="seo.h2"></h2>
-        <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
+        <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
           <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
             <ofer-item :item="item" type="store" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
           </v-col>
         </v-row>
       </div>
-      <div v-if="exists(info)">
+      <div>
         <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
       </div>
+    </template>
+    <template v-else slot="content">
       <ofer-not-exists v-if="!exists(info)" v-bind:title="notExistTitle"></ofer-not-exists>
     </template>
   </ofer-container>

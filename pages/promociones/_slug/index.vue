@@ -9,7 +9,7 @@
           </p>
           <h1>{{item.name}}</h1>
       </header>
-      
+
       <v-divider class="section-divider"></v-divider>
 
       <v-row>
@@ -31,7 +31,7 @@
       </v-row>
 
     </article>
-    <ofer-not-exists v-if="!exists(item)" v-bind:title="notExistTitle"></ofer-not-exists>
+    <ofer-not-exists v-else v-bind:title="notExistTitle"></ofer-not-exists>
   </ofer-container>
 </template>
 
