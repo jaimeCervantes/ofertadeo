@@ -36,7 +36,7 @@ export default {
     }
   },
   computed: {
-    // v-bin:class can accept an object and live together with the normal
+    // v-bin:class can accept an object and live together with the normal plain
     // class attribute, so for example:
     // <div class="expand" :class="wrapperClasses"> === <div class="expand expanded">
     wrapperClasses () {
