@@ -1,7 +1,7 @@
 <template>
   <div class="actions">
-    <v-btn primary large 
-      :disabled="disabled" 
+    <v-btn primary large
+      :disabled="disabled"
       v-bind:loading="loading"
       v-on:click.native="getMore">
       {{txt}}
@@ -33,7 +33,8 @@ export default {
       var that = this
       this.loading = true
       this.reqCounter += 1
-      axios.get(this.url + '?page=' + this.reqCounter).then(function (res) {
+      axios.get(this.url + '?page=' + this.reqCounter)
+      .then(function (res) {
         that.$emit('more-items', res.data.items)
       }).catch(function (err) {
         alert(err)

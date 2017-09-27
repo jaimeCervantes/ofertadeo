@@ -1,9 +1,9 @@
 <template>
-  <div :class="{ 'expand': true, expanded: expandedData }" >
+  <div class="expand" :class="wrapperClasses">
     <div class="expand__content" v-html="content"></div>
     <div class="expand__less-more">
       <span class="gradient"></span>
-      <span class="see-more" v-on:click="expandOrContract">
+      <span class="see-more" v-on:click="toggleExpand">
         <span v-if="!expandedData">...</span>
         <span class="see-more__text" v-if="!expandedData" v-html="seeMore"></span>
         <span class="see-more__text" v-if="expandedData" v-html="seeLess"></span>
@@ -35,14 +35,20 @@ export default {
       default: false
     }
   },
-  data () {
-    return {
-      expandedData: false
+  computed: {
+    // v-bin:class can accept an object and live together with the normal plain
+    // class attribute, so for example:
+    // <div class="expand" :class="wrapperClasses"> === <div class="expand expanded">
+    wrapperClasses () {
+      return { expanded: this.expandedData }
+    },
+    expandedData () {
+      return this.expanded
     }
   },
   methods: {
-    expandOrContract () {
-      this.expandedData = !this.expandedData
+    toggleExpand () {
+      this.$emit('on-expanded', { expanded: !this.expanded })
     }
   }
 }

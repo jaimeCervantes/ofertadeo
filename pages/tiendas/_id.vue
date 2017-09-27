@@ -10,22 +10,28 @@
         </template>
       </ofer-header-info>
     </template>
-    <template slot="content">
-      <div v-if="exists(info)">
-        <ofer-expand v-bind:content="info.content"></ofer-expand>
+    <template v-if="exists(info)" slot="content">
+      <div>
+        <ofer-expand
+          :content="info.content"
+          :expanded="expanded"
+          @on-expanded="changeExpanded">
+        </ofer-expand>
         <v-divider class="section-divider" v-if="exists(info)"></v-divider>
       </div>
-      <div class="middle-content" v-if="exists(info)">
+      <div class="middle-content">
         <h2 v-html="seo.h2"></h2>
-        <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
+        <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
           <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
             <ofer-item :item="item" type="store" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
           </v-col>
         </v-row>
       </div>
-      <div v-if="exists(info)">
+      <div>
         <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
       </div>
+    </template>
+    <template v-else slot="content">
       <ofer-not-exists v-if="!exists(info)" v-bind:title="notExistTitle"></ofer-not-exists>
     </template>
   </ofer-container>
@@ -54,6 +60,7 @@ export default {
     return {
       urlReq: urlReq,
       info: {},
+      expanded: false,
       notExistTitle: 'La tienda no existe. Te recomendamos verificar la url.'
     }
   },
@@ -84,6 +91,9 @@ export default {
     OferExpand
   },
   methods: {
+    changeExpanded (eventData) {
+      this.expanded = eventData.expanded
+    },
     getMetas (params) {
       if (this.exists(params.info) && this.exists(params.seo)) {
         let metas = [
@@ -123,41 +133,6 @@ export default {
       meta: this.getMetas({ seo: this.seo, info: this.info, url: url }),
       link: [
         { rel: 'canonical', href: url }
-      ],
-      script: [
-        {
-          innerHTML: JSON.stringify(
-            {
-              '@context': 'http://schema.org',
-              '@type': 'BreadcrumbList',
-              'itemListElement': [
-                {
-                  '@type': 'ListItem',
-                  'position': 1,
-                  'item': {
-                    '@id': host,
-                    'name': 'Ofertadeo'
-                  }
-                },
-                {
-                  '@type': 'ListItem',
-                  'position': 2,
-                  'item': {
-                    '@id': urlStoreList,
-                    'name': 'Tiendas'
-                  }
-                },
-                {
-                  '@type': 'ListItem',
-                  'position': 3,
-                  'item': {
-                    '@id': url,
-                    'name': this.info.name
-                  }
-                }]
-            }),
-          type: 'application/ld+json'
-        }
       ]
     } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
   }
