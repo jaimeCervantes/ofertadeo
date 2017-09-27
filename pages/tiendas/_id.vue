@@ -133,41 +133,6 @@ export default {
       meta: this.getMetas({ seo: this.seo, info: this.info, url: url }),
       link: [
         { rel: 'canonical', href: url }
-      ],
-      script: [
-        {
-          innerHTML: JSON.stringify(
-            {
-              '@context': 'http://schema.org',
-              '@type': 'BreadcrumbList',
-              'itemListElement': [
-                {
-                  '@type': 'ListItem',
-                  'position': 1,
-                  'item': {
-                    '@id': host,
-                    'name': 'Ofertadeo'
-                  }
-                },
-                {
-                  '@type': 'ListItem',
-                  'position': 2,
-                  'item': {
-                    '@id': urlStoreList,
-                    'name': 'Tiendas'
-                  }
-                },
-                {
-                  '@type': 'ListItem',
-                  'position': 3,
-                  'item': {
-                    '@id': url,
-                    'name': this.info.name
-                  }
-                }]
-            }),
-          type: 'application/ld+json'
-        }
       ]
     } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
   }
