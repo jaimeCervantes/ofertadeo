@@ -122,40 +122,6 @@ export default {
       meta: metas,
       link: [
         { rel: 'canonical', href: `${this.config.host}${this.config.routes.categoriesList}/${this.id}` }
-      ],
-      script: [
-        {
-          innerHTML: JSON.stringify(
-            {
-              '@context': 'http://schema.org',
-              '@type': 'BreadcrumbList',
-              'itemListElement': [{
-                '@type': 'ListItem',
-                'position': 1,
-                'item': {
-                  '@id': host,
-                  'name': 'Ofertadeo'
-                }
-              },
-              {
-                '@type': 'ListItem',
-                'position': 2,
-                'item': {
-                  '@id': urlCategories,
-                  'name': 'Categorías'
-                }
-              },
-              {
-                '@type': 'ListItem',
-                'position': 3,
-                'item': {
-                  '@id': url,
-                  'name': this.info.name
-                }
-              }]
-            }),
-          type: 'application/ld+json'
-        }
       ]
     } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
   }
