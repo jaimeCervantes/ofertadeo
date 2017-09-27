@@ -81,32 +81,6 @@ export default {
       ],
       link: [
         { rel: 'canonical', href: urlStoreList }
-      ],
-      script: [
-        {
-          innerHTML: JSON.stringify(
-            {
-              '@context': 'http://schema.org',
-              '@type': 'BreadcrumbList',
-              'itemListElement': [{
-                '@type': 'ListItem',
-                'position': 1,
-                'item': {
-                  '@id': host,
-                  'name': 'Ofertadeo'
-                }
-              },
-              {
-                '@type': 'ListItem',
-                'position': 2,
-                'item': {
-                  '@id': urlStoreList,
-                  'name': 'Tiendas'
-                }
-              }]
-            }),
-          type: 'application/ld+json'
-        }
       ]
     }
   }

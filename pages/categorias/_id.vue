@@ -10,13 +10,17 @@
       </template>
       </ofer-header-info>
     </template>
-    <template slot="content">
-      <div v-if="exists(info)">
-        <ofer-expand v-bind:content="info.content"></ofer-expand>
-        <v-divider class="section-divider" v-if="exists(info)"></v-divider>
+    <template v-if="exists(info)" slot="content">
+      <div>
+        <ofer-expand
+          :content="info.content"
+          :expanded="expanded"
+          @on-expanded="changeExpanded">
+        </ofer-expand>
+        <v-divider class="section-divider"></v-divider>
         <div class="middle-content">
-          <h2 v-if="exists(info)">Ofertas de {{info.name}}</h2>
-          <v-row v-if="exists(info)" id="main-list" itemscope itemtype="http://schema.org/ItemList">
+          <h2>Ofertas de {{info.name}}</h2>
+          <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
             <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
               <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
             </v-col>
@@ -26,7 +30,9 @@
           <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
         </div>
       </div>
-      <ofer-not-exists v-if="!exists(info)" v-bind:title="notExistTitle"></ofer-not-exists>
+    </template>
+    <template slot="content" v-else>
+      <ofer-not-exists v-bind:title="notExistTitle"></ofer-not-exists>
     </template>
   </ofer-container>
 </template>
@@ -52,6 +58,7 @@ export default {
     return {
       urlReq: urlReq,
       info: {},
+      expanded: false,
       notExistTitle: 'La categoría no existe. Te recomendamos verificar la url.'
     }
   },
@@ -78,6 +85,11 @@ export default {
     OferCommon,
     ShareButtons,
     OferExpand
+  },
+  methods: {
+    changeExpanded (eventData) {
+      this.expanded = eventData.expanded
+    }
   },
   head () {
     let host = this.config.host
@@ -110,40 +122,6 @@ export default {
       meta: metas,
       link: [
         { rel: 'canonical', href: `${this.config.host}${this.config.routes.categoriesList}/${this.id}` }
-      ],
-      script: [
-        {
-          innerHTML: JSON.stringify(
-            {
-              '@context': 'http://schema.org',
-              '@type': 'BreadcrumbList',
-              'itemListElement': [{
-                '@type': 'ListItem',
-                'position': 1,
-                'item': {
-                  '@id': host,
-                  'name': 'Ofertadeo'
-                }
-              },
-              {
-                '@type': 'ListItem',
-                'position': 2,
-                'item': {
-                  '@id': urlCategories,
-                  'name': 'Categorías'
-                }
-              },
-              {
-                '@type': 'ListItem',
-                'position': 3,
-                'item': {
-                  '@id': url,
-                  'name': this.info.name
-                }
-              }]
-            }),
-          type: 'application/ld+json'
-        }
       ]
     } : { title: this.notExistTitle, meta: [ { name: 'robots', content: 'noindex,follow' } ] }
   }
