@@ -11,21 +11,21 @@
           </v-card-row>
         </a>
       </slot>
-
+      <span itemprop="position" :content="position+1"></span>
       <span class="visually-hidden" itemscope itemprop="image" itemtype="http://schema.org/ImageObject">
         <img :src="item.thumbnail" itemprop="url">
-        <span itemprop="width"  v-html="item.img_data && item.img_data.width ? item.img_data.width: 200"></span>
-        <span itemprop="height" v-html="item.img_data && item.img_data.height ? item.img_data.height: 200"></span>
+        <span itemprop="width"  :content="item.img_data && item.img_data.width ? item.img_data.width: 200"></span>
+        <span itemprop="height" :content="item.img_data && item.img_data.height ? item.img_data.height: 200"></span>
       </span>
-      <span class="visually-hidden" itemprop="author">Ofertadeo</span>
+      <span itemprop="author" content="Ofertadeo"></span>
       <span class="visually-hidden" itemscope itemprop="publisher" itemtype="http://schema.org/Organization">
-        <span itemprop="name">Ofertadeo</span>
+        <span itemprop="name" content="Ofertadeo"></span>
         <span itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-          <img itemprop="url" :src="config.host + '/favicons/apple-touch-icon-60x60.png'" width="60" height="60">
+        <img itemprop="url" :src="config.host + '/favicons/apple-touch-icon-60x60.png'" width="60" height="60">
         </span>
       </span>
-      <span class="visually-hidden" itemprop="datePublished" v-html="getISODateStr(item.published)"></span>
-      <span class="visually-hidden" itemprop="dateModified" v-html="getISODateStr(item.modified)"></span>
+      <span itemprop="datePublished" :content="getISODateStr(item.published)"></span>
+      <span itemprop="dateModified" :content="getISODateStr(item.modified)"></span>
       
       <slot name="content">
         <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
