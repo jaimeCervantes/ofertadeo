@@ -4,17 +4,17 @@
       <v-row>
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
-            <v-text-field disabled v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field disabled v-model="slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
+            <v-text-field disabled v-model.trim.lazy="promotion.name" name="name" label="Nombre" required></v-text-field>
+            <v-text-field disabled v-model="promotion.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
-            <vue-editor v-model="content"></vue-editor>
-            <v-text-field v-model="url" name="url" label="Url origen" required></v-text-field>
+            <vue-editor v-model="promotion.content"></vue-editor>
+            <v-text-field v-model="promotion.url" name="url" label="Url origen" required></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
-            <v-text-field v-model="title" name="title" label="Titulo, h1" required></v-text-field>
-            <v-text-field v-model="meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
-            <v-text-field v-model="img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
-            <v-text-field v-model="img_title" name="img_title" label="Title (img)" required></v-text-field>
-            <v-text-field v-model="meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
+            <v-text-field v-model="promotion.title" name="title" label="Titulo, h1" required></v-text-field>
+            <v-text-field v-model="promotion.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
+            <v-text-field v-model="promotion.img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
+            <v-text-field v-model="promotion.img_title" name="img_title" label="Title (img)" required></v-text-field>
+            <v-text-field v-model="promotion.meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
             <v-select
               v-bind:items="allCategories"
               v-model="categorySelected"
@@ -39,8 +39,8 @@
           </form>
         </v-col>
       </v-row>
-    </template>
-  </ofer-content>
+      </template>
+    </ofer-content>
 </template>
 
 <script>
@@ -70,18 +70,20 @@ export default {
     return {
       loading: false,
       disabled: false,
-      name: '',
-      slug: '',
-      url: '',
-      title: '',
-      meta_title: '',
-      meta_description: '',
-      img_alt: '',
-      img_title: '',
-      content: '',
-      img: '',
-      img_data: {},
-      thumbnail: '',
+      promotion: {
+        name: '',
+        slug: '',
+        url: '',
+        title: '',
+        meta_title: '',
+        meta_description: '',
+        img_alt: '',
+        img_title: '',
+        content: '',
+        img: '',
+        img_data: {},
+        thumbnail: ''
+      },
       categorySelected: [],
       storeSelected: [],
       validation: {
@@ -93,9 +95,10 @@ export default {
   },
   async asyncData ({ params }) {
     let { data } = await axios.get('/api/formdata/promotions/' + params.slug)
-    let item = data.item
+    data.promotion = data.item
+    delete data.promotion._id
     delete data.item
-    return Object.assign(data, item)
+    return data
   },
   components: {
     OferContent,
@@ -129,11 +132,11 @@ export default {
         return
       }
 
-      if (!this.img || !this.thumbnail) {
+      if (!this.promotion.img || !this.promotion.thumbnail) {
         alert('Asegurate de primero subir la imagen de la oferta')
         return
       }
-      if (!this.name || !this.url || !this.content) {
+      if (!this.promotion.name || !this.promotion.url || !this.promotion.content) {
         alert('Todavia te faltan datos importantes antes de guardar la oferta. Recuerda subir la imagen seleccionada antes de crear la oferta')
         return
       }
@@ -144,26 +147,12 @@ export default {
 
       this.loading = true
       this.disabled = true
-
-      axios.post('/api/promotions/edit/' + this.slug, {
-        name: this.name,
-        slug: this.slug,
-        url: this.url,
-        title: this.title,
-        meta_title: this.meta_title,
-        meta_description: this.meta_description,
-        img_alt: this.img_alt,
-        img_title: this.img_title,
-        content: this.content,
-        img: this.img,
-        img_data: this.img_data,
-        thumbnail: this.thumbnail,
-        stores: this.setArrayValues(this.storeSelected),
-        categories: this.setArrayValues(this.categorySelected)
-      })
+      this.promotion.stores = this.setArrayValues(this.storeSelected)
+      this.promotion.categories = this.setArrayValues(this.categorySelected)
+      axios.post('/api/promotions/edit/' + this.promotion.slug, this.promotion)
       .then(function (res) {
         if (res.data.ok) {
-          that.$router.push(`/ofer-admin/promociones/${that.slug}`)
+          that.$router.push(`/ofer-admin/promociones/${that.promotion.slug}`)
         } else {
           alert('Algo salió mal, al insertar un nuevo documento en la base de datos')
         }
@@ -173,8 +162,8 @@ export default {
         console.log(err)
       })
       .then(function () {
-        that.loading = true
-        that.disabled = true
+        that.loading = false
+        that.disabled = false
       })
     },
     async validateSlug (currSlug) {
@@ -191,21 +180,12 @@ export default {
   created () {
     this.allCategories = this.setTextPropertyForSelect(this.allCategories)
     this.allStores = this.setTextPropertyForSelect(this.allStores)
-    this.categorySelected = this.setTextPropertyForSelect(this.categories)
-    this.storeSelected = this.setTextPropertyForSelect(this.stores)
+    this.categorySelected = this.setTextPropertyForSelect(this.promotion.categories)
+    this.storeSelected = this.setTextPropertyForSelect(this.promotion.stores)
   },
   watch: {
-    name (newName) {
-      this.slug = slug(newName)
-      this.title = `${newName}`
-      this.meta_title = `${newName}`
-      this.img_alt = `${newName}`
-      this.img_title = `${newName}`
-    },
-    slug (newSlug) {
-      if (newSlug.length > 5) {
-        this.validateSlug(newSlug)
-      }
+    'promotion.content' (newValue) {
+      this.promotion.meta_description = this.sliceTextFromHtml(newValue, this.config.seo.description.charsLimit)
     }
   },
   head () {
