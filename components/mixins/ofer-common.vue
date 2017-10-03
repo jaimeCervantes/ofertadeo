@@ -51,7 +51,7 @@ export default {
       if (text.length <= limit || !limit) {
         return text
       } else {
-        return text.slice(0, limit - 3) + '...'
+        return text.slice(0, limit)
       }
     },
     exists (data) {
