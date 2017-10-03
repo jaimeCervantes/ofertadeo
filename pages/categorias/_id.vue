@@ -98,7 +98,7 @@ export default {
 
     let metas = [
       { hid: 'title', name: 'title', content: `Descuentos, promociones y ofertas en ${this.info.name}` },
-      { hid: 'description', name: 'description', content: this.info.description },
+      { hid: 'description', name: 'description', content: this.sliceTextFromHtmlByWord(this.info.content, this.config.seo.description.wordsLimit) },
       { hid: 'og:title', property: 'og:title', content: `Descuentos, promociones y ofertas en ${this.info.name}` },
       { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en ofertadeo. Descuentos, promociones y ofertas en ${this.info.name}. ✓ ¡Ahorra dinero ya!` },
       { hid: 'og:url', property: 'og:url', content: url },
@@ -118,7 +118,7 @@ export default {
     }
 
     return (this.info && this.info.name) ? {
-      title: `Descuentos, promociones y ofertas en ${this.info.name}`,
+      title: `Descuentos, promociones y ofertas en ${this.info.name} | Ofertadeo`,
       meta: metas,
       link: [
         { rel: 'canonical', href: `${this.config.host}${this.config.routes.categoriesList}/${this.id}` }

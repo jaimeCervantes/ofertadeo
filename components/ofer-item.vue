@@ -30,7 +30,7 @@
       <slot name="content">
         <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
           <div class="pl-2 pr-2" itemprop="headline">
-            <a itemprop="name" :href="`${config.host}${toLink}`" :title="item.name">{{sliceTextFromHtml(item.name, 45)}}</a>
+            <a itemprop="name" :href="`${config.host}${toLink}`" :title="item.name">{{item.name}}</a>
           </div>
         </v-card-row>  
       </slot>
