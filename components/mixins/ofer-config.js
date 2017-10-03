@@ -44,7 +44,8 @@ export default {
   },
   seo: {
     description: {
-      charsLimit: 150
+      charsLimit: 150,
+      wordsLimit: 23
     }
   },
   app_status: 'develop'
