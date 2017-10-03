@@ -79,7 +79,7 @@ export default {
     createMetas () {
       let description = this.sliceTextFromHtml(this.item.content, this.config.seo.description.charsLimit)
       let metas = [
-        { hid: 'title', name: 'title', content: `${this.item.name} | Ofertadeo` },
+        { hid: 'title', name: 'title', content: `${this.item.name}` },
         { hid: 'description', name: 'description', content: description },
         { hid: 'og:type', property: 'og:type', content: 'article' },
         { hid: 'og:title', property: 'og:title', content: `${this.item.name}` },
@@ -115,7 +115,7 @@ export default {
     let description = this.sliceTextFromHtml(this.item.content, this.config.seo.description.charsLimit)
 
     return this.exists(this.item) ? {
-      title: `${this.item.name}`,
+      title: `${this.item.name} | Ofertadeo`,
       meta: this.createMetas(),
       link: [
         { rel: 'canonical', href: url }
