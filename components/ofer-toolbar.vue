@@ -21,7 +21,7 @@
           ripple
           target="_blank">
             <img id="img-rss"
-              src="//feedburner.google.com/fb/images/pub/feed-icon32x32.png"
+              :src="`${config.host}/icons/feed-icon32x32.png`"
               alt="Últimas ofertas" />
           </a>
         </li>
