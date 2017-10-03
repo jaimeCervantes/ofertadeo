@@ -59,6 +59,15 @@ export default {
         return false
       }
       return (Object.keys(data).length > 0)
+    },
+    sliceTextFromHtmlByWord (strHtml, limit) {
+      let text = striptags(strHtml)
+      let words = text.split(/\s+/)
+      if (words.length <= limit || !limit) {
+        return text
+      } else {
+        return words.slice(0, limit).join(' ')
+      }
     }
   }
 }
