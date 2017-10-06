@@ -10,11 +10,11 @@
           <h3 v-text="letter._id"></h3>
           <v-row >
             <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in letter.stores" :key="i">
-              <ofer-item :item="item" :to-link="config.routes.storeList + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+              <ofer-item :item="item" :to-link="config.routes.storeList + '/' + item.path" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
                 <template slot="content">
                   <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
                     <div class="pl-2 pr-2" itemprop="headline">
-                      <a itemprop="name" :href="getItemLink(item._id)">
+                      <a itemprop="name" :href="getItemLink(item.path)">
                         {{sliceTextFromHtml(item.name, 45)}}
                       </a>
                     </div>
@@ -45,15 +45,14 @@ export default {
   },
   async asyncData ({ params, route }) {
     let { data } = await axios.get(urlReq)
-    console.log(data)
     return Object.assign({
       path: route.path
     },
     data)
   },
   methods: {
-    getItemLink (_id) {
-      return `${this.config.host}${this.config.routes.storeList}/${_id}`
+    getItemLink (path) {
+      return `${this.config.host}${this.config.routes.storeList}/${path}`
     }
   },
   components: {

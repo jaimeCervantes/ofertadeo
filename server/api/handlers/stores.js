@@ -77,7 +77,8 @@ module.exports = function (spec) {
               { $sort: { name: 1 } },
               { $project: {
                   // A mayusculas, porque 'e' !== 'E'
-                  _id: { $toUpper: "$_id"}, 
+                  _id: { $toUpper: "$_id"},
+                  path: "$_id",
                   name: 1,
                   slug: 1,
                   thumbnail: 1,
@@ -107,7 +108,6 @@ module.exports = function (spec) {
 
       Promise.all(iterable)
       .then(function (results) {
-        console.log(results[0])
         res.json({
           items: results[0]
         })
