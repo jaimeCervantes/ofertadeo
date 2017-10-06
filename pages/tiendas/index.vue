@@ -7,14 +7,14 @@
     <template slot="content">
       <div id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <div v-for="(letter,l) in items" :key="l">
-          <h3 v-text="letter._id"></h3>
+          <h3 v-text="letter._id.toUpperCase()"></h3>
           <v-row >
             <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in letter.stores" :key="i">
-              <ofer-item :item="item" :to-link="config.routes.storeList + '/' + item.path" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+              <ofer-item :item="item" :to-link="config.routes.storeList + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
                 <template slot="content">
                   <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
                     <div class="pl-2 pr-2" itemprop="headline">
-                      <a itemprop="name" :href="getItemLink(item.path)">
+                      <a itemprop="name" :href="getItemLink(item._id)">
                         {{sliceTextFromHtml(item.name, 45)}}
                       </a>
                     </div>
