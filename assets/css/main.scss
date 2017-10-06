@@ -163,10 +163,12 @@ h2, h2.title {
 
 h3, h3.title {
   font-size: 1.2rem;
+  line-height: 1;
 }
 
 h4, h4.title {
   font-size: 1rem;
+  line-height: 1;
 }
 
 .btn {
@@ -181,4 +183,8 @@ h4, h4.title {
 main {
   //to avoid flex css properties
   display: block;
+}
+
+.row {
+  align-items: center;
 }
