@@ -82,8 +82,7 @@ module.exports = function (spec) {
               { $sort: { name: 1 } },
               { $project: {
                   // A mayusculas, porque 'e' !== 'E'
-                  _id: { $toUpper: "$_id"}, 
-                  path: "$_id",
+                  _id: 1,
                   name: 1,
                   slug: 1,
                   thumbnail: 1,
@@ -104,7 +103,8 @@ module.exports = function (spec) {
             ], // pipeline
             options: {
               collation: {
-               locale: conf.db.collation.locale
+               locale: conf.db.collation.locale,
+               alternate: "shifted"
               } 
             } // options
           }
