@@ -871,8 +871,7 @@ module.exports = function (spec) {
         // Ordenarlo por nombre para obtener el arreglo stores en el sig, pipe ordenado alfabeticamente en orden ascendente
         { $sort: { name: 1 } }, { $project: {
             // A mayusculas, porque 'e' !== 'E'
-            _id: { $toUpper: "$_id" },
-            path: "$_id",
+            _id: 1,
             name: 1,
             slug: 1,
             thumbnail: 1,
@@ -883,14 +882,102 @@ module.exports = function (spec) {
             published: 1,
             modified: 1
           }
-        }, { $group: {
-            _id: { $substrCP: ["$_id", 0, 1] },
+        }, {
+          $group: {
+            _id: {
+              $switch: {
+                branches: [{
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "a"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "b"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "c"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "d"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "e"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "f"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "g"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "h"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "i"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "j"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "k"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "l"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "m"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "n"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "ñ"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "o"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "p"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "q"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "r"] },
+                  then: "R-V"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "s"] },
+                  then: "R-V"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "t"] },
+                  then: "R-V"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "u"] },
+                  then: "R-V"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "v"] },
+                  then: "R-V"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "w"] },
+                  then: "W-Z"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "x"] },
+                  then: "W-Z"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "y"] },
+                  then: "W-Z"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "z"] },
+                  then: "W-Z"
+                }],
+                default: "0-9"
+              }
+            },
             categories: { $push: "$$CURRENT" }
           }
         }, { $sort: { _id: 1 } }], // pipeline
         options: {
           collation: {
-            locale: conf.db.collation.locale
+            locale: conf.db.collation.locale,
+            alternate: "shifted"
           } // options
         } }) // aggregate
       ]; // iterable
@@ -1286,8 +1373,7 @@ module.exports = function (spec) {
         // Ordenarlo por nombre para obtener el arreglo stores en el sig, pipe ordenado alfabeticamente en orden ascendente
         { $sort: { name: 1 } }, { $project: {
             // A mayusculas, porque 'e' !== 'E'
-            _id: { $toUpper: "$_id" },
-            path: "$_id",
+            _id: 1,
             name: 1,
             slug: 1,
             thumbnail: 1,
@@ -1298,14 +1384,102 @@ module.exports = function (spec) {
             published: 1,
             modified: 1
           }
-        }, { $group: {
-            _id: { $substrCP: ["$_id", 0, 1] },
+        }, {
+          $group: {
+            _id: {
+              $switch: {
+                branches: [{
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "a"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "b"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "c"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "d"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "e"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "f"] },
+                  then: "A-F"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "g"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "h"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "i"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "j"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "k"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "l"] },
+                  then: "G-L"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "m"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "n"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "ñ"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "o"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "p"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "q"] },
+                  then: "M-Q"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "r"] },
+                  then: "R-V"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "s"] },
+                  then: "R-V"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "t"] },
+                  then: "R-V"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "u"] },
+                  then: "R-V"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "v"] },
+                  then: "R-V"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "w"] },
+                  then: "W-Z"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "x"] },
+                  then: "W-Z"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "y"] },
+                  then: "W-Z"
+                }, {
+                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "z"] },
+                  then: "W-Z"
+                }],
+                default: "0-9"
+              }
+            },
             stores: { $push: "$$CURRENT" }
           }
         }, { $sort: { _id: 1 } }], // pipeline
         options: {
           collation: {
-            locale: conf.db.collation.locale
+            locale: conf.db.collation.locale,
+            alternate: "shifted"
           } // options
         } }) // aggregate
       ]; // iterable
