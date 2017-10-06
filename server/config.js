@@ -18,6 +18,9 @@ var config = {
       categories: 'categories',
       pages: 'pages',
       seo: 'seo'
+    },
+    collation: {
+      locale: 'es'
     }
   },
   routes: {
