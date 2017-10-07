@@ -1027,7 +1027,6 @@ module.exports = function (spec) {
     var router = spec.router;
     // get an specific promotion data, query by slug property
     router.get('/formdata/categories/:id', function (req, res) {
-      console.log(req.params);
       var iterable = [crudInst.getItem({
         collection: conf.db.collections.categories,
         query: { _id: req.params.id },
@@ -1057,24 +1056,30 @@ module.exports = function (spec) {
 
     spec.router.post(params.path, function (req, res) {
       var rightNow = new Date();
+      var saveMethod = 'setItem';
+      var saveParams = {
+        collection: conf.db.collections.categories
+      };
       var data = Object.assign({ modified: rightNow }, req.body);
 
+      // Al crear nueva, la fecha de publicacion y modificacion son la misma
       if (!data.hasOwnProperty('published')) {
         data.published = rightNow;
       }
 
-      if (!data.hasOwnProperty('_id')) {
-        data._id = req.body.slug;
+      if (data.hasOwnProperty('_id')) {
+        saveMethod = 'update';
+        delete data._id;
+        delete saveParams.document;
+        saveParams.query = { _id: req.params.id };
+        saveParams.update = { $set: data };
+        saveParams.options = { upsert: true };
+      } else {
+        data._id = data.slug;
+        saveParams.document = data;
       }
 
-      crudInst.update({
-        collection: conf.db.collections.categories,
-        query: { _id: req.params.id },
-        update: data,
-        options: {
-          upsert: true
-        }
-      }).then(function (dbResponse) {
+      crudInst[saveMethod](saveParams).then(function (dbResponse) {
         //  return response to client with res object
         res.json(dbResponse);
         return dbResponse;
@@ -1670,27 +1675,33 @@ module.exports = function (spec) {
   function save(params) {
     var conf = spec.config;
     var crudInst = spec.crud;
+    var saveMethod = 'setItem';
 
     spec.router.post(params.path, function (req, res) {
       var rightNow = new Date();
+      var saveParams = {
+        collection: conf.db.collections.secundary
+      };
       var data = Object.assign({ modified: rightNow }, req.body);
 
+      // Al crear nueva, la fecha de publicacion y modificacion son la misma
       if (!data.hasOwnProperty('published')) {
         data.published = rightNow;
       }
 
-      if (!data.hasOwnProperty('_id')) {
+      if (data.hasOwnProperty('_id')) {
+        saveMethod = 'update';
+        delete data._id;
+        delete saveParams.document;
+        saveParams.query = { _id: req.params.id };
+        saveParams.update = { $set: data };
+        saveParams.options = { upsert: true };
+      } else {
         data._id = data.slug;
+        saveParams.document = data;
       }
 
-      crudInst.update({
-        collection: conf.db.collections.secundary,
-        query: { _id: req.params.id },
-        update: data,
-        options: {
-          upsert: true
-        }
-      }).then(function (dbResponse) {
+      crudInst[saveMethod](saveParams).then(function (dbResponse) {
         //  return response to client with res object
         res.json(dbResponse);
         return dbResponse;
