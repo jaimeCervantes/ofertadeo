@@ -110,7 +110,7 @@ export default {
       axios.post('/api/categories/new', this.category)
       .then(function (res) {
         if (res.data.ok) {
-          that.$router.push(`/ofer-admin/categorias/${that.category.slug}`)
+          that.$router.push(`/categorias/${that.category.slug}`)
         } else {
           alert('Algo salió mal, al insertar un nueva categoría en la base de datos, ')
         }
@@ -145,7 +145,7 @@ export default {
       this.category.img_title = `${newName}`
       this.category.meta_description = `Descubre las mejores ofertas y promociones de ${newName}. Descuentos, promociones y ofertas en ${newName} ${this.year}. ❤ ¡Ahorra ya!`
     },
-    slug (newSlug) {
+    'category.slug' (newSlug) {
       if (newSlug.length > 5) {
         this.validateSlug(newSlug)
       }

@@ -100,7 +100,7 @@ module.exports = function (spec) {
     spec.router.get('/categories', function (req, res) {
 
       let page = req.query.page ? Number(req.query.page) : 0
-            var iterable = [
+      let iterable = [
         crudInst.aggregate(
           {
             collection: conf.db.collections.categories,
@@ -276,7 +276,6 @@ module.exports = function (spec) {
     let router = spec.router
     // get an specific promotion data, query by slug property
     router.get('/formdata/categories/:id', function (req, res) {
-      console.log(req.params)
       let iterable = [
         crudInst.getItem({
           collection: conf.db.collections.categories,
@@ -310,24 +309,30 @@ module.exports = function (spec) {
 
     spec.router.post(params.path, function (req, res) {
       let rightNow = new Date()
+      let saveMethod = 'setItem'
+      let saveParams = {
+        collection: conf.db.collections.categories
+      }
       let data = Object.assign({ modified: rightNow }, req.body)
 
+      // Al crear nueva, la fecha de publicacion y modificacion son la misma
       if (!data.hasOwnProperty('published')) {
         data.published = rightNow
       }
 
-      if (!data.hasOwnProperty('_id')) {
-        data._id = req.body.slug
+      if (data.hasOwnProperty('_id')) {
+        saveMethod = 'update'
+        delete data._id
+        delete saveParams.document
+        saveParams.query = { _id: req.params.id }
+        saveParams.update = { $set: data }
+        saveParams.options = { upsert: true }
+      } else {
+        data._id = data.slug
+        saveParams.document = data
       }
 
-      crudInst.update({
-        collection: conf.db.collections.categories,
-        query: { _id: req.params.id },
-        update: data,
-        options: {
-          upsert: true
-        }
-      })
+      crudInst[saveMethod](saveParams)
       .then(function (dbResponse) {
         //  return response to client with res object
         res.json(dbResponse)

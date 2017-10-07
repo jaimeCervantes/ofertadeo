@@ -114,7 +114,7 @@ export default {
       axios.post('/api/stores/edit/' + this.store._id, this.store)
       .then(function (res) {
         if (res.data.ok) {
-          that.$router.push(`/ofer-admin/tiendas/${that.store.slug}`)
+          that.$router.push(`/tiendas/${that.store.slug}`)
         } else {
           alert('Algo salió mal, al guardar tienda en la base de datos, ')
         }

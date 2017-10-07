@@ -301,27 +301,33 @@ module.exports = function (spec) {
   function save (params) {
     let conf = spec.config
     let crudInst = spec.crud
+    let saveMethod = 'setItem'
 
     spec.router.post(params.path, function (req, res) {
       let rightNow = new Date()
+      let saveParams = {
+        collection: conf.db.collections.secundary
+      }
       let data = Object.assign({ modified: rightNow }, req.body)
 
+      // Al crear nueva, la fecha de publicacion y modificacion son la misma
       if (!data.hasOwnProperty('published')) {
         data.published = rightNow
       }
 
-      if (!data.hasOwnProperty('_id')) {
+      if (data.hasOwnProperty('_id')) {
+        saveMethod = 'update'
+        delete data._id
+        delete saveParams.document
+        saveParams.query = { _id: req.params.id }
+        saveParams.update = { $set: data }
+        saveParams.options = { upsert: true }
+      } else {
         data._id = data.slug
+        saveParams.document = data
       }
 
-      crudInst.update({
-        collection: conf.db.collections.secundary,
-        query: { _id: req.params.id },
-        update: data,
-        options: {
-          upsert: true
-        }
-      })
+      crudInst[saveMethod](saveParams)
       .then(function (dbResponse) {
         //  return response to client with res object
         res.json(dbResponse)

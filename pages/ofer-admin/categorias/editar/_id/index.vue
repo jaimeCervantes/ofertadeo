@@ -72,7 +72,7 @@ export default {
     }
   },
   async asyncData ({ params }) {
-    let { data } = await axios.get('/api/formdata/catetories/' + params.id)
+    let { data } = await axios.get('/api/formdata/categories/' + params.id)
     data.catetory = data.item
     delete data.item
     return data
@@ -111,10 +111,10 @@ export default {
       this.loading = true
       this.disabled = true
 
-      axios.post('/api/catetories/edit/' + this.catetory._id, this.catetory)
+      axios.post('/api/categories/edit/' + this.catetory._id, this.catetory)
       .then(function (res) {
         if (res.data.ok) {
-          that.$router.push(`/ofer-admin/categorias/${that.catetory.slug}`)
+          that.$router.push(`/categorias/${that.catetory.slug}`)
         } else {
           alert('Algo salió mal, al guardar Categoría en la base de datos, ')
         }
@@ -133,7 +133,7 @@ export default {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get('/api/catetories/' + currSlug)
+      let { data } = await axios.get('/api/categories/' + currSlug)
       if (data && data.info) {
         this.validation.slug.val = false
       }
