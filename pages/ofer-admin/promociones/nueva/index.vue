@@ -148,7 +148,7 @@ export default {
       axios.post('/api/promotions/new', this.promotion)
       .then(function (res) {
         if (res.data.ok) {
-          that.$router.push(`/ofer-admin/promociones/${that.promotion.slug}`)
+          that.$router.push(`/promociones/${that.promotion.slug}`)
         } else {
           alert('Algo salió mal, al insertar un nuevo documento en la base de datos')
         }
