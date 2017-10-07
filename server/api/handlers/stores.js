@@ -2,6 +2,34 @@ module.exports = function (spec) {
   let that = {}
   spec = spec || {}
 
+   /**
+   * Manage the store request, query by slug property
+   * @return {Object} For cascade purposes
+   */
+  function getBySlug () {
+    spec.router.get('/promotions/:slug', function (req, res) {
+      let iterable = [
+        spec.crud.getItem({
+          collection: spec.config.db.collections.secundary,
+          query: { slug: req.params.slug },
+          items_per_page: 1
+        })
+      ]
+
+      return Promise.all(iterable)
+            .then(function (results) {
+              res.json({
+                item: results[0]
+              })
+            })
+            .catch(function (error) {
+              res.json(error)
+            })
+    })
+
+    return that
+  }
+
   function getById (params) {
     let crudInst = spec.crud
     let conf = spec.config
@@ -236,18 +264,66 @@ module.exports = function (spec) {
     return that
   }
 
-  function save (params) {
-    let crudInst = spec.crud
+  function getFormData () {
     let conf = spec.config
+    let crudInst = spec.crud
+    let router = spec.router
+    // get an specific promotion data, query by slug property
+    router.get('/formdata/stores/:id', function (req, res) {
+      console.log(req.params)
+      let iterable = [
+        crudInst.getItem({
+          collection: conf.db.collections.secundary,
+          query: { _id: req.params.id },
+          items_per_page: 1
+        })
+      ]
 
-    spec.router.post('/stores/new', function (req, res) {
-      var rightNow = new Date()
-      var data = Object.assign({ modified: rightNow, published: rightNow, _id: req.body.slug }, req.body)
-      crudInst.setItem({
+      Promise.all(iterable)
+        .then(function (results) {
+          res.json({
+            item: results[0]
+          })
+        })
+        .catch(function (error) {
+          res.json(error)
+        })
+    }) // router.get
+
+    return that
+  }
+
+   /**
+   * Creates or update a store
+   * @param  {[type]} params Until now it contains the path of the request
+   * @return {Object}        For cascade purpose
+   */
+  function save (params) {
+    let conf = spec.config
+    let crudInst = spec.crud
+
+    spec.router.post(params.path, function (req, res) {
+      let rightNow = new Date()
+      let data = Object.assign({ modified: rightNow }, req.body)
+
+      if (!data.hasOwnProperty('published')) {
+        data.published = rightNow
+      }
+
+      if (!data.hasOwnProperty('_id')) {
+        data._id = data.slug
+      }
+
+      crudInst.update({
         collection: conf.db.collections.secundary,
-        document: data
+        query: { _id: req.params.id },
+        update: data,
+        options: {
+          upsert: true
+        }
       })
       .then(function (dbResponse) {
+        //  return response to client with res object
         res.json(dbResponse)
         return dbResponse
       })
@@ -255,19 +331,6 @@ module.exports = function (spec) {
         console.log('Ocurrió un error al tratar de Guardar una Tienda:')
         console.log(err)
         res.json(err)
-      })
-      .then(function (dbResponse) {
-        if (dbResponse.result && dbResponse.result.ok) {
-          return crudInst.updateOne({
-            collection: conf.db.collections.pages,
-            query: { slug: '/tiendas' },
-            update: { $set: { modified: rightNow } }
-          })
-        }
-      })
-      .catch(function (err) {
-        console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:')
-        console.log(err)
       })
       .then(function (dbResponse) {
         if (dbResponse.result && dbResponse.result.ok) {
@@ -295,7 +358,8 @@ module.exports = function (spec) {
       .catch(function (err) {
         console.log(err)
       })
-    })
+
+    }) // router.post
 
     return that
   }
@@ -303,6 +367,7 @@ module.exports = function (spec) {
   that.save = save
   that.getById = getById
   that.getIndex = getIndex
+  that.getFormData = getFormData
 
   return that
 }

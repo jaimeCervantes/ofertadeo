@@ -10,7 +10,9 @@ module.exports = function (params) {
       params.handler({ crud: crud, router: params.router, config: params.config, csm: params.csm })
       .getById()
       .getIndex()
-      .save()
+      .getFormData()
+      .save({ path: '/stores/new' })  // Create new store
+      .save({ path: '/stores/edit/:id' }) // Edit an store
     }
   })
   .catch(function (err) {

@@ -4,18 +4,18 @@
       <v-row>
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
-            <v-text-field v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field v-model="store.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
+            <v-text-field disabled v-model.trim.lazy="catetory.name" name="name" label="Nombre" required></v-text-field>
+            <v-text-field disabled v-model="catetory.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
-            <vue-editor v-model="store.content"></vue-editor>
-            <v-text-field v-model="store.url_site" name="url" label="Url de la Tienda" required></v-text-field>
+            <vue-editor v-model="catetory.content"></vue-editor>
+            <v-text-field v-model="catetory.url_site" name="url" label="Url de la categoría" required></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
-            <v-text-field v-model="store.title" name="title" label="Titulo, h1" required></v-text-field>
-            <v-text-field v-model="store.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
-            <v-text-field v-model="store.img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
-            <v-text-field v-model="store.img_title" name="img_title" label="Title (img)" required></v-text-field>
-            <v-text-field v-model="store.meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
-            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Tienda</v-btn>
+            <v-text-field v-model="catetory.title" name="title" label="Titulo, h1" required></v-text-field>
+            <v-text-field v-model="catetory.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
+            <v-text-field v-model="catetory.img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
+            <v-text-field v-model="catetory.img_title" name="img_title" label="Title (img)" required></v-text-field>
+            <v-text-field v-model="catetory.meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
+            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Editar Categoría</v-btn>
           </form>
         </v-col>
       </v-row>
@@ -50,9 +50,7 @@ export default {
     return {
       loading: false,
       disabled: false,
-      name: '',
-      slug: '',
-      store: {
+      catetory: {
         name: '',
         slug: '',
         url_site: '',
@@ -73,6 +71,12 @@ export default {
       }
     }
   },
+  async asyncData ({ params }) {
+    let { data } = await axios.get('/api/formdata/catetories/' + params.id)
+    data.catetory = data.item
+    delete data.item
+    return data
+  },
   components: {
     OferContent,
     OferCommon,
@@ -82,11 +86,11 @@ export default {
   },
   methods: {
     getImgs (resp) {
-      this.store.img = resp.img
-      this.store.thumbnail = resp.thumbnail
+      this.catetory.img = resp.img
+      this.catetory.thumbnail = resp.thumbnail
     },
     getImageData (data) {
-      this.store.img_data = data
+      this.catetory.img_data = data
     },
     send () {
       var that = this
@@ -95,28 +99,28 @@ export default {
         return
       }
 
-      if (!this.store.img || !this.store.thumbnail) {
-        alert('Asegurate de primero subir la imagen de la Tienda')
+      if (!this.catetory.img || !this.catetory.thumbnail) {
+        alert('Asegurate de primero subir la imagen de la categoría')
         return
       }
-      if (!this.store.name || !this.store.url_site || !this.store.content) {
-        alert('Todavia te faltan datos importantes antes de guardar la Tienda.')
+      if (!this.catetory.name || !this.catetory.url_site || !this.catetory.content) {
+        alert('Todavia te faltan datos importantes antes de guardar la categoría.')
         return
       }
 
       this.loading = true
       this.disabled = true
 
-      axios.post('/api/stores/new', this.store)
+      axios.post('/api/catetories/edit/' + this.catetory._id, this.catetory)
       .then(function (res) {
         if (res.data.ok) {
-          that.$router.push(`/ofer-admin/tiendas/${that.store.slug}`)
+          that.$router.push(`/ofer-admin/categorias/${that.catetory.slug}`)
         } else {
-          alert('Algo salió mal, al insertar un nueva tienda en la base de datos, ')
+          alert('Algo salió mal, al guardar Categoría en la base de datos, ')
         }
       })
       .catch(function (err) {
-        alert('ocurrio un error al crear la Tienda')
+        alert('ocurrio un error al guardar la Categoría')
         console.log(err)
       })
       .then(function () {
@@ -129,31 +133,15 @@ export default {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get('/api/stores/' + currSlug)
+      let { data } = await axios.get('/api/catetories/' + currSlug)
       if (data && data.info) {
         this.validation.slug.val = false
       }
     }
   },
-  watch: {
-    name (newName) {
-      this.store.name = newName
-      this.store.slug = slug(newName)
-      this.store.title = `${newName} – Ofertas, promociones y descuentos`
-      this.store.meta_title = `Descuentos, ofertas y promociones en ${newName}`
-      this.store.img_alt = `${newName}`
-      this.store.img_title = `${newName}`
-      this.store.meta_description = `Descubre las mejores ofertas y promociones de ${newName}. Descuentos, promociones y ofertas en ${newName} ${this.year}. ❤ ¡Ahorra ya!`
-    },
-    slug (newSlug) {
-      if (newSlug.length > 5) {
-        this.validateSlug(newSlug)
-      }
-    }
-  },
   head () {
     return {
-      title: `Nueva Tienda | Ofertadeo`,
+      title: `Editar Categoría | Ofertadeo`,
       meta: [
         { hid: 'robots', name: 'robots', content: 'noindex, nofollow' }
       ]

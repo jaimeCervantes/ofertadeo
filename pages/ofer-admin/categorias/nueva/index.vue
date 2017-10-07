@@ -5,17 +5,17 @@
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
             <v-text-field v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field v-model="store.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
+            <v-text-field v-model="category.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
-            <vue-editor v-model="store.content"></vue-editor>
-            <v-text-field v-model="store.url_site" name="url" label="Url de la Tienda" required></v-text-field>
+            <vue-editor v-model="category.content"></vue-editor>
+            <v-text-field v-model="category.url_site" name="url" label="Url de la Categoría" required></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
-            <v-text-field v-model="store.title" name="title" label="Titulo, h1" required></v-text-field>
-            <v-text-field v-model="store.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
-            <v-text-field v-model="store.img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
-            <v-text-field v-model="store.img_title" name="img_title" label="Title (img)" required></v-text-field>
-            <v-text-field v-model="store.meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
-            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Tienda</v-btn>
+            <v-text-field v-model="category.title" name="title" label="Titulo, h1" required></v-text-field>
+            <v-text-field v-model="category.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
+            <v-text-field v-model="category.img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
+            <v-text-field v-model="category.img_title" name="img_title" label="Title (img)" required></v-text-field>
+            <v-text-field v-model="category.meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
+            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Nueva Categoría</v-btn>
           </form>
         </v-col>
       </v-row>
@@ -52,7 +52,7 @@ export default {
       disabled: false,
       name: '',
       slug: '',
-      store: {
+      category: {
         name: '',
         slug: '',
         url_site: '',
@@ -82,11 +82,11 @@ export default {
   },
   methods: {
     getImgs (resp) {
-      this.store.img = resp.img
-      this.store.thumbnail = resp.thumbnail
+      this.category.img = resp.img
+      this.category.thumbnail = resp.thumbnail
     },
     getImageData (data) {
-      this.store.img_data = data
+      this.category.img_data = data
     },
     send () {
       var that = this
@@ -95,28 +95,28 @@ export default {
         return
       }
 
-      if (!this.store.img || !this.store.thumbnail) {
-        alert('Asegurate de primero subir la imagen de la Tienda')
+      if (!this.category.img || !this.category.thumbnail) {
+        alert('Asegurate de primero subir la imagen de la Categoría')
         return
       }
-      if (!this.store.name || !this.store.url_site || !this.store.content) {
-        alert('Todavia te faltan datos importantes antes de guardar la Tienda.')
+      if (!this.category.name || !this.category.url_site || !this.category.content) {
+        alert('Todavia te faltan datos importantes antes de guardar la Categoría.')
         return
       }
 
       this.loading = true
       this.disabled = true
 
-      axios.post('/api/stores/new', this.store)
+      axios.post('/api/categories/new', this.category)
       .then(function (res) {
         if (res.data.ok) {
-          that.$router.push(`/ofer-admin/tiendas/${that.store.slug}`)
+          that.$router.push(`/ofer-admin/categorias/${that.category.slug}`)
         } else {
-          alert('Algo salió mal, al insertar un nueva tienda en la base de datos, ')
+          alert('Algo salió mal, al insertar un nueva categoría en la base de datos, ')
         }
       })
       .catch(function (err) {
-        alert('ocurrio un error al crear la Tienda')
+        alert('ocurrio un error al crear la Categoría')
         console.log(err)
       })
       .then(function () {
@@ -129,7 +129,7 @@ export default {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get('/api/stores/' + currSlug)
+      let { data } = await axios.get('/api/categories/' + currSlug)
       if (data && data.info) {
         this.validation.slug.val = false
       }
@@ -137,13 +137,13 @@ export default {
   },
   watch: {
     name (newName) {
-      this.store.name = newName
-      this.store.slug = slug(newName)
-      this.store.title = `${newName} – Ofertas, promociones y descuentos`
-      this.store.meta_title = `Descuentos, ofertas y promociones en ${newName}`
-      this.store.img_alt = `${newName}`
-      this.store.img_title = `${newName}`
-      this.store.meta_description = `Descubre las mejores ofertas y promociones de ${newName}. Descuentos, promociones y ofertas en ${newName} ${this.year}. ❤ ¡Ahorra ya!`
+      this.category.name = newName
+      this.category.slug = slug(newName)
+      this.category.title = `${newName} – Ofertas, promociones y descuentos`
+      this.category.meta_title = `Descuentos, ofertas y promociones en ${newName}`
+      this.category.img_alt = `${newName}`
+      this.category.img_title = `${newName}`
+      this.category.meta_description = `Descubre las mejores ofertas y promociones de ${newName}. Descuentos, promociones y ofertas en ${newName} ${this.year}. ❤ ¡Ahorra ya!`
     },
     slug (newSlug) {
       if (newSlug.length > 5) {
@@ -153,7 +153,7 @@ export default {
   },
   head () {
     return {
-      title: `Nueva Tienda | Ofertadeo`,
+      title: `Nueva Categoría | Ofertadeo`,
       meta: [
         { hid: 'robots', name: 'robots', content: 'noindex, nofollow' }
       ]

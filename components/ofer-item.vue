@@ -11,6 +11,7 @@
           </v-card-row>
         </a>
       </slot>
+      
       <span itemprop="position" :content="position+1"></span>
       <span class="visually-hidden" itemscope itemprop="image" itemtype="http://schema.org/ImageObject">
         <img :src="item.thumbnail" itemprop="url">
