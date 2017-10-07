@@ -651,7 +651,8 @@ categories({
   config: config,
   crud: crud,
   router: router,
-  handler: __webpack_require__(20)
+  handler: __webpack_require__(20),
+  csm: csm
 });
 
 promotions({
@@ -784,7 +785,8 @@ module.exports = function (params) {
     return params.crud({ db: db, config: params.config });
   }).then(function (crud) {
     if (crud) {
-      params.handler({ crud: crud, config: params.config, router: params.router }).getById().getIndex();
+      params.handler({ crud: crud, config: params.config, router: params.router, csm: params.csm }).getById().getIndex().getFormData().save({ path: '/categories/new' }) // Create new category
+      .save({ path: '/categories/edit/:id' }); // Edit a category
     } else {
       console.log('There is not database instance');
     }
@@ -800,6 +802,30 @@ module.exports = function (params) {
 module.exports = function (spec) {
   var that = {};
   spec = spec || {};
+
+  /**
+   * Manage the store request, query by slug property
+   * @return {Object} For cascade purposes
+   */
+  function getBySlug() {
+    spec.router.get('/promotions/:slug', function (req, res) {
+      var iterable = [spec.crud.getItem({
+        collection: spec.config.db.collections.categories,
+        query: { slug: req.params.slug },
+        items_per_page: 1
+      })];
+
+      return Promise.all(iterable).then(function (results) {
+        res.json({
+          item: results[0]
+        });
+      }).catch(function (error) {
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
 
   function getById() {
     var conf = spec.config;
@@ -995,8 +1021,98 @@ module.exports = function (spec) {
     return that;
   }
 
+  function getFormData() {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+    var router = spec.router;
+    // get an specific promotion data, query by slug property
+    router.get('/formdata/categories/:id', function (req, res) {
+      console.log(req.params);
+      var iterable = [crudInst.getItem({
+        collection: conf.db.collections.categories,
+        query: { _id: req.params.id },
+        items_per_page: 1
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          item: results[0]
+        });
+      }).catch(function (error) {
+        res.json(error);
+      });
+    }); // router.get
+
+    return that;
+  }
+
+  /**
+  * Creates or update a store
+  * @param  {[type]} params Until now it contains the path of the request
+  * @return {Object}        For cascade purpose
+  */
+  function save(params) {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+
+    spec.router.post(params.path, function (req, res) {
+      var rightNow = new Date();
+      var data = Object.assign({ modified: rightNow }, req.body);
+
+      if (!data.hasOwnProperty('published')) {
+        data.published = rightNow;
+      }
+
+      if (!data.hasOwnProperty('_id')) {
+        data._id = req.body.slug;
+      }
+
+      crudInst.update({
+        collection: conf.db.collections.categories,
+        query: { _id: req.params.id },
+        update: data,
+        options: {
+          upsert: true
+        }
+      }).then(function (dbResponse) {
+        //  return response to client with res object
+        res.json(dbResponse);
+        return dbResponse;
+      }).catch(function (err) {
+        console.log('Ocurrió un error al tratar de Guardar una Categoría:');
+        console.log(err);
+        res.json(err);
+      }).then(function (dbResponse) {
+        if (dbResponse.result && dbResponse.result.ok) {
+          return true;
+        } else {
+          return Error(dbResponse);
+        }
+      }).then(function (result) {
+        if (result === true) {
+          Promise.all([spec.csm.categories(), spec.csm.pages()]).then(function (results) {
+            if (results && results.length > 0) {
+              return spec.csm.index();
+            }
+          }).catch(function (err) {
+            console.log(err);
+            return err;
+          });
+        } else {
+          console.log(result);
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }); // router.post
+
+    return that;
+  }
+
   that.getIndex = getIndex;
   that.getById = getById;
+  that.getFormData = getFormData;
+  that.save = save;
 
   return that;
 };
@@ -1175,7 +1291,7 @@ module.exports = function (spec) {
       var missingData = { modified: rightNow };
       var data = Object.assign(missingData, req.body);
 
-      if (!Object.hasOwnProperty('published')) {
+      if (!data.hasOwnProperty('published')) {
         data.published = rightNow;
       }
 
@@ -1233,7 +1349,7 @@ module.exports = function (spec) {
     });
 
     return that;
-  }
+  };
 
   that.save = save;
   that.getFormData = getFormData;
@@ -1308,6 +1424,30 @@ module.exports = function (spec) {
 module.exports = function (spec) {
   var that = {};
   spec = spec || {};
+
+  /**
+  * Manage the store request, query by slug property
+  * @return {Object} For cascade purposes
+  */
+  function getBySlug() {
+    spec.router.get('/promotions/:slug', function (req, res) {
+      var iterable = [spec.crud.getItem({
+        collection: spec.config.db.collections.secundary,
+        query: { slug: req.params.slug },
+        items_per_page: 1
+      })];
+
+      return Promise.all(iterable).then(function (results) {
+        res.json({
+          item: results[0]
+        });
+      }).catch(function (error) {
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
 
   function getById(params) {
     var crudInst = spec.crud;
@@ -1497,34 +1637,67 @@ module.exports = function (spec) {
     return that;
   }
 
-  function save(params) {
-    var crudInst = spec.crud;
+  function getFormData() {
     var conf = spec.config;
-
-    spec.router.post('/stores/new', function (req, res) {
-      var rightNow = new Date();
-      var data = Object.assign({ modified: rightNow, published: rightNow, _id: req.body.slug }, req.body);
-      crudInst.setItem({
+    var crudInst = spec.crud;
+    var router = spec.router;
+    // get an specific promotion data, query by slug property
+    router.get('/formdata/stores/:id', function (req, res) {
+      console.log(req.params);
+      var iterable = [crudInst.getItem({
         collection: conf.db.collections.secundary,
-        document: data
+        query: { _id: req.params.id },
+        items_per_page: 1
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          item: results[0]
+        });
+      }).catch(function (error) {
+        res.json(error);
+      });
+    }); // router.get
+
+    return that;
+  }
+
+  /**
+  * Creates or update a store
+  * @param  {[type]} params Until now it contains the path of the request
+  * @return {Object}        For cascade purpose
+  */
+  function save(params) {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+
+    spec.router.post(params.path, function (req, res) {
+      var rightNow = new Date();
+      var data = Object.assign({ modified: rightNow }, req.body);
+
+      if (!data.hasOwnProperty('published')) {
+        data.published = rightNow;
+      }
+
+      if (!data.hasOwnProperty('_id')) {
+        data._id = data.slug;
+      }
+
+      crudInst.update({
+        collection: conf.db.collections.secundary,
+        query: { _id: req.params.id },
+        update: data,
+        options: {
+          upsert: true
+        }
       }).then(function (dbResponse) {
+        //  return response to client with res object
         res.json(dbResponse);
         return dbResponse;
       }).catch(function (err) {
         console.log('Ocurrió un error al tratar de Guardar una Tienda:');
         console.log(err);
         res.json(err);
-      }).then(function (dbResponse) {
-        if (dbResponse.result && dbResponse.result.ok) {
-          return crudInst.updateOne({
-            collection: conf.db.collections.pages,
-            query: { slug: '/tiendas' },
-            update: { $set: { modified: rightNow } }
-          });
-        }
-      }).catch(function (err) {
-        console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:');
-        console.log(err);
       }).then(function (dbResponse) {
         if (dbResponse.result && dbResponse.result.ok) {
           return true;
@@ -1547,7 +1720,7 @@ module.exports = function (spec) {
       }).catch(function (err) {
         console.log(err);
       });
-    });
+    }); // router.post
 
     return that;
   }
@@ -1555,6 +1728,7 @@ module.exports = function (spec) {
   that.save = save;
   that.getById = getById;
   that.getIndex = getIndex;
+  that.getFormData = getFormData;
 
   return that;
 };
@@ -1774,7 +1948,8 @@ module.exports = function (params) {
     return params.crud({ db: db, config: params.config });
   }).then(function (crud) {
     if (crud) {
-      params.handler({ crud: crud, router: params.router, config: params.config, csm: params.csm }).getById().getIndex().save();
+      params.handler({ crud: crud, router: params.router, config: params.config, csm: params.csm }).getById().getIndex().getFormData().save({ path: '/stores/new' }) // Create new store
+      .save({ path: '/stores/edit/:id' }); // Edit an store
     }
   }).catch(function (err) {
     // some configuration to notify no database connection working
