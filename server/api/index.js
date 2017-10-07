@@ -20,7 +20,8 @@ categories({
   config: config,
   crud: crud,
   router: router,
-  handler: require('./handlers/categories')
+  handler: require('./handlers/categories'),
+  csm: csm
 })
 
 promotions({

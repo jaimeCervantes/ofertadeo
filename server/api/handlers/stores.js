@@ -2,6 +2,34 @@ module.exports = function (spec) {
   let that = {}
   spec = spec || {}
 
+   /**
+   * Manage the store request, query by slug property
+   * @return {Object} For cascade purposes
+   */
+  function getBySlug () {
+    spec.router.get('/promotions/:slug', function (req, res) {
+      let iterable = [
+        spec.crud.getItem({
+          collection: spec.config.db.collections.secundary,
+          query: { slug: req.params.slug },
+          items_per_page: 1
+        })
+      ]
+
+      return Promise.all(iterable)
+            .then(function (results) {
+              res.json({
+                item: results[0]
+              })
+            })
+            .catch(function (error) {
+              res.json(error)
+            })
+    })
+
+    return that
+  }
+
   function getById (params) {
     let crudInst = spec.crud
     let conf = spec.config
@@ -236,8 +264,13 @@ module.exports = function (spec) {
     return that
   }
 
-  // get an specific promotion data, query by slug property
-  router.get('/formdata/stores/:id', function (req, res) {
+  function getFormData () {
+    let conf = spec.config
+    let crudInst = spec.crud
+    let router = spec.router
+    // get an specific promotion data, query by slug property
+    router.get('/formdata/stores/:id', function (req, res) {
+      console.log(req.params)
       let iterable = [
         crudInst.getItem({
           collection: conf.db.collections.secundary,
@@ -271,17 +304,20 @@ module.exports = function (spec) {
 
     spec.router.post(params.path, function (req, res) {
       let rightNow = new Date()
-      let missingData = { modified: rightNow }
-      let data = Object.assign(missingData, req.body)
+      let data = Object.assign({ modified: rightNow }, req.body)
 
       if (!data.hasOwnProperty('published')) {
         data.published = rightNow
       }
 
+      if (!data.hasOwnProperty('_id')) {
+        data._id = data.slug
+      }
+
       crudInst.update({
         collection: conf.db.collections.secundary,
         query: { _id: req.params.id },
-        update: { $set: data },
+        update: data,
         options: {
           upsert: true
         }
@@ -326,11 +362,12 @@ module.exports = function (spec) {
     }) // router.post
 
     return that
-  };
+  }
 
   that.save = save
   that.getById = getById
   that.getIndex = getIndex
+  that.getFormData = getFormData
 
   return that
 }

@@ -7,9 +7,12 @@ module.exports = function (params) {
   })
   .then(function (crud) {
     if (crud) {
-      params.handler({ crud: crud, config: params.config, router: params.router })
+      params.handler({ crud: crud, config: params.config, router: params.router, csm: params.csm })
       .getById()
       .getIndex()
+      .getFormData()
+      .save({ path: '/categories/new' })  // Create new category
+      .save({ path: '/categories/edit/:id' }) // Edit a category
     } else {
       console.log('There is not database instance')
     }

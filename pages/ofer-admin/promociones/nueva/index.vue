@@ -138,7 +138,7 @@ export default {
         return
       }
       if (!this.promotion.name || !this.promotion.url || !this.promotion.content || this.storeSelected.length === 0 || this.categorySelected.length === 0) {
-        alert('Todavia te faltan datos importantes antes de guardar la oferta. Recuerda subir la imagen seleccionada antes de crear la oferta')
+        alert('Todavia te faltan datos importantes antes de guardar la oferta.')
         return
       }
       this.loading = true

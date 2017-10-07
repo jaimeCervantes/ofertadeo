@@ -137,7 +137,7 @@ export default {
         return
       }
       if (!this.promotion.name || !this.promotion.url || !this.promotion.content) {
-        alert('Todavia te faltan datos importantes antes de guardar la oferta. Recuerda subir la imagen seleccionada antes de crear la oferta')
+        alert('Todavia te faltan datos importantes antes de guardar la oferta.')
         return
       }
 
