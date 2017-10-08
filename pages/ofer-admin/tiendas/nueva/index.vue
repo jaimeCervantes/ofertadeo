@@ -10,7 +10,9 @@
             <vue-editor v-model="store.content"></vue-editor>
             <v-text-field v-model="store.url_site" name="url" label="Url de la Tienda" required></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
-            <v-text-field v-model="store.title" name="title" label="Titulo, h1" required></v-text-field>
+            <v-text-field v-model="store.title" name="Title" label="Titulo del navegador" required></v-text-field>
+            <v-text-field v-model="store.h1" name="h1" label="Titulo, H1" required></v-text-field>
+            <v-text-field v-model="store.h2" name="h2" label="Titulo, H2" required></v-text-field
             <v-text-field v-model="store.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
             <v-text-field v-model="store.img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
             <v-text-field v-model="store.img_title" name="img_title" label="Title (img)" required></v-text-field>
