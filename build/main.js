@@ -868,13 +868,17 @@ module.exports = function (spec) {
       }), crudInst.getPagination({
         query: { 'categories._id': req.params._id },
         collection: conf.db.collections.main
+      }), crudInst.getItem({
+        collection: conf.db.collections.seo,
+        query: { _id: 'categories' }
       })];
 
       Promise.all(iterable).then(function (results) {
         res.json({
           items: results[0],
           info: results[1],
-          pagination: results[2]
+          pagination: results[2],
+          seo: results[3]
         });
       }).catch(function (error) {
         res.json(error);
@@ -1648,7 +1652,6 @@ module.exports = function (spec) {
     var router = spec.router;
     // get an specific promotion data, query by slug property
     router.get('/formdata/stores/:id', function (req, res) {
-      console.log(req.params);
       var iterable = [crudInst.getItem({
         collection: conf.db.collections.secundary,
         query: { _id: req.params.id },
