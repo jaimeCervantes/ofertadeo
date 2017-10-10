@@ -270,7 +270,6 @@ module.exports = function (spec) {
     let router = spec.router
     // get an specific promotion data, query by slug property
     router.get('/formdata/stores/:id', function (req, res) {
-      console.log(req.params)
       let iterable = [
         crudInst.getItem({
           collection: conf.db.collections.secundary,

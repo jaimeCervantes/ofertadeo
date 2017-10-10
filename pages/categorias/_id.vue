@@ -1,7 +1,7 @@
 <template>
   <ofer-container :breadcrumbs="exists(info) ? breadcrumbs : null">
     <template slot="info-section" v-if="exists(info)">
-      <ofer-header-info :info="info">
+      <ofer-header-info :info="seo">
       <template slot="social-network">
         <share-buttons
           :url="`${config.host}${config.routes.categoriesList}/${id}`"
@@ -19,7 +19,7 @@
         </ofer-expand>
         <v-divider class="section-divider"></v-divider>
         <div class="middle-content">
-          <h2>Ofertas de {{info.name}}</h2>
+          <h2>{{seo.h2}}</h2>
           <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
             <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
               <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
@@ -48,12 +48,13 @@ import OferMoreItems from '~components/ofer-more-items.vue'
 import OferNotExists from '~components/ofer-not-exists.vue'
 import ShareButtons from '~components/share-buttons.vue'
 import OferExpand from '~components/ofer-expand.vue'
+import OferSeo from '~components/mixins/ofer-seo.vue'
 
 // asyncData does not have acces to 'this' reference
 var urlReq = '/api/categories/'
 
 export default {
-  mixins: [OferPaths, OferCommon],
+  mixins: [OferPaths, OferCommon, OferSeo],
   data () {
     return {
       urlReq: urlReq,
@@ -64,17 +65,17 @@ export default {
   },
   async asyncData ({ params, route }) {
     let { data } = await axios.get(urlReq + params.id)
-    if (data && data.info) {
-      data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en ofertadeo. Descuentos, promociones y ofertas en ${data.info.name}. ✓ ¡Ahorra dinero ya!`
-      data.info.h1 = data.info.name
-      data.info.img_alt = `Ofertas ${data.info.name}`
-    }
-
     return Object.assign({
       path: route.path,
       id: params.id
     },
     data)
+  },
+  created () {
+    if (this.exists(this.seo) && this.exists(this.info)) {
+      this.seo = this.getSeoData(this.seo, this.info)
+      this.seo = this.mergeSeoWith(this.seo, this.info)
+    }
   },
   components: {
     OferContainer,
@@ -84,7 +85,8 @@ export default {
     OferNotExists,
     OferCommon,
     ShareButtons,
-    OferExpand
+    OferExpand,
+    OferSeo
   },
   methods: {
     changeExpanded (eventData) {
@@ -97,10 +99,10 @@ export default {
     let url = `${urlCategories}/${this.id}`
 
     let metas = [
-      { hid: 'title', name: 'title', content: `Descuentos, promociones y ofertas en ${this.info.name}` },
+      { hid: 'title', name: 'title', content: this.seo.title },
       { hid: 'description', name: 'description', content: this.sliceTextFromHtmlByWord(this.info.content, this.config.seo.description.wordsLimit) },
-      { hid: 'og:title', property: 'og:title', content: `Descuentos, promociones y ofertas en ${this.info.name}` },
-      { hid: 'og:description', property: 'og:description', content: `Descubre las mejores ofertas y promociones de ${this.info.name} en ofertadeo. Descuentos, promociones y ofertas en ${this.info.name}. ✓ ¡Ahorra dinero ya!` },
+      { hid: 'og:title', property: 'og:title', content: this.seo.meta_title },
+      { hid: 'og:description', property: 'og:description', content: this.sliceTextFromHtmlByWord(this.info.content, this.config.seo.description.wordsLimit) },
       { hid: 'og:url', property: 'og:url', content: url },
       { hid: 'og:image', property: 'og:image', content: this.info.img },
       { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: this.info.img },
