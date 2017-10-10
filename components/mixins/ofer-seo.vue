@@ -22,16 +22,8 @@ export default {
       }
       return res
     },
-    getDefaultsForSeo (seo, defaults) {
-      if (!this.exists(seo)) {
-        seo = {}
-        seo.meta_title = defaults.meta_title
-        seo.meta_description = defaults.meta_description
-        seo.title = defaults.title
-        seo.h1 = defaults.h1 || defaults.title
-      }
-
-      return seo
+    mergeSeoWith (seo, defaults) {
+      return Object.assign(seo, defaults)
     }
   }
 }
