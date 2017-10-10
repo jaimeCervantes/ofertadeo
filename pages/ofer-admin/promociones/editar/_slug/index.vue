@@ -183,11 +183,6 @@ export default {
     this.categorySelected = this.setTextPropertyForSelect(this.promotion.categories)
     this.storeSelected = this.setTextPropertyForSelect(this.promotion.stores)
   },
-  watch: {
-    'promotion.content' (newValue) {
-      this.promotion.meta_description = this.sliceTextFromHtml(newValue, this.config.seo.description.charsLimit)
-    }
-  },
   head () {
     return {
       title: `Editar oferta | Ofertadeo`,
