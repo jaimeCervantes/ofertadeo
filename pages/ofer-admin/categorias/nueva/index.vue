@@ -5,19 +5,18 @@
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
             <v-text-field v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field v-model="store.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
+            <v-text-field v-model="category.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
-            <vue-editor v-model="store.content"></vue-editor>
-            <v-text-field v-model="store.url_site" name="url" label="Url de la Tienda" required></v-text-field>
+            <vue-editor v-model="category.content"></vue-editor>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
-            <v-text-field v-model="store.title" name="Title" label="Titulo del navegador"></v-text-field>
-            <v-text-field v-model="store.h1" name="h1" label="Titulo, H1"></v-text-field>
-            <v-text-field v-model="store.h2" name="h2" label="Titulo, H2"></v-text-field>
-            <v-text-field v-model="store.meta_title" name="meta_title" label="Meta titulo"></v-text-field>
-            <v-text-field v-model="store.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
-            <v-text-field v-model="store.img_alt" name="img_alt" label="Alt (img)"></v-text-field>
-            <v-text-field v-model="store.img_title" name="img_title" label="Title (img)"></v-text-field>
-            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Tienda</v-btn>
+            <v-text-field v-model="category.title" name="Title" label="Titulo del navegador"></v-text-field>
+            <v-text-field v-model="category.h1" name="h1" label="Titulo, H1"></v-text-field>
+            <v-text-field v-model="category.h2" name="h2" label="Titulo, H2"></v-text-field>
+            <v-text-field v-model="category.meta_title" name="meta_title" label="Meta titulo"></v-text-field>
+            <v-text-field v-model="category.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
+            <v-text-field v-model="category.img_alt" name="img_alt" label="Alt (img)"></v-text-field>
+            <v-text-field v-model="category.img_title" name="img_title" label="Title (img)"></v-text-field>
+            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Nueva Categoría</v-btn>
           </form>
         </v-col>
       </v-row>
@@ -53,11 +52,9 @@ export default {
       loading: false,
       disabled: false,
       name: '',
-      slug: '',
-      store: {
+      category: {
         name: '',
         slug: '',
-        url_site: '',
         title: '',
         h1: '',
         h2: '',
@@ -86,11 +83,11 @@ export default {
   },
   methods: {
     getImgs (resp) {
-      this.store.img = resp.img
-      this.store.thumbnail = resp.thumbnail
+      this.category.img = resp.img
+      this.category.thumbnail = resp.thumbnail
     },
     getImageData (data) {
-      this.store.img_data = data
+      this.category.img_data = data
     },
     send () {
       var that = this
@@ -99,29 +96,28 @@ export default {
         return
       }
 
-      if (!this.store.img || !this.store.thumbnail) {
-        alert('Asegurate de primero subir la imagen de la Tienda')
+      if (!this.category.img || !this.category.thumbnail) {
+        alert('Asegurate de primero subir la imagen de la Categoría')
         return
       }
-      if (!this.store.name || !this.store.url_site || !this.store.content) {
-        alert('Todavia te faltan datos importantes antes de guardar la Tienda.')
+      if (!this.category.name || !this.category.url_site || !this.category.content) {
+        alert('Todavia te faltan datos importantes antes de guardar la Categoría.')
         return
       }
 
       this.loading = true
       this.disabled = true
 
-      axios.post('/api/stores/new', this.store)
+      axios.post('/api/categories/new', this.category)
       .then(function (res) {
         if (res.data.ok) {
-          that.$router.push(`/tiendas/${that.store.slug}`)
+          that.$router.push(`/categorias/${that.category.slug}`)
         } else {
-          console.log(res)
-          alert('Algo salió mal, al insertar un nueva tienda en la base de datos, ')
+          alert('Algo salió mal, al insertar un nueva categoría en la base de datos, ')
         }
       })
       .catch(function (err) {
-        alert('ocurrio un error al crear la Tienda')
+        alert('ocurrio un error al crear la Categoría')
         console.log(err)
       })
       .then(function () {
@@ -134,7 +130,7 @@ export default {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get('/api/stores/' + currSlug)
+      let { data } = await axios.get('/api/categories/' + currSlug)
       if (data && data.info) {
         this.validation.slug.val = false
       }
@@ -142,17 +138,17 @@ export default {
   },
   watch: {
     name (newName) {
-      this.store.name = newName
-      this.store.slug = slug(newName)
-      this.store.title = `Ofertas, descuentos y promociones en ${newName} 2017 | Ofertadeo`
-      this.store.h1 = `${newName} - Ofertas, promociones y descuentos`
-      this.store.h2 = `Lista de ofertas y promociones en ${newName}`
-      this.store.meta_title = `Ofertas, descuentos y promociones en ${newName} 2017 | Ofertadeo`
-      this.store.img_alt = `Ofertas ${newName}`
-      this.store.img_title = `Ofertas ${newName}`
-      this.store.meta_description = `Encuentra las mejores ofertas ${newName} en línea y todos los descuentos, ofertas y promociones en ${newName} 2017. ✓ ¡Ahorra con Ofertadeo!`
+      this.category.name = newName
+      this.category.slug = slug(newName)
+      this.category.title = `Ofertas, descuentos y promociones en ${newName} 2017 | Ofertadeo`
+      this.category.h1 = `${newName} - Ofertas, promociones y descuentos`
+      this.category.h2 = `Lista de ofertas y promociones en ${newName}`
+      this.category.meta_title = `Ofertas, descuentos y promociones en ${newName} 2017 | Ofertadeo`
+      this.category.img_alt = `Ofertas ${newName}`
+      this.category.img_title = `Ofertas ${newName}`
+      this.category.meta_description = `Encuentra las mejores ofertas ${newName} en línea y todos los descuentos, ofertas y promociones en ${newName} 2017. ✓ ¡Ahorra con Ofertadeo!`
     },
-    'store.slug' (newSlug) {
+    'category.slug' (newSlug) {
       if (newSlug.length > 5) {
         this.validateSlug(newSlug)
       }
@@ -160,7 +156,7 @@ export default {
   },
   head () {
     return {
-      title: `Nueva Tienda | Ofertadeo`,
+      title: `Nueva Categoría | Ofertadeo`,
       meta: [
         { hid: 'robots', name: 'robots', content: 'noindex, nofollow' }
       ]

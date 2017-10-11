@@ -1,7 +1,7 @@
 <template>
   <ofer-container :breadcrumbs="exists(info) ? breadcrumbs : null">
     <template slot="info-section" v-if="exists(info)">
-      <ofer-header-info :info="info" rel="nofollow noopener">
+      <ofer-header-info :info="seo" rel="nofollow noopener">
         <template slot="social-network">
           <share-buttons
             :url="`${config.host}${config.routes.storeList}/${id}`"
@@ -69,13 +69,9 @@ export default {
     return Object.assign({ path: route.path, id: params.id }, data)
   },
   created () {
-    // data.info.description = `Descubre las mejores ofertas y promociones de ${data.info.name} en Ofertadeo. Descuentos, promociones y ofertas en ${data.info.name} ${OferCommon.methods.getDate('YYYY')}. ❤ ¡Ahorra ya!`
     if (this.exists(this.seo) && this.exists(this.info)) {
       this.seo = this.getSeoData(this.seo, this.info)
-      this.seo = this.getDefaultsForSeo(this.seo, this.info)
-      this.info.h1 = this.seo.h1
-      this.info.description = this.seo.description
-      this.info.img_alt = `Ofertas ${this.info.name}`
+      this.seo = this.mergeSeoWith(this.seo, this.info)
     }
   },
   components: {
@@ -97,7 +93,7 @@ export default {
     getMetas (params) {
       if (this.exists(params.info) && this.exists(params.seo)) {
         let metas = [
-          { hid: 'title', name: 'title', content: params.seo.meta_title },
+          { hid: 'title', name: 'title', content: params.seo.title },
           { hid: 'description', name: 'description', content: params.seo.meta_description },
           { hid: 'og:title', property: 'og:title', content: params.seo.meta_title },
           { hid: 'og:description', property: 'og:description', content: params.seo.meta_description },

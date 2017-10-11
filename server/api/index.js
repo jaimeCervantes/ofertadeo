@@ -2,6 +2,7 @@ let router = require('express').Router()
 let config = require('../config.js')
 let conn = require('../db/connection.js')(config)
 let crud = require('../db/crud.js')
+let commonDbParams = require('../db/common-db-params.js')
 let csm = require('../utils/sitemaps/create-sitemap.js')
 let feed = require('../utils/feed/')
 let pn = require('../utils/pn/')
@@ -20,7 +21,9 @@ categories({
   config: config,
   crud: crud,
   router: router,
-  handler: require('./handlers/categories')
+  handler: require('./handlers/categories'),
+  csm: csm,
+  commonDbParams: commonDbParams
 })
 
 promotions({
@@ -40,7 +43,8 @@ stores({
   crud: crud,
   router: router,
   handler: require('./handlers/stores'),
-  csm: csm
+  csm: csm,
+  commonDbParams: commonDbParams
 })
 
 upload({

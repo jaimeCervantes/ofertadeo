@@ -22,15 +22,12 @@ export default {
       }
       return res
     },
-    getDefaultsForSeo (seo, defaults) {
-      if (!this.exists(seo)) {
-        seo = {}
-        seo.meta_title = defaults.meta_title
-        seo.meta_description = defaults.meta_description
-        seo.title = defaults.title
-        seo.h1 = defaults.h1 || defaults.title
+    mergeSeoWith (seo, defaults) {
+      for (let prop in defaults) {
+        if (defaults.hasOwnProperty(prop) && defaults[prop]) {
+          seo[prop] = defaults[prop]
+        }
       }
-
       return seo
     }
   }

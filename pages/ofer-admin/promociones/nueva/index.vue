@@ -138,7 +138,7 @@ export default {
         return
       }
       if (!this.promotion.name || !this.promotion.url || !this.promotion.content || this.storeSelected.length === 0 || this.categorySelected.length === 0) {
-        alert('Todavia te faltan datos importantes antes de guardar la oferta. Recuerda subir la imagen seleccionada antes de crear la oferta')
+        alert('Todavia te faltan datos importantes antes de guardar la oferta.')
         return
       }
       this.loading = true
@@ -148,7 +148,7 @@ export default {
       axios.post('/api/promotions/new', this.promotion)
       .then(function (res) {
         if (res.data.ok) {
-          that.$router.push(`/ofer-admin/promociones/${that.promotion.slug}`)
+          that.$router.push(`/promociones/${that.promotion.slug}`)
         } else {
           alert('Algo salió mal, al insertar un nuevo documento en la base de datos')
         }

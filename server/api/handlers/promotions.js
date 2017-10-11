@@ -190,7 +190,7 @@ module.exports = function (spec) {
       let missingData = { modified: rightNow }
       let data = Object.assign(missingData, req.body)
 
-      if (!Object.hasOwnProperty('published')) {
+      if (!data.hasOwnProperty('published')) {
         data.published = rightNow
       }
 
@@ -256,7 +256,7 @@ module.exports = function (spec) {
     })
 
     return that
-  }
+  };
 
   that.save = save
   that.getFormData = getFormData

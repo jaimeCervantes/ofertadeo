@@ -114,10 +114,10 @@ module.exports = function crud (spec, shared) {
       })
   }
 
-  let aggregation = function (params) {
+  let aggregate = function (params) {
     let db = params.db || spec.DATABASE
     return db.collection(params.collection || spec.COLLECTION)
-      .aggregate(params.aggregation)
+      .aggregate(params.pipeline, params.options)
       .toArray()
       .then(function (data) {
         return data
@@ -134,7 +134,7 @@ module.exports = function crud (spec, shared) {
   that.update = update
   that.searchItems = searchItems
   that.getPagination = getPagination
-  that.aggregation = aggregation
+  that.aggregate = aggregate
 
   return that
 }
