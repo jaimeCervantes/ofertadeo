@@ -31,6 +31,8 @@ export default {
         title: '',
         h1: '',
         h2: '',
+        img_alt: '',
+        img_title: '',
         meta_title: '',
         meta_description: ''
       }
@@ -68,6 +70,8 @@ export default {
         this.seo.meta_title = newValue
         this.seo.h1 = newValue
         this.seo.h2 = newValue
+        this.seo.img_alt = newValue
+        this.seo.img_title = newValue
       }
     },
     description: {

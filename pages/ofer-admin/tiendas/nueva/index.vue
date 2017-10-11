@@ -12,11 +12,11 @@
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
             <v-text-field v-model="store.title" name="Title" label="Titulo del navegador"></v-text-field>
             <v-text-field v-model="store.h1" name="h1" label="Titulo, H1"></v-text-field>
-            <v-text-field v-model="store.h2" name="h2" label="Titulo, H2"></v-text-field
+            <v-text-field v-model="store.h2" name="h2" label="Titulo, H2"></v-text-field>
             <v-text-field v-model="store.meta_title" name="meta_title" label="Meta titulo"></v-text-field>
+            <v-text-field v-model="store.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
             <v-text-field v-model="store.img_alt" name="img_alt" label="Alt (img)"></v-text-field>
             <v-text-field v-model="store.img_title" name="img_title" label="Title (img)"></v-text-field>
-            <v-text-field v-model="store.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
             <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Tienda</v-btn>
           </form>
         </v-col>
@@ -59,6 +59,8 @@ export default {
         slug: '',
         url_site: '',
         title: '',
+        h1: '',
+        h2: '',
         meta_title: '',
         meta_description: '',
         img_alt: '',
@@ -114,6 +116,7 @@ export default {
         if (res.data.ok) {
           that.$router.push(`/tiendas/${that.store.slug}`)
         } else {
+          console.log(res)
           alert('Algo salió mal, al insertar un nueva tienda en la base de datos, ')
         }
       })
@@ -141,13 +144,15 @@ export default {
     name (newName) {
       this.store.name = newName
       this.store.slug = slug(newName)
-      this.store.title = `${newName} – Ofertas, promociones y descuentos`
-      this.store.meta_title = `Descuentos, ofertas y promociones en ${newName}`
-      this.store.img_alt = `${newName}`
-      this.store.img_title = `${newName}`
-      this.store.meta_description = `Descubre las mejores ofertas y promociones de ${newName}. Descuentos, promociones y ofertas en ${newName} ${this.year}. ❤ ¡Ahorra ya!`
+      this.store.title = `${newName}`
+      this.store.h1 = `${newName}`
+      this.store.h2 = `${newName}`
+      this.store.meta_title = `${newName}`
+      this.store.img_alt = `Ofertas ${newName}`
+      this.store.img_title = `Ofertas ${newName}`
+      this.store.meta_description = `${newName}`
     },
-    slug (newSlug) {
+    'store.slug' (newSlug) {
       if (newSlug.length > 5) {
         this.validateSlug(newSlug)
       }
