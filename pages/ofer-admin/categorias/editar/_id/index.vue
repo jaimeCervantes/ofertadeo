@@ -7,7 +7,6 @@
             <v-text-field disabled v-model.trim.lazy="category.name" name="name" label="Nombre" required></v-text-field>
             <v-text-field disabled v-model="category.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <vue-editor v-model="category.content"></vue-editor>
-            <v-text-field v-model="category.url_site" name="url" label="Url de la categoría"></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
             <v-text-field v-model="category.title" name="Title" label="Titulo del navegador"></v-text-field>
             <v-text-field v-model="category.h1" name="h1" label="Titulo, H1"></v-text-field>
@@ -54,7 +53,6 @@ export default {
       category: {
         name: '',
         slug: '',
-        url_site: '',
         title: '',
         meta_title: '',
         meta_description: '',
