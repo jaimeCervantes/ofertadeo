@@ -23,7 +23,12 @@ export default {
       return res
     },
     mergeSeoWith (seo, defaults) {
-      return Object.assign(seo, defaults)
+      for (let prop in defaults) {
+        if (defaults.hasOwnProperty(prop) && defaults[prop]) {
+          seo[prop] = defaults[prop]
+        }
+      }
+      return seo
     }
   }
 }
