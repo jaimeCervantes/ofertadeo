@@ -803,30 +803,6 @@ module.exports = function (spec) {
   var that = {};
   spec = spec || {};
 
-  /**
-   * Manage the store request, query by slug property
-   * @return {Object} For cascade purposes
-   */
-  function getBySlug() {
-    spec.router.get('/promotions/:slug', function (req, res) {
-      var iterable = [spec.crud.getItem({
-        collection: spec.config.db.collections.categories,
-        query: { slug: req.params.slug },
-        items_per_page: 1
-      })];
-
-      return Promise.all(iterable).then(function (results) {
-        res.json({
-          item: results[0]
-        });
-      }).catch(function (error) {
-        res.json(error);
-      });
-    });
-
-    return that;
-  }
-
   function getById() {
     var conf = spec.config;
     var crudInst = spec.crud;
@@ -860,6 +836,11 @@ module.exports = function (spec) {
           thumbnail: 1,
           slug: 1,
           content: 1,
+          title: 1,
+          h1: 1,
+          h2: 1,
+          meta_title: 1,
+          meta_description: 1,
           img: 1,
           img_alt: 1,
           img_title: 1,
@@ -1434,30 +1415,6 @@ module.exports = function (spec) {
   var that = {};
   spec = spec || {};
 
-  /**
-  * Manage the store request, query by slug property
-  * @return {Object} For cascade purposes
-  */
-  function getBySlug() {
-    spec.router.get('/promotions/:slug', function (req, res) {
-      var iterable = [spec.crud.getItem({
-        collection: spec.config.db.collections.secundary,
-        query: { slug: req.params.slug },
-        items_per_page: 1
-      })];
-
-      return Promise.all(iterable).then(function (results) {
-        res.json({
-          item: results[0]
-        });
-      }).catch(function (error) {
-        res.json(error);
-      });
-    });
-
-    return that;
-  }
-
   function getById(params) {
     var crudInst = spec.crud;
     var conf = spec.config;
@@ -1486,7 +1443,22 @@ module.exports = function (spec) {
       }), crudInst.getItem({
         collection: conf.db.collections.secundary,
         query: { _id: req.params._id },
-        projection: { name: 1, thumbnail: 1, slug: 1, content: 1, url_site: 1, img: 1, img_alt: 1, img_title: 1, img_data: 1 }
+        projection: {
+          name: 1,
+          thumbnail: 1,
+          slug: 1,
+          content: 1,
+          title: 1,
+          h1: 1,
+          h2: 1,
+          meta_title: 1,
+          meta_description: 1,
+          url_site: 1,
+          img: 1,
+          img_alt: 1,
+          img_title: 1,
+          img_data: 1
+        }
       }), crudInst.getPagination({
         query: { 'stores._id': req.params._id },
         collection: conf.db.collections.main
