@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 42);
+/******/ 	return __webpack_require__(__webpack_require__.s = 43);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -225,7 +225,7 @@ module.exports = require("express");
 "use strict";
 
 
-var MongoClient = __webpack_require__(36).MongoClient;
+var MongoClient = __webpack_require__(37).MongoClient;
 
 module.exports = function (config) {
   // connPromise is pending when trying to connect to mongodb atlas
@@ -368,7 +368,7 @@ module.exports = function crud(spec, shared) {
 /***/ function(module, exports, __webpack_require__) {
 
 var utils = __webpack_require__(1);
-var smUtils = __webpack_require__(33);
+var smUtils = __webpack_require__(34);
 var config = __webpack_require__(0);
 var fs = __webpack_require__(2);
 var request = __webpack_require__(9);
@@ -633,9 +633,10 @@ var router = __webpack_require__(4).Router();
 var config = __webpack_require__(0);
 var conn = __webpack_require__(5)(config);
 var crud = __webpack_require__(6);
+var commonDbParams = __webpack_require__(30);
 var csm = __webpack_require__(7);
-var feed = __webpack_require__(31);
-var pn = __webpack_require__(32);
+var feed = __webpack_require__(32);
+var pn = __webpack_require__(33);
 
 var home = __webpack_require__(25);
 var categories = __webpack_require__(19);
@@ -652,7 +653,8 @@ categories({
   crud: crud,
   router: router,
   handler: __webpack_require__(20),
-  csm: csm
+  csm: csm,
+  commonDbParams: commonDbParams
 });
 
 promotions({
@@ -672,7 +674,8 @@ stores({
   crud: crud,
   router: router,
   handler: __webpack_require__(23),
-  csm: csm
+  csm: csm,
+  commonDbParams: commonDbParams
 });
 
 upload({
@@ -785,7 +788,13 @@ module.exports = function (params) {
     return params.crud({ db: db, config: params.config });
   }).then(function (crud) {
     if (crud) {
-      params.handler({ crud: crud, config: params.config, router: params.router, csm: params.csm }).getById().getIndex().getFormData().save({ path: '/categories/new' }) // Create new category
+      params.handler({
+        crud: crud,
+        config: params.config,
+        router: params.router,
+        csm: params.csm,
+        commonDbParams: params.commonDbParams
+      }).getById().getIndex().getFormData().save({ path: '/categories/new' }) // Create new category
       .save({ path: '/categories/edit/:id' }); // Edit a category
     } else {
       console.log('There is not database instance');
@@ -896,91 +905,7 @@ module.exports = function (spec) {
         }, {
           $group: {
             _id: {
-              $switch: {
-                branches: [{
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "a"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "b"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "c"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "d"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "e"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "f"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "g"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "h"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "i"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "j"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "k"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "l"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "m"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "n"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "ñ"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "o"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "p"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "q"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "r"] },
-                  then: "R-V"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "s"] },
-                  then: "R-V"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "t"] },
-                  then: "R-V"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "u"] },
-                  then: "R-V"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "v"] },
-                  then: "R-V"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "w"] },
-                  then: "W-Z"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "x"] },
-                  then: "W-Z"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "y"] },
-                  then: "W-Z"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "z"] },
-                  then: "W-Z"
-                }],
-                default: "0-9"
-              }
+              $switch: spec.commonDbParams.groupAlphabeticallyInSwitch
             },
             categories: { $push: "$$CURRENT" }
           }
@@ -1508,91 +1433,7 @@ module.exports = function (spec) {
         }, {
           $group: {
             _id: {
-              $switch: {
-                branches: [{
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "a"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "b"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "c"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "d"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "e"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "f"] },
-                  then: "A-F"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "g"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "h"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "i"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "j"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "k"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "l"] },
-                  then: "G-L"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "m"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "n"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "ñ"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "o"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "p"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "q"] },
-                  then: "M-Q"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "r"] },
-                  then: "R-V"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "s"] },
-                  then: "R-V"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "t"] },
-                  then: "R-V"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "u"] },
-                  then: "R-V"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "v"] },
-                  then: "R-V"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "w"] },
-                  then: "W-Z"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "x"] },
-                  then: "W-Z"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "y"] },
-                  then: "W-Z"
-                }, {
-                  case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "z"] },
-                  then: "W-Z"
-                }],
-                default: "0-9"
-              }
+              $switch: spec.commonDbParams.groupAlphabeticallyInSwitch
             },
             stores: { $push: "$$CURRENT" }
           }
@@ -1723,10 +1564,10 @@ module.exports = function (spec) {
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-var mkdirp = __webpack_require__(35);
+var mkdirp = __webpack_require__(36);
 var path = __webpack_require__(3);
-var multer = __webpack_require__(37);
-var jimp = __webpack_require__(34);
+var multer = __webpack_require__(38);
+var jimp = __webpack_require__(35);
 
 module.exports = function (spec) {
   var that = {};
@@ -1934,7 +1775,13 @@ module.exports = function (params) {
     return params.crud({ db: db, config: params.config });
   }).then(function (crud) {
     if (crud) {
-      params.handler({ crud: crud, router: params.router, config: params.config, csm: params.csm }).getById().getIndex().getFormData().save({ path: '/stores/new' }) // Create new store
+      params.handler({
+        crud: crud,
+        router: params.router,
+        config: params.config,
+        csm: params.csm,
+        commonDbParams: params.commonDbParams
+      }).getById().getIndex().getFormData().save({ path: '/stores/new' }) // Create new store
       .save({ path: '/stores/edit/:id' }); // Edit an store
     }
   }).catch(function (err) {
@@ -1967,13 +1814,105 @@ module.exports = function (params) {
 
 /***/ },
 /* 30 */
+/***/ function(module, exports) {
+
+module.exports = {
+  groupAlphabeticallyInSwitch: {
+    branches: [{
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "a"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "b"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "c"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "d"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "e"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "f"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "g"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "h"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "i"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "j"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "k"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "l"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "m"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "n"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "ñ"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "o"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "p"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "q"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "r"] },
+      then: "R-V"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "s"] },
+      then: "R-V"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "t"] },
+      then: "R-V"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "u"] },
+      then: "R-V"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "v"] },
+      then: "R-V"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "w"] },
+      then: "W-Z"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "x"] },
+      then: "W-Z"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "y"] },
+      then: "W-Z"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "z"] },
+      then: "W-Z"
+    }],
+    default: "0-F"
+  }
+};
+
+/***/ },
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var xml = __webpack_require__(40);
+var xml = __webpack_require__(41);
 var utils = __webpack_require__(1);
 
 var GENERATOR = 'Feed for Node.js';
@@ -2449,13 +2388,13 @@ var Feed = function () {
 module.exports = Feed;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 var config = __webpack_require__(0);
-var Feed = __webpack_require__(30);
+var Feed = __webpack_require__(31);
 var fs = __webpack_require__(2);
-var striptags = __webpack_require__(39);
+var striptags = __webpack_require__(40);
 var utils = __webpack_require__(1);
 var cron = __webpack_require__(8);
 
@@ -2561,7 +2500,7 @@ module.exports = {
 };
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 var config = __webpack_require__(0);
@@ -2593,13 +2532,13 @@ module.exports = {
 };
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
-var sm = __webpack_require__(38);
+var sm = __webpack_require__(39);
 var config = __webpack_require__(0);
 var fs = __webpack_require__(2);
-var zlib = __webpack_require__(41);
+var zlib = __webpack_require__(42);
 var utils = __webpack_require__(1);
 
 function compress(path) {
@@ -2676,55 +2615,55 @@ module.exports = {
 };
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 module.exports = require("jimp");
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports) {
 
 module.exports = require("mkdirp");
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports) {
 
 module.exports = require("mongodb");
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports) {
 
 module.exports = require("multer");
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports) {
 
 module.exports = require("sitemap");
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports) {
 
 module.exports = require("striptags");
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports) {
 
 module.exports = require("xml");
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
