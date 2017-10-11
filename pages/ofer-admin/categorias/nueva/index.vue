@@ -8,7 +8,7 @@
             <v-text-field v-model="category.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
             <vue-editor v-model="category.content"></vue-editor>
-            <v-text-field v-model="category.url_site" name="url" label="Url de la Categoría" required></v-text-field>
+            <v-text-field v-model="category.url_site" name="url" label="Url de la Categoría"></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
             <v-text-field v-model="category.title" name="Title" label="Titulo del navegador"></v-text-field>
             <v-text-field v-model="category.h1" name="h1" label="Titulo, H1"></v-text-field>
@@ -142,13 +142,13 @@ export default {
     name (newName) {
       this.category.name = newName
       this.category.slug = slug(newName)
-      this.category.title = `${newName}`
-      this.category.h1 = `${newName}`
-      this.category.h2 = `${newName}`
-      this.category.meta_title = `${newName}`
+      this.category.title = `Ofertas, descuentos y promociones en ${newName} 2017 | Ofertadeo`
+      this.category.h1 = `${newName} - Ofertas, promociones y descuentos`
+      this.category.h2 = `Lista de ofertas y promociones en ${newName}`
+      this.category.meta_title = `Ofertas, descuentos y promociones en ${newName} 2017 | Ofertadeo`
       this.category.img_alt = `Ofertas ${newName}`
       this.category.img_title = `Ofertas ${newName}`
-      this.category.meta_description = `${newName}`
+      this.category.meta_description = `Encuentra las mejores ofertas ${newName} en línea y todos los descuentos, ofertas y promociones en ${newName} 2017. ✓ ¡Ahorra con Ofertadeo!`
     },
     'category.slug' (newSlug) {
       if (newSlug.length > 5) {
