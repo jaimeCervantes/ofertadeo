@@ -65,7 +65,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 42);
+/******/ 	return __webpack_require__(__webpack_require__.s = 43);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -92,6 +92,9 @@ var config = {
       categories: 'categories',
       pages: 'pages',
       seo: 'seo'
+    },
+    collation: {
+      locale: 'es'
     }
   },
   routes: {
@@ -221,7 +224,7 @@ module.exports = require("express");
 "use strict";
 
 
-var MongoClient = __webpack_require__(36).MongoClient;
+var MongoClient = __webpack_require__(37).MongoClient;
 
 module.exports = function (config) {
   // connPromise is pending when trying to connect to mongodb atlas
@@ -338,9 +341,9 @@ module.exports = function crud(spec, shared) {
     });
   };
 
-  var aggregation = function aggregation(params) {
+  var aggregate = function aggregate(params) {
     var db = params.db || spec.DATABASE;
-    return db.collection(params.collection || spec.COLLECTION).aggregate(params.aggregation).toArray().then(function (data) {
+    return db.collection(params.collection || spec.COLLECTION).aggregate(params.pipeline, params.options).toArray().then(function (data) {
       return data;
     }).catch(function (err) {
       return err;
@@ -354,7 +357,7 @@ module.exports = function crud(spec, shared) {
   that.update = update;
   that.searchItems = searchItems;
   that.getPagination = getPagination;
-  that.aggregation = aggregation;
+  that.aggregate = aggregate;
 
   return that;
 };
@@ -364,7 +367,7 @@ module.exports = function crud(spec, shared) {
 /***/ function(module, exports, __webpack_require__) {
 
 var utils = __webpack_require__(1);
-var smUtils = __webpack_require__(33);
+var smUtils = __webpack_require__(34);
 var config = __webpack_require__(0);
 var fs = __webpack_require__(2);
 var request = __webpack_require__(9);
@@ -629,9 +632,10 @@ var router = __webpack_require__(4).Router();
 var config = __webpack_require__(0);
 var conn = __webpack_require__(5)(config);
 var crud = __webpack_require__(6);
+var commonDbParams = __webpack_require__(30);
 var csm = __webpack_require__(7);
-var feed = __webpack_require__(31);
-var pn = __webpack_require__(32);
+var feed = __webpack_require__(32);
+var pn = __webpack_require__(33);
 
 var home = __webpack_require__(25);
 var categories = __webpack_require__(19);
@@ -647,7 +651,9 @@ categories({
   config: config,
   crud: crud,
   router: router,
-  handler: __webpack_require__(20)
+  handler: __webpack_require__(20),
+  csm: csm,
+  commonDbParams: commonDbParams
 });
 
 promotions({
@@ -667,7 +673,8 @@ stores({
   crud: crud,
   router: router,
   handler: __webpack_require__(23),
-  csm: csm
+  csm: csm,
+  commonDbParams: commonDbParams
 });
 
 upload({
@@ -780,7 +787,14 @@ module.exports = function (params) {
     return params.crud({ db: db, config: params.config });
   }).then(function (crud) {
     if (crud) {
-      params.handler({ crud: crud, config: params.config, router: params.router }).getById().getIndex();
+      params.handler({
+        crud: crud,
+        config: params.config,
+        router: params.router,
+        csm: params.csm,
+        commonDbParams: params.commonDbParams
+      }).getById().getIndex().getFormData().save({ path: '/categories/new' }) // Create new category
+      .save({ path: '/categories/edit/:id' }); // Edit a category
     } else {
       console.log('There is not database instance');
     }
@@ -830,6 +844,11 @@ module.exports = function (spec) {
           thumbnail: 1,
           slug: 1,
           content: 1,
+          title: 1,
+          h1: 1,
+          h2: 1,
+          meta_title: 1,
+          meta_description: 1,
           img: 1,
           img_alt: 1,
           img_title: 1,
@@ -838,13 +857,17 @@ module.exports = function (spec) {
       }), crudInst.getPagination({
         query: { 'categories._id': req.params._id },
         collection: conf.db.collections.main
+      }), crudInst.getItem({
+        collection: conf.db.collections.seo,
+        query: { _id: 'categories' }
       })];
 
       Promise.all(iterable).then(function (results) {
         res.json({
           items: results[0],
           info: results[1],
-          pagination: results[2]
+          pagination: results[2],
+          seo: results[3]
         });
       }).catch(function (error) {
         res.json(error);
@@ -859,42 +882,151 @@ module.exports = function (spec) {
     var crudInst = spec.crud;
 
     spec.router.get('/categories', function (req, res) {
+
       var page = req.query.page ? Number(req.query.page) : 0;
-      var iterable = [crudInst.getItems({
+      var iterable = [crudInst.aggregate({
         collection: conf.db.collections.categories,
-        items_per_page: conf.db.itemsPerPage,
-        skip: conf.db.itemsPerPage * page,
-        sort: { name: 1 },
-        projection: {
-          name: 1,
-          slug: 1,
-          thumbnail: 1,
-          img: 1,
-          img_data: 1,
-          img_alt: 1,
-          img_title: 1,
-          published: 1,
-          modified: 1
-        }
-      }), crudInst.getPagination({
-        collection: conf.db.collections.categories
+        pipeline: [{ $limit: 100 }, // Primiero limitar la cantidad
+        // Ordenarlo por nombre para obtener el arreglo stores en el sig, pipe ordenado alfabeticamente en orden ascendente
+        { $sort: { name: 1 } }, { $project: {
+            // A mayusculas, porque 'e' !== 'E'
+            _id: 1,
+            name: 1,
+            slug: 1,
+            thumbnail: 1,
+            img: 1,
+            img_data: 1,
+            img_alt: 1,
+            img_title: 1,
+            published: 1,
+            modified: 1
+          }
+        }, {
+          $group: {
+            _id: {
+              $switch: spec.commonDbParams.groupAlphabeticallyInSwitch
+            },
+            categories: { $push: "$$CURRENT" }
+          }
+        }, { $sort: { _id: 1 } }], // pipeline
+        options: {
+          collation: {
+            locale: conf.db.collation.locale,
+            alternate: "shifted"
+          } // options
+        } }) // aggregate
+      ]; // iterable
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          items: results[0]
+        });
+      }).catch(function (error) {
+        console.log(error);
+        res.json(error);
+      });
+    }); // router.get of express
+
+    return that;
+  }
+
+  function getFormData() {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+    var router = spec.router;
+    // get an specific promotion data, query by slug property
+    router.get('/formdata/categories/:id', function (req, res) {
+      var iterable = [crudInst.getItem({
+        collection: conf.db.collections.categories,
+        query: { _id: req.params.id },
+        items_per_page: 1
       })];
 
       Promise.all(iterable).then(function (results) {
         res.json({
-          items: results[0],
-          pagination: results[1]
+          item: results[0]
         });
       }).catch(function (error) {
         res.json(error);
       });
-    });
+    }); // router.get
+
+    return that;
+  }
+
+  /**
+  * Creates or update a store
+  * @param  {[type]} params Until now it contains the path of the request
+  * @return {Object}        For cascade purpose
+  */
+  function save(params) {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+
+    spec.router.post(params.path, function (req, res) {
+      var rightNow = new Date();
+      var saveMethod = 'setItem';
+      var saveParams = {
+        collection: conf.db.collections.categories
+      };
+      var data = Object.assign({ modified: rightNow }, req.body);
+
+      // Al crear nueva, la fecha de publicacion y modificacion son la misma
+      if (!data.hasOwnProperty('published')) {
+        data.published = rightNow;
+      }
+
+      if (data.hasOwnProperty('_id')) {
+        saveMethod = 'update';
+        delete data._id;
+        delete saveParams.document;
+        saveParams.query = { _id: req.params.id };
+        saveParams.update = { $set: data };
+        saveParams.options = { upsert: true };
+      } else {
+        data._id = data.slug;
+        saveParams.document = data;
+      }
+
+      crudInst[saveMethod](saveParams).then(function (dbResponse) {
+        //  return response to client with res object
+        res.json(dbResponse);
+        return dbResponse;
+      }).catch(function (err) {
+        console.log('Ocurrió un error al tratar de Guardar una Categoría:');
+        console.log(err);
+        res.json(err);
+      }).then(function (dbResponse) {
+        if (dbResponse.result && dbResponse.result.ok) {
+          return true;
+        } else {
+          return Error(dbResponse);
+        }
+      }).then(function (result) {
+        if (result === true) {
+          Promise.all([spec.csm.categories(), spec.csm.pages()]).then(function (results) {
+            if (results && results.length > 0) {
+              return spec.csm.index();
+            }
+          }).catch(function (err) {
+            console.log(err);
+            return err;
+          });
+        } else {
+          console.log(result);
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }); // router.post
 
     return that;
   }
 
   that.getIndex = getIndex;
   that.getById = getById;
+  that.getFormData = getFormData;
+  that.save = save;
 
   return that;
 };
@@ -1073,7 +1205,7 @@ module.exports = function (spec) {
       var missingData = { modified: rightNow };
       var data = Object.assign(missingData, req.body);
 
-      if (!Object.hasOwnProperty('published')) {
+      if (!data.hasOwnProperty('published')) {
         data.published = rightNow;
       }
 
@@ -1131,7 +1263,7 @@ module.exports = function (spec) {
     });
 
     return that;
-  }
+  };
 
   that.save = save;
   that.getFormData = getFormData;
@@ -1235,7 +1367,22 @@ module.exports = function (spec) {
       }), crudInst.getItem({
         collection: conf.db.collections.secundary,
         query: { _id: req.params._id },
-        projection: { name: 1, thumbnail: 1, slug: 1, content: 1, url_site: 1, img: 1, img_alt: 1, img_title: 1, img_data: 1 }
+        projection: {
+          name: 1,
+          thumbnail: 1,
+          slug: 1,
+          content: 1,
+          title: 1,
+          h1: 1,
+          h2: 1,
+          meta_title: 1,
+          meta_description: 1,
+          url_site: 1,
+          img: 1,
+          img_alt: 1,
+          img_title: 1,
+          img_data: 1
+        }
       }), crudInst.getPagination({
         query: { 'stores._id': req.params._id },
         collection: conf.db.collections.main
@@ -1265,30 +1412,42 @@ module.exports = function (spec) {
 
     spec.router.get('/stores', function (req, res) {
       var page = req.query.page ? Number(req.query.page) : 0;
-      var iterable = [crudInst.getItems({
+      var iterable = [crudInst.aggregate({
         collection: conf.db.collections.secundary,
-        items_per_page: conf.db.itemsPerPage,
-        skip: conf.db.itemsPerPage * page,
-        sort: { name: 1 },
-        projection: {
-          name: 1,
-          slug: 1,
-          thumbnail: 1,
-          img: 1,
-          img_data: 1,
-          img_alt: 1,
-          img_title: 1,
-          published: 1,
-          modified: 1
-        }
-      }), crudInst.getPagination({
-        collection: conf.db.collections.secundary
-      })];
+        pipeline: [{ $limit: 100 }, // Primiero limitar la cantidad
+        // Ordenarlo por nombre para obtener el arreglo stores en el sig, pipe ordenado alfabeticamente en orden ascendente
+        { $sort: { name: 1 } }, { $project: {
+            // A mayusculas, porque 'e' !== 'E'
+            _id: 1,
+            name: 1,
+            slug: 1,
+            thumbnail: 1,
+            img: 1,
+            img_data: 1,
+            img_alt: 1,
+            img_title: 1,
+            published: 1,
+            modified: 1
+          }
+        }, {
+          $group: {
+            _id: {
+              $switch: spec.commonDbParams.groupAlphabeticallyInSwitch
+            },
+            stores: { $push: "$$CURRENT" }
+          }
+        }, { $sort: { _id: 1 } }], // pipeline
+        options: {
+          collation: {
+            locale: conf.db.collation.locale,
+            alternate: "shifted"
+          } // options
+        } }) // aggregate
+      ]; // iterable
 
       Promise.all(iterable).then(function (results) {
         res.json({
-          items: results[0],
-          pagination: results[1]
+          items: results[0]
         });
       }).catch(function (error) {
         console.log(error);
@@ -1299,34 +1458,72 @@ module.exports = function (spec) {
     return that;
   }
 
-  function save(params) {
-    var crudInst = spec.crud;
+  function getFormData() {
     var conf = spec.config;
-
-    spec.router.post('/stores/new', function (req, res) {
-      var rightNow = new Date();
-      var data = Object.assign({ modified: rightNow, published: rightNow, _id: req.body.slug }, req.body);
-      crudInst.setItem({
+    var crudInst = spec.crud;
+    var router = spec.router;
+    // get an specific promotion data, query by slug property
+    router.get('/formdata/stores/:id', function (req, res) {
+      var iterable = [crudInst.getItem({
         collection: conf.db.collections.secundary,
-        document: data
-      }).then(function (dbResponse) {
+        query: { _id: req.params.id },
+        items_per_page: 1
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          item: results[0]
+        });
+      }).catch(function (error) {
+        res.json(error);
+      });
+    }); // router.get
+
+    return that;
+  }
+
+  /**
+  * Creates or update a store
+  * @param  {[type]} params Until now it contains the path of the request
+  * @return {Object}        For cascade purpose
+  */
+  function save(params) {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+    var saveMethod = 'setItem';
+
+    spec.router.post(params.path, function (req, res) {
+      var rightNow = new Date();
+      var saveParams = {
+        collection: conf.db.collections.secundary
+      };
+      var data = Object.assign({ modified: rightNow }, req.body);
+
+      // Al crear nueva, la fecha de publicacion y modificacion son la misma
+      if (!data.hasOwnProperty('published')) {
+        data.published = rightNow;
+      }
+
+      if (data.hasOwnProperty('_id')) {
+        saveMethod = 'update';
+        delete data._id;
+        delete saveParams.document;
+        saveParams.query = { _id: req.params.id };
+        saveParams.update = { $set: data };
+        saveParams.options = { upsert: true };
+      } else {
+        data._id = data.slug;
+        saveParams.document = data;
+      }
+
+      crudInst[saveMethod](saveParams).then(function (dbResponse) {
+        //  return response to client with res object
         res.json(dbResponse);
         return dbResponse;
       }).catch(function (err) {
         console.log('Ocurrió un error al tratar de Guardar una Tienda:');
         console.log(err);
         res.json(err);
-      }).then(function (dbResponse) {
-        if (dbResponse.result && dbResponse.result.ok) {
-          return crudInst.updateOne({
-            collection: conf.db.collections.pages,
-            query: { slug: '/tiendas' },
-            update: { $set: { modified: rightNow } }
-          });
-        }
-      }).catch(function (err) {
-        console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:');
-        console.log(err);
       }).then(function (dbResponse) {
         if (dbResponse.result && dbResponse.result.ok) {
           return true;
@@ -1349,7 +1546,7 @@ module.exports = function (spec) {
       }).catch(function (err) {
         console.log(err);
       });
-    });
+    }); // router.post
 
     return that;
   }
@@ -1357,6 +1554,7 @@ module.exports = function (spec) {
   that.save = save;
   that.getById = getById;
   that.getIndex = getIndex;
+  that.getFormData = getFormData;
 
   return that;
 };
@@ -1365,10 +1563,10 @@ module.exports = function (spec) {
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-var mkdirp = __webpack_require__(35);
+var mkdirp = __webpack_require__(36);
 var path = __webpack_require__(3);
-var multer = __webpack_require__(37);
-var jimp = __webpack_require__(34);
+var multer = __webpack_require__(38);
+var jimp = __webpack_require__(35);
 
 module.exports = function (spec) {
   var that = {};
@@ -1576,7 +1774,14 @@ module.exports = function (params) {
     return params.crud({ db: db, config: params.config });
   }).then(function (crud) {
     if (crud) {
-      params.handler({ crud: crud, router: params.router, config: params.config, csm: params.csm }).getById().getIndex().save();
+      params.handler({
+        crud: crud,
+        router: params.router,
+        config: params.config,
+        csm: params.csm,
+        commonDbParams: params.commonDbParams
+      }).getById().getIndex().getFormData().save({ path: '/stores/new' }) // Create new store
+      .save({ path: '/stores/edit/:id' }); // Edit an store
     }
   }).catch(function (err) {
     // some configuration to notify no database connection working
@@ -1608,13 +1813,105 @@ module.exports = function (params) {
 
 /***/ },
 /* 30 */
+/***/ function(module, exports) {
+
+module.exports = {
+  groupAlphabeticallyInSwitch: {
+    branches: [{
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "a"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "b"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "c"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "d"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "e"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "f"] },
+      then: "0-F"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "g"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "h"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "i"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "j"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "k"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "l"] },
+      then: "G-L"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "m"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "n"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "ñ"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "o"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "p"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "q"] },
+      then: "M-Q"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "r"] },
+      then: "R-V"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "s"] },
+      then: "R-V"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "t"] },
+      then: "R-V"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "u"] },
+      then: "R-V"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "v"] },
+      then: "R-V"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "w"] },
+      then: "W-Z"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "x"] },
+      then: "W-Z"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "y"] },
+      then: "W-Z"
+    }, {
+      case: { $eq: [{ $substrCP: ["$_id", 0, 1] }, "z"] },
+      then: "W-Z"
+    }],
+    default: "0-F"
+  }
+};
+
+/***/ },
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var xml = __webpack_require__(40);
+var xml = __webpack_require__(41);
 var utils = __webpack_require__(1);
 
 var GENERATOR = 'Feed for Node.js';
@@ -2090,13 +2387,13 @@ var Feed = function () {
 module.exports = Feed;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 var config = __webpack_require__(0);
-var Feed = __webpack_require__(30);
+var Feed = __webpack_require__(31);
 var fs = __webpack_require__(2);
-var striptags = __webpack_require__(39);
+var striptags = __webpack_require__(40);
 var utils = __webpack_require__(1);
 var cron = __webpack_require__(8);
 
@@ -2202,7 +2499,7 @@ module.exports = {
 };
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 var config = __webpack_require__(0);
@@ -2234,13 +2531,13 @@ module.exports = {
 };
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
-var sm = __webpack_require__(38);
+var sm = __webpack_require__(39);
 var config = __webpack_require__(0);
 var fs = __webpack_require__(2);
-var zlib = __webpack_require__(41);
+var zlib = __webpack_require__(42);
 var utils = __webpack_require__(1);
 
 function compress(path) {
@@ -2317,55 +2614,55 @@ module.exports = {
 };
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 module.exports = require("jimp");
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports) {
 
 module.exports = require("mkdirp");
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports) {
 
 module.exports = require("mongodb");
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports) {
 
 module.exports = require("multer");
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports) {
 
 module.exports = require("sitemap");
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports) {
 
 module.exports = require("striptags");
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports) {
 
 module.exports = require("xml");
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
