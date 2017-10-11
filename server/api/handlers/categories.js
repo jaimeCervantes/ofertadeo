@@ -2,34 +2,6 @@ module.exports = function (spec) {
   let that = {}
   spec = spec || {}
 
-  /**
-   * Manage the store request, query by slug property
-   * @return {Object} For cascade purposes
-   */
-  function getBySlug () {
-    spec.router.get('/promotions/:slug', function (req, res) {
-      let iterable = [
-        spec.crud.getItem({
-          collection: spec.config.db.collections.categories,
-          query: { slug: req.params.slug },
-          items_per_page: 1
-        })
-      ]
-
-      return Promise.all(iterable)
-            .then(function (results) {
-              res.json({
-                item: results[0]
-              })
-            })
-            .catch(function (error) {
-              res.json(error)
-            })
-    })
-
-    return that
-  }
-
   function getById () {
     let conf = spec.config
     let crudInst = spec.crud
@@ -65,6 +37,11 @@ module.exports = function (spec) {
             thumbnail: 1,
             slug: 1,
             content: 1,
+            title: 1,
+            h1: 1,
+            h2: 1,
+            meta_title: 1,
+            meta_description: 1,
             img: 1,
             img_alt: 1,
             img_title: 1,

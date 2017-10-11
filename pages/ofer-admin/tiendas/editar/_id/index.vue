@@ -6,17 +6,16 @@
           <form id="new-offer" v-on:submit.prevent="send">
             <v-text-field disabled v-model.trim.lazy="store.name" name="name" label="Nombre" required></v-text-field>
             <v-text-field disabled v-model="store.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
-            <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
             <vue-editor v-model="store.content"></vue-editor>
             <v-text-field v-model="store.url_site" name="url" label="Url de la Tienda" required></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
             <v-text-field v-model="store.title" name="Title" label="Titulo del navegador"></v-text-field>
             <v-text-field v-model="store.h1" name="h1" label="Titulo, H1"></v-text-field>
-            <v-text-field v-model="store.h2" name="h2" label="Titulo, H2"></v-text-field
+            <v-text-field v-model="store.h2" name="h2" label="Titulo, H2"></v-text-field>
             <v-text-field v-model="store.meta_title" name="meta_title" label="Meta titulo"></v-text-field>
+            <v-text-field v-model="store.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
             <v-text-field v-model="store.img_alt" name="img_alt" label="Alt (img)"></v-text-field>
             <v-text-field v-model="store.img_title" name="img_title" label="Title (img)"></v-text-field>
-            <v-text-field v-model="store.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
             <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Editar Tienda</v-btn>
           </form>
         </v-col>
@@ -57,6 +56,8 @@ export default {
         slug: '',
         url_site: '',
         title: '',
+        h1: '',
+        h2: '',
         meta_title: '',
         meta_description: '',
         img_alt: '',
@@ -129,16 +130,6 @@ export default {
         that.loading = false
         that.disabled = false
       })
-    },
-    async validateSlug (currSlug) {
-      if (currSlug === '') {
-        return
-      }
-      this.validation.slug.val = true
-      let { data } = await axios.get('/api/stores/' + currSlug)
-      if (data && data.info) {
-        this.validation.slug.val = false
-      }
     }
   },
   head () {

@@ -14,9 +14,9 @@
             <v-text-field v-model="category.h1" name="h1" label="Titulo, H1"></v-text-field>
             <v-text-field v-model="category.h2" name="h2" label="Titulo, H2"></v-text-field>
             <v-text-field v-model="category.meta_title" name="meta_title" label="Meta titulo"></v-text-field>
+            <v-text-field v-model="category.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
             <v-text-field v-model="category.img_alt" name="img_alt" label="Alt (img)"></v-text-field>
             <v-text-field v-model="category.img_title" name="img_title" label="Title (img)"></v-text-field>
-            <v-text-field v-model="category.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
             <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Nueva Categoría</v-btn>
           </form>
         </v-col>
@@ -53,12 +53,13 @@ export default {
       loading: false,
       disabled: false,
       name: '',
-      slug: '',
       category: {
         name: '',
         slug: '',
         url_site: '',
         title: '',
+        h1: '',
+        h2: '',
         meta_title: '',
         meta_description: '',
         img_alt: '',
@@ -141,11 +142,13 @@ export default {
     name (newName) {
       this.category.name = newName
       this.category.slug = slug(newName)
-      this.category.title = `${newName} – Ofertas, promociones y descuentos`
-      this.category.meta_title = `Descuentos, ofertas y promociones en ${newName}`
-      this.category.img_alt = `${newName}`
-      this.category.img_title = `${newName}`
-      this.category.meta_description = `Descubre las mejores ofertas y promociones de ${newName}. Descuentos, promociones y ofertas en ${newName} ${this.year}. ❤ ¡Ahorra ya!`
+      this.category.title = `${newName}`
+      this.category.h1 = `${newName}`
+      this.category.h2 = `${newName}`
+      this.category.meta_title = `${newName}`
+      this.category.img_alt = `Ofertas ${newName}`
+      this.category.img_title = `Ofertas ${newName}`
+      this.category.meta_description = `${newName}`
     },
     'category.slug' (newSlug) {
       if (newSlug.length > 5) {
