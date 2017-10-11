@@ -144,13 +144,13 @@ export default {
     name (newName) {
       this.store.name = newName
       this.store.slug = slug(newName)
-      this.store.title = `${newName}`
-      this.store.h1 = `${newName}`
-      this.store.h2 = `${newName}`
-      this.store.meta_title = `${newName}`
+      this.store.title = `Ofertas, descuentos y promociones en ${newName} 2017 | Ofertadeo`
+      this.store.h1 = `${newName} - Ofertas, promociones y descuentos`
+      this.store.h2 = `Lista de ofertas y promociones en ${newName}`
+      this.store.meta_title = `Ofertas, descuentos y promociones en ${newName} 2017 | Ofertadeo`
       this.store.img_alt = `Ofertas ${newName}`
       this.store.img_title = `Ofertas ${newName}`
-      this.store.meta_description = `${newName}`
+      this.store.meta_description = `Encuentra las mejores ofertas ${newName} en línea y todos los descuentos, ofertas y promociones en ${newName} 2017. ✓ ¡Ahorra con Ofertadeo!`
     },
     'store.slug' (newSlug) {
       if (newSlug.length > 5) {

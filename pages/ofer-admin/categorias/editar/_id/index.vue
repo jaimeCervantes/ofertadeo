@@ -4,10 +4,10 @@
       <v-row>
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
-            <v-text-field disabled v-model.trim.lazy="catetory.name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field disabled v-model="catetory.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
-            <vue-editor v-model="catetory.content"></vue-editor>
-            <v-text-field v-model="catetory.url_site" name="url" label="Url de la categoría" required></v-text-field>
+            <v-text-field disabled v-model.trim.lazy="category.name" name="name" label="Nombre" required></v-text-field>
+            <v-text-field disabled v-model="category.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
+            <vue-editor v-model="category.content"></vue-editor>
+            <v-text-field v-model="category.url_site" name="url" label="Url de la categoría"></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
             <v-text-field v-model="category.title" name="Title" label="Titulo del navegador"></v-text-field>
             <v-text-field v-model="category.h1" name="h1" label="Titulo, H1"></v-text-field>
@@ -51,7 +51,7 @@ export default {
     return {
       loading: false,
       disabled: false,
-      catetory: {
+      category: {
         name: '',
         slug: '',
         url_site: '',
@@ -74,7 +74,7 @@ export default {
   },
   async asyncData ({ params }) {
     let { data } = await axios.get('/api/formdata/categories/' + params.id)
-    data.catetory = data.item
+    data.category = data.item
     delete data.item
     return data
   },
@@ -87,11 +87,11 @@ export default {
   },
   methods: {
     getImgs (resp) {
-      this.catetory.img = resp.img
-      this.catetory.thumbnail = resp.thumbnail
+      this.category.img = resp.img
+      this.category.thumbnail = resp.thumbnail
     },
     getImageData (data) {
-      this.catetory.img_data = data
+      this.category.img_data = data
     },
     send () {
       var that = this
@@ -100,11 +100,11 @@ export default {
         return
       }
 
-      if (!this.catetory.img || !this.catetory.thumbnail) {
+      if (!this.category.img || !this.category.thumbnail) {
         alert('Asegurate de primero subir la imagen de la categoría')
         return
       }
-      if (!this.catetory.name || !this.catetory.url_site || !this.catetory.content) {
+      if (!this.category.name || !this.category.url_site || !this.category.content) {
         alert('Todavia te faltan datos importantes antes de guardar la categoría.')
         return
       }
@@ -112,10 +112,10 @@ export default {
       this.loading = true
       this.disabled = true
 
-      axios.post('/api/categories/edit/' + this.catetory._id, this.catetory)
+      axios.post('/api/categories/edit/' + this.category._id, this.category)
       .then(function (res) {
         if (res.data.ok) {
-          that.$router.push(`/categorias/${that.catetory.slug}`)
+          that.$router.push(`/categorias/${that.category.slug}`)
         } else {
           alert('Algo salió mal, al guardar Categoría en la base de datos, ')
         }

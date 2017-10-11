@@ -7,7 +7,13 @@ module.exports = function (params) {
   })
   .then(function (crud) {
     if (crud) {
-      params.handler({ crud: crud, config: params.config, router: params.router, csm: params.csm })
+      params.handler({
+        crud: crud,
+        config: params.config,
+        router: params.router,
+        csm: params.csm,
+        commonDbParams: params.commonDbParams
+      })
       .getById()
       .getIndex()
       .getFormData()
