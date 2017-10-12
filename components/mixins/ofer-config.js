@@ -46,6 +46,9 @@ export default {
     description: {
       charsLimit: 150,
       wordsLimit: 23
+    },
+    extract: {
+      charsLimit: 100
     }
   },
   app_status: 'deploy'
