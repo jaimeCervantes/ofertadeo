@@ -188,10 +188,13 @@ module.exports = function (spec) {
     spec.router.post(params.path, function (req, res) {
       let rightNow = new Date()
       let missingData = { modified: rightNow }
-      let data = Object.assign(missingData, req.body)
+      let data = Object.assign(req.body, missingData)
 
       if (!data.hasOwnProperty('published')) {
         data.published = rightNow
+      } else {
+        // asegurandonos que se guarde como un campo tipo fecha
+        data.published = new Date(data.published);
       }
 
       crudInst.update({

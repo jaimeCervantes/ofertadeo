@@ -20,6 +20,7 @@ module.exports = function (spec) {
             thumbnail: 1,
             stores: 1,
             slug: 1,
+            meta_description: 1,
             img: 1,
             img_data: 1,
             img_alt: 1,
@@ -182,11 +183,14 @@ module.exports = function (spec) {
       let saveParams = {
         collection: conf.db.collections.secundary
       }
-      let data = Object.assign({ modified: rightNow }, req.body)
+      let data = Object.assign(req.body, { modified: rightNow })
 
       // Al crear nueva, la fecha de publicacion y modificacion son la misma
       if (!data.hasOwnProperty('published')) {
         data.published = rightNow
+      } else {
+        // asegurandonos que se guarde como un campo tipo fecha
+        data.published = new Date(data.published);
       }
 
       if (data.hasOwnProperty('_id')) {
