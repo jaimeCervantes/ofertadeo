@@ -829,6 +829,7 @@ module.exports = function (spec) {
           thumbnail: 1,
           stores: 1,
           slug: 1,
+          meta_description: 1,
           img: 1,
           img_data: 1,
           img_alt: 1,
@@ -969,11 +970,14 @@ module.exports = function (spec) {
       var saveParams = {
         collection: conf.db.collections.categories
       };
-      var data = Object.assign({ modified: rightNow }, req.body);
+      var data = Object.assign(req.body, { modified: rightNow });
 
       // Al crear nueva, la fecha de publicacion y modificacion son la misma
       if (!data.hasOwnProperty('published')) {
         data.published = rightNow;
+      } else {
+        //asegurandonos que se guarde como campo tipo fecha
+        data.published = new Date(data.published);
       }
 
       if (data.hasOwnProperty('_id')) {
@@ -1203,10 +1207,13 @@ module.exports = function (spec) {
     spec.router.post(params.path, function (req, res) {
       var rightNow = new Date();
       var missingData = { modified: rightNow };
-      var data = Object.assign(missingData, req.body);
+      var data = Object.assign(req.body, missingData);
 
       if (!data.hasOwnProperty('published')) {
         data.published = rightNow;
+      } else {
+        // asegurandonos que se guarde como un campo tipo fecha
+        data.published = new Date(data.published);
       }
 
       crudInst.update({
@@ -1356,6 +1363,7 @@ module.exports = function (spec) {
           thumbnail: 1,
           stores: 1,
           slug: 1,
+          meta_description: 1,
           img: 1,
           img_data: 1,
           img_alt: 1,
@@ -1497,11 +1505,14 @@ module.exports = function (spec) {
       var saveParams = {
         collection: conf.db.collections.secundary
       };
-      var data = Object.assign({ modified: rightNow }, req.body);
+      var data = Object.assign(req.body, { modified: rightNow });
 
       // Al crear nueva, la fecha de publicacion y modificacion son la misma
       if (!data.hasOwnProperty('published')) {
         data.published = rightNow;
+      } else {
+        // asegurandonos que se guarde como un campo tipo fecha
+        data.published = new Date(data.published);
       }
 
       if (data.hasOwnProperty('_id')) {
@@ -1690,6 +1701,7 @@ function index(params) {
         thumbnail: 1,
         stores: 1,
         slug: 1,
+        meta_description: 1,
         img: 1,
         img_data: 1,
         img_alt: 1,
