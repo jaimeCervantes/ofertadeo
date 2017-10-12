@@ -20,6 +20,7 @@ module.exports = function (spec) {
             thumbnail: 1,
             stores: 1,
             slug: 1,
+            meta_description: 1,
             img: 1,
             img_data: 1,
             img_alt: 1,

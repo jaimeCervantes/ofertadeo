@@ -29,15 +29,18 @@
       <span itemprop="dateModified" :content="getISODateStr(item.modified)"></span>
       
       <slot name="content">
-        <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
-          <div class="pl-2 pr-2" itemprop="headline">
+        <v-card-row class="item__name pl-2 pr-2 pt-1" v-if="item.name" itemprop="mainEntityOfPage">
+          <div itemprop="headline">
             <a itemprop="name" :href="`${config.host}${toLink}`" :title="item.name">{{item.name}}</a>
           </div>
-        </v-card-row>  
+        </v-card-row>
+        <v-card-row class="item__extract pl-2 pr-2 pt-1">
+          <div v-html="sliceTextFromHtml(item.meta_description, config.seo.description.charsLimit) + '...'"></div>
+        </v-card-row>
       </slot>
 
       <slot name="footer">
-        <v-card-row class="item__store pl-2 pr-2" v-if="item.stores || item.categories">
+        <v-card-row class="item__store pl-2 pr-2 pt-1" v-if="item.stores || item.categories">
           <a v-if="type!=='store'" :href="getAdditionalLinks(type)" :title="item.stores[0].name">Ofertas {{item.stores[0].name}}</a>
           <a v-if="type==='store'" :href="getAdditionalLinks(type)" :title="item.categories[0].name">{{item.categories[0].name}}</a>
         </v-card-row>
@@ -93,7 +96,11 @@ export default {
   font-weight:bold;
 }
 
-.item__store a {
-  color:#888;
+.item__store a, .item__extract  {
+  color:#555;
+}
+
+.item__extract {
+  justify-content: left;
 }
 </style>
