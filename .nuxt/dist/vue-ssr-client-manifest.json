@@ -1,0 +1,1385 @@
+{
+  "publicPath": "/_nuxt/",
+  "all": [
+    "pages/tiendas/_id.25bb1fa02a7e31038c76.js.map",
+    "pages/tiendas/_id.25bb1fa02a7e31038c76.js",
+    "pages/ofer-admin/tiendas/_id.71bbca0480d580c6430d.js",
+    "pages/ofer-admin/tiendas/nueva/index.e57771bbc8f1b5a20549.js",
+    "pages/ofer-admin/tiendas/editar/_id/index.ea0195b6c87d575429a9.js",
+    "pages/ofer-admin/promociones/nueva/index.c821ec3b6a6576f1dbf2.js",
+    "pages/ofer-admin/promociones/editar/_slug/index.da4701dee3b21b0601d6.js",
+    "pages/ofer-admin/categorias/nueva/index.9bf15b6bee57fa176011.js",
+    "pages/ofer-admin/categorias/editar/_id/index.458b86407852a00e54a3.js",
+    "layouts/default.f38fc8d0445de433eb3c.js",
+    "pages/promociones/index.9d6b52a729fb6e15e2f6.js",
+    "pages/ofer-admin/promociones/index.ef4a819caff531993aa0.js",
+    "pages/ofer-admin/promociones/editar/index.67d720bbf091b375a3fe.js",
+    "pages/ofer-admin/index.e2cd42c8b12db4a9ecf9.js",
+    "pages/index.5f8b7b9154980cce0ef8.js",
+    "layouts/admin.7eaf0d65c6d8dc36ba65.js",
+    "pages/tiendas/index.2e0e19be04cc5a1e9ba2.js",
+    "pages/categorias/index.2dff5026163db6b160f5.js",
+    "pages/ofer-admin/promociones/_slug/index.e8ff06dd409de07fc9c9.js",
+    "pages/promociones/_slug/index.cc96db6dc5dade364436.js",
+    "pages/ofer-admin/tiendas/index.0853ad3a4ac601539270.js",
+    "pages/privacidad/index.18dedd3b58ba53014588.js",
+    "pages/terminos/index.7c79493ff9a3f386e827.js",
+    "pages/nosotros/index.e47b1135dc2144435500.js",
+    "pages/ofer-admin/seo/tiendas/index.9dc6747918b67a30925c.js",
+    "pages/ofer-admin/seo/categorias/index.71ec9775080773571ab0.js",
+    "common.dd2e710d7dcabb381743.js",
+    "app.a0c5f59568a3c69b5ee5.js",
+    "manifest.ea0c60da483b90d6fb2a.js",
+    "LICENSES",
+    "pages/categorias/_id.59d56a57679b291f7917.js",
+    "pages/categorias/_id.59d56a57679b291f7917.js.map",
+    "pages/ofer-admin/tiendas/_id.71bbca0480d580c6430d.js.map",
+    "pages/ofer-admin/tiendas/nueva/index.e57771bbc8f1b5a20549.js.map",
+    "pages/ofer-admin/tiendas/editar/_id/index.ea0195b6c87d575429a9.js.map",
+    "pages/ofer-admin/promociones/nueva/index.c821ec3b6a6576f1dbf2.js.map",
+    "pages/ofer-admin/promociones/editar/_slug/index.da4701dee3b21b0601d6.js.map",
+    "pages/ofer-admin/categorias/nueva/index.9bf15b6bee57fa176011.js.map",
+    "pages/ofer-admin/categorias/editar/_id/index.458b86407852a00e54a3.js.map",
+    "layouts/default.f38fc8d0445de433eb3c.js.map",
+    "pages/promociones/index.9d6b52a729fb6e15e2f6.js.map",
+    "pages/ofer-admin/promociones/index.ef4a819caff531993aa0.js.map",
+    "pages/ofer-admin/promociones/editar/index.67d720bbf091b375a3fe.js.map",
+    "pages/ofer-admin/index.e2cd42c8b12db4a9ecf9.js.map",
+    "pages/index.5f8b7b9154980cce0ef8.js.map",
+    "layouts/admin.7eaf0d65c6d8dc36ba65.js.map",
+    "pages/tiendas/index.2e0e19be04cc5a1e9ba2.js.map",
+    "pages/categorias/index.2dff5026163db6b160f5.js.map",
+    "pages/ofer-admin/promociones/_slug/index.e8ff06dd409de07fc9c9.js.map",
+    "pages/promociones/_slug/index.cc96db6dc5dade364436.js.map",
+    "pages/ofer-admin/tiendas/index.0853ad3a4ac601539270.js.map",
+    "pages/privacidad/index.18dedd3b58ba53014588.js.map",
+    "pages/terminos/index.7c79493ff9a3f386e827.js.map",
+    "pages/nosotros/index.e47b1135dc2144435500.js.map",
+    "pages/ofer-admin/seo/tiendas/index.9dc6747918b67a30925c.js.map",
+    "pages/ofer-admin/seo/categorias/index.71ec9775080773571ab0.js.map",
+    "common.dd2e710d7dcabb381743.js.map",
+    "app.a0c5f59568a3c69b5ee5.js.map",
+    "manifest.ea0c60da483b90d6fb2a.js.map",
+    "index.spa.html",
+    "index.ssr.html"
+  ],
+  "initial": [
+    "manifest.ea0c60da483b90d6fb2a.js",
+    "common.dd2e710d7dcabb381743.js",
+    "app.a0c5f59568a3c69b5ee5.js"
+  ],
+  "async": [
+    "pages/tiendas/_id.25bb1fa02a7e31038c76.js",
+    "pages/ofer-admin/tiendas/_id.71bbca0480d580c6430d.js",
+    "pages/ofer-admin/tiendas/nueva/index.e57771bbc8f1b5a20549.js",
+    "pages/ofer-admin/tiendas/editar/_id/index.ea0195b6c87d575429a9.js",
+    "pages/ofer-admin/promociones/nueva/index.c821ec3b6a6576f1dbf2.js",
+    "pages/ofer-admin/promociones/editar/_slug/index.da4701dee3b21b0601d6.js",
+    "pages/ofer-admin/categorias/nueva/index.9bf15b6bee57fa176011.js",
+    "pages/ofer-admin/categorias/editar/_id/index.458b86407852a00e54a3.js",
+    "layouts/default.f38fc8d0445de433eb3c.js",
+    "pages/promociones/index.9d6b52a729fb6e15e2f6.js",
+    "pages/ofer-admin/promociones/index.ef4a819caff531993aa0.js",
+    "pages/ofer-admin/promociones/editar/index.67d720bbf091b375a3fe.js",
+    "pages/ofer-admin/index.e2cd42c8b12db4a9ecf9.js",
+    "pages/index.5f8b7b9154980cce0ef8.js",
+    "layouts/admin.7eaf0d65c6d8dc36ba65.js",
+    "pages/tiendas/index.2e0e19be04cc5a1e9ba2.js",
+    "pages/categorias/index.2dff5026163db6b160f5.js",
+    "pages/ofer-admin/promociones/_slug/index.e8ff06dd409de07fc9c9.js",
+    "pages/promociones/_slug/index.cc96db6dc5dade364436.js",
+    "pages/ofer-admin/tiendas/index.0853ad3a4ac601539270.js",
+    "pages/privacidad/index.18dedd3b58ba53014588.js",
+    "pages/terminos/index.7c79493ff9a3f386e827.js",
+    "pages/nosotros/index.e47b1135dc2144435500.js",
+    "pages/ofer-admin/seo/tiendas/index.9dc6747918b67a30925c.js",
+    "pages/ofer-admin/seo/categorias/index.71ec9775080773571ab0.js",
+    "pages/categorias/_id.59d56a57679b291f7917.js"
+  ],
+  "modules": {
+    "23559936": [
+      26,
+      56
+    ],
+    "29472779": [
+      26,
+      56
+    ],
+    "58344190": [
+      26,
+      56
+    ],
+    "83905206": [
+      26,
+      56
+    ],
+    "bdfa1d7a": [
+      26,
+      56
+    ],
+    "5e47cf20": [
+      26,
+      56
+    ],
+    "44d48110": [
+      26,
+      56
+    ],
+    "72ed2689": [
+      26,
+      56
+    ],
+    "212930ca": [
+      26,
+      56
+    ],
+    "8c0939c6": [
+      13,
+      43
+    ],
+    "cb1d951e": [
+      14,
+      44
+    ],
+    "57060a7c": [
+      26,
+      56
+    ],
+    "18f0d0e8": [
+      18,
+      48
+    ],
+    "4215865c": [
+      26,
+      56
+    ],
+    "3f3f37b1": [
+      26,
+      56
+    ],
+    "2320c145": [
+      21,
+      51
+    ],
+    "61f5a322": [
+      26,
+      56
+    ],
+    "6cdddf3a": [
+      13,
+      43
+    ],
+    "6aab3935": [
+      27,
+      57
+    ],
+    "bde98ed4": [
+      17,
+      47
+    ],
+    "2d20b4fe": [
+      15,
+      45
+    ],
+    "1eb5cba7": [
+      27,
+      57
+    ],
+    "5d669683": [
+      19,
+      49
+    ],
+    "ce0bf4fe": [
+      11,
+      41
+    ],
+    "3b27b773": [
+      23,
+      53
+    ],
+    "c5195d64": [
+      26,
+      56
+    ],
+    "7623624e": [
+      27,
+      57
+    ],
+    "a7ec3108": [
+      22,
+      52
+    ],
+    "0c6775ba": [
+      26,
+      56
+    ],
+    "5ef5ffd0": [
+      16,
+      46
+    ],
+    "6a341052": [
+      26,
+      56
+    ],
+    "7c5af057": [
+      26,
+      56
+    ],
+    "d794b142": [
+      19,
+      49
+    ],
+    "33f1e391": [
+      2,
+      32
+    ],
+    "070792ee": [
+      26,
+      56
+    ],
+    "8080f29a": [
+      12,
+      42
+    ],
+    "4349ad70": [
+      27,
+      57
+    ],
+    "097058b4": [
+      27,
+      57
+    ],
+    "32fc7046": [
+      26,
+      56
+    ],
+    "766d69fe": [
+      26,
+      56
+    ],
+    "a2720288": [
+      30,
+      31
+    ],
+    "7748f7fe": [
+      26,
+      56
+    ],
+    "1bc1cf9c": [
+      26,
+      56
+    ],
+    "9c58bf4c": [
+      26,
+      56
+    ],
+    "0e409f8a": [
+      27,
+      57
+    ],
+    "2f62c326": [
+      11,
+      41
+    ],
+    "a44c3bac": [
+      20,
+      50
+    ],
+    "31b50d68": [
+      26,
+      56
+    ],
+    "083ad712": [
+      26,
+      56
+    ],
+    "4e246102": [
+      26,
+      56
+    ],
+    "14ab54c4": [
+      26,
+      56
+    ],
+    "3afb39c4": [
+      9,
+      39
+    ],
+    "5dca7391": [
+      26,
+      56
+    ],
+    "3b540fbe": [
+      26,
+      56
+    ],
+    "2e90ced9": [
+      26,
+      56
+    ],
+    "537e0ea2": [
+      8,
+      38
+    ],
+    "a70a8dce": [
+      9,
+      39
+    ],
+    "8f11d15c": [
+      8,
+      38
+    ],
+    "1b574414": [
+      26,
+      56
+    ],
+    "0cd9aec9": [
+      25,
+      55
+    ],
+    "c2751894": [
+      26,
+      56
+    ],
+    "d6fcc0e8": [
+      26,
+      56
+    ],
+    "9da4977e": [
+      26,
+      56
+    ],
+    "21c91618": [
+      3,
+      33
+    ],
+    "9e49e080": [
+      26,
+      56
+    ],
+    "147fb042": [
+      13,
+      43
+    ],
+    "08127cc3": [
+      27,
+      57
+    ],
+    "08ba9c1a": [
+      5,
+      35
+    ],
+    "4e89b1a9": [
+      26,
+      56
+    ],
+    "378b1add": [
+      26,
+      56
+    ],
+    "4ada3d00": [
+      27,
+      57
+    ],
+    "aef6de08": [
+      14,
+      44
+    ],
+    "2fb6e27c": [
+      26,
+      56
+    ],
+    "351de443": [
+      7,
+      37
+    ],
+    "5f2d5f50": [
+      7,
+      37
+    ],
+    "7e4bc093": [
+      26,
+      56
+    ],
+    "0fe4cd48": [
+      27,
+      57
+    ],
+    "acb97cd8": [
+      9,
+      39
+    ],
+    "c022edf4": [
+      12,
+      42
+    ],
+    "2664ea9e": [
+      26,
+      56
+    ],
+    "35d945ee": [
+      26,
+      56
+    ],
+    "e3cb2f04": [
+      30,
+      31
+    ],
+    "4ce6bad8": [
+      3,
+      33
+    ],
+    "65c205cd": [
+      26,
+      56
+    ],
+    "bb2e8624": [
+      17,
+      47
+    ],
+    "bfc6a9b2": [
+      19,
+      49
+    ],
+    "49b02de4": [
+      26,
+      56
+    ],
+    "15b6e586": [
+      26,
+      56
+    ],
+    "42c4395b": [
+      26,
+      56
+    ],
+    "e4ad62b4": [
+      26,
+      56
+    ],
+    "50da2e3c": [
+      27,
+      57
+    ],
+    "21926d4a": [
+      26,
+      56
+    ],
+    "57b9b625": [
+      26,
+      56
+    ],
+    "f10b2bd2": [
+      27,
+      57
+    ],
+    "c2778c02": [
+      3,
+      33
+    ],
+    "69fe7ffa": [
+      21,
+      51
+    ],
+    "c95fc44a": [
+      27,
+      57
+    ],
+    "2547e547": [
+      5,
+      35
+    ],
+    "61ed6b48": [
+      26,
+      56
+    ],
+    "02dd184d": [
+      17,
+      47
+    ],
+    "bbc7b846": [
+      26,
+      56
+    ],
+    "3cedaa1a": [
+      16,
+      46
+    ],
+    "e93168aa": [
+      22,
+      52
+    ],
+    "a3ee74e4": [
+      26,
+      56
+    ],
+    "5e1d69e9": [
+      27,
+      57
+    ],
+    "53e2bc1e": [
+      15,
+      45
+    ],
+    "92e3444e": [
+      26,
+      56
+    ],
+    "035d667c": [
+      15,
+      45
+    ],
+    "f08f520c": [
+      27,
+      57
+    ],
+    "2f3527ac": [
+      27,
+      57
+    ],
+    "0bb255b1": [
+      24,
+      54
+    ],
+    "fd5fd046": [
+      19,
+      49
+    ],
+    "30901a25": [
+      20,
+      50
+    ],
+    "e79d5c42": [
+      26,
+      56
+    ],
+    "65b6da09": [
+      5,
+      35
+    ],
+    "3ae4d5b3": [
+      27,
+      57
+    ],
+    "44cc0c60": [
+      24,
+      54
+    ],
+    "0001211c": [
+      26,
+      56
+    ],
+    "7fc751bd": [
+      16,
+      46
+    ],
+    "34ecbc06": [
+      26,
+      56
+    ],
+    "cb6a06a8": [
+      6,
+      36
+    ],
+    "420bc072": [
+      26,
+      56
+    ],
+    "36f07b58": [
+      26,
+      56
+    ],
+    "58fa5abc": [
+      23,
+      53
+    ],
+    "653758bc": [
+      26,
+      56
+    ],
+    "46c8725c": [
+      26,
+      56
+    ],
+    "3e1894ec": [
+      18,
+      48
+    ],
+    "c5270086": [
+      26,
+      56
+    ],
+    "b5a834a4": [
+      26,
+      56
+    ],
+    "e554f682": [
+      26,
+      56
+    ],
+    "fe096a40": [
+      8,
+      38
+    ],
+    "329aec65": [
+      9,
+      39
+    ],
+    "f6ff651e": [
+      14,
+      44
+    ],
+    "4fe561b8": [
+      26,
+      56
+    ],
+    "3c4de1dc": [
+      26,
+      56
+    ],
+    "05e257e8": [
+      26,
+      56
+    ],
+    "793f492d": [
+      26,
+      56
+    ],
+    "6c7a86ee": [
+      26,
+      56
+    ],
+    "5df7af00": [
+      1,
+      0
+    ],
+    "91e253d2": [
+      27,
+      57
+    ],
+    "dc6947e8": [
+      26,
+      56
+    ],
+    "4405696f": [
+      14,
+      44
+    ],
+    "333dbc00": [
+      26,
+      56
+    ],
+    "7d96e436": [
+      26,
+      56
+    ],
+    "1c49d20c": [
+      27,
+      57
+    ],
+    "0518b655": [
+      27,
+      57
+    ],
+    "8a6361a2": [
+      26,
+      56
+    ],
+    "a8e80da2": [
+      26,
+      56
+    ],
+    "27f379cb": [
+      12,
+      42
+    ],
+    "6e033fdc": [
+      26,
+      56
+    ],
+    "f3facaa4": [
+      26,
+      56
+    ],
+    "76043f08": [
+      13,
+      43
+    ],
+    "5df92aed": [
+      26,
+      56
+    ],
+    "48eb3754": [
+      17,
+      47
+    ],
+    "72b187bc": [
+      26,
+      56
+    ],
+    "b8e5e210": [
+      26,
+      56
+    ],
+    "59d7b6cc": [
+      26,
+      56
+    ],
+    "3d54e3c2": [
+      26,
+      56
+    ],
+    "9019c27c": [
+      6,
+      36
+    ],
+    "1ff1c972": [
+      26,
+      56
+    ],
+    "6efcae72": [
+      13,
+      43
+    ],
+    "9a08fe50": [
+      16,
+      46
+    ],
+    "0223db70": [
+      26,
+      56
+    ],
+    "0eb60ebe": [
+      27,
+      57
+    ],
+    "4b6ee9af": [
+      27,
+      57
+    ],
+    "8cf95f5a": [
+      26,
+      56
+    ],
+    "5a278ff1": [
+      26,
+      56
+    ],
+    "530e3fac": [
+      27,
+      57
+    ],
+    "76d6bb6c": [
+      26,
+      56
+    ],
+    "f15df0a2": [
+      27,
+      57
+    ],
+    "413102fc": [
+      26,
+      56
+    ],
+    "7494da95": [
+      27,
+      57
+    ],
+    "0ebe17db": [
+      26,
+      56
+    ],
+    "23a8dfd8": [
+      26,
+      56
+    ],
+    "4e53ee66": [
+      4,
+      34
+    ],
+    "7dbc9d3e": [
+      27,
+      57
+    ],
+    "71a17061": [
+      27,
+      57
+    ],
+    "595fc5aa": [
+      18,
+      48
+    ],
+    "34a083f3": [
+      24,
+      54
+    ],
+    "e2f28922": [
+      27,
+      57
+    ],
+    "624e1d3a": [
+      9,
+      39
+    ],
+    "eaa0f8ca": [
+      30,
+      31
+    ],
+    "0688da46": [
+      9,
+      39
+    ],
+    "1c11fb04": [
+      26,
+      56
+    ],
+    "0eaed786": [
+      3,
+      33
+    ],
+    "ff2265e8": [
+      27,
+      57
+    ],
+    "ddcfd132": [
+      26,
+      56
+    ],
+    "26acec04": [
+      4,
+      34
+    ],
+    "54f7386a": [
+      27,
+      57
+    ],
+    "0858e99a": [
+      26,
+      56
+    ],
+    "0980ce89": [
+      26,
+      56
+    ],
+    "44f7d576": [
+      14,
+      44
+    ],
+    "001bebe3": [
+      27,
+      57
+    ],
+    "d89d29c6": [
+      26,
+      56
+    ],
+    "1340f482": [
+      19,
+      49
+    ],
+    "cce0f942": [
+      26,
+      56
+    ],
+    "edd80b6a": [
+      12,
+      42
+    ],
+    "7f67baf0": [
+      26,
+      56
+    ],
+    "4c321e4f": [
+      10,
+      40
+    ],
+    "134a4fd9": [
+      4,
+      34
+    ],
+    "09bf7945": [
+      7,
+      37
+    ],
+    "7a5c7ae3": [
+      20,
+      50
+    ],
+    "4b1c36fe": [
+      5,
+      35
+    ],
+    "79b30a36": [
+      26,
+      56
+    ],
+    "6d3861cd": [
+      2,
+      32
+    ],
+    "e5a1ab9e": [
+      12,
+      42
+    ],
+    "a7d83c2e": [
+      22,
+      52
+    ],
+    "d1e3ccf8": [
+      26,
+      56
+    ],
+    "1162a52f": [
+      26,
+      56
+    ],
+    "56ac6dd6": [
+      27,
+      57
+    ],
+    "ee845904": [
+      26,
+      56
+    ],
+    "1fa3f5b0": [
+      27,
+      57
+    ],
+    "0f2dddae": [
+      11,
+      41
+    ],
+    "c60ef10e": [
+      4,
+      34
+    ],
+    "3946a31e": [
+      26,
+      56
+    ],
+    "2d05cfa6": [
+      26,
+      56
+    ],
+    "21a7505d": [
+      25,
+      55
+    ],
+    "7fe7a228": [
+      26,
+      56
+    ],
+    "cb8f80b4": [
+      26,
+      56
+    ],
+    "0c02b8af": [
+      26,
+      56
+    ],
+    "3b106fae": [
+      6,
+      36
+    ],
+    "45d79f7c": [
+      26,
+      56
+    ],
+    "c172467c": [
+      26,
+      56
+    ],
+    "41dd002b": [
+      1,
+      0
+    ],
+    "26e3b68d": [
+      26,
+      56
+    ],
+    "b20af348": [
+      26,
+      56
+    ],
+    "15e07f10": [
+      27,
+      57
+    ],
+    "6b70f92d": [
+      26,
+      56
+    ],
+    "13e4e1ec": [
+      26,
+      56
+    ],
+    "3fb279c0": [
+      26,
+      56
+    ],
+    "6b65bd4e": [
+      26,
+      56
+    ],
+    "0699f42e": [
+      17,
+      47
+    ],
+    "7f4fb25c": [
+      26,
+      56
+    ],
+    "054432dc": [
+      26,
+      56
+    ],
+    "757b7767": [
+      6,
+      36
+    ],
+    "16235b3e": [
+      27,
+      57
+    ],
+    "7830be22": [
+      10,
+      40
+    ],
+    "75d16f66": [
+      27,
+      57
+    ],
+    "575dcf56": [
+      30,
+      31
+    ],
+    "77ef98d8": [
+      26,
+      56
+    ],
+    "c0ac61e0": [
+      18,
+      48
+    ],
+    "5f6a36c5": [
+      26,
+      56
+    ],
+    "de7b169e": [
+      18,
+      48
+    ],
+    "0c837f8b": [
+      7,
+      37
+    ],
+    "b0f12426": [
+      26,
+      56
+    ],
+    "339f6afa": [
+      30,
+      31
+    ],
+    "fe376a30": [
+      4,
+      34
+    ],
+    "56fce4b3": [
+      26,
+      56
+    ],
+    "5382c1a3": [
+      26,
+      56
+    ],
+    "40b77573": [
+      15,
+      45
+    ],
+    "22d35bd7": [
+      27,
+      57
+    ],
+    "16b8ff13": [
+      26,
+      56
+    ],
+    "4c336b02": [
+      1,
+      0
+    ],
+    "2651d03f": [
+      27,
+      57
+    ],
+    "d40a3062": [
+      26,
+      56
+    ],
+    "550ecf2c": [
+      1,
+      0
+    ],
+    "3f0062db": [
+      25,
+      55
+    ],
+    "e7cb4f3c": [
+      26,
+      56
+    ],
+    "2229641e": [
+      26,
+      56
+    ],
+    "31135d03": [
+      26,
+      56
+    ],
+    "562cc6d4": [
+      10,
+      40
+    ],
+    "607a9ba5": [
+      26,
+      56
+    ],
+    "2381da0b": [
+      2,
+      32
+    ],
+    "20e7db6d": [
+      11,
+      41
+    ],
+    "f73df2c8": [
+      26,
+      56
+    ],
+    "743725aa": [
+      26,
+      56
+    ],
+    "675ed1b8": [
+      10,
+      40
+    ],
+    "1f3a59d4": [
+      26,
+      56
+    ],
+    "720ea51e": [
+      27,
+      57
+    ],
+    "9577d334": [
+      26,
+      56
+    ],
+    "c51de91a": [
+      26,
+      56
+    ],
+    "3dd062d6": [
+      21,
+      51
+    ],
+    "e02c3c1c": [
+      8,
+      38
+    ],
+    "49d609af": [
+      11,
+      41
+    ],
+    "74d98e9c": [
+      26,
+      56
+    ],
+    "f230b6c0": [
+      26,
+      56
+    ],
+    "ba1cb9b8": [
+      10,
+      40
+    ],
+    "9ad411f4": [
+      26,
+      56
+    ],
+    "6ac30b30": [
+      26,
+      56
+    ],
+    "06e8a639": [
+      26,
+      56
+    ],
+    "4cc5e37c": [
+      26,
+      56
+    ],
+    "1d2b1132": [
+      26,
+      56
+    ],
+    "3ecc6655": [
+      26,
+      56
+    ],
+    "26772ca2": [
+      6,
+      36
+    ],
+    "363a334f": [
+      3,
+      33
+    ],
+    "f4a48f08": [
+      26,
+      56
+    ],
+    "0fc1f67c": [
+      26,
+      56
+    ],
+    "498057bc": [
+      27,
+      57
+    ],
+    "949cd264": [
+      26,
+      56
+    ],
+    "1257e293": [
+      26,
+      56
+    ],
+    "8b75482e": [
+      26,
+      56
+    ],
+    "2c5da018": [
+      26,
+      56
+    ],
+    "2830b37a": [
+      26,
+      56
+    ],
+    "717cc75e": [
+      27,
+      57
+    ],
+    "58c90636": [
+      26,
+      56
+    ],
+    "0df4aac6": [
+      15,
+      45
+    ],
+    "7e4d4e2b": [
+      26,
+      56
+    ],
+    "5319311e": [
+      26,
+      56
+    ],
+    "4d39cb9f": [
+      26,
+      56
+    ],
+    "3b713374": [
+      27,
+      57
+    ],
+    "12d178ab": [
+      26,
+      56
+    ],
+    "f239deec": [
+      26,
+      56
+    ],
+    "3568eef0": [
+      27,
+      57
+    ],
+    "496fa0c1": [
+      21,
+      51
+    ],
+    "33239df0": [
+      27,
+      57
+    ],
+    "6314eb1a": [
+      26,
+      56
+    ],
+    "6d32c5b0": [
+      26,
+      56
+    ],
+    "34c1c650": [
+      1,
+      0
+    ],
+    "2ed30e97": [
+      26,
+      56
+    ],
+    "536a4946": [
+      21,
+      51
+    ],
+    "5745a172": [
+      27,
+      57
+    ],
+    "57be154d": [
+      8,
+      38
+    ],
+    "1a7b2135": [
+      23,
+      53
+    ],
+    "956534b6": [
+      26,
+      56
+    ],
+    "182ad542": [
+      26,
+      56
+    ],
+    "f60de1f6": [
+      26,
+      56
+    ],
+    "3b26c7d9": [
+      16,
+      46
+    ],
+    "55e8330e": [
+      26,
+      56
+    ],
+    "18665c2b": [
+      7,
+      37
+    ],
+    "5b647bdf": [
+      5,
+      35
+    ],
+    "5e32d1be": [
+      26,
+      56
+    ]
+  }
+}
