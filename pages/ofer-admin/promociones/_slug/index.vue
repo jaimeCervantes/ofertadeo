@@ -32,11 +32,11 @@
 </template>
 
 <script>
-import axios from '~plugins/axios'
-import OferContent from '~components/ofer-content.vue'
-import OferCommon from '~components/mixins/ofer-common.vue'
-import OferNotExists from '~components/ofer-not-exists.vue'
-import ShareButtons from '~components/share-buttons.vue'
+import axios from '~/plugins/axios'
+import OferContent from '~/components/ofer-content.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
+import OferNotExists from '~/components/ofer-not-exists.vue'
+import ShareButtons from '~/components/share-buttons.vue'
 
 export default {
   mixins: [OferCommon],

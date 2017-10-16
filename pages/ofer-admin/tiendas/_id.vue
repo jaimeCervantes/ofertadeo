@@ -41,18 +41,18 @@
 </template>
 
 <script>
-import axios from '~plugins/axios'
-import OferContent from '~components/ofer-content.vue'
-import OferHeaderInfo from '~components/ofer-header-info.vue'
-import OferCommon from '~components/mixins/ofer-common.vue'
-import OferPaths from '~components/mixins/ofer-paths.vue'
-import OferItem from '~components/ofer-item.vue'
-import OferMoreItems from '~components/ofer-more-items.vue'
-import OferNotExists from '~components/ofer-not-exists.vue'
-import ShareButtons from '~components/share-buttons.vue'
+import axios from '~/plugins/axios'
+import OferContent from '~/components/ofer-content.vue'
+import OferHeaderInfo from '~/components/ofer-header-info.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
+import OferPaths from '~/components/mixins/ofer-paths.vue'
+import OferItem from '~/components/ofer-item.vue'
+import OferMoreItems from '~/components/ofer-more-items.vue'
+import OferNotExists from '~/components/ofer-not-exists.vue'
+import ShareButtons from '~/components/share-buttons.vue'
 
 // asyncData does not have acces to 'this' reference
-var urlReq = '/api/stores/'
+var urlReq = OferCommon.props.config.default().host + '/api/stores/'
 
 export default {
   mixins: [OferPaths, OferCommon],

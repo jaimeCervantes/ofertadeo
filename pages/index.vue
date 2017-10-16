@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import axios from '~plugins/axios'
-import OferContent from '~components/ofer-content.vue'
-import OferItem from '~components/ofer-item.vue'
-import OferMoreItems from '~components/ofer-more-items.vue'
-import OferCommon from '~components/mixins/ofer-common.vue'
+import axios from '~/plugins/axios'
+import OferContent from '~/components/ofer-content.vue'
+import OferItem from '~/components/ofer-item.vue'
+import OferMoreItems from '~/components/ofer-more-items.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
 
-var urlReq = '/api/home'
+var urlReq = OferCommon.props.config.default().host + '/api/home'
 
 export default {
   mixins: [OferCommon],

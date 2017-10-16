@@ -1,5 +1,5 @@
 <script>
-import OferCommon from '~components/mixins/ofer-common.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
 
 export default {
   components: {

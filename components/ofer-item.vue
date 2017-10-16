@@ -35,7 +35,7 @@
           </div>
         </v-card-row>
         <v-card-row class="item__extract pl-2 pr-2 pt-1">
-          <div v-html="sliceTextFromHtml(item.meta_description, config.seo.description.charsLimit) + '...'"></div>
+          <div v-html="sliceTextFromHtml(item.meta_description, config.seo.extract.charsLimit) + '...'"></div>
         </v-card-row>
       </slot>
 
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import OferCommon from '~components/mixins/ofer-common.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
 export default {
   mixins: [OferCommon],
   props: ['item', 'toLink', 'type', 'position'],

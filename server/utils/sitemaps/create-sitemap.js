@@ -34,64 +34,64 @@ function smPages () {
   compoundSitemap.add({url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified})
 
   return getData({ collection: config.db.collections.pages })
-  .then(function (data) {
-    return smUtils.addToSitemap(compoundSitemap, data, {
-      route: '',
-      changefreq: 'weekly',
-      priority: 0.7
+    .then(function (data) {
+      return smUtils.addToSitemap(compoundSitemap, data, {
+        route: '',
+        changefreq: 'weekly',
+        priority: 0.7
+      })
     })
-  })
-  .then(function (algo) {
-    return smUtils.createSitemapFile(compoundSitemap, {
-      sitemap_path: rootXml + '/' + pagesName,
-      sitemapName: pagesName
+    .then(function (algo) {
+      return smUtils.createSitemapFile(compoundSitemap, {
+        sitemap_path: rootXml + '/' + pagesName,
+        sitemapName: pagesName
+      })
     })
-  })
-  .catch(function (err) {
-    return err
-  })
+    .catch(function (err) {
+      return err
+    })
 }
 
 function smCategories () {
   var smCategories = smUtils.createSitemap()
   return getData({ collection: config.db.collections.categories })
-  .then(function (data) {
-    smUtils.addToSitemap(smCategories, data, {
-      route: config.routes.categories,
-      changefreq: 'daily',
-      priority: 0.9
+    .then(function (data) {
+      smUtils.addToSitemap(smCategories, data, {
+        route: config.routes.categories,
+        changefreq: 'daily',
+        priority: 0.9
+      })
     })
-  })
-  .then(function () {
-    return smUtils.createSitemapFile(smCategories, {
-      sitemap_path: rootXml + '/' + categoriesName,
-      sitemapName: categoriesName
+    .then(function () {
+      return smUtils.createSitemapFile(smCategories, {
+        sitemap_path: rootXml + '/' + categoriesName,
+        sitemapName: categoriesName
+      })
     })
-  })
-  .catch(function (err) {
-    return err
-  })
+    .catch(function (err) {
+      return err
+    })
 }
 
 function smStores () {
   var smStores = smUtils.createSitemap()
   return getData({ collection: config.db.collections.secundary })
-  .then(function (data) {
-    return smUtils.addToSitemap(smStores, data, {
-      route: config.routes.storeList,
-      changefreq: 'daily',
-      priority: 0.9
+    .then(function (data) {
+      return smUtils.addToSitemap(smStores, data, {
+        route: config.routes.storeList,
+        changefreq: 'daily',
+        priority: 0.9
+      })
     })
-  })
-  .then(function () {
-    return smUtils.createSitemapFile(smStores, {
-      sitemap_path: rootXml + '/' + storesName,
-      sitemapName: storesName
+    .then(function () {
+      return smUtils.createSitemapFile(smStores, {
+        sitemap_path: rootXml + '/' + storesName,
+        sitemapName: storesName
+      })
     })
-  })
-  .catch(function (err) {
-    return err
-  })
+    .catch(function (err) {
+      return err
+    })
 }
 
 function smOffers () {
@@ -154,8 +154,8 @@ function smIndex () {
 
   return new Promise(function (resolve, reject) {
     Promise.all(iterable)
-    .then(function (results) {
-      var content = `<?xml version="1.0" encoding="UTF-8"?>
+      .then(function (results) {
+        var content = `<?xml version="1.0" encoding="UTF-8"?>
         <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         <sitemap>
           <loc>${config.host}/${pagesName}.gz</loc>
@@ -174,20 +174,20 @@ function smIndex () {
         </sitemap>
         </sitemapindex>`
 
-      fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function (err) {
-        if (err) {
-          console.log(Error(err))
-          reject(Error(err))
-        }
-        smUtils.compress(rootXml + '/sitemap.xml')
-        console.log('Index sitemap is created :=)')
-        resolve('Index sitemap is created :=)')
+        fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function (err) {
+          if (err) {
+            console.log(Error(err))
+            reject(Error(err))
+          }
+          smUtils.compress(rootXml + '/sitemap.xml')
+          console.log('Index sitemap is created :=)')
+          resolve('Index sitemap is created :=)')
+        })
       })
-    })
-    .catch(function (err) {
-      console.log(Error(err))
-      reject(err)
-    })
+      .catch(function (err) {
+        console.log(Error(err))
+        reject(err)
+      })
   })
 }
 

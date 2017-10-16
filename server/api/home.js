@@ -2,20 +2,20 @@
 
 module.exports = function (params) {
   params.conn
-  .then(function (db) {
-    return params.crud({ db: db, config: params.config })
-  })
-  .then(function (crud) {
-    if (crud) {
-      index({ crud: crud, config: params.config, router: params.router })
-    } else {
-      console.log('There is not database instance')
-    }
-  })
-  .catch(function (err) {
+    .then(function (db) {
+      return params.crud({ db: db, config: params.config })
+    })
+    .then(function (crud) {
+      if (crud) {
+        index({ crud: crud, config: params.config, router: params.router })
+      } else {
+        console.log('There is not database instance')
+      }
+    })
+    .catch(function (err) {
     // some configuration to notify no database connection working
-    console.log(err)
-  })
+      console.log(err)
+    })
 }
 
 // We can define functions after use them because of function hoisting
@@ -51,14 +51,14 @@ function index (params) {
     ]
 
     Promise.all(iterable)
-    .then(function (results) {
-      res.json({
-        items: results[0],
-        pagination: results[1]
+      .then(function (results) {
+        res.json({
+          items: results[0],
+          pagination: results[1]
+        })
       })
-    })
-    .catch(function (error) {
-      res.json(error)
-    })
+      .catch(function (error) {
+        res.json(error)
+      })
   })
 }

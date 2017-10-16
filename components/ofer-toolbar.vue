@@ -13,28 +13,8 @@
     <slot name="left-items">
       <v-toolbar-items>
         <v-toolbar-item itemprop="url" :href="config.host" ripple>Ofertadeo</v-toolbar-item>
-        <li>
-          <a class="toolbar__item"
-          :href="config.feed.rss"
-          title="Últimas ofertas"
-          rel="nofollow noopener alternate"
-          ripple
-          target="_blank">
-            <img id="img-rss"
-              :src="`${config.host}/icons/feed-icon32x32.png`"
-              alt="Últimas ofertas" />
-          </a>
-        </li>
-        <li>
-          <a class="toolbar__item"
-            :href="config.feed.rssSubscriber"
-            title="¡Suscríbete GRATIS!"
-            rel="nofollow noopener alternate"
-            type="application/rss+xml"
-            ripple
-            target="_blank">¡Suscríbete!
-          </a>
-        </li>
+        <v-toolbar-item :href="config.host + config.routes.storeList" ripple>Tiendas</v-toolbar-item>
+        <v-toolbar-item :href="config.host + config.routes.categories" ripple>Categorías</v-toolbar-item>
       </v-toolbar-items>
     </slot>
 
@@ -42,7 +22,7 @@
 </template>
 
 <script>
-import OferCommon from '~components/mixins/ofer-common.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
 export default {
   mixins: [OferCommon],
   props: {
