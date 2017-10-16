@@ -8,15 +8,15 @@ module.exports = function (spec) {
         collection: spec.config.db.collections.seo,
         query: { _id: req.params.id }
       })
-      .then(function (dbRes) {
-        res.json(dbRes)
-        return dbRes
-      })
-      .catch(function (err) {
-        console.log('Ocurrió un error al tratar de conseguir la configuracion seo de tiendas:')
-        console.log(err)
-        res.json(err)
-      })
+        .then(function (dbRes) {
+          res.json(dbRes)
+          return dbRes
+        })
+        .catch(function (err) {
+          console.log('Ocurrió un error al tratar de conseguir la configuracion seo de tiendas:')
+          console.log(err)
+          res.json(err)
+        })
     })
 
     return that
@@ -37,15 +37,15 @@ module.exports = function (spec) {
         update: { $set: Object.assign(missingData, req.body) },
         options: { upsert: true }
       })
-      .then(function (dbRes) {
-        res.json(dbRes)
-        return dbRes
-      })
-      .catch(function (err) {
-        console.log('Ocurrió un error al tratar de Guardar la configuracion seo de tiendas:')
-        console.log(err)
-        res.json(err)
-      })
+        .then(function (dbRes) {
+          res.json(dbRes)
+          return dbRes
+        })
+        .catch(function (err) {
+          console.log('Ocurrió un error al tratar de Guardar la configuracion seo de tiendas:')
+          console.log(err)
+          res.json(err)
+        })
     })
 
     return that

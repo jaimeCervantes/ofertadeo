@@ -38,14 +38,18 @@ module.exports = {
   /*
   ** Global CSS
   */
+  css: [
+    '@assets/stylus/main.styl',
+    '@assets/css/main.scss'
+  ],
   plugins: [
-    { src: '~plugins/ga.js', ssr: false }
+    { src: '~/plugins/ga.js', ssr: false }
   ],
   /*
   ** Add axios globally
   */
   build: {
-    vendor: ['axios', '~plugins/striptags.js'],
+    vendor: ['axios', '~/plugins/striptags.js'],
     /*
     ** Run ESLINT on save
     */

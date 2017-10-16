@@ -1,4 +1,4 @@
-import Nuxt from 'nuxt'
+import { Nuxt, Builder } from 'nuxt'
 import express from 'express'
 import compression from 'compression'
 import helmet from 'helmet'
@@ -52,17 +52,19 @@ const nuxt = new Nuxt(nuxtConfig)
 app.set('view cache', true)// Cache template compilation
 app.use(compression())// Compress all the data that the server response
 
-// At the end because it won't call next()
-app.use(nuxt.render)
-
 // Build only in dev mode
 if (nuxtConfig.dev) {
-  nuxt.build()
-  .catch((error) => {
-    console.error(error) // eslint-disable-line no-console
-    process.exit(1)
-  })
+  const builder = new Builder(nuxt)
+  builder.build()
+    .catch((error) => {
+      console.log('ERROR JAIME')
+      console.error(error) // eslint-disable-line no-console
+      process.exit(1)
+    })
 }
+
+// At the end because it won't call next()
+app.use(nuxt.render)
 
 // Listen the server
 app.listen(port)

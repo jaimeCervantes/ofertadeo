@@ -22,14 +22,14 @@ module.exports = function (spec) {
       ]
 
       return Promise.all(iterable)
-            .then(function (results) {
-              res.json({
-                item: results[0]
-              })
-            })
-            .catch(function (error) {
-              res.json(error)
-            })
+        .then(function (results) {
+          res.json({
+            item: results[0]
+          })
+        })
+        .catch(function (error) {
+          res.json(error)
+        })
     })
 
     return that
@@ -151,16 +151,16 @@ module.exports = function (spec) {
         csm.stores(),
         csm.categories()
       ])
-      .then(function (results) {
-        if (results && results.length > 0) {
-          csm.index().then(function (res) {
-            resolve(res)
-          })
-        }
-      })
-      .catch(function (err) {
-        reject(Error(err))
-      })
+        .then(function (results) {
+          if (results && results.length > 0) {
+            csm.index().then(function (res) {
+              resolve(res)
+            })
+          }
+        })
+        .catch(function (err) {
+          reject(Error(err))
+        })
     })
   }
 
@@ -194,7 +194,7 @@ module.exports = function (spec) {
         data.published = rightNow
       } else {
         // asegurandonos que se guarde como un campo tipo fecha
-        data.published = new Date(data.published);
+        data.published = new Date(data.published)
       }
 
       crudInst.update({
@@ -205,57 +205,57 @@ module.exports = function (spec) {
           upsert: true
         }
       })
-      .then(function (dbResponse) {
+        .then(function (dbResponse) {
         //  return response to client with res object
-        res.json(dbResponse)
-        return dbResponse
-      })
-      .catch(function (err) {
-        console.log('Ocurrió un error al tratar de Guardar una promoción:')
-        console.log(err)
-        res.json(err)
-      })
-      .then(function (dbResponse) {
-        if (dbResponse.result && dbResponse.result.ok) {
-          sendPushNotification(data)
+          res.json(dbResponse)
+          return dbResponse
+        })
+        .catch(function (err) {
+          console.log('Ocurrió un error al tratar de Guardar una promoción:')
+          console.log(err)
+          res.json(err)
+        })
+        .then(function (dbResponse) {
+          if (dbResponse.result && dbResponse.result.ok) {
+            sendPushNotification(data)
 
-          return crudInst.update({
-            collection: conf.db.collections.pages,
-            query: {},
-            update: { $set: { modified: rightNow } },
-            options: { multi: true }
-          })
-        }
-      })
-      .catch(function (err) {
-        console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:')
-        console.log(err)
-      })
-      .then(function (dbResponse) {
-        if (dbResponse && dbResponse.result && dbResponse.result.ok) {
-          return updateStoresAndCategories({
-            stores: data.stores,
-            categories: data.categories
-          }, rightNow)
-        } else {
-          return Error(dbResponse)
-        }
-      })
-      .catch(function (err) {
-        console.log('Ocurrió un error al tratar de actualizar tiendas y categorias despues de guardar una promoción:')
-        console.log(err)
-      })
-      .then(function (results) {
-        if (results && results.length > 0) {
+            return crudInst.update({
+              collection: conf.db.collections.pages,
+              query: {},
+              update: { $set: { modified: rightNow } },
+              options: { multi: true }
+            })
+          }
+        })
+        .catch(function (err) {
+          console.log('Ocurrió un error al tratar de actualizar las paginas despues de guardar una promoción:')
+          console.log(err)
+        })
+        .then(function (dbResponse) {
+          if (dbResponse && dbResponse.result && dbResponse.result.ok) {
+            return updateStoresAndCategories({
+              stores: data.stores,
+              categories: data.categories
+            }, rightNow)
+          } else {
+            return Error(dbResponse)
+          }
+        })
+        .catch(function (err) {
+          console.log('Ocurrió un error al tratar de actualizar tiendas y categorias despues de guardar una promoción:')
+          console.log(err)
+        })
+        .then(function (results) {
+          if (results && results.length > 0) {
           //  Update feed
-          spec.feed.create()
-          return updateSitemaps()
-        }
-      })
-      .catch(function (err) {
-        console.log('Ocurrió un error al tratar de actualizar los sitemas y el feed despues de guardar una promoción:')
-        console.log(err)
-      })
+            spec.feed.create()
+            return updateSitemaps()
+          }
+        })
+        .catch(function (err) {
+          console.log('Ocurrió un error al tratar de actualizar los sitemas y el feed despues de guardar una promoción:')
+          console.log(err)
+        })
     })
 
     return that

@@ -22,17 +22,17 @@ module.exports = {
           if (typeof (params.callback) === 'function') {
             params.callback(conn, coll, doc)
           } else {
-            conn.collection(coll).updateOne(query, params.update)
+            conn.collection(coll).updateOne(params.query, params.update)
           }
         })
       })
     })
-    .then(function () {
-      console.log('update operation done')
-      console.log(params)
-    })
-    .catch(function (err) {
-      console.log(err)
-    })
+      .then(function () {
+        console.log('update operation done')
+        console.log(params)
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
   }
 }

@@ -7,7 +7,7 @@
   </section>
 </template>
 <script>
-import axios from '~plugins/axios'
+import axios from '~/plugins/axios'
 
 export default {
   props: {
@@ -50,31 +50,31 @@ export default {
     uploadImg () {
       var that = this
       this.uploadFile(this.inMemoryImg)
-      .then(function (res) {
-        console.log(res)
-        if (res && res.data && res.data.success) {
-          that.$emit('on-uploaded', { img: res.data.img, thumbnail: res.data.thumbnail })
-          alert('La imagen se subió correctamente')
-          return
-        }
+        .then(function (res) {
+          console.log(res)
+          if (res && res.data && res.data.success) {
+            that.$emit('on-uploaded', { img: res.data.img, thumbnail: res.data.thumbnail })
+            alert('La imagen se subió correctamente')
+            return
+          }
 
-        if (res && res.data && res.data.msg) {
-          alert(res.data.msg)
-          return
-        }
+          if (res && res.data && res.data.msg) {
+            alert(res.data.msg)
+            return
+          }
 
-        if (res && !res.status) {
-          alert(res.msg)
-        }
-      })
-      .catch(function (err) {
-        console.log(err)
-        alert('Ocurrió un error al subir el archivo, revisa la consola')
-      })
-      .then(function () {
-        that.loading = false
-        that.disabled = false
-      })
+          if (res && !res.status) {
+            alert(res.msg)
+          }
+        })
+        .catch(function (err) {
+          console.log(err)
+          alert('Ocurrió un error al subir el archivo, revisa la consola')
+        })
+        .then(function () {
+          that.loading = false
+          that.disabled = false
+        })
     },
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files

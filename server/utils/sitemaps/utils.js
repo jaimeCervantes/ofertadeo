@@ -63,15 +63,15 @@ function createSitemapFile (sitemap, params) {
       readable.pipe(gzip).pipe(writable)
 
       gzip
-      .on('error', function (err) {
-        console.log(err)
-        reject(err)
-      })
-      .on('end', function () {
-        writable.end()
-        console.log(params.sitemap_path + ' sitemap file is compressed!!')
-        resolve(params.sitemap_path + ' sitemap file is compressed!!')
-      })
+        .on('error', function (err) {
+          console.log(err)
+          reject(err)
+        })
+        .on('end', function () {
+          writable.end()
+          console.log(params.sitemap_path + ' sitemap file is compressed!!')
+          resolve(params.sitemap_path + ' sitemap file is compressed!!')
+        })
     })
   })
 }

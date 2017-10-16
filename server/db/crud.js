@@ -56,25 +56,25 @@ module.exports = function crud (spec, shared) {
   let updateOne = function (params) {
     let db = params.db || spec.DATABASE
     return db.collection(params.collection || spec.COLLECTION)
-    .updateOne(params.query, params.update)
-    .then(function (res) {
-      return res
-    })
-    .catch(function (err) {
-      return err
-    })
+      .updateOne(params.query, params.update)
+      .then(function (res) {
+        return res
+      })
+      .catch(function (err) {
+        return err
+      })
   }
 
   let update = function (params) {
     let db = params.db || spec.DATABASE
     return db.collection(params.collection || spec.COLLECTION)
-    .update(params.query, params.update, params.options)
-    .then(function (res) {
-      return res
-    })
-    .catch(function (err) {
-      return err
-    })
+      .update(params.query, params.update, params.options)
+      .then(function (res) {
+        return res
+      })
+      .catch(function (err) {
+        return err
+      })
   }
 
   let searchItems = function (params) {

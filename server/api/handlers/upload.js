@@ -32,12 +32,12 @@ module.exports = function (spec) {
     destination: function (req, file, callback) {
       let pathFile = getPath()
       mkdirPromise(pathFile)
-      .then(function (success) {
-        callback(null, pathFile)
-      })
-      .catch(function (err) {
-        console.log(err)
-      })
+        .then(function (success) {
+          callback(null, pathFile)
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
     },
     filename: function (req, file, callback) {
       callback(null, file.originalname)
@@ -63,21 +63,21 @@ module.exports = function (spec) {
           let finalRootPath = path.split(spec.config.paths.static)[1]
 
           jimp.read(filePath)
-          .then(function (img) {
-            return img.scaleToFit(300, 300)// resize
-                   .quality(50)// set JPEG quality
-                   .write(`${path}/${name}_thumb.${extension}`) // save
-          }).then(function (result) {
-            res.json({
-              success: true,
-              img: spec.config.host + filePath.split(spec.config.paths.static)[1],
-              thumbnail: `${spec.config.host}${finalRootPath}/${name}_thumb.${extension}`
+            .then(function (img) {
+              return img.scaleToFit(300, 300)// resize
+                .quality(50)// set JPEG quality
+                .write(`${path}/${name}_thumb.${extension}`) // save
+            }).then(function (result) {
+              res.json({
+                success: true,
+                img: spec.config.host + filePath.split(spec.config.paths.static)[1],
+                thumbnail: `${spec.config.host}${finalRootPath}/${name}_thumb.${extension}`
+              })
+            }).catch(function (err) {
+              console.log('Error al tratar de Guardar o Leer la imagen')
+              console.log(err)
+              res.json({ success: false, msg: 'Ocurrio un error al guardar la imagen revisar con el desarrollador' })
             })
-          }).catch(function (err) {
-            console.log('Error al tratar de Guardar o Leer la imagen')
-            console.log(err)
-            res.json({ success: false, msg: 'Ocurrio un error al guardar la imagen revisar con el desarrollador' })
-          })
         } else {
           res.json({ success: false, msg: 'No obtuvimos ningun archivo de la peticón' })
         }

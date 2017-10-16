@@ -14,17 +14,17 @@ module.exports = {
       },
       method: 'POST'
     })
-    .form(data)
-    .on('response', function (response) {
-      console.log('Respuesta de https://pushcrew.com/api/v1/send/all')
-      console.log(response.status)
-      console.log(response.request_id)
-      console.log(response.statusCode)
-      console.log(response.statusMessage)
-    })
-    .on('error', function (err) {
-      console.log('Error de https://pushcrew.com/api/v1/send/all')
-      console.log(err)
-    })
+      .form(data)
+      .on('response', function (response) {
+        console.log('Respuesta de https://pushcrew.com/api/v1/send/all')
+        console.log(response.status)
+        console.log(response.request_id)
+        console.log(response.statusCode)
+        console.log(response.statusMessage)
+      })
+      .on('error', function (err) {
+        console.log('Error de https://pushcrew.com/api/v1/send/all')
+        console.log(err)
+      })
   }
 }

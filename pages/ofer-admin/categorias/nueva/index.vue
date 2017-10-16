@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import axios from '~plugins/axios'
+import axios from '~/plugins/axios'
 import slug from 'slug'
-import OferContent from '~components/ofer-content.vue'
-import OferCommon from '~components/mixins/ofer-common.vue'
-import OferNotExists from '~components/ofer-not-exists.vue'
-import FileUploader from '~components/file-uploader.vue'
-import VueEditor from '~components/editor.vue'
+import OferContent from '~/components/ofer-content.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
+import OferNotExists from '~/components/ofer-not-exists.vue'
+import FileUploader from '~/components/file-uploader.vue'
+import VueEditor from '~/components/editor.vue'
 
 slug.defaults.modes.pretty = {
   replacement: '-',
@@ -39,8 +39,8 @@ slug.defaults.modes.pretty = {
   remove: /[.]/g,
   lower: true,
   charmap: Object.assign({}, slug.charmap, {'€': '', '₢': '', '₣': '', '£': '', '₤': '', '₥': '', '₦': '', '₧': '', '₨': '', '₩': '', '₪': '', '₫': '', '₭': '', '₮': '', '₯': '', '₰': '', '₱': '', '₲': '', '₳': '', '₴': '', '₵': '', '¢': '', '¥': '', '元': '', '円': '', '﷼': '', '₠': '', '¤': '', '฿': '', '$': '', '₹': ''},
-    {'©': '', 'œ': '', 'Œ': '', '∑': '', '®': '', '†': '', '“': '"', '”': '"', '‘': "'", '’': "'", '∂': '', 'ƒ': '', '™': 'tm', '℠': 'sm', '…': '', '˚': '', 'º': '', 'ª': '', '•': '', '∆': '', '∞': '', '♥': '', '&': '', '|': '', '<': '', '>': '', '~': ''}
-    ),
+    {'©': '', 'œ': '', 'Œ': '', '∑': '', '®': '', '†': '', '“': '"', '”': '"', '‘': "'", '’': "'", '∂': '', 'ƒ': '', '™': 'tm', '℠': 'sm', '…': '', '˚': '', 'º': '', 'ª': '', '•': '', '∆': '', '∞': '', '♥': '', '&': '', '|': '', '<': '', '>': '', '~/': ''}
+  ),
   multicharmap: Object.assign({}, slug.multicharmap, {'<3': '', '&&': '', '||': '', 'w/': ''})
 }
 
@@ -109,21 +109,21 @@ export default {
       this.disabled = true
 
       axios.post('/api/categories/new', this.category)
-      .then(function (res) {
-        if (res.data.ok) {
-          that.$router.push(`/categorias/${that.category.slug}`)
-        } else {
-          alert('Algo salió mal, al insertar un nueva categoría en la base de datos, ')
-        }
-      })
-      .catch(function (err) {
-        alert('ocurrio un error al crear la Categoría')
-        console.log(err)
-      })
-      .then(function () {
-        that.loading = false
-        that.disabled = false
-      })
+        .then(function (res) {
+          if (res.data.ok) {
+            that.$router.push(`/categorias/${that.category.slug}`)
+          } else {
+            alert('Algo salió mal, al insertar un nueva categoría en la base de datos, ')
+          }
+        })
+        .catch(function (err) {
+          alert('ocurrio un error al crear la Categoría')
+          console.log(err)
+        })
+        .then(function () {
+          that.loading = false
+          that.disabled = false
+        })
     },
     async validateSlug (currSlug) {
       if (currSlug === '') {

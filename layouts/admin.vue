@@ -12,9 +12,11 @@
 </template>
 
 <script>
-import OferToolbar from '~components/ofer-toolbar.vue'
-import OferSidebar from '~components/ofer-sidebar.vue'
-import OferFooter from '~components/ofer-footer.vue'
+import '~/assets/stylus/main-admin.styl'
+import '~/assets/css/main.scss'
+import OferToolbar from '~/components/ofer-toolbar.vue'
+import OferSidebar from '~/components/ofer-sidebar.vue'
+import OferFooter from '~/components/ofer-footer.vue'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 
@@ -28,9 +30,4 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-  @import '~assets/stylus/main-admin.styl'
-</style>
-<style lang="scss">
-  @import '~assets/css/main.scss'
-</style>
+

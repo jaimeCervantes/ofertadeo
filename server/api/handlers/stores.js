@@ -61,17 +61,17 @@ module.exports = function (spec) {
       ]
 
       Promise.all(iterable)
-      .then(function (results) {
-        res.json({
-          items: results[0],
-          info: results[1],
-          pagination: results[2],
-          seo: results[3]
+        .then(function (results) {
+          res.json({
+            items: results[0],
+            info: results[1],
+            pagination: results[2],
+            seo: results[3]
+          })
         })
-      })
-      .catch(function (error) {
-        res.json(error)
-      })
+        .catch(function (error) {
+          res.json(error)
+        })
     })
 
     return that
@@ -82,7 +82,7 @@ module.exports = function (spec) {
     let conf = spec.config
 
     spec.router.get('/stores', function (req, res) {
-      var page = req.query.page ? Number(req.query.page) : 0
+      // var page = req.query.page ? Number(req.query.page) : 0
       var iterable = [
         crudInst.aggregate(
           {
@@ -92,49 +92,49 @@ module.exports = function (spec) {
               // Ordenarlo por nombre para obtener el arreglo stores en el sig, pipe ordenado alfabeticamente en orden ascendente
               { $sort: { name: 1 } },
               { $project: {
-                  // A mayusculas, porque 'e' !== 'E'
-                  _id: 1,
-                  name: 1,
-                  slug: 1,
-                  thumbnail: 1,
-                  img: 1,
-                  img_data: 1,
-                  img_alt: 1,
-                  img_title: 1,
-                  published: 1,
-                  modified: 1
-                } 
+                // A mayusculas, porque 'e' !== 'E'
+                _id: 1,
+                name: 1,
+                slug: 1,
+                thumbnail: 1,
+                img: 1,
+                img_data: 1,
+                img_alt: 1,
+                img_title: 1,
+                published: 1,
+                modified: 1
+              }
               },
-              { 
+              {
                 $group: {
                   _id: {
                     $switch: spec.commonDbParams.groupAlphabeticallyInSwitch
                   },
-                  stores: { $push: "$$CURRENT" } 
+                  stores: { $push: '$$CURRENT' }
                 }
               },
               { $sort: { _id: 1 } }
             ], // pipeline
             options: {
               collation: {
-               locale: conf.db.collation.locale,
-               alternate: "shifted"
-              } 
+                locale: conf.db.collation.locale,
+                alternate: 'shifted'
+              }
             } // options
           }
         ) // aggregate
       ] // iterable
 
       Promise.all(iterable)
-      .then(function (results) {
-        res.json({
-          items: results[0]
+        .then(function (results) {
+          res.json({
+            items: results[0]
+          })
         })
-      })
-      .catch(function (error) {
-        console.log(error)
-        res.json(error)
-      })
+        .catch(function (error) {
+          console.log(error)
+          res.json(error)
+        })
     })
 
     return that
@@ -168,7 +168,7 @@ module.exports = function (spec) {
     return that
   }
 
-   /**
+  /**
    * Creates or update a store
    * @param  {[type]} params Until now it contains the path of the request
    * @return {Object}        For cascade purpose
@@ -190,7 +190,7 @@ module.exports = function (spec) {
         data.published = rightNow
       } else {
         // asegurandonos que se guarde como un campo tipo fecha
-        data.published = new Date(data.published);
+        data.published = new Date(data.published)
       }
 
       if (data.hasOwnProperty('_id')) {
@@ -206,43 +206,42 @@ module.exports = function (spec) {
       }
 
       crudInst[saveMethod](saveParams)
-      .then(function (dbResponse) {
+        .then(function (dbResponse) {
         //  return response to client with res object
-        res.json(dbResponse)
-        return dbResponse
-      })
-      .catch(function (err) {
-        console.log('Ocurrió un error al tratar de Guardar una Tienda:')
-        console.log(err)
-        res.json(err)
-      })
-      .then(function (dbResponse) {
-        if (dbResponse.result && dbResponse.result.ok) {
-          return true
-        } else {
-          return Error(dbResponse)
-        }
-      })
-      .then(function (result) {
-        if (result === true) {
-          Promise.all([spec.csm.stores(), spec.csm.pages()])
-          .then(function (results) {
-            if (results && results.length > 0) {
-              return spec.csm.index()
-            }
-          })
-          .catch(function (err) {
-            console.log(err)
-            return err
-          })
-        } else {
-          console.log(result)
-        }
-      })
-      .catch(function (err) {
-        console.log(err)
-      })
-
+          res.json(dbResponse)
+          return dbResponse
+        })
+        .catch(function (err) {
+          console.log('Ocurrió un error al tratar de Guardar una Tienda:')
+          console.log(err)
+          res.json(err)
+        })
+        .then(function (dbResponse) {
+          if (dbResponse.result && dbResponse.result.ok) {
+            return true
+          } else {
+            return Error(dbResponse)
+          }
+        })
+        .then(function (result) {
+          if (result === true) {
+            Promise.all([spec.csm.stores(), spec.csm.pages()])
+              .then(function (results) {
+                if (results && results.length > 0) {
+                  return spec.csm.index()
+                }
+              })
+              .catch(function (err) {
+                console.log(err)
+                return err
+              })
+          } else {
+            console.log(result)
+          }
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
     }) // router.post
 
     return that

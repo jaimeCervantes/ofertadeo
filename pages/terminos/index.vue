@@ -36,9 +36,9 @@
 </template>
 
 <script>
-import OferPaths from '~components/mixins/ofer-paths.vue'
-import OferContent from '~components/ofer-content.vue'
-import OferCommon from '~components/mixins/ofer-common.vue'
+import OferPaths from '~/components/mixins/ofer-paths.vue'
+import OferContent from '~/components/ofer-content.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
 export default {
   mixins: [OferPaths, OferCommon],
   data () {
