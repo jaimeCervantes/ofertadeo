@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import axios from '~plugins/axios'
+import axios from '~/plugins/axios'
 
 export default {
   props: {
@@ -34,13 +34,13 @@ export default {
       this.loading = true
       this.reqCounter += 1
       axios.get(this.url + '?page=' + this.reqCounter)
-      .then(function (res) {
-        that.$emit('more-items', res.data.items)
-      }).catch(function (err) {
-        alert(err)
-      }).then(function () {
-        that.loading = false
-      })
+        .then(function (res) {
+          that.$emit('more-items', res.data.items)
+        }).catch(function (err) {
+          alert(err)
+        }).then(function () {
+          that.loading = false
+        })
     }
   },
   computed: {

@@ -44,13 +44,13 @@
 </template>
 
 <script>
-import axios from '~plugins/axios'
+import axios from '~/plugins/axios'
 import slug from 'slug'
-import OferContent from '~components/ofer-content.vue'
-import OferCommon from '~components/mixins/ofer-common.vue'
-import OferNotExists from '~components/ofer-not-exists.vue'
-import FileUploader from '~components/file-uploader.vue'
-import VueEditor from '~components/editor.vue'
+import OferContent from '~/components/ofer-content.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
+import OferNotExists from '~/components/ofer-not-exists.vue'
+import FileUploader from '~/components/file-uploader.vue'
+import VueEditor from '~/components/editor.vue'
 
 slug.defaults.modes.pretty = {
   replacement: '-',
@@ -58,8 +58,8 @@ slug.defaults.modes.pretty = {
   remove: /[.]/g,
   lower: true,
   charmap: Object.assign({}, slug.charmap, {'€': '', '₢': '', '₣': '', '£': '', '₤': '', '₥': '', '₦': '', '₧': '', '₨': '', '₩': '', '₪': '', '₫': '', '₭': '', '₮': '', '₯': '', '₰': '', '₱': '', '₲': '', '₳': '', '₴': '', '₵': '', '¢': '', '¥': '', '元': '', '円': '', '﷼': '', '₠': '', '¤': '', '฿': '', '$': '', '₹': ''},
-    {'©': '', 'œ': '', 'Œ': '', '∑': '', '®': '', '†': '', '“': '"', '”': '"', '‘': "'", '’': "'", '∂': '', 'ƒ': '', '™': 'tm', '℠': 'sm', '…': '', '˚': '', 'º': '', 'ª': '', '•': '', '∆': '', '∞': '', '♥': '', '&': '', '|': '', '<': '', '>': '', '~': ''}
-    ),
+    {'©': '', 'œ': '', 'Œ': '', '∑': '', '®': '', '†': '', '“': '"', '”': '"', '‘': "'", '’': "'", '∂': '', 'ƒ': '', '™': 'tm', '℠': 'sm', '…': '', '˚': '', 'º': '', 'ª': '', '•': '', '∆': '', '∞': '', '♥': '', '&': '', '|': '', '<': '', '>': '', '~/': ''}
+  ),
   multicharmap: Object.assign({}, slug.multicharmap, {'<3': '', '&&': '', '||': '', 'w/': ''})
 }
 
@@ -94,7 +94,7 @@ export default {
     }
   },
   async asyncData ({ params }) {
-    let { data } = await axios.get('/api/formdata/promotions/' + params.slug)
+    let { data } = await axios.get(OferCommon.props.config.default().host + '/api/formdata/promotions/' + params.slug)
     data.promotion = data.item
     delete data.promotion._id
     delete data.item
@@ -149,29 +149,29 @@ export default {
       this.disabled = true
       this.promotion.stores = this.setArrayValues(this.storeSelected)
       this.promotion.categories = this.setArrayValues(this.categorySelected)
-      axios.post('/api/promotions/edit/' + this.promotion.slug, this.promotion)
-      .then(function (res) {
-        if (res.data.ok) {
-          that.$router.push(`/promociones/${that.promotion.slug}`)
-        } else {
-          alert('Algo salió mal, al insertar un nuevo documento en la base de datos')
-        }
-      })
-      .catch(function (err) {
-        alert('ocurrio un error al editar la oferta')
-        console.log(err)
-      })
-      .then(function () {
-        that.loading = false
-        that.disabled = false
-      })
+      axios.post(this.config.host + '/api/promotions/edit/' + this.promotion.slug, this.promotion)
+        .then(function (res) {
+          if (res.data.ok) {
+            that.$router.push(`/promociones/${that.promotion.slug}`)
+          } else {
+            alert('Algo salió mal, al insertar un nuevo documento en la base de datos')
+          }
+        })
+        .catch(function (err) {
+          alert('ocurrio un error al editar la oferta')
+          console.log(err)
+        })
+        .then(function () {
+          that.loading = false
+          that.disabled = false
+        })
     },
     async validateSlug (currSlug) {
       if (currSlug === '') {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get('/api/promotions/' + currSlug)
+      let { data } = await axios.get(this.config.host + '/api/promotions/' + currSlug)
       if (this.exists(data)) {
         this.validation.slug.val = false
       }

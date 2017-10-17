@@ -16,3 +16,7 @@ static/sitemaps/**
 
 #logs
 log
+
+# Ignore for eslint
+plugins/ga.js
+components/vendor-scripts.vue

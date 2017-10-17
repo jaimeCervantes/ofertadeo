@@ -26,13 +26,13 @@
 </template>
 
 <script>
-import axios from '~plugins/axios'
+import axios from '~/plugins/axios'
 import slug from 'slug'
-import OferContent from '~components/ofer-content.vue'
-import OferCommon from '~components/mixins/ofer-common.vue'
-import OferNotExists from '~components/ofer-not-exists.vue'
-import FileUploader from '~components/file-uploader.vue'
-import VueEditor from '~components/editor.vue'
+import OferContent from '~/components/ofer-content.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
+import OferNotExists from '~/components/ofer-not-exists.vue'
+import FileUploader from '~/components/file-uploader.vue'
+import VueEditor from '~/components/editor.vue'
 
 slug.defaults.modes.pretty = {
   replacement: '-',
@@ -40,8 +40,8 @@ slug.defaults.modes.pretty = {
   remove: /[.]/g,
   lower: true,
   charmap: Object.assign({}, slug.charmap, {'€': '', '₢': '', '₣': '', '£': '', '₤': '', '₥': '', '₦': '', '₧': '', '₨': '', '₩': '', '₪': '', '₫': '', '₭': '', '₮': '', '₯': '', '₰': '', '₱': '', '₲': '', '₳': '', '₴': '', '₵': '', '¢': '', '¥': '', '元': '', '円': '', '﷼': '', '₠': '', '¤': '', '฿': '', '$': '', '₹': ''},
-    {'©': '', 'œ': '', 'Œ': '', '∑': '', '®': '', '†': '', '“': '"', '”': '"', '‘': "'", '’': "'", '∂': '', 'ƒ': '', '™': 'tm', '℠': 'sm', '…': '', '˚': '', 'º': '', 'ª': '', '•': '', '∆': '', '∞': '', '♥': '', '&': '', '|': '', '<': '', '>': '', '~': ''}
-    ),
+    {'©': '', 'œ': '', 'Œ': '', '∑': '', '®': '', '†': '', '“': '"', '”': '"', '‘': "'", '’': "'", '∂': '', 'ƒ': '', '™': 'tm', '℠': 'sm', '…': '', '˚': '', 'º': '', 'ª': '', '•': '', '∆': '', '∞': '', '♥': '', '&': '', '|': '', '<': '', '>': '', '~/': ''}
+  ),
   multicharmap: Object.assign({}, slug.multicharmap, {'<3': '', '&&': '', '||': '', 'w/': ''})
 }
 
@@ -111,30 +111,30 @@ export default {
       this.loading = true
       this.disabled = true
 
-      axios.post('/api/stores/new', this.store)
-      .then(function (res) {
-        if (res.data.ok) {
-          that.$router.push(`/tiendas/${that.store.slug}`)
-        } else {
-          console.log(res)
-          alert('Algo salió mal, al insertar un nueva tienda en la base de datos, ')
-        }
-      })
-      .catch(function (err) {
-        alert('ocurrio un error al crear la Tienda')
-        console.log(err)
-      })
-      .then(function () {
-        that.loading = false
-        that.disabled = false
-      })
+      axios.post(this.config.host + '/api/stores/new', this.store)
+        .then(function (res) {
+          if (res.data.ok) {
+            that.$router.push(`/tiendas/${that.store.slug}`)
+          } else {
+            console.log(res)
+            alert('Algo salió mal, al insertar un nueva tienda en la base de datos, ')
+          }
+        })
+        .catch(function (err) {
+          alert('ocurrio un error al crear la Tienda')
+          console.log(err)
+        })
+        .then(function () {
+          that.loading = false
+          that.disabled = false
+        })
     },
     async validateSlug (currSlug) {
       if (currSlug === '') {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get('/api/stores/' + currSlug)
+      let { data } = await axios.get(this.config.host + '/api/stores/' + currSlug)
       if (data && data.info) {
         this.validation.slug.val = false
       }

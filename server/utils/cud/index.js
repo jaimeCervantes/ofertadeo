@@ -41,48 +41,48 @@ crudInst.then(function (crud) {
   })
 })
 // Obtener el nombre de la tienda y de la categoria de cada oferta
-.then(function (docs) {
-  return Promise.all(docs.map(function (doc) {
-    return crudInst.then(function (crud) {
-      return crud.getItem({
-        collection: conf.db.collections.secundary,
-        query: { _id: doc.stores[0] },
-        projection: { name: 1 }
-      })
-    })
-    .then(function (store) {
-      return crudInst
-      .then(function (crud) {
+  .then(function (docs) {
+    return Promise.all(docs.map(function (doc) {
+      return crudInst.then(function (crud) {
         return crud.getItem({
-          collection: conf.db.collections.categories,
-          query: { _id: doc.categories[0] },
+          collection: conf.db.collections.secundary,
+          query: { _id: doc.stores[0] },
           projection: { name: 1 }
         })
       })
-      .then(function (cat) {
-        return { _id: doc._id, categories: [cat], stores: [store] }
-      })
-    })
-    .catch(function (err) {
-      console.log(err)
-      return Error(err)
-    })
-  }))
-})
+        .then(function (store) {
+          return crudInst
+            .then(function (crud) {
+              return crud.getItem({
+                collection: conf.db.collections.categories,
+                query: { _id: doc.categories[0] },
+                projection: { name: 1 }
+              })
+            })
+            .then(function (cat) {
+              return { _id: doc._id, categories: [cat], stores: [store] }
+            })
+        })
+        .catch(function (err) {
+          console.log(err)
+          return Error(err)
+        })
+    }))
+  })
 // Ya que tenemos las categorias y tiendas de cada oferta, la actualizamos
-.then(function (docs) {
-  docs.forEach(function (doc) {
-    console.log(doc)
-    crudInst
-    .then(function (crud) {
-      crud.updateOne({
-        collection: conf.db.collections.main,
-        query: {_id: doc._id},
-        update: { $set: { categories: doc.categories, stores: doc.stores } }
-      })
+  .then(function (docs) {
+    docs.forEach(function (doc) {
+      console.log(doc)
+      crudInst
+        .then(function (crud) {
+          crud.updateOne({
+            collection: conf.db.collections.main,
+            query: {_id: doc._id},
+            update: { $set: { categories: doc.categories, stores: doc.stores } }
+          })
+        })
     })
   })
-})
-.catch(function (err) {
-  console.log(err)
-})
+  .catch(function (err) {
+    console.log(err)
+  })

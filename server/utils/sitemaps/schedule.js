@@ -10,16 +10,16 @@ function ping () {
   // cron.schedule('*/1 * * * *', function (){
   cron.schedule('1 12 * * *', function () { // run every day at 12:00 hrs
     utils
-    .checkIfNewOffers()
-    .then(function (res) {
-      console.log('sitemaps')
-      if (res && res.news) {
-        csm.ping()
-      }
-      console.log(res)
-    }).catch(function (err) {
-      console.log(err)
-    })
+      .checkIfNewOffers()
+      .then(function (res) {
+        console.log('sitemaps')
+        if (res && res.news) {
+          csm.ping()
+        }
+        console.log(res)
+      }).catch(function (err) {
+        console.log(err)
+      })
   })
 
   // cron.schedule('*/1 * * * *', function (){

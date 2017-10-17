@@ -10,7 +10,7 @@
   </v-content>
 </template>
 <script>
-import OferNotExists from '~components/ofer-not-exists.vue'
+import OferNotExists from '~/components/ofer-not-exists.vue'
 
 export default {
   props: ['error'],

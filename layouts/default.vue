@@ -2,7 +2,7 @@
 <main itemscope itemprop="mainContentOfPage" itemtype="https://schema.org/WebPageElement" id="main">
   <v-app id="ofertadeo">
     <header itemscope="itemscope" itemtype="https://schema.org/WPHeader">
-      <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
+      <ofer-toolbar class="ofer-admin"></ofer-toolbar>
     </header>
     <ofer-sidebar/>
     <nuxt/>
@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import OferToolbar from '~components/ofer-toolbar.vue'
-import OferSidebar from '~components/ofer-sidebar.vue'
-import OferFooter from '~components/ofer-footer.vue'
-import VendorScripts from '~components/vendor-scripts.vue'
+import OferToolbar from '~/components/ofer-toolbar.vue'
+import OferSidebar from '~/components/ofer-sidebar.vue'
+import OferFooter from '~/components/ofer-footer.vue'
+import VendorScripts from '~/components/vendor-scripts.vue'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 
@@ -31,9 +31,4 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-  @import '~assets/stylus/main.styl'
-</style>
-<style lang="scss">
-  @import '~assets/css/main.scss'
-</style>
+

@@ -30,13 +30,13 @@
 </template>
 
 <script>
-import axios from '~plugins/axios'
-import OferContent from '~components/ofer-content.vue'
-import OferPaths from '~components/mixins/ofer-paths.vue'
-import OferCommon from '~components/mixins/ofer-common.vue'
-import OferItem from '~components/ofer-item.vue'
+import axios from '~/plugins/axios'
+import OferContent from '~/components/ofer-content.vue'
+import OferPaths from '~/components/mixins/ofer-paths.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
+import OferItem from '~/components/ofer-item.vue'
 
-var urlReq = '/api/categories'
+var urlReq = OferCommon.props.config.default().host + '/api/categories'
 
 export default {
   mixins: [OferPaths, OferCommon],

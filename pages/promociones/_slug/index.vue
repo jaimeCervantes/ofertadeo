@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import axios from '~plugins/axios'
-import OferContainer from '~components/ofer-container.vue'
-import OferCommon from '~components/mixins/ofer-common.vue'
-import OferNotExists from '~components/ofer-not-exists.vue'
-import ShareButtons from '~components/share-buttons.vue'
+import axios from '~/plugins/axios'
+import OferContainer from '~/components/ofer-container.vue'
+import OferCommon from '~/components/mixins/ofer-common.vue'
+import OferNotExists from '~/components/ofer-not-exists.vue'
+import ShareButtons from '~/components/share-buttons.vue'
 
 export default {
   mixins: [OferCommon],
@@ -62,7 +62,8 @@ export default {
     }
   },
   async asyncData ({ params, route }) {
-    let { data } = await axios.get('/api/promotions/' + params.slug)
+    var urlReq = OferCommon.props.config.default().host + '/api/promotions/'
+    let { data } = await axios.get(urlReq + params.slug)
     return Object.assign({
       path: route.path,
       slug: params.slug

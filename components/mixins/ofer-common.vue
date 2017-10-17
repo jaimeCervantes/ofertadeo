@@ -1,7 +1,7 @@
 <script>
 import moment from 'moment'
-import striptags from '~plugins/striptags'
-import OferConfig from '~components/mixins/ofer-config.js'
+import striptags from '~/plugins/striptags'
+import OferConfig from '~/components/mixins/ofer-config.js'
 moment.locale('es')
 
 export default {

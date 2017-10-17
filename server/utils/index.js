@@ -31,36 +31,36 @@ function getDate (dateObj, format) {
 
 function checkIfNewOffers () {
   return getCrud()
-  .then(function (crud) {
-    return crud.getItem({
-      collection: config.db.collections.main,
-      query: {},
-      sort: { published: -1 },
-      projection: { published: 1 }
+    .then(function (crud) {
+      return crud.getItem({
+        collection: config.db.collections.main,
+        query: {},
+        sort: { published: -1 },
+        projection: { published: 1 }
+      })
     })
-  })
-  .then(function (doc) {
-    let lastOfferDate = new Date(doc.published)
-    let lastOfferDateTime = new Date(doc.published).getTime()
-    let hours = 12 * 60 * 60 * 1000
-    let minus12hrsDateTime = new Date().getTime() - hours
-    let minus12hrsDate = new Date(minus12hrsDateTime)
-    let resp = {
-      lastOffer: doc.published,
-      lastOfferDate: getDate(lastOfferDate),
-      lastOfferDateTime: lastOfferDateTime,
-      minus12hrsDate: getDate(minus12hrsDate),
-      minus12hrsDateTime: minus12hrsDateTime,
-      news: false
-    }
+    .then(function (doc) {
+      let lastOfferDate = new Date(doc.published)
+      let lastOfferDateTime = new Date(doc.published).getTime()
+      let hours = 12 * 60 * 60 * 1000
+      let minus12hrsDateTime = new Date().getTime() - hours
+      let minus12hrsDate = new Date(minus12hrsDateTime)
+      let resp = {
+        lastOffer: doc.published,
+        lastOfferDate: getDate(lastOfferDate),
+        lastOfferDateTime: lastOfferDateTime,
+        minus12hrsDate: getDate(minus12hrsDate),
+        minus12hrsDateTime: minus12hrsDateTime,
+        news: false
+      }
 
-    if (lastOfferDateTime >= minus12hrsDateTime) {
-      resp.news = true
+      if (lastOfferDateTime >= minus12hrsDateTime) {
+        resp.news = true
+        return resp
+      }
+
       return resp
-    }
-
-    return resp
-  })
+    })
 }
 
 module.exports = {

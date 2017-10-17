@@ -5,7 +5,7 @@
         <div class="breadcrumbs-info-section">
           <v-breadcrumbs divider="">
             <v-breadcrumbs-item
-              v-for="item in breadcrumbs" :key="item"
+              v-for="item in breadcrumbs" :key="item.href"
               :disabled="item.disabled"
               :href="item.href"
               :target="item.target || '_self'"
