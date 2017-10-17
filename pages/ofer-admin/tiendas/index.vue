@@ -39,6 +39,7 @@ import OferItem from '~/components/ofer-item.vue'
 var urlReq = OferCommon.props.config.default().host + '/api/stores'
 
 export default {
+  layout: 'admin',
   mixins: [OferPaths, OferCommon],
   data () {
     return { urlReq: urlReq }

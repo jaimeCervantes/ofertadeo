@@ -55,6 +55,7 @@ import ShareButtons from '~/components/share-buttons.vue'
 var urlReq = OferCommon.props.config.default().host + '/api/stores/'
 
 export default {
+  layout: 'admin',
   mixins: [OferPaths, OferCommon],
   data () {
     return {

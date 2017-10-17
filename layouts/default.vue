@@ -28,6 +28,19 @@ export default {
     OferSidebar,
     OferFooter,
     VendorScripts
+  },
+  head () {
+    return {
+      script: [
+        { async: true, src: '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js' },
+        {
+          innerHTML: `(window.adsbygoogle || []).push({
+                      google_ad_client: 'ca-pub-3434008864168200',
+                      enable_page_level_ads: true
+                    })`
+        }
+      ]
+    }
   }
 }
 </script>

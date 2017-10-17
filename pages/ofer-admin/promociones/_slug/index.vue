@@ -39,6 +39,7 @@ import OferNotExists from '~/components/ofer-not-exists.vue'
 import ShareButtons from '~/components/share-buttons.vue'
 
 export default {
+  layout: 'admin',
   mixins: [OferCommon],
   data () {
     return {
