@@ -6,8 +6,7 @@
 <script>
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
-const Quill = (process.BROWSER_BUILD) ? require('quill') : ''
-
+const Quill = (process.browser) ? require('quill') : ''
 var defaultToolbar = [
   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
   ['blockquote', 'code-block', 'link', 'image'],

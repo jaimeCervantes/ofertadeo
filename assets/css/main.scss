@@ -25,30 +25,6 @@ header .breadcrumbs {
   }
 }
 
-.content-panel.expansion-panel {
-  box-shadow: none;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  li {
-    border: none;
-    position: relative;
-    .expansion-panel__header {
-      &:after {
-        font-size: 2rem;
-      }
-    }
-    .expansion-panel__header,
-    .expansion-panel__header--active {
-      padding-left:0 !important;
-    }
-
-    .expansion-panel__body {
-      background-color: #fff;
-      border: none;
-    }
-  }
-}
-
 .md-sidenav {
   .md-sidenav-content {
     width: 256px;
@@ -120,18 +96,6 @@ header .breadcrumbs {
     padding-top:0.3rem;
     padding-bottom:0.3rem;
   }
-}
-
-.expansion-panel__header:after {
-  content: '❮' !important;
-  font-size: 1.5rem !important;
-  margin-top: 0.5rem !important;
-  transform: rotate(-90deg) !important;
-  font-weight: bold;
-}
-
-.expansion-panel__header--active:after {
-  transform: rotate(90deg) !important;
 }
 
 form .input-group--select.input-group--focused.input-group--dirty .input-group--select__autocomplete {

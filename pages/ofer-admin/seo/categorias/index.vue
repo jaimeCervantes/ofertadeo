@@ -21,8 +21,10 @@
 
 <script>
 import axios from '~/plugins/axios'
+import OferCommon from '~/components/mixins/ofer-common.vue'
 export default {
   layout: 'admin',
+  mixins: [OferCommon],
   data () {
     return {
       disabled: false,
@@ -39,7 +41,7 @@ export default {
     }
   },
   async asyncData ({ params, route }) {
-    let { data } = await axios.get('/api/seo/categories')
+    let { data } = await axios.get(OferCommon.props.config.default().host + '/api/seo/categories')
     if (data) {
       return { seo: data }
     }
@@ -48,7 +50,7 @@ export default {
     async save () {
       this.disabled = true
       this.loading = true
-      let { data } = await axios.post('/api/seo/categories', this.seo)
+      let { data } = await axios.post(this.config.host + '/api/seo/categories', this.seo)
 
       if (data && data.ok) {
         alert('Se guardaron los datos de seo para las categorias ')

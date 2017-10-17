@@ -62,7 +62,8 @@ export default {
     }
   },
   async asyncData ({ params, route }) {
-    let { data } = await axios.get('/api/promotions/' + params.slug)
+    var urlReq = OferCommon.props.config.default().host + '/api/promotions/'
+    let { data } = await axios.get(urlReq + params.slug)
     return Object.assign({
       path: route.path,
       slug: params.slug

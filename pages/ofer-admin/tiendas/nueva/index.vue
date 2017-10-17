@@ -111,7 +111,7 @@ export default {
       this.loading = true
       this.disabled = true
 
-      axios.post('/api/stores/new', this.store)
+      axios.post(this.config.host + '/api/stores/new', this.store)
         .then(function (res) {
           if (res.data.ok) {
             that.$router.push(`/tiendas/${that.store.slug}`)
@@ -134,7 +134,7 @@ export default {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get('/api/stores/' + currSlug)
+      let { data } = await axios.get(this.config.host + '/api/stores/' + currSlug)
       if (data && data.info) {
         this.validation.slug.val = false
       }
