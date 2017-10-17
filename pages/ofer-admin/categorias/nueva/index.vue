@@ -108,7 +108,7 @@ export default {
       this.loading = true
       this.disabled = true
 
-      axios.post('/api/categories/new', this.category)
+      axios.post(this.config.host + '/api/categories/new', this.category)
         .then(function (res) {
           if (res.data.ok) {
             that.$router.push(`/categorias/${that.category.slug}`)
@@ -130,7 +130,7 @@ export default {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get('/api/categories/' + currSlug)
+      let { data } = await axios.get(this.config.host + '/api/categories/' + currSlug)
       if (data && data.info) {
         this.validation.slug.val = false
       }

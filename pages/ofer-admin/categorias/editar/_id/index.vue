@@ -71,7 +71,7 @@ export default {
     }
   },
   async asyncData ({ params }) {
-    let { data } = await axios.get('/api/formdata/categories/' + params.id)
+    let { data } = await axios.get(OferCommon.props.config.default().host + '/api/formdata/categories/' + params.id)
     data.category = data.item
     delete data.item
     return data
@@ -110,7 +110,7 @@ export default {
       this.loading = true
       this.disabled = true
 
-      axios.post('/api/categories/edit/' + this.category._id, this.category)
+      axios.post(this.config.host + '/api/categories/edit/' + this.category._id, this.category)
         .then(function (res) {
           if (res.data.ok) {
             that.$router.push(`/categorias/${that.category.slug}`)

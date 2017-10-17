@@ -12,12 +12,12 @@
 </template>
 
 <script>
-import '~/assets/stylus/main-admin.styl'
 import OferToolbar from '~/components/ofer-toolbar.vue'
 import OferSidebar from '~/components/ofer-sidebar.vue'
 import OferFooter from '~/components/ofer-footer.vue'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import '~/assets/stylus/main-admin.styl'
 
 Vue.use(Vuetify)
 
@@ -30,3 +30,6 @@ export default {
 }
 </script>
 
+<style scoped lang="stylus">
+  
+</style>

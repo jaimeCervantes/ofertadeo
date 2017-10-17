@@ -94,7 +94,7 @@ export default {
     }
   },
   async asyncData ({ params }) {
-    let { data } = await axios.get('/api/formdata/promotions/' + params.slug)
+    let { data } = await axios.get(OferCommon.props.config.default().host + '/api/formdata/promotions/' + params.slug)
     data.promotion = data.item
     delete data.promotion._id
     delete data.item
@@ -149,7 +149,7 @@ export default {
       this.disabled = true
       this.promotion.stores = this.setArrayValues(this.storeSelected)
       this.promotion.categories = this.setArrayValues(this.categorySelected)
-      axios.post('/api/promotions/edit/' + this.promotion.slug, this.promotion)
+      axios.post(this.config.host + '/api/promotions/edit/' + this.promotion.slug, this.promotion)
         .then(function (res) {
           if (res.data.ok) {
             that.$router.push(`/promociones/${that.promotion.slug}`)
@@ -171,7 +171,7 @@ export default {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get('/api/promotions/' + currSlug)
+      let { data } = await axios.get(this.config.host + '/api/promotions/' + currSlug)
       if (this.exists(data)) {
         this.validation.slug.val = false
       }
