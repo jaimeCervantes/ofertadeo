@@ -2,7 +2,7 @@
 <main>
   <v-app id="ofertadeo">
     <header>
-      <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
+      <ofer-toolbar class="ofer"></ofer-toolbar>
     </header>
     <ofer-sidebar/>
     <nuxt/>
@@ -13,7 +13,6 @@
 
 <script>
 import '~/assets/stylus/main-admin.styl'
-import '~/assets/css/main.scss'
 import OferToolbar from '~/components/ofer-toolbar.vue'
 import OferSidebar from '~/components/ofer-sidebar.vue'
 import OferFooter from '~/components/ofer-footer.vue'

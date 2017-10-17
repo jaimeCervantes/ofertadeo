@@ -2,7 +2,7 @@
 <main itemscope itemprop="mainContentOfPage" itemtype="https://schema.org/WebPageElement" id="main">
   <v-app id="ofertadeo">
     <header itemscope="itemscope" itemtype="https://schema.org/WPHeader">
-      <ofer-toolbar opened="sidebar" class="ofer"></ofer-toolbar>
+      <ofer-toolbar class="ofer-admin"></ofer-toolbar>
     </header>
     <ofer-sidebar/>
     <nuxt/>
