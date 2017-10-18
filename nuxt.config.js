@@ -43,9 +43,6 @@ module.exports = {
     '@assets/css/main.scss',
     '@assets/stylus/roboto-material-icons.styl'
   ],
-  plugins: [
-    { src: '~/plugins/ga.js', ssr: false }
-  ],
   /*
   ** Add axios globally
   */
