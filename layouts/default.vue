@@ -8,7 +8,6 @@
     <nuxt/>
   </v-app>
   <ofer-footer id="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter"></ofer-footer>
-  <vendor-scripts></vendor-scripts>
 </main>
 </template>
 
