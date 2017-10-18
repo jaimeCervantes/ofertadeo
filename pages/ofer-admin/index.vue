@@ -36,6 +36,7 @@ import OferCommon from '~/components/mixins/ofer-common.vue'
 var urlReq = OferCommon.props.config.default().host + '/api/home'
 
 export default {
+  layout: 'admin',
   mixins: [OferCommon],
   data () {
     return { urlReq: urlReq }
