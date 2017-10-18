@@ -3,7 +3,9 @@
     <h4 class="visually-hidden">Menú de navegación</h4>
     <slot name="left-icons">
       <button type="button" id="menu" class="btn btn--icon" v-on:click.stop="$store.commit('toggleSidebar')">
-        <span class="btn__content"><i class="material-icons icon">menu</i></span>
+        <span class="btn__content">
+          <i class="material-icons icon">menu</i>
+        </span>
       </button>
     </slot>
     <slot name="left-items">

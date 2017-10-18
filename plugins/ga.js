@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 export default ({ router }) => {
   /*
   ** Only run on client-side and only in production mode
@@ -26,3 +27,4 @@ export default ({ router }) => {
     ga('send', 'pageview')
   })
 }
+  
