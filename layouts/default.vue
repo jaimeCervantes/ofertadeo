@@ -31,6 +31,14 @@ export default {
   head () {
     return {
       script: [
+        { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=UA-100911510-1' },
+        {
+          innerHTML: `window.dataLayer = window.dataLayer || [];
+                      function gtag(){dataLayer.push(arguments);}
+                      gtag('js', new Date());
+
+                      gtag('config', 'UA-100911510-1');`
+        },
         { async: true, src: '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js' },
         {
           innerHTML: `(window.adsbygoogle || []).push({
