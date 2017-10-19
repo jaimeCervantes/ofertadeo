@@ -4,26 +4,6 @@ import OferConfig from '~/components/mixins/ofer-config.js'
 
 export default {
   methods: {
-    googleAnalytics () {
-      /*
-      ** Only run on client-side and only in production mode
-      */
-      if (OferConfig.app_status === 'deploy') {
-        /*
-        ** Include Google Analytics Script
-        */
-        (function (i, s, o, g, r, a, m) {
-          i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-          }, i[r].l = 1 * new Date(); a = s.createElement(o),
-          m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga')
-        /*
-        ** Set the current page
-        */
-        ga('create', 'UA-100911510-1', 'auto')
-      }
-    },
     pushcrew () {
       let script = '9bb3dc20d980ec138bfbca444454fb5d.js'
       if (OferConfig.app_status === 'deploy') {
@@ -43,13 +23,10 @@ export default {
     }
   },
   created () {
-    if (process.BROWSER_BUILD) {
-      // @TODO: By the momento GA is not working good inside a component  
-      // this.googleAnalytics()
-
+    if (process.browser) {
       // Disabling pushcrew because there are not interactions,
       // Maybe when the system get users and comment this works
-      this.pushcrew()
+      //this.pushcrew()
     }
   }
 }

@@ -4,9 +4,7 @@
     <slot name="left-icons">
       <button type="button" id="menu" class="btn btn--icon" v-on:click.stop="$store.commit('toggleSidebar')">
         <span class="btn__content">
-          <i>—</i>
-          <i>—</i>
-          <i>—</i>
+          <i class="material-icons icon">menu</i>
         </span>
       </button>
     </slot>
@@ -34,18 +32,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   #menu {
     margin-left: 0rem;
-    .btn__content {
-      display: flex;
-      flex-direction: column;
-      i {
-        height: 6px;
-        line-height: 0;
-        font-size: 20px;
-      }
-    }
   }
   .toolbar {
     padding:1rem;
@@ -53,15 +42,10 @@ export default {
       padding-left:0;
       margin-left:0
     }
-  }
 
-  .toolbar__items a {
-    padding-left:0.5rem;
-    padding-right:0.5rem;
-  }
-
-  #img-rss {
-    border:0;
-    margin-right: 5px;
+    .toolbar__items li a.toolbar__item {
+      padding-left:0.8rem;
+      padding-right:0.8rem;
+    }
   }
 </style>
