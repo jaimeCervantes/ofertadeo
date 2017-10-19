@@ -2033,18 +2033,51 @@ module.exports = function (spec) {
    * @return {Object} For cascade purposes
    */
   function getBySlug() {
+    var crud = spec.crud;
+    var config = spec.config;
     spec.router.get('/promotions/:slug', function (req, res) {
-      var iterable = [spec.crud.getItem({
-        collection: spec.config.db.collections.main,
+      var iterable = [crud.getItem({
+        collection: config.db.collections.main,
         query: { slug: req.params.slug },
         items_per_page: 1
+      }), crud.aggregate({
+        collection: config.db.collections.secundary,
+        pipeline: [{ $sample: { size: 15 } }, { $project: { name: 1 } }]
       })];
 
+      var data = {};
       return Promise.all(iterable).then(function (results) {
-        res.json({
-          item: results[0]
-        });
+        if (results && results.length > 0) {
+          data.item = results[0];
+          data.stores = results[1];
+          return crud.getItems({
+            collection: config.db.collections.main,
+            query: { categories: { $in: data.item.categories }, _id: { $ne: data.item._id } },
+            projection: {
+              name: 1,
+              thumbnail: 1,
+              stores: 1,
+              slug: 1,
+              meta_description: 1,
+              img: 1,
+              img_data: 1,
+              img_alt: 1,
+              img_title: 1,
+              categories: 1,
+              published: 1,
+              modified: 1
+            },
+            sort: { modified: -1 },
+            items_per_page: 4
+          });
+        } else {
+          return Promise.reject(new Error(results));
+        }
+      }).then(function (relatedItems) {
+        data.relatedItems = relatedItems;
+        res.json(data);
       }).catch(function (error) {
+        console.log(error);
         res.json(error);
       });
     });
@@ -2335,7 +2368,7 @@ module.exports = function (spec) {
     return that;
   }
 
-  function getIndex(params) {
+  function getIndex() {
     var crudInst = spec.crud;
     var conf = spec.config;
 
