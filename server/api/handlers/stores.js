@@ -77,13 +77,13 @@ module.exports = function (spec) {
     return that
   }
 
-  function getIndex (params) {
+  function getIndex () {
     let crudInst = spec.crud
     let conf = spec.config
 
     spec.router.get('/stores', function (req, res) {
       // var page = req.query.page ? Number(req.query.page) : 0
-      var iterable = [
+      let iterable = [
         crudInst.aggregate(
           {
             collection: conf.db.collections.secundary,

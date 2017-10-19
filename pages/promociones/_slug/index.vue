@@ -1,19 +1,17 @@
 <template>
   <ofer-container>
     <article v-if="exists(item)">
-      <header>
-        <p class="promotion-data">
-          <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
-            <span class="promotion-data__category" v-text="category.name"></span>
-            </a>
-          </p>
-          <h1>{{item.name}}</h1>
-      </header>
-
-      <v-divider class="section-divider"></v-divider>
-
       <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
+           <header>
+            <p class="promotion-data">
+              <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+                <span class="promotion-data__category" v-text="category.name"></span>
+                </a>
+              </p>
+              <h1>{{item.name}}</h1>
+          </header>
+          <v-divider class="section-divider"></v-divider>
           <section class="promotion">
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
@@ -27,6 +25,32 @@
             </v-btn>
           </p>
           </section>
+          <section>
+            <h3>Ofertas relacionadas</h3>
+            <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
+              <link itemprop="url" :href="config.host" />
+              <v-col class="mt-3 mb-3" xs6 sm3 md3 lg3 xl3 v-for="(item,i) in relatedItems" :key="i">
+                <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+                </ofer-item>
+              </v-col>
+            </v-row>
+          </section>
+        </v-col>
+        <v-col xs12 sm12 md3 lg3 xl3>
+          <aside>
+            <v-list dense>
+              <v-subheader>
+                <h3>Más {{config.txt.stores}}</h3>
+              </v-subheader>
+              <v-list-item  v-for="(store,i) in stores" :key="i">
+                <v-list-tile ripple tag="a" :href="config.host + config.routes.storeList + '/' + store._id" class="list__tile">
+                  <v-list-tile-content>
+                    <v-list-tile-title v-text="store.name" />
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list-item>
+            </v-list>
+          </aside>
         </v-col>
       </v-row>
 
@@ -41,6 +65,7 @@ import OferContainer from '~/components/ofer-container.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferNotExists from '~/components/ofer-not-exists.vue'
 import ShareButtons from '~/components/share-buttons.vue'
+import OferItem from '~/components/ofer-item.vue'
 
 export default {
   mixins: [OferCommon],
@@ -74,7 +99,8 @@ export default {
     OferContainer,
     OferCommon,
     OferNotExists,
-    ShareButtons
+    ShareButtons,
+    OferItem
   },
   methods: {
     createMetas () {
@@ -217,4 +243,13 @@ p.promotion-data {
     }
   }
 }
+
+.list--dense {
+  .list__item a {
+    //text-decoration: underline;
+    color: #1976d2;
+  }
+}
+
+
 </style>
