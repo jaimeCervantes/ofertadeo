@@ -12,15 +12,17 @@ module.exports = function (spec) {
    * @return {Object} For cascade purposes
    */
   function getBySlug () {
+    let crud = spec.crud;
+    let config = spec.config
     spec.router.get('/promotions/:slug', function (req, res) {
       let iterable = [
-        spec.crud.getItem({
-          collection: spec.config.db.collections.main,
+        crud.getItem({
+          collection: config.db.collections.main,
           query: { slug: req.params.slug },
           items_per_page: 1
         }),
-        spec.crud.aggregate({
-          collection: spec.config.db.collections.secundary,
+        crud.aggregate({
+          collection: config.db.collections.secundary,
           pipeline: [
             { $sample: { size: 15 } },
             { $project: { name: 1 } }
@@ -28,12 +30,39 @@ module.exports = function (spec) {
         })
       ]
 
+      let data = {};
       return Promise.all(iterable)
         .then(function (results) {
-          res.json({
-            item: results[0],
-            stores: results[1]
-          })
+          if(results && results.length > 0) {
+            data.item = results[0]
+            data.stores = results[1]
+            return crud.getItems({
+              collection: config.db.collections.main,
+              query: { categories: { $in: data.item.categories } },
+              projection: {
+                name: 1,
+                thumbnail: 1,
+                stores: 1,
+                slug: 1,
+                meta_description: 1,
+                img: 1,
+                img_data: 1,
+                img_alt: 1,
+                img_title: 1,
+                categories: 1,
+                published: 1,
+                modified: 1
+              },
+              sort: { modified: -1 },
+              items_per_page: 4
+            })
+          } else {
+            return Promise.reject(new Error(results));
+          }
+        })
+        .then(function (relatedItems) {
+          data.relatedItems = relatedItems
+          res.json(data)
         })
         .catch(function (error) {
           console.log(error)

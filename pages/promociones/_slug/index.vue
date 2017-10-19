@@ -25,11 +25,21 @@
             </v-btn>
           </p>
           </section>
+          <section>
+            <h3>Ofertas relacionadas</h3>
+            <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
+              <link itemprop="url" :href="config.host" />
+              <v-col class="mt-3 mb-3" xs6 sm3 md3 lg3 xl3 v-for="(item,i) in relatedItems" :key="i">
+                <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+                </ofer-item>
+              </v-col>
+            </v-row>
+          </section>
         </v-col>
         <v-col xs12 sm12 md3 lg3 xl3>
           <aside>
             <v-list dense>
-              <v-subheader class="white--text">
+              <v-subheader>
                 <h3>Más {{config.txt.stores}}</h3>
               </v-subheader>
               <v-list-item  v-for="(store,i) in stores" :key="i">
@@ -55,6 +65,7 @@ import OferContainer from '~/components/ofer-container.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferNotExists from '~/components/ofer-not-exists.vue'
 import ShareButtons from '~/components/share-buttons.vue'
+import OferItem from '~/components/ofer-item.vue'
 
 export default {
   mixins: [OferCommon],
@@ -88,7 +99,8 @@ export default {
     OferContainer,
     OferCommon,
     OferNotExists,
-    ShareButtons
+    ShareButtons,
+    OferItem
   },
   methods: {
     createMetas () {
@@ -231,4 +243,13 @@ p.promotion-data {
     }
   }
 }
+
+.list--dense {
+  .list__item a {
+    //text-decoration: underline;
+    color: #1976d2;
+  }
+}
+
+
 </style>
