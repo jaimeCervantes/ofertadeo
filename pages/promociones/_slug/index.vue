@@ -1,19 +1,17 @@
 <template>
   <ofer-container>
     <article v-if="exists(item)">
-      <header>
-        <p class="promotion-data">
-          <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
-            <span class="promotion-data__category" v-text="category.name"></span>
-            </a>
-          </p>
-          <h1>{{item.name}}</h1>
-      </header>
-
-      <v-divider class="section-divider"></v-divider>
-
       <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
+           <header>
+            <p class="promotion-data">
+              <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+                <span class="promotion-data__category" v-text="category.name"></span>
+                </a>
+              </p>
+              <h1>{{item.name}}</h1>
+          </header>
+          <v-divider class="section-divider"></v-divider>
           <section class="promotion">
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
@@ -27,6 +25,22 @@
             </v-btn>
           </p>
           </section>
+        </v-col>
+        <v-col xs12 sm12 md3 lg3 xl3>
+          <aside>
+            <v-list dense>
+              <v-subheader class="white--text">
+                <h3>Más {{config.txt.stores}}</h3>
+              </v-subheader>
+              <v-list-item  v-for="(store,i) in stores" :key="i">
+                <v-list-tile ripple tag="a" :href="config.host + config.routes.storeList + '/' + store._id" class="list__tile">
+                  <v-list-tile-content>
+                    <v-list-tile-title v-text="store.name" />
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list-item>
+            </v-list>
+          </aside>
         </v-col>
       </v-row>
 

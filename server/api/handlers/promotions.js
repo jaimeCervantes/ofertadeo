@@ -18,16 +18,25 @@ module.exports = function (spec) {
           collection: spec.config.db.collections.main,
           query: { slug: req.params.slug },
           items_per_page: 1
+        }),
+        spec.crud.aggregate({
+          collection: spec.config.db.collections.secundary,
+          pipeline: [
+            { $sample: { size: 15 } },
+            { $project: { name: 1 } }
+          ]
         })
       ]
 
       return Promise.all(iterable)
         .then(function (results) {
           res.json({
-            item: results[0]
+            item: results[0],
+            stores: results[1]
           })
         })
         .catch(function (error) {
+          console.log(error)
           res.json(error)
         })
     })

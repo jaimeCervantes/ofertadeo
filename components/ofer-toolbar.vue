@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   #menu {
     margin-left: 0rem;
   }
@@ -42,15 +42,10 @@ export default {
       padding-left:0;
       margin-left:0
     }
-  }
 
-  .toolbar__items a {
-    padding-left:0.5rem;
-    padding-right:0.5rem;
-  }
-
-  #img-rss {
-    border:0;
-    margin-right: 5px;
+    .toolbar__items li a.toolbar__item {
+      padding-left:0.8rem;
+      padding-right:0.8rem;
+    }
   }
 </style>
