@@ -2053,7 +2053,7 @@ module.exports = function (spec) {
           data.stores = results[1];
           return crud.getItems({
             collection: config.db.collections.main,
-            query: { categories: { $in: data.item.categories } },
+            query: { categories: { $in: data.item.categories }, _id: { $ne: data.item._id } },
             projection: {
               name: 1,
               thumbnail: 1,
