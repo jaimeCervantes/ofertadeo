@@ -3,7 +3,7 @@
     <article v-if="exists(item)">
       <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
-           <header>
+          <header>
             <p class="promotion-data">
               <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
                 <span class="promotion-data__category" v-text="category.name"></span>
@@ -25,11 +25,11 @@
             </v-btn>
           </p>
           </section>
-          <section>
+          <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
             <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
               <link itemprop="url" :href="config.host" />
-              <v-col class="mt-3 mb-3" xs6 sm3 md3 lg3 xl3 v-for="(item,i) in relatedItems" :key="i">
+              <v-col class="mb-3" xs6 sm3 md3 lg3 xl3 v-for="(item,i) in relatedItems" :key="i">
                 <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
                 </ofer-item>
               </v-col>
@@ -193,8 +193,22 @@ h1 {
   margin-bottom: 0.5rem;
 }
 
+header .promotion-data {
+  font-size: 1rem;
+  :first-letter {
+    text-transform: uppercase;
+  }
+
+  .taxonomy {
+    margin-right: 10px;
+    text-transform: uppercase;
+    color: #888;
+  }
+}
+
 .promotion {
   padding-top: 0.5rem;
+  overflow:hidden;
   .thumbnail {
     float:right;
     text-align:center;
@@ -207,28 +221,7 @@ h1 {
       }
     }
   }
-}
 
-p.promotion-data {
-  font-size: 1rem;
-  :first-letter {
-    text-transform: uppercase;
-  }
-
-  .taxonomy {
-    margin-right: 10px;
-    text-transform: uppercase;
-    color: #888;
-    .promotion-data__store {
-      display: inline;
-      &::first-letter {
-        text-transform: uppercase;
-      }
-    }
-  }
-}
-
-.promotion  {
   .promotion-data {
     .taxonomy {
       color: #1976d2;
@@ -251,5 +244,11 @@ p.promotion-data {
   }
 }
 
-
+.related-items {
+  margin-top: 1.5rem;
+  clear:both;
+  h3 {
+    margin-bottom: 0.8rem;
+  }
+}
 </style>
