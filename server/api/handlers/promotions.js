@@ -12,7 +12,7 @@ module.exports = function (spec) {
    * @return {Object} For cascade purposes
    */
   function getBySlug () {
-    let crud = spec.crud;
+    let crud = spec.crud
     let config = spec.config
     spec.router.get('/promotions/:slug', function (req, res) {
       let iterable = [
@@ -71,6 +71,40 @@ module.exports = function (spec) {
     })
 
     return that
+  }
+
+  function existsBySlug () {
+    let crud = spec.crud
+    let config = spec.config
+    spec.router.get('/promotions/exists/:slug', function (req, res) {
+      crud.getItem({
+        collection: config.db.collections.main,
+        query: { slug: req.params.slug },
+        items_per_page: 1,
+        projection: { _id: 1}
+      })
+      .then(function (offer) {
+        console.log(offer)
+        if(offer && offer._id) {
+          res.json({
+            success: true
+          })
+
+          return
+        }
+
+        res.json({
+          success: false
+        })
+      })
+      .catch(function (error) {
+        console.log(error)
+        res.json(error)
+      })
+
+    })
+
+    return that;
   }
 
   /**
@@ -302,6 +336,7 @@ module.exports = function (spec) {
   that.save = save
   that.getFormData = getFormData
   that.getBySlug = getBySlug
+  that.existsBySlug = existsBySlug
 
   return that
 }
