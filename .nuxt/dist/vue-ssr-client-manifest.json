@@ -1,12 +1,12 @@
 {
   "publicPath": "/_nuxt/",
   "all": [
-    "pages/tiendas/_id.200e60349fc041c3f2a1.js.map",
-    "pages/tiendas/_id.200e60349fc041c3f2a1.js",
+    "pages/tiendas/_id.c5f40856042d2fa61da6.js.map",
+    "pages/tiendas/_id.c5f40856042d2fa61da6.js",
     "pages/ofer-admin/tiendas/_id.1feaddfb73531196b755.js",
     "pages/ofer-admin/tiendas/nueva/index.808391cca90891a1fee7.js",
     "pages/ofer-admin/tiendas/editar/_id/index.c15f86acd6f36c91b617.js",
-    "pages/ofer-admin/promociones/nueva/index.2148eaa99b38bd4b17d2.js",
+    "pages/ofer-admin/promociones/nueva/index.84d37ad60458e937b410.js",
     "pages/ofer-admin/promociones/editar/_slug/index.fc4a33f6e44ab006e9c4.js",
     "pages/ofer-admin/categorias/nueva/index.4be274ef7155de72f699.js",
     "pages/ofer-admin/categorias/editar/_id/index.b7ea3b35b62608addaa8.js",
@@ -29,14 +29,14 @@
     "pages/ofer-admin/seo/categorias/index.e7bcc1d211b4c24efecf.js",
     "common.0626a910f862d2f741ae.js",
     "app.f654532f8a84dc81a803.js",
-    "manifest.38ebfb4a27713f4f0977.js",
+    "manifest.e6f5714d9db16abd7de0.js",
     "LICENSES",
-    "pages/categorias/_id.1c10ae53dfcf23ce6975.js",
-    "pages/categorias/_id.1c10ae53dfcf23ce6975.js.map",
+    "pages/categorias/_id.0fcdff457db788634a93.js",
+    "pages/categorias/_id.0fcdff457db788634a93.js.map",
     "pages/ofer-admin/tiendas/_id.1feaddfb73531196b755.js.map",
     "pages/ofer-admin/tiendas/nueva/index.808391cca90891a1fee7.js.map",
     "pages/ofer-admin/tiendas/editar/_id/index.c15f86acd6f36c91b617.js.map",
-    "pages/ofer-admin/promociones/nueva/index.2148eaa99b38bd4b17d2.js.map",
+    "pages/ofer-admin/promociones/nueva/index.84d37ad60458e937b410.js.map",
     "pages/ofer-admin/promociones/editar/_slug/index.fc4a33f6e44ab006e9c4.js.map",
     "pages/ofer-admin/categorias/nueva/index.4be274ef7155de72f699.js.map",
     "pages/ofer-admin/categorias/editar/_id/index.b7ea3b35b62608addaa8.js.map",
@@ -59,21 +59,21 @@
     "pages/ofer-admin/seo/categorias/index.e7bcc1d211b4c24efecf.js.map",
     "common.0626a910f862d2f741ae.js.map",
     "app.f654532f8a84dc81a803.js.map",
-    "manifest.38ebfb4a27713f4f0977.js.map",
+    "manifest.e6f5714d9db16abd7de0.js.map",
     "index.spa.html",
     "index.ssr.html"
   ],
   "initial": [
-    "manifest.38ebfb4a27713f4f0977.js",
+    "manifest.e6f5714d9db16abd7de0.js",
     "common.0626a910f862d2f741ae.js",
     "app.f654532f8a84dc81a803.js"
   ],
   "async": [
-    "pages/tiendas/_id.200e60349fc041c3f2a1.js",
+    "pages/tiendas/_id.c5f40856042d2fa61da6.js",
     "pages/ofer-admin/tiendas/_id.1feaddfb73531196b755.js",
     "pages/ofer-admin/tiendas/nueva/index.808391cca90891a1fee7.js",
     "pages/ofer-admin/tiendas/editar/_id/index.c15f86acd6f36c91b617.js",
-    "pages/ofer-admin/promociones/nueva/index.2148eaa99b38bd4b17d2.js",
+    "pages/ofer-admin/promociones/nueva/index.84d37ad60458e937b410.js",
     "pages/ofer-admin/promociones/editar/_slug/index.fc4a33f6e44ab006e9c4.js",
     "pages/ofer-admin/categorias/nueva/index.4be274ef7155de72f699.js",
     "pages/ofer-admin/categorias/editar/_id/index.b7ea3b35b62608addaa8.js",
@@ -94,7 +94,7 @@
     "pages/nosotros/index.45506e61c5aa1c91cf96.js",
     "pages/ofer-admin/seo/tiendas/index.d3ae495b313494f270d6.js",
     "pages/ofer-admin/seo/categorias/index.e7bcc1d211b4c24efecf.js",
-    "pages/categorias/_id.1c10ae53dfcf23ce6975.js"
+    "pages/categorias/_id.0fcdff457db788634a93.js"
   ],
   "modules": {
     "23559936": [

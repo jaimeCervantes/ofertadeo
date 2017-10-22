@@ -400,7 +400,7 @@ function smPages() {
     return smUtils.addToSitemap(compoundSitemap, data, {
       route: '',
       changefreq: 'weekly',
-      priority: 0.7
+      priority: 0.6
     });
   }).then(function (algo) {
     return smUtils.createSitemapFile(compoundSitemap, {
@@ -417,8 +417,8 @@ function smCategories() {
   return getData({ collection: config.db.collections.categories }).then(function (data) {
     smUtils.addToSitemap(smCategories, data, {
       route: config.routes.categories,
-      changefreq: 'daily',
-      priority: 0.9
+      changefreq: 'weekly',
+      priority: 0.5
     });
   }).then(function () {
     return smUtils.createSitemapFile(smCategories, {
@@ -435,8 +435,8 @@ function smStores() {
   return getData({ collection: config.db.collections.secundary }).then(function (data) {
     return smUtils.addToSitemap(smStores, data, {
       route: config.routes.storeList,
-      changefreq: 'daily',
-      priority: 0.9
+      changefreq: 'weekly',
+      priority: 0.5
     });
   }).then(function () {
     return smUtils.createSitemapFile(smStores, {
@@ -455,7 +455,7 @@ function smOffers() {
     smUtils.addToSitemap(offersSitemap, data, {
       route: config.routes.main,
       changefreq: 'monthly',
-      priority: 0.5
+      priority: 0.6
     });
   }).then(function () {
     return smUtils.createSitemapFile(offersSitemap, {
@@ -1706,7 +1706,7 @@ module.exports = function (params) {
         csm: params.csm,
         feed: params.feed,
         pn: params.pn
-      }).getBySlug().getFormData().save({ path: '/promotions/new' }) // Create new Offer
+      }).getBySlug().existsBySlug().getFormData().save({ path: '/promotions/new' }) // Create new Offer
       .save({ path: '/promotions/edit/:slug' }); // Edit an Offer
     }
   }).catch(function (err) {
@@ -2085,6 +2085,37 @@ module.exports = function (spec) {
     return that;
   }
 
+  function existsBySlug() {
+    var crud = spec.crud;
+    var config = spec.config;
+    spec.router.get('/promotions/exists/:slug', function (req, res) {
+      crud.getItem({
+        collection: config.db.collections.main,
+        query: { slug: req.params.slug },
+        items_per_page: 1,
+        projection: { _id: 1 }
+      }).then(function (offer) {
+        console.log(offer);
+        if (offer && offer._id) {
+          res.json({
+            success: true
+          });
+
+          return;
+        }
+
+        res.json({
+          success: false
+        });
+      }).catch(function (error) {
+        console.log(error);
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
+
   /**
    * Manage the request for creating and editing Offers(promotions)
    * @return {Object} For cascade purposes
@@ -2288,6 +2319,7 @@ module.exports = function (spec) {
   that.save = save;
   that.getFormData = getFormData;
   that.getBySlug = getBySlug;
+  that.existsBySlug = existsBySlug;
 
   return that;
 };
