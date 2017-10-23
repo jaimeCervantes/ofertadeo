@@ -35,7 +35,8 @@
               <v-btn outline class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
               </v-btn>
             </p>
-            <!-- pie-adaptable -->
+          </section>
+          <!-- pie-adaptable -->
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-3434008864168200"
@@ -44,7 +45,6 @@
             <script>
             (window.adsbygoogle || []).push({})
             </script>
-          </section>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
             <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
@@ -222,10 +222,10 @@ h1 {
     text-align:center;
     img {
       display: block;
-      max-width: 300px;
+      max-width: 200px;
       margin: 0 auto;
       @media(max-width: 600px) {
-        max-width:200px;
+        max-width:150px;
       }
     }
   }
