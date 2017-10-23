@@ -3,6 +3,15 @@
     <template slot="info-section">
       <h1>Ofertas, promociones y descuentos en Tiendas de México</h1>
       <h2 class="subheading">En esta sección encontrarás las mejores ofertas, promociones y descuentos de las principales tiendas de México ordenas alfabéticamente.</h2>
+      <!-- encabezado-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="2635524670"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
     </template>
     <template slot="content">
       <div id="main-list" itemscope itemtype="http://schema.org/ItemList">

@@ -10,6 +10,15 @@
           <v-btn tag="a" v-if="rel" :rel="rel" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Ir a {{info.name}}</v-btn>
           <slot name="social-network"></slot>
         </div>
+        <!-- encabezado-adaptable -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3434008864168200"
+             data-ad-slot="2635524670"
+             data-ad-format="auto"></ins>
+        <script>
+        (window.adsbygoogle || []).push({})
+        </script>
       </div>
     </slot>
     <slot name="footer"></slot>
