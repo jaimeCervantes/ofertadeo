@@ -670,8 +670,6 @@ app.use(nuxt.render);
 // Listen the server
 app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
-// Schedule ping to web search engines
-__WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default.a.ping();
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, "server"))
 
 /***/ }),
