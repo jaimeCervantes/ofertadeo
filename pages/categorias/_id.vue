@@ -35,6 +35,10 @@
             </v-col>
           </v-row>
         </div>
+        <div>
+          <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
+        </div>
+        <div class="anuncio">
         <!-- pie-adaptable -->
         <ins class="adsbygoogle"
              style="display:block"
@@ -44,9 +48,7 @@
         <script>
         (window.adsbygoogle || []).push({})
         </script>
-        <div>
-          <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
-        </div>
+      </div>
       </div>
     </template>
     <template slot="content" v-else>
