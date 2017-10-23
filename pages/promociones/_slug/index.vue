@@ -5,15 +5,15 @@
         <v-col xs12 sm12 md9 lg9 xl9>
           <header>
             <!-- encabezado-adaptable -->
-              <ins class="adsbygoogle"
-                   style="display:block"
-                   data-ad-client="ca-pub-3434008864168200"
-                   data-ad-slot="2635524670"
-                   data-ad-format="auto"></ins>
-              <script>
-              (window.adsbygoogle || []).push({})
-              </script>
-              <h1>{{item.name}}</h1>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3434008864168200"
+                 data-ad-slot="2635524670"
+                 data-ad-format="auto"></ins>
+            <script>
+            (window.adsbygoogle || []).push({})
+            </script>
+            <h1>{{item.name}}</h1>
           </header>
           <v-divider class="section-divider"></v-divider>
           <section class="promotion">
@@ -33,6 +33,15 @@
               <v-btn outline class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
               </v-btn>
             </p>
+            <!-- pie-adaptable -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3434008864168200"
+                 data-ad-slot="8124489226"
+                 data-ad-format="auto"></ins>
+            <script>
+            (window.adsbygoogle || []).push({})
+            </script>
           </section>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>

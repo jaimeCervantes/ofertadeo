@@ -17,6 +17,15 @@
           :expanded="expanded"
           @on-expanded="changeExpanded">
         </ofer-expand>
+        <!-- encabezado-adaptable -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3434008864168200"
+             data-ad-slot="2635524670"
+             data-ad-format="auto"></ins>
+        <script>
+        (window.adsbygoogle || []).push({})
+        </script>
         <v-divider class="section-divider"></v-divider>
         <div class="middle-content">
           <h2>{{seo.h2}}</h2>
