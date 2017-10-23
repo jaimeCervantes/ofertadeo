@@ -194,6 +194,7 @@ export default {
 <style lang="stylus" scoped>
 h1 {
   margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .promotion {
