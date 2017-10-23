@@ -288,7 +288,7 @@ module.exports = function (spec) {
         })
         .then(function (dbResponse) {
           if (dbResponse.result && dbResponse.result.ok) {
-            sendPushNotification(data)
+            // sendPushNotification(data)
 
             return crudInst.update({
               collection: conf.db.collections.pages,
