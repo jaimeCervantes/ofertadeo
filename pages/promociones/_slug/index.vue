@@ -4,7 +4,6 @@
       <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
           <header>
-<<<<<<< HEAD
             <!-- encabezado-adaptable -->
             <ins class="adsbygoogle"
                  style="display:block"
@@ -14,8 +13,6 @@
             <script>
             (window.adsbygoogle || []).push({})
             </script>
-=======
->>>>>>> blank-result-page-speed
             <h1>{{item.name}}</h1>
           </header>
           <v-divider class="section-divider"></v-divider>
@@ -214,6 +211,7 @@ export default {
 <style lang="stylus" scoped>
 h1 {
   margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .promotion {
