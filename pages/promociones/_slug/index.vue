@@ -265,3 +265,19 @@ h1 {
   }
 }
 </style>
+
+<style lang="scss">
+.promotion ul {
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+  ul {
+    margin-bottom: 0.3rem;
+    padding-left: 1rem;
+  }
+
+  li {
+    padding-top:1px;
+    padding-bottom:1px;
+  }
+}
+</style>
