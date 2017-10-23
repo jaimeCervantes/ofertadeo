@@ -4,11 +4,15 @@
       <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
           <header>
-            <p class="promotion-data">
-              <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
-                <span class="promotion-data__category" v-text="category.name"></span>
-                </a>
-              </p>
+            <!-- encabezado-adaptable -->
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="ca-pub-3434008864168200"
+                   data-ad-slot="2635524670"
+                   data-ad-format="auto"></ins>
+              <script>
+              (window.adsbygoogle || []).push({})
+              </script>
               <h1>{{item.name}}</h1>
           </header>
           <v-divider class="section-divider"></v-divider>
@@ -20,10 +24,15 @@
               ></share-buttons>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
+            <p class="promotion-data gray">
+              <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+                <span class="promotion-data__category" v-text="category.name"></span>
+                </a>
+            </p>
             <p class="promotion-data">
-            <v-btn outline class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
-            </v-btn>
-          </p>
+              <v-btn outline class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
+              </v-btn>
+            </p>
           </section>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
@@ -193,7 +202,7 @@ h1 {
   margin-bottom: 0.5rem;
 }
 
-header .promotion-data {
+.promotion-data.gray {
   font-size: 1rem;
   :first-letter {
     text-transform: uppercase;

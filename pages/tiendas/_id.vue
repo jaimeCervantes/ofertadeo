@@ -27,6 +27,15 @@
           </v-col>
         </v-row>
       </div>
+      <!-- pie-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="8124489226"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
       <div>
         <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
       </div>

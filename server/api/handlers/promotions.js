@@ -30,10 +30,10 @@ module.exports = function (spec) {
         })
       ]
 
-      let data = {};
+      let data = {}
       return Promise.all(iterable)
         .then(function (results) {
-          if(results && results.length > 0) {
+          if (results && results.length > 0) {
             data.item = results[0]
             data.stores = results[1]
             return crud.getItems({
@@ -57,7 +57,7 @@ module.exports = function (spec) {
               items_per_page: 4
             })
           } else {
-            return Promise.reject(new Error(results));
+            return Promise.reject(new Error(results))
           }
         })
         .then(function (relatedItems) {
@@ -81,30 +81,29 @@ module.exports = function (spec) {
         collection: config.db.collections.main,
         query: { slug: req.params.slug },
         items_per_page: 1,
-        projection: { _id: 1}
+        projection: { _id: 1 }
       })
-      .then(function (offer) {
-        console.log(offer)
-        if(offer && offer._id) {
+        .then(function (offer) {
+          console.log(offer)
+          if (offer && offer._id) {
+            res.json({
+              success: true
+            })
+
+            return
+          }
+
           res.json({
-            success: true
+            success: false
           })
-
-          return
-        }
-
-        res.json({
-          success: false
         })
-      })
-      .catch(function (error) {
-        console.log(error)
-        res.json(error)
-      })
-
+        .catch(function (error) {
+          console.log(error)
+          res.json(error)
+        })
     })
 
-    return that;
+    return that
   }
 
   /**
