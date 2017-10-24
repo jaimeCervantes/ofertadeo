@@ -75,7 +75,7 @@ export default {
     }
   },
   async asyncData ({ params }) {
-    let { data } = await axios.get(OferCommon.props.config.default().host + '/api/formdata/stores/' + params.id)
+    let { data } = await axios.get(OferCommon.props.config.default().host + '/api/formdata/el-buen-fin/' + params.id)
     data.store = data.item
     delete data.item
     return data
@@ -114,7 +114,7 @@ export default {
       this.loading = true
       this.disabled = true
 
-      axios.post(this.config.host + '/api/stores/edit/' + this.store._id, this.store)
+      axios.post(this.config.host + '/api/el-buen-fin/edit/' + this.store._id, this.store)
         .then(function (res) {
           if (res.data.ok) {
             that.$router.push(`/tiendas/${that.store.slug}`)

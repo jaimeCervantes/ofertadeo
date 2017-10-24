@@ -23,7 +23,8 @@ export default {
     stores: '/tiendas',
     main: '/promociones',
     storeList: '/tiendas',
-    admin: '/ofer-admin'
+    admin: '/ofer-admin',
+    elBuenFin: '/el-buen-fin'
   },
   host: 'http://localhost:3000',
   urlLogo: 'http://localhost:3000/logo.png',

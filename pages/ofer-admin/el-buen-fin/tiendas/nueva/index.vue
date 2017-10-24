@@ -111,10 +111,10 @@ export default {
       this.loading = true
       this.disabled = true
 
-      axios.post(this.config.host + '/api/stores/new', this.store)
+      axios.post(this.config.host + '/api/el-buen-fin/new', this.store)
         .then(function (res) {
           if (res.data.ok) {
-            that.$router.push(`/tiendas/${that.store.slug}`)
+            that.$router.push(`/el-buen-fin/${that.store.slug}`)
           } else {
             console.log(res)
             alert('Algo salió mal, al insertar un nueva tienda en la base de datos, ')
@@ -134,7 +134,7 @@ export default {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get(this.config.host + '/api/stores/' + currSlug)
+      let { data } = await axios.get(this.config.host + '/api/el-buen-fin/exists/' + currSlug)
       if (data && data.info) {
         this.validation.slug.val = false
       }

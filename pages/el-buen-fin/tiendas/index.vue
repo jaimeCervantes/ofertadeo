@@ -5,10 +5,12 @@
       <h2 class="subheading">En esta sección encontrarás las mejores ofertas, promociones y descuentos de las principales tiendas de México ordenas alfabéticamente.</h2>
     </template>
     <template slot="content">
-      <div id="store-list" itemscope itemtype="http://schema.org/ItemList">
+      <div id="main-list" itemscope itemtype="http://schema.org/ItemList">
+        <div v-for="(letter,l) in items" :key="l">
+          <h3 v-text="letter._id.toUpperCase()"></h3>
           <v-row >
-            <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in stores" :key="i">
-              <ofer-item  class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+            <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in letter.stores" :key="i">
+              <ofer-item class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
                 <template slot="content">
                   <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
                     <div class="pl-2 pr-2" itemprop="headline">
@@ -21,17 +23,7 @@
               </ofer-item>
             </v-col>
           </v-row>
-          <v-btn primary large tag="a" :href="config.host + config.routes.elBuenFin + config.routes.storeList">Todas las tiendas</v-btn>
-      </div>
-
-      <div id="main-list" itemscope itemtype="http://schema.org/ItemList" v-if="offers.length > 0">
-        <h3>Ofertas</h3>
-          <v-row >
-            <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in offers" :key="i">
-               <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
-          </ofer-item>
-            </v-col>
-          </v-row>
+        </div>
       </div>
     </template>
   </ofer-content>
@@ -44,7 +36,7 @@ import OferPaths from '~/components/mixins/ofer-paths.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferItem from '~/components/ofer-item.vue'
 
-var urlReq = OferCommon.props.config.default().host + '/api/el-buen-fin'
+var urlReq = OferCommon.props.config.default().host + '/api/el-buen-fin/stores'
 
 export default {
   mixins: [OferPaths, OferCommon],

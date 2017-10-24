@@ -4,7 +4,7 @@
       <ofer-header-info :info="seo" rel="nofollow noopener">
         <template slot="social-network">
           <share-buttons
-            :url="`${config.host}${config.routes.storeList}/${id}`"
+            :url="`${config.host}${config.routes.elBuenFin}/${id}`"
             :media="info.thumbnail" twitter-user="ofertadeo" :title="info.name"
           ></share-buttons>
         </template>
@@ -52,7 +52,7 @@ import ShareButtons from '~/components/share-buttons.vue'
 import OferExpand from '~/components/ofer-expand.vue'
 
 // asyncData does not have acces to 'this' reference
-var urlReq = OferCommon.props.config.default().host + '/api/stores/'
+var urlReq = OferCommon.props.config.default().host + '/api/el-buen-fin/stores/'
 
 export default {
   mixins: [OferPaths, OferCommon, OferSeo],
@@ -121,11 +121,11 @@ export default {
   },
   head () {
     let host = this.config.host
-    let urlStoreList = `${host}${this.config.routes.storeList}`
+    let urlStoreList = `${host}${this.config.routes.elBuenFin}`
     let url = `${urlStoreList}/${this.id}`
 
     return (this.info && this.info.name) ? {
-      title: this.seo.title,
+      title: this.seo ? this.seo.title : this.info.title,
       meta: this.getMetas({ seo: this.seo, info: this.info, url: url }),
       link: [
         { rel: 'canonical', href: url }
