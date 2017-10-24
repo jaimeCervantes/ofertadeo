@@ -88,7 +88,8 @@ var config = {
       secundary: 'stores',
       categories: 'categories',
       pages: 'pages',
-      seo: 'seo'
+      seo: 'seo',
+      elBuenFin: 'elBuenFin'
     },
     collation: {
       locale: 'es'
@@ -99,7 +100,8 @@ var config = {
     categoriesList: '/categorias',
     stores: '/promociones',
     main: '/promociones',
-    storeList: '/tiendas'
+    storeList: '/tiendas',
+    elBuenFin: '/el-buen-fin'
   },
 
   host: 'http://45.55.71.33',
@@ -373,6 +375,7 @@ var rootXml = config.paths.xml;
 var offers = 'sitemap-offers.xml';
 var pagesName = 'sitemap-pages.xml';
 var storesName = 'sitemap-stores.xml';
+var elBuenFinName = 'sitemap-el-buen-fin.xml';
 var categoriesName = 'sitemap-categories.xml';
 
 function getData(params) {
@@ -401,7 +404,7 @@ function smPages() {
     return smUtils.addToSitemap(compoundSitemap, data, {
       route: '',
       changefreq: 'weekly',
-      priority: 0.7
+      priority: 0.6
     });
   }).then(function (algo) {
     return smUtils.createSitemapFile(compoundSitemap, {
@@ -418,8 +421,8 @@ function smCategories() {
   return getData({ collection: config.db.collections.categories }).then(function (data) {
     smUtils.addToSitemap(smCategories, data, {
       route: config.routes.categories,
-      changefreq: 'daily',
-      priority: 0.9
+      changefreq: 'weekly',
+      priority: 0.5
     });
   }).then(function () {
     return smUtils.createSitemapFile(smCategories, {
@@ -436,13 +439,31 @@ function smStores() {
   return getData({ collection: config.db.collections.secundary }).then(function (data) {
     return smUtils.addToSitemap(smStores, data, {
       route: config.routes.storeList,
-      changefreq: 'daily',
-      priority: 0.9
+      changefreq: 'weekly',
+      priority: 0.5
     });
   }).then(function () {
     return smUtils.createSitemapFile(smStores, {
       sitemap_path: rootXml + '/' + storesName,
       sitemapName: storesName
+    });
+  }).catch(function (err) {
+    return err;
+  });
+}
+
+function smElBuenFin() {
+  var smStores = smUtils.createSitemap();
+  return getData({ collection: config.db.collections.elBuenFin }).then(function (data) {
+    return smUtils.addToSitemap(smStores, data, {
+      route: config.routes.elBuenFin,
+      changefreq: 'weekly',
+      priority: 0.5
+    });
+  }).then(function () {
+    return smUtils.createSitemapFile(smStores, {
+      sitemap_path: rootXml + '/' + elBuenFinName,
+      sitemapName: elBuenFinName
     });
   }).catch(function (err) {
     return err;
@@ -456,7 +477,7 @@ function smOffers() {
     smUtils.addToSitemap(offersSitemap, data, {
       route: config.routes.main,
       changefreq: 'monthly',
-      priority: 0.5
+      priority: 0.6
     });
   }).then(function () {
     return smUtils.createSitemapFile(offersSitemap, {
@@ -558,6 +579,7 @@ module.exports = {
   pages: smPages,
   offers: smOffers,
   stores: smStores,
+  elBuenFin: smElBuenFin,
   categories: smCategories,
   ping: ping
 };
@@ -589,17 +611,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_helmet___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_helmet__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_body_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_body_parser__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_morgan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_morgan__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rotating_file_stream___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rotating_file_stream__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_path__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_fs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__);
 
 
@@ -646,7 +668,7 @@ app.use(__WEBPACK_IMPORTED_MODULE_3_helmet___default()());
 app.disable('x-powered-by');
 
 // Import and Set Nuxt.js options
-var nuxtConfig = __webpack_require__(43);
+var nuxtConfig = __webpack_require__(45);
 nuxtConfig.dev = develop;
 
 // Init Nuxt.js
@@ -671,8 +693,6 @@ app.use(nuxt.render);
 // Listen the server
 app.listen(port);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
-// Schedule ping to web search engines
-__WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default.a.ping();
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, "server"))
 
 /***/ }),
@@ -713,6 +733,7 @@ var promotions = __webpack_require__(27);
 var stores = __webpack_require__(28);
 var upload = __webpack_require__(29);
 var seo = __webpack_require__(30);
+var elBuenFin = __webpack_require__(31);
 
 home({ router: router, crud: crud, conn: conn, config: config });
 
@@ -721,7 +742,7 @@ categories({
   config: config,
   crud: crud,
   router: router,
-  handler: __webpack_require__(31),
+  handler: __webpack_require__(32),
   csm: csm,
   commonDbParams: commonDbParams
 });
@@ -731,7 +752,7 @@ promotions({
   config: config,
   crud: crud,
   router: router,
-  handler: __webpack_require__(32),
+  handler: __webpack_require__(33),
   csm: csm,
   feed: feed,
   pn: pn
@@ -742,7 +763,7 @@ stores({
   config: config,
   crud: crud,
   router: router,
-  handler: __webpack_require__(33),
+  handler: __webpack_require__(34),
   csm: csm,
   commonDbParams: commonDbParams
 });
@@ -752,7 +773,7 @@ upload({
   config: config,
   crud: crud,
   router: router,
-  handler: __webpack_require__(34)
+  handler: __webpack_require__(35)
 });
 
 seo({
@@ -760,7 +781,17 @@ seo({
   config: config,
   crud: crud,
   router: router,
-  handler: __webpack_require__(38)
+  handler: __webpack_require__(39)
+});
+
+elBuenFin({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: __webpack_require__(40),
+  csm: csm,
+  commonDbParams: commonDbParams
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (router);
@@ -1707,7 +1738,7 @@ module.exports = function (params) {
         csm: params.csm,
         feed: params.feed,
         pn: params.pn
-      }).getBySlug().getFormData().save({ path: '/promotions/new' }) // Create new Offer
+      }).getBySlug().existsBySlug().getFormData().save({ path: '/promotions/new' }) // Create new Offer
       .save({ path: '/promotions/edit/:slug' }); // Edit an Offer
     }
   }).catch(function (err) {
@@ -1787,6 +1818,33 @@ module.exports = function (params) {
 
 /***/ }),
 /* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (params) {
+  params.conn.then(function (db) {
+    return params.crud({ db: db, config: params.config });
+  }).then(function (crud) {
+    if (crud) {
+      params.handler({
+        crud: crud,
+        router: params.router,
+        config: params.config,
+        csm: params.csm,
+        commonDbParams: params.commonDbParams
+      }).getById().getIndex().getFormData().existsBySlug().getStores().save({ path: '/el-buen-fin/new' }) // Create new store
+      .save({ path: '/el-buen-fin/edit/:id' }); // Edit an store
+    }
+  }).catch(function (err) {
+    // some configuration to notify no database connection working
+    console.log(err);
+  });
+};
+
+/***/ }),
+/* 32 */
 /***/ (function(module, exports) {
 
 module.exports = function (spec) {
@@ -2017,7 +2075,7 @@ module.exports = function (spec) {
 };
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports) {
 
 /**
@@ -2077,6 +2135,37 @@ module.exports = function (spec) {
       }).then(function (relatedItems) {
         data.relatedItems = relatedItems;
         res.json(data);
+      }).catch(function (error) {
+        console.log(error);
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
+
+  function existsBySlug() {
+    var crud = spec.crud;
+    var config = spec.config;
+    spec.router.get('/promotions/exists/:slug', function (req, res) {
+      crud.getItem({
+        collection: config.db.collections.main,
+        query: { slug: req.params.slug },
+        items_per_page: 1,
+        projection: { _id: 1 }
+      }).then(function (offer) {
+        console.log(offer);
+        if (offer && offer._id) {
+          res.json({
+            success: true
+          });
+
+          return;
+        }
+
+        res.json({
+          success: false
+        });
       }).catch(function (error) {
         console.log(error);
         res.json(error);
@@ -2247,7 +2336,7 @@ module.exports = function (spec) {
         res.json(err);
       }).then(function (dbResponse) {
         if (dbResponse.result && dbResponse.result.ok) {
-          sendPushNotification(data);
+          // sendPushNotification(data)
 
           return crudInst.update({
             collection: conf.db.collections.pages,
@@ -2289,12 +2378,13 @@ module.exports = function (spec) {
   that.save = save;
   that.getFormData = getFormData;
   that.getBySlug = getBySlug;
+  that.existsBySlug = existsBySlug;
 
   return that;
 };
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports) {
 
 module.exports = function (spec) {
@@ -2526,13 +2616,13 @@ module.exports = function (spec) {
 };
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var mkdirp = __webpack_require__(35);
+var mkdirp = __webpack_require__(36);
 var path = __webpack_require__(3);
-var multer = __webpack_require__(36);
-var jimp = __webpack_require__(37);
+var multer = __webpack_require__(37);
+var jimp = __webpack_require__(38);
 
 module.exports = function (spec) {
   var that = {};
@@ -2619,25 +2709,25 @@ module.exports = function (spec) {
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = require("mkdirp");
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = require("multer");
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = require("jimp");
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = function (spec) {
@@ -2696,25 +2786,347 @@ module.exports = function (spec) {
 };
 
 /***/ }),
-/* 39 */
-/***/ (function(module, exports) {
-
-module.exports = require("body-parser");
-
-/***/ }),
 /* 40 */
 /***/ (function(module, exports) {
 
-module.exports = require("morgan");
+module.exports = function (spec) {
+  var that = {};
+  spec = spec || {};
+  var elBuenFinCategory = 'el-buen-fin';
+
+  function getById(params) {
+    var crudInst = spec.crud;
+    var conf = spec.config;
+
+    spec.router.get('/el-buen-fin/stores/:_id', function (req, res) {
+      var page = req.query.page ? Number(req.query.page) : 0;
+      var iterable = [crudInst.getItems({
+        collection: conf.db.collections.main,
+        query: { 'stores._id': req.params._id, 'categories._id': elBuenFinCategory },
+        items_per_page: conf.db.itemsPerPage,
+        skip: conf.db.itemsPerPage * page,
+        sort: { published: -1 },
+        projection: {
+          name: 1,
+          thumbnail: 1,
+          elBuenFin: 1,
+          slug: 1,
+          meta_description: 1,
+          img: 1,
+          img_data: 1,
+          img_alt: 1,
+          img_title: 1,
+          categories: 1,
+          published: 1,
+          modified: 1
+        }
+      }), crudInst.getItem({
+        collection: conf.db.collections.elBuenFin,
+        query: { _id: req.params._id },
+        projection: {
+          name: 1,
+          thumbnail: 1,
+          slug: 1,
+          content: 1,
+          title: 1,
+          h1: 1,
+          h2: 1,
+          meta_title: 1,
+          meta_description: 1,
+          url_site: 1,
+          img: 1,
+          img_alt: 1,
+          img_title: 1,
+          img_data: 1
+        }
+      }), crudInst.getPagination({
+        query: { 'stores._id': req.params._id },
+        collection: conf.db.collections.main
+      }), crudInst.getItem({
+        collection: conf.db.collections.seo,
+        query: { _id: elBuenFinCategory }
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          items: results[0],
+          info: results[1],
+          pagination: results[2],
+          seo: results[3]
+        });
+      }).catch(function (error) {
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
+
+  function getIndex() {
+    var crudInst = spec.crud;
+    var conf = spec.config;
+    spec.router.get('/el-buen-fin', function (req, res) {
+      var page = req.query.page ? Number(req.query.page) : 0;
+      var iterable = [crudInst.aggregate({
+        collection: conf.db.collections.elBuenFin,
+        pipeline: [{ $sample: { size: 15 } }, { $project: {
+            _id: 1,
+            name: 1,
+            slug: 1,
+            thumbnail: 1,
+            img: 1,
+            img_data: 1,
+            img_alt: 1,
+            img_title: 1,
+            published: 1,
+            modified: 1
+          }
+        }]
+      }), crudInst.getItems({
+        collection: conf.db.collections.main,
+        query: { 'stores._id': req.params._id, 'categories._id': elBuenFinCategory },
+        items_per_page: conf.db.itemsPerPage,
+        skip: conf.db.itemsPerPage * page,
+        sort: { published: -1 },
+        projection: {
+          name: 1,
+          thumbnail: 1,
+          elBuenFin: 1,
+          slug: 1,
+          meta_description: 1,
+          img: 1,
+          img_data: 1,
+          img_alt: 1,
+          img_title: 1,
+          categories: 1,
+          published: 1,
+          modified: 1
+        }
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          stores: results[0],
+          offers: results[1]
+        });
+      }).catch(function (error) {
+        console.log(error);
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
+
+  function getStores() {
+    var crudInst = spec.crud;
+    var conf = spec.config;
+
+    spec.router.get('/el-buen-fin/stores', function (req, res) {
+      var iterable = [crudInst.aggregate({
+        collection: conf.db.collections.elBuenFin,
+        pipeline: [{ $limit: 100 }, // Primiero limitar la cantidad
+        // Ordenarlo por nombre para obtener el arreglo en el sig, pipe ordenado alfabeticamente en orden ascendente
+        { $sort: { name: 1 } }, { $project: {
+            // A mayusculas, porque 'e' !== 'E'
+            _id: 1,
+            name: 1,
+            slug: 1,
+            thumbnail: 1,
+            img: 1,
+            img_data: 1,
+            img_alt: 1,
+            img_title: 1,
+            published: 1,
+            modified: 1
+          }
+        }, {
+          $group: {
+            _id: {
+              $switch: spec.commonDbParams.groupAlphabeticallyInSwitch
+            },
+            stores: { $push: '$$CURRENT' }
+          }
+        }, { $sort: { _id: 1 } }], // pipeline
+        options: {
+          collation: {
+            locale: conf.db.collation.locale,
+            alternate: 'shifted'
+          } // options
+        } }) // aggregate
+      ]; // iterable
+
+      Promise.all(iterable).then(function (results) {
+        res.json({
+          items: results[0]
+        });
+      }).catch(function (error) {
+        console.log(new Error(error));
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
+
+  function getFormData() {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+    var router = spec.router;
+    // get an specific promotion data, query by slug property
+    router.get('/formdata/el-buen-fin/:id', function (req, res) {
+      var iterable = [crudInst.getItem({
+        collection: conf.db.collections.elBuenFin,
+        query: { _id: req.params.id },
+        items_per_page: 1
+      })];
+
+      Promise.all(iterable).then(function (results) {
+        console.log(results);
+        res.json({
+          item: results[0]
+        });
+      }).catch(function (error) {
+        res.json(error);
+      });
+    }); // router.get
+
+    return that;
+  }
+
+  /**
+   * Creates or update a store
+   * @param  {[type]} params Until now it contains the path of the request
+   * @return {Object}        For cascade purpose
+   */
+  function save(params) {
+    var conf = spec.config;
+    var crudInst = spec.crud;
+    var saveMethod = 'setItem';
+
+    spec.router.post(params.path, function (req, res) {
+      var rightNow = new Date();
+      var saveParams = {
+        collection: conf.db.collections.elBuenFin
+      };
+      var data = Object.assign(req.body, { modified: rightNow });
+
+      // Al crear nueva, la fecha de publicacion y modificacion son la misma
+      if (!data.hasOwnProperty('published')) {
+        data.published = rightNow;
+      } else {
+        // asegurandonos que se guarde como un campo tipo fecha
+        data.published = new Date(data.published);
+      }
+
+      if (data.hasOwnProperty('_id')) {
+        saveMethod = 'update';
+        delete data._id;
+        delete saveParams.document;
+        saveParams.query = { _id: req.params.id };
+        saveParams.update = { $set: data };
+        saveParams.options = { upsert: true };
+      } else {
+        data._id = data.slug;
+        saveParams.document = data;
+      }
+
+      crudInst[saveMethod](saveParams).then(function (dbResponse) {
+        //  return response to client with res object
+        res.json(dbResponse);
+        return dbResponse;
+      }).catch(function (err) {
+        console.log('Ocurrió un error al tratar de Guardar una Tienda:');
+        console.log(err);
+        res.json(err);
+      }).then(function (dbResponse) {
+        if (dbResponse.result && dbResponse.result.ok) {
+          return true;
+        } else {
+          return Error(dbResponse);
+        }
+      }).then(function (result) {
+        if (result === true) {
+          Promise.all([spec.csm.elBuenFin(), spec.csm.pages()]).then(function (results) {
+            if (results && results.length > 0) {
+              return spec.csm.index();
+            }
+          }).catch(function (err) {
+            console.log(err);
+            return err;
+          });
+        } else {
+          console.log(result);
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }); // router.post
+
+    return that;
+  }
+
+  function existsBySlug() {
+    var crud = spec.crud;
+    var config = spec.config;
+    spec.router.get('/el-buen-fin/exists/:slug', function (req, res) {
+      crud.getItem({
+        collection: config.db.collections.elBuenFin,
+        query: { slug: req.params.slug },
+        items_per_page: 1,
+        projection: { _id: 1 }
+      }).then(function (offer) {
+        console.log(offer);
+        if (offer && offer._id) {
+          res.json({
+            success: true
+          });
+
+          return;
+        }
+
+        res.json({
+          success: false
+        });
+      }).catch(function (error) {
+        console.log(error);
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
+
+  that.save = save;
+  that.getById = getById;
+  that.getIndex = getIndex;
+  that.getStores = getStores;
+  that.getFormData = getFormData;
+  that.existsBySlug = existsBySlug;
+
+  return that;
+};
 
 /***/ }),
 /* 41 */
 /***/ (function(module, exports) {
 
-module.exports = require("rotating-file-stream");
+module.exports = require("body-parser");
 
 /***/ }),
 /* 42 */
+/***/ (function(module, exports) {
+
+module.exports = require("morgan");
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports) {
+
+module.exports = require("rotating-file-stream");
+
+/***/ }),
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var cron = __webpack_require__(9);
@@ -2758,7 +3170,7 @@ function ping() {
 module.exports = schedule;
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = {
