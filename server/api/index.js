@@ -13,6 +13,7 @@ let promotions = require('./promotions')
 let stores = require('./stores')
 let upload = require('./upload')
 let seo = require('./seo')
+let elBuenFin = require('./elBuenFin')
 
 home({ router: router, crud: crud, conn: conn, config: config })
 
@@ -61,6 +62,16 @@ seo({
   crud: crud,
   router: router,
   handler: require('./handlers/seo')
+})
+
+elBuenFin({
+  conn: conn,
+  config: config,
+  crud: crud,
+  router: router,
+  handler: require('./handlers/elBuenFin'),
+  csm: csm,
+  commonDbParams: commonDbParams
 })
 
 export default router
