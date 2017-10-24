@@ -4,7 +4,7 @@
       <v-row>
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
-            <v-text-field v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
+            <v-text-field v-model.trim.lazy="category.name" name="name" label="Nombre" required></v-text-field>
             <v-text-field v-model="category.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
             <vue-editor v-model="category.content"></vue-editor>
@@ -51,7 +51,6 @@ export default {
     return {
       loading: false,
       disabled: false,
-      name: '',
       category: {
         name: '',
         slug: '',
@@ -100,7 +99,7 @@ export default {
         alert('Asegurate de primero subir la imagen de la Categoría')
         return
       }
-      if (!this.category.name || !this.category.url_site || !this.category.content) {
+      if (!this.category.name || !this.category.content) {
         alert('Todavia te faltan datos importantes antes de guardar la Categoría.')
         return
       }
@@ -137,8 +136,7 @@ export default {
     }
   },
   watch: {
-    name (newName) {
-      this.category.name = newName
+    'category.name' (newName) {
       this.category.slug = slug(newName)
       this.category.title = `Ofertas, descuentos y promociones en ${newName} 2017 | Ofertadeo`
       this.category.h1 = `${newName} - Ofertas, promociones y descuentos`
