@@ -24,6 +24,8 @@ export default {
     },
     mergeSeoWith (seo, defaults) {
       for (let prop in defaults) {
+        // If the property exists in the item, then replace the seo values
+        // by the ones in the item
         if (defaults.hasOwnProperty(prop) && defaults[prop]) {
           seo[prop] = defaults[prop]
         }

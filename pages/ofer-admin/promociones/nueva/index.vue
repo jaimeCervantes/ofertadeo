@@ -5,11 +5,11 @@
         <h1>Crear nueva oferta</h1>
         <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
           <form id="new-offer" v-on:submit.prevent="send">
-            <v-text-field v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
+            <v-text-field v-model.trim.lazy="promotion.name" name="name" label="Nombre" required></v-text-field>
             <v-text-field v-model="promotion.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
             <h3>Contenido</h3>
-            <vue-editor v-model="content"></vue-editor>
+            <vue-editor v-model="promotion.content"></vue-editor>
             <v-text-field v-model="promotion.url" name="url" label="Url origen" required></v-text-field>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
             <v-text-field v-model="promotion.title" name="title" label="Titulo, h1" required></v-text-field>
@@ -72,8 +72,6 @@ export default {
     return {
       loading: false,
       disabled: false,
-      name: '',
-      content: '',
       promotion: {
         name: '',
         slug: '',
@@ -167,8 +165,8 @@ export default {
         return
       }
       this.validation.slug.val = true
-      let { data } = await axios.get(this.config.host + '/api/promotions/' + currSlug)
-      if (this.exists(data)) {
+      let { data } = await axios.get(this.config.host + '/api/promotions/exists/' + currSlug)
+      if (this.exists(data) && data.success === true) {
         this.validation.slug.val = false
       }
     }
@@ -178,7 +176,7 @@ export default {
     this.stores = this.setTextPropertyForSelect(this.stores)
   },
   watch: {
-    name (newName) {
+    'promotion.name' (newName) {
       this.promotion.name = newName
       this.promotion.slug = slug(newName)
       this.promotion.title = `${newName}`
@@ -186,12 +184,12 @@ export default {
       this.promotion.img_alt = `${newName}`
       this.promotion.img_title = `${newName}`
     },
-    slug (newSlug) {
+    'promotion.slug' (newSlug) {
       if (newSlug.length > 5) {
         this.validateSlug(newSlug)
       }
     },
-    content (newContent) {
+    'promotion.content' (newContent) {
       this.promotion.content = newContent
       this.promotion.meta_description = this.sliceTextFromHtml(newContent, this.config.seo.description.charsLimit)
     }

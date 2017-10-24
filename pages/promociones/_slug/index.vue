@@ -3,13 +3,8 @@
     <article v-if="exists(item)">
       <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
-           <header>
-            <p class="promotion-data">
-              <a class="taxonomy" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
-                <span class="promotion-data__category" v-text="category.name"></span>
-                </a>
-              </p>
-              <h1>{{item.name}}</h1>
+          <header>
+            <h1>{{item.name}}</h1>
           </header>
           <v-divider class="section-divider"></v-divider>
           <section class="promotion">
@@ -20,16 +15,20 @@
               ></share-buttons>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
+         
             <p class="promotion-data">
-            <v-btn outline class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
-            </v-btn>
-          </p>
+              <v-btn outline class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
+              </v-btn>
+              <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+                  <span class="promotion-data__category" v-text="category.name"></span>
+                </a>
+            </p>
           </section>
-          <section>
+          <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
             <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
               <link itemprop="url" :href="config.host" />
-              <v-col class="mt-3 mb-3" xs6 sm3 md3 lg3 xl3 v-for="(item,i) in relatedItems" :key="i">
+              <v-col class="mb-3" xs6 sm3 md3 lg3 xl3 v-for="(item,i) in relatedItems" :key="i">
                 <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
                 </ofer-item>
               </v-col>
@@ -191,10 +190,12 @@ export default {
 <style lang="stylus" scoped>
 h1 {
   margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .promotion {
   padding-top: 0.5rem;
+  overflow:hidden;
   .thumbnail {
     float:right;
     text-align:center;
@@ -207,42 +208,33 @@ h1 {
       }
     }
   }
-}
 
-p.promotion-data {
-  font-size: 1rem;
-  :first-letter {
-    text-transform: uppercase;
-  }
-
-  .taxonomy {
-    margin-right: 10px;
-    text-transform: uppercase;
-    color: #888;
-    .promotion-data__store {
-      display: inline;
-      &::first-letter {
-        text-transform: uppercase;
-      }
-    }
-  }
-}
-
-.promotion  {
   .promotion-data {
     .taxonomy {
       color: #1976d2;
       font-weight:bold;
       text-transform:initial;
-      margin-right:initial;
+      margin-right:1rem;
       margin-left: 0;
       margin-top: 0;
       &:hover, :visited {
         text-decoration: none;
       }
     }
+    
+    .taxonomy-gray {
+      font-size: 1rem;
+      font-weight: normal;
+      margin-right: 10px;
+      text-transform: uppercase;
+      color: #888;
+      &:hover, :visited {
+        text-decoration: underline;
+      }
+    }
   }
 }
+
 
 .list--dense {
   .list__item a {
@@ -251,5 +243,27 @@ p.promotion-data {
   }
 }
 
+.related-items {
+  margin-top: 1.5rem;
+  clear:both;
+  h3 {
+    margin-bottom: 0.8rem;
+  }
+}
+</style>
 
+<style lang="scss">
+.promotion ul {
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+  ul {
+    margin-bottom: 0.3rem;
+    padding-left: 1rem;
+  }
+
+  li {
+    padding-top:1px;
+    padding-bottom:1px;
+  }
+}
 </style>

@@ -17,6 +17,7 @@ module.exports = function (params) {
           pn: params.pn
         })
           .getBySlug()
+          .existsBySlug()
           .getFormData()
           .save({ path: '/promotions/new' }) // Create new Offer
           .save({ path: '/promotions/edit/:slug' }) // Edit an Offer
