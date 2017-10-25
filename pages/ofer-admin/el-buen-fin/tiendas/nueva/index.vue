@@ -150,7 +150,7 @@ export default {
       this.store.meta_title = `El buen fin 2017 ${newName} - Ofertas, promociones y descuentos`
       this.store.img_alt = `El buen fin ${newName}`
       this.store.img_title = `El buen fin ${newName}`
-      this.store.meta_description = `Encuentra todos los descuentos, promociones y ofertas del Buen Fin 2017 ${newName}. Buen Fin ${newName}. ✪ ¡Ahorra ya!`
+      this.store.meta_description = `Encuentra todos los descuentos, promociones y ofertas del Buen Fin 2017 ${newName}. Buen Fin ${newName}. ✪ ¡Entra y ahorra ya!`
     },
     'store.slug' (newSlug) {
       if (newSlug.length > 5) {
