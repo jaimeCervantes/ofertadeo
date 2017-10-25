@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     getItemLink (path) {
-      return `${this.config.host}${this.config.routes.categories}/${path}`
+      return `${this.config.host}${this.config.routes.categoriesList}/${path}`
     }
   },
   components: {
