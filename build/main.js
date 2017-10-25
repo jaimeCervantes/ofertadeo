@@ -2884,7 +2884,7 @@ module.exports = function (spec) {
         }]
       }), crudInst.getItems({
         collection: conf.db.collections.main,
-        query: { 'stores._id': req.params._id, 'categories._id': elBuenFinCategory },
+        query: { 'categories._id': elBuenFinCategory },
         items_per_page: conf.db.itemsPerPage,
         skip: conf.db.itemsPerPage * page,
         sort: { published: -1 },
@@ -2899,6 +2899,7 @@ module.exports = function (spec) {
           img_alt: 1,
           img_title: 1,
           categories: 1,
+          stores: 1,
           published: 1,
           modified: 1
         }
