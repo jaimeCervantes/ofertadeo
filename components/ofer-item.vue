@@ -103,4 +103,13 @@ export default {
 .item__extract {
   justify-content: left;
 }
+
+.mini  {
+  .item__img {
+    height:inherit !important;
+    img {
+      max-height: 100px;
+    }
+  }
+}
 </style>

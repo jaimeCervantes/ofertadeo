@@ -10,7 +10,7 @@
           <h3 v-text="letter._id.toUpperCase()"></h3>
           <v-row >
             <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item, i) in letter.categories" :key="i">
-              <ofer-item :item="item" :to-link="config.routes.categories + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+              <ofer-item class="mini" :item="item" :to-link="config.routes.categories + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
                 <template slot="content">
                   <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
                     <div class="pl-2 pr-2" itemprop="headline">
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     getItemLink (path) {
-      return `${this.config.host}${this.config.routes.categories}/${path}`
+      return `${this.config.host}${this.config.routes.categoriesList}/${path}`
     }
   },
   components: {

@@ -23,13 +23,17 @@ export default {
     stores: '/tiendas',
     main: '/promociones',
     storeList: '/tiendas',
-    admin: '/ofer-admin'
+    admin: '/ofer-admin',
+    seo: '/seo',
+    elBuenFin: '/el-buen-fin'
   },
   host: 'http://localhost:3000',
   urlLogo: 'http://localhost:3000/logo.png',
   txt: {
     categories: 'Categorías',
-    stores: 'Tiendas'
+    stores: 'Tiendas',
+    offers: 'Promociones',
+    elBuenFin: 'El Buen Fin'
   },
   publisher: {
     fb: 'https://www.facebook.com/ofertadeo',

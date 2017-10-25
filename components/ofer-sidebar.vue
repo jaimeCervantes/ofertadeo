@@ -1,7 +1,8 @@
 <template>
   <v-sidebar v-model="$store.state.sidebar" drawer height="100%" fixed
   role="complementary" id="sidebar-nav" itemscope="itemscope" itemtype="https://schema.org/WPSideBar">
-  <h3 class="visually-hidden">Menús de navegación laterales</h3>
+  <slot>
+    <h3 class="visually-hidden">Menús de navegación laterales</h3>
     <nav role="navigation" id="nav-tiendas" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
       <v-list dense>
         <v-subheader class="white--text">
@@ -33,6 +34,7 @@
         </v-list-item>
       </v-list>
     </nav>
+  </slot>
   </v-sidebar>
 </template>
 

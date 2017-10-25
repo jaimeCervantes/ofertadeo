@@ -17,7 +17,8 @@ var config = {
       secundary: 'stores',
       categories: 'categories',
       pages: 'pages',
-      seo: 'seo'
+      seo: 'seo',
+      elBuenFin: 'elBuenFin'
     },
     collation: {
       locale: 'es'
@@ -28,7 +29,8 @@ var config = {
     categoriesList: '/categorias',
     stores: '/promociones',
     main: '/promociones',
-    storeList: '/tiendas'
+    storeList: '/tiendas',
+    elBuenFin: '/el-buen-fin'
   },
   host: 'http://localhost:3000',
   paths: {
