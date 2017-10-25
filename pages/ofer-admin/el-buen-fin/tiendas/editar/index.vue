@@ -10,7 +10,7 @@
           <h3 v-text="letter._id.toUpperCase()"></h3>
           <v-row >
             <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in letter.stores" :key="i">
-              <ofer-item :item="item" :to-link="config.routes.storeList + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+              <ofer-item :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
                 <template slot="content">
                   <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
                     <div class="pl-2 pr-2" itemprop="headline">
@@ -21,7 +21,7 @@
                   </v-card-row> 
                   <v-card-row>
                     <div class="pl-2 pr-2">
-                      <v-btn small primary dark tag="a" :to="`${config.host}${config.routes.admin}${config.routes.storeList}/editar/${item.slug}`">Editar</v-btn>
+                      <v-btn small primary dark tag="a" :to="`${config.host}${config.routes.admin}${config.routes.elBuenFin}${config.routes.storeList}/editar/${item.slug}`">Editar</v-btn>
                     </div>
                   </v-card-row>
                 </template>
@@ -41,7 +41,7 @@ import OferPaths from '~/components/mixins/ofer-paths.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferItem from '~/components/ofer-item.vue'
 
-var urlReq = OferCommon.props.config.default().host + '/api/stores'
+var urlReq = OferCommon.props.config.default().host + '/api/el-buen-fin/stores'
 
 export default {
   layout: 'admin',
@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     getItemLink (path) {
-      return `${this.config.host}${this.config.routes.storeList}/${path}`
+      return `${this.config.host}${this.config.routes.elBuenFin}/${path}`
     }
   },
   head () {

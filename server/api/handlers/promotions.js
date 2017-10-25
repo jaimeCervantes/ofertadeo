@@ -220,7 +220,8 @@ module.exports = function (spec) {
         csm.pages(),
         csm.offers(),
         csm.stores(),
-        csm.categories()
+        csm.categories(),
+        csm.elBuenFin()
       ])
         .then(function (results) {
           if (results && results.length > 0) {

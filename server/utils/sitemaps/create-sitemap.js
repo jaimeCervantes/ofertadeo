@@ -7,6 +7,7 @@ var rootXml = config.paths.xml
 var offers = 'sitemap-offers.xml'
 var pagesName = 'sitemap-pages.xml'
 var storesName = 'sitemap-stores.xml'
+var elBuenFinName = 'sitemap-el-buen-fin.xml'
 var categoriesName = 'sitemap-categories.xml'
 
 function getData (params) {
@@ -87,6 +88,27 @@ function smStores () {
       return smUtils.createSitemapFile(smStores, {
         sitemap_path: rootXml + '/' + storesName,
         sitemapName: storesName
+      })
+    })
+    .catch(function (err) {
+      return err
+    })
+}
+
+function smElBuenFin () {
+  var smStores = smUtils.createSitemap()
+  return getData({ collection: config.db.collections.elBuenFin })
+    .then(function (data) {
+      return smUtils.addToSitemap(smStores, data, {
+        route: config.routes.elBuenFin,
+        changefreq: 'weekly',
+        priority: 0.5
+      })
+    })
+    .then(function () {
+      return smUtils.createSitemapFile(smStores, {
+        sitemap_path: rootXml + '/' + elBuenFinName,
+        sitemapName: elBuenFinName
       })
     })
     .catch(function (err) {
@@ -230,6 +252,7 @@ module.exports = {
   pages: smPages,
   offers: smOffers,
   stores: smStores,
+  elBuenFin: smElBuenFin,
   categories: smCategories,
   ping: ping
 }
