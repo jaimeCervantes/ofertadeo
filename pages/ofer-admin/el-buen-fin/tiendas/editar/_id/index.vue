@@ -117,7 +117,7 @@ export default {
       axios.post(this.config.host + '/api/el-buen-fin/edit/' + this.store._id, this.store)
         .then(function (res) {
           if (res.data.ok) {
-            that.$router.push(`/tiendas/${that.store.slug}`)
+            that.$router.push(`/el-buen-fin/${that.store.slug}`)
           } else {
             alert('Algo salió mal, al guardar tienda en la base de datos, ')
           }
