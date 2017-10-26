@@ -2274,7 +2274,7 @@ module.exports = function (spec) {
 
     //  Update sitemaps
     return new Promise(function (resolve, reject) {
-      return Promise.all([csm.pages(), csm.offers(), csm.stores(), csm.categories()]).then(function (results) {
+      return Promise.all([csm.pages(), csm.offers(), csm.stores(), csm.categories(), csm.elBuenFin()]).then(function (results) {
         if (results && results.length > 0) {
           csm.index().then(function (res) {
             resolve(res);
