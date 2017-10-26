@@ -139,3 +139,14 @@ export default {
     margin-bottom: 0.6rem;
   }
 </style>
+<style>
+  .divider {
+    background-color: #DA251D;
+  }
+
+  h1 {
+    background-color: #DA251D;
+    padding: 1rem;
+    color: white;
+  }
+</style>

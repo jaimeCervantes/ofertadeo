@@ -1,8 +1,8 @@
 <template>
   <ofer-content :breadcrumbs="breadcrumbs">
     <template slot="info-section">
-      <h1>Ofertas, promociones y descuentos en Tiendas de México</h1>
-      <h2 class="subheading">En esta sección encontrarás las mejores ofertas, promociones y descuentos de las principales tiendas de México ordenas alfabéticamente.</h2>
+      <h1>Tiendas participantes El Buen Fin 2017</h1>
+      <p>Son muchas las empresas y comercios que se unen al evento del buen fin para ofrecer a sus clientes las mejores ofertas y entre las tiendas participantes confirmadas este año podemos encontrar: Walmart, Sam's Club, Amazon, Mercado Libre, OfficeMax, Office Depot, Iusacell, Gandhi, Farmacias Benavides, Dafiti, Cinépolis, Blockbuster, Bodega Aurrera, City Club, Elektra, Farmacias Guadalajara, HEB, Comercial Mexicana, Sanborns, Palacio de Hierro, Suburbia, Viana, Chedraui, Coppel, Famsa, Game Planet, Home Depot, Linio, Movistar, Superama, Vivaaerobus, Best Buy, Cinemex, Costco, Farmacias San Pablo, Interjet, Liverpool, Radio Shack, Soriana, Telcel, Volaris, Zara, Telmex, entre otras.</p>
     </template>
     <template slot="content">
       <div id="main-list" itemscope itemtype="http://schema.org/ItemList">
