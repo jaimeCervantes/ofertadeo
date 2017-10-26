@@ -398,6 +398,7 @@ function smPages() {
   var compoundSitemap = smUtils.createSitemap();
 
   compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
+  compoundSitemap.add({ url: '/el-buen-fin', changefreq: 'weekly', priority: 0.9, lastmodISO: modified });
 
   return getData({ collection: config.db.collections.pages }).then(function (data) {
     return smUtils.addToSitemap(compoundSitemap, data, {
@@ -421,7 +422,7 @@ function smCategories() {
     smUtils.addToSitemap(smCategories, data, {
       route: config.routes.categories,
       changefreq: 'weekly',
-      priority: 0.5
+      priority: 0.8
     });
   }).then(function () {
     return smUtils.createSitemapFile(smCategories, {
@@ -439,7 +440,7 @@ function smStores() {
     return smUtils.addToSitemap(smStores, data, {
       route: config.routes.storeList,
       changefreq: 'weekly',
-      priority: 0.5
+      priority: 0.8
     });
   }).then(function () {
     return smUtils.createSitemapFile(smStores, {
@@ -457,7 +458,7 @@ function smElBuenFin() {
     return smUtils.addToSitemap(smStores, data, {
       route: config.routes.elBuenFin,
       changefreq: 'weekly',
-      priority: 0.5
+      priority: 0.8
     });
   }).then(function () {
     return smUtils.createSitemapFile(smStores, {
@@ -517,11 +518,18 @@ function smIndex() {
       }
       resolve(stat);
     });
+  }), new Promise(function (resolve, reject) {
+    fs.stat(rootXml + '/' + elBuenFinName + '.gz', function (err, stat) {
+      if (err) {
+        reject(err);
+      }
+      resolve(stat);
+    });
   })];
 
   return new Promise(function (resolve, reject) {
     Promise.all(iterable).then(function (results) {
-      var content = '<?xml version="1.0" encoding="UTF-8"?>\n        <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n        <sitemap>\n          <loc>' + config.host + '/' + pagesName + '.gz</loc>\n          <lastmod>' + utils.getDate(results[0].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + offers + '.gz</loc>\n          <lastmod>' + utils.getDate(results[1].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + storesName + '.gz</loc>\n          <lastmod>' + utils.getDate(results[2].mtime) + '</lastmod>\n        </sitemap><sitemap>\n          <loc>' + config.host + '/' + categoriesName + '.gz</loc>\n          <lastmod>' + utils.getDate(results[3].mtime) + '</lastmod>\n        </sitemap>\n        </sitemapindex>';
+      var content = '<?xml version="1.0" encoding="UTF-8"?>\n        <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n        <sitemap>\n          <loc>' + config.host + '/' + pagesName + '.gz</loc>\n          <lastmod>' + utils.getDate(results[0].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + offers + '.gz</loc>\n          <lastmod>' + utils.getDate(results[1].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + storesName + '.gz</loc>\n          <lastmod>' + utils.getDate(results[2].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + categoriesName + '.gz</loc>\n          <lastmod>' + utils.getDate(results[3].mtime) + '</lastmod>\n        </sitemap>\n        <sitemap>\n          <loc>' + config.host + '/' + elBuenFinName + '.gz</loc>\n          <lastmod>' + utils.getDate(results[4].mtime) + '</lastmod>\n        </sitemap>\n        </sitemapindex>';
 
       fs.writeFile(rootXml + '/sitemap.xml', content, 'utf8', function (err) {
         if (err) {
