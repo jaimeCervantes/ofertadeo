@@ -1,8 +1,14 @@
 <template>
   <ofer-content :breadcrumbs="breadcrumbs">
-    <template slot="info-section">
-      <h1>Tiendas participantes El Buen Fin 2017</h1>
-      <p>Son muchas las empresas y comercios que se unen al evento del buen fin para ofrecer a sus clientes las mejores ofertas y entre las tiendas participantes confirmadas este año podemos encontrar: Walmart, Sam's Club, Amazon, Mercado Libre, OfficeMax, Office Depot, Iusacell, Gandhi, Farmacias Benavides, Dafiti, Cinépolis, Blockbuster, Bodega Aurrera, City Club, Elektra, Farmacias Guadalajara, HEB, Comercial Mexicana, Sanborns, Palacio de Hierro, Suburbia, Viana, Chedraui, Coppel, Famsa, Game Planet, Home Depot, Linio, Movistar, Superama, Vivaaerobus, Best Buy, Cinemex, Costco, Farmacias San Pablo, Interjet, Liverpool, Radio Shack, Soriana, Telcel, Volaris, Zara, Telmex, entre otras.</p>
+    <template slot="info-section" v-if="exists(headerInfo)">
+      <ofer-header-info :info="headerInfo">
+      </ofer-header-info>
+      <ofer-expand
+        :content="content"
+        :expanded="expanded"
+        @on-expanded="changeExpanded"
+        >
+      </ofer-expand>
     </template>
     <template slot="content">
       <div id="main-list" itemscope itemtype="http://schema.org/ItemList">
@@ -35,13 +41,26 @@ import OferContent from '~/components/ofer-content.vue'
 import OferPaths from '~/components/mixins/ofer-paths.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferItem from '~/components/ofer-item.vue'
+import OferExpand from '~/components/ofer-expand.vue'
+import OferHeaderInfo from '~/components/ofer-header-info.vue'
 
 var urlReq = OferCommon.props.config.default().host + '/api/el-buen-fin/stores'
 
 export default {
   mixins: [OferPaths, OferCommon],
   data () {
-    return { urlReq: urlReq }
+    return {
+      urlReq: urlReq,
+      headerInfo: {
+        name: 'El Buen Fin 2017 Tiendas Participantes',
+        h1: 'El Buen Fin 2017 Tiendas Participantes',
+        thumbnail: 'https://www.ofertadeo.com/uploads/2017/10/26/logo-buen-fin-1_thumb.png',
+        img_alt: 'El Buen Fin 2017 Tiendas Participantes',
+        img_title: 'El Buen Fin 2017 Tiendas Participantes'
+      },
+      expanded: false,
+      content: `<p>Encuentra las mejores promociones, descuentos y ofertas del Buen Fin 2017 en México y la lista completa de tiendas participantes. Este año son muchas las empresas y comercios que se unen al evento del buen fin para ofrecer a sus clientes las mejores ofertas y entre las tiendas participantes confirmadas este año podemos encontrar: Walmart, Sam's Club, Amazon, Mercado Libre, OfficeMax, Office Depot, Iusacell, Gandhi, Farmacias Benavides, Dafiti, Cinépolis, Blockbuster, Bodega Aurrera, City Club, Elektra, Farmacias Guadalajara, HEB, Comercial Mexicana, Sanborns, Palacio de Hierro, Suburbia, Viana, Chedraui, Coppel, Famsa, Game Planet, Home Depot, Linio, Movistar, Superama, Vivaaerobus, Best Buy, Cinemex, Costco, Farmacias San Pablo, Interjet, Liverpool, Radio Shack, Soriana, Telcel, Volaris, Zara, Telmex, entre otras.</p>`
+    }
   },
   async asyncData ({ params, route }) {
     let { data } = await axios.get(urlReq)
@@ -53,12 +72,17 @@ export default {
   methods: {
     getItemLink (path) {
       return `${this.config.host}${this.config.routes.elBuenFin}/${path}`
+    },
+    changeExpanded (eventData) {
+      this.expanded = eventData.expanded
     }
   },
   components: {
     OferContent,
     OferItem,
-    OferCommon
+    OferCommon,
+    OferHeaderInfo,
+    OferExpand
   },
   head () {
     let host = this.config.host
@@ -66,12 +90,12 @@ export default {
     let urlLogo = `${host}/logo.png`
 
     return {
-      title: 'Ofertas, promociones y descuentos en Tiendas de México',
+      title: 'El Buen Fin 2017 México Tiendas Participantes',
       meta: [
-        { hid: 'title', name: 'title', content: 'Ofertas, promociones y descuentos en Tiendas de México' },
-        { hid: 'description', name: 'description', content: 'Las mejores ofertas, promociones y descuentos de Tiendas en México como Walmart, Soriana, Chedraui, Liverpool, Bodega Aurrera y más.' },
-        { hid: 'og:title', property: 'og:title', content: 'Ofertas, promociones y descuentos en Tiendas de México' },
-        { hid: 'og:description', property: 'og:description', content: 'Las mejores ofertas, promociones y descuentos de Tiendas en México como Walmart, Soriana, Chedraui, Liverpool, Bodega Aurrera y más.' },
+        { hid: 'title', name: 'title', content: 'El Buen Fin 2017 México Tiendas Participantes' },
+        { hid: 'description', name: 'description', content: 'Encuentra las mejores ofertas del Buen Fin 2017 en México y la lista completa de tiendas participantes como Liverpool, Walmart, Telcel y más. ✪ ¡Ahorra ya!' },
+        { hid: 'og:title', property: 'og:title', content: 'El Buen Fin 2017 México Tiendas Participantes' },
+        { hid: 'og:description', property: 'og:description', content: 'Encuentra las mejores ofertas del Buen Fin 2017 en México y la lista completa de tiendas participantes como Liverpool, Walmart, Telcel y más. ✪ ¡Ahorra ya!' },
         { hid: 'og:url', property: 'og:url', content: urlStoreList },
         { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
         { hid: 'og:type', property: 'og:type', content: 'website' },
@@ -93,4 +117,23 @@ export default {
     margin-top: 1.2rem;
     font-size: 1.5rem;
   }
+  .expand {
+    margin-top: 0.5rem;
+  }
 </style>
+<style>
+  .divider {
+    background-color: #DA251D;
+  }
+
+  h1 {
+    background-color: #DA251D;
+    padding: 1rem;
+    color: white;
+  }
+
+  .expand {
+    margin-top: 0.5rem;
+  }
+</style>
+
