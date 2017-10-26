@@ -64,7 +64,7 @@ export default {
     display: none;
 }
 
-@media (max-width: 768px) {
+
   .expand__content {
     max-height: 58px;
     overflow: hidden;
@@ -104,5 +104,4 @@ export default {
     color: #1976d2;
     cursor: pointer;
   }
-}
 </style>
