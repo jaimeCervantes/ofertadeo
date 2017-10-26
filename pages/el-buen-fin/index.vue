@@ -110,10 +110,10 @@ export default {
     return {
       title: 'El Buen Fin 2017 - ofertas, promociones y descuentos.',
       meta: [
-        { hid: 'title', name: 'title', content: 'El Buen Fin 2017 - ofertas, promociones y descuentos.' },
-        { hid: 'description', name: 'description', content: 'Descubre las mejores promociones, descuentos y ofertas del Buen Fin. La fecha para El Buen Fin 2017 en México será del 17 al 20 de noviembre.' },
-        { hid: 'og:title', property: 'og:title', content: 'OEl Buen Fin 2017 - ofertas, promociones y descuentos.' },
-        { hid: 'og:description', property: 'og:description', content: 'Descubre las mejores promociones, descuentos y ofertas del Buen Fin. La fecha para El Buen Fin 2017 en México será del 17 al 20 de noviembre.' },
+        { hid: 'title', name: 'title', content: 'El Buen Fin 2017 - ofertas, promociones y descuentos' },
+        { hid: 'description', name: 'description', content: 'Descubre las mejores promociones, descuentos y ofertas del Buen Fin. La fecha para El Buen Fin 2017 en México será del 17 al 20 de noviembre' },
+        { hid: 'og:title', property: 'og:title', content: 'OEl Buen Fin 2017 - ofertas, promociones y descuentos' },
+        { hid: 'og:description', property: 'og:description', content: 'Descubre las mejores promociones, descuentos y ofertas del Buen Fin. La fecha para El Buen Fin 2017 en México será del 17 al 20 de noviembre' },
         { hid: 'og:url', property: 'og:url', content: urlStoreList },
         { hid: 'og:locale', property: 'og:locale', content: 'es_MX' },
         { hid: 'og:type', property: 'og:type', content: 'website' },
