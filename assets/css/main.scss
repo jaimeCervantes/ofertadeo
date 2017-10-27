@@ -144,3 +144,9 @@ main {
 .anuncio {
   margin-top: 1rem;
 }
+
+@media(min-width: 767px) {
+  .mobile-only {
+    display:none;
+  }  
+}

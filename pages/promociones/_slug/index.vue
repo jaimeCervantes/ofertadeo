@@ -2,7 +2,7 @@
   <ofer-container>
     <article v-if="exists(item)">
       <v-row>
-        <v-col xs12 sm12 md9 lg9 xl9>
+        <v-col xs12 sm12 md9 lg9 xl10>
           <header>
             <h1>{{item.name}}
               <v-btn error small light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
@@ -27,6 +27,15 @@
                   <span class="promotion-data__category" v-text="category.name"></span>
                 </a>
             </p>
+            <!-- pie-adaptable -->
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="ca-pub-3434008864168200"
+                   data-ad-slot="8124489226"
+                   data-ad-format="auto"></ins>
+              <script>
+              (window.adsbygoogle || []).push({})
+              </script>
           </section>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
@@ -39,7 +48,7 @@
             </v-row>
           </section>
         </v-col>
-        <v-col xs12 sm12 md3 lg3 xl3>
+        <v-col xs12 sm12 md3 lg3 xl2>
           <aside>
             <!-- encabezado-adaptable -->
             <ins class="adsbygoogle"
@@ -50,15 +59,6 @@
             <script>
             (window.adsbygoogle || []).push({})
             </script>
-            <!-- pie-adaptable -->
-              <ins class="adsbygoogle"
-                   style="display:block"
-                   data-ad-client="ca-pub-3434008864168200"
-                   data-ad-slot="8124489226"
-                   data-ad-format="auto"></ins>
-              <script>
-              (window.adsbygoogle || []).push({})
-              </script>
             <v-list dense>
               <v-subheader>
                 <h3>Más {{config.txt.stores}}</h3>
