@@ -5,6 +5,7 @@
       v-bind:loading="loading"
       v-on:click.native="getMore">
       {{txt}}
+      <span slot="loader">Cargando...</span>
     </v-btn>
   </div>
 </template>
