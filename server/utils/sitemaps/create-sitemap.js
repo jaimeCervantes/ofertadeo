@@ -33,6 +33,8 @@ function smPages () {
   var compoundSitemap = smUtils.createSitemap()
 
   compoundSitemap.add({url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified})
+  compoundSitemap.add({url: '/el-buen-fin', changefreq: 'weekly', priority: 0.9, lastmodISO: modified})
+  compoundSitemap.add({url: '/el-buen-fin/tiendas', changefreq: 'weekly', priority: 0.8, lastmodISO: modified})
 
   return getData({ collection: config.db.collections.pages })
     .then(function (data) {
@@ -60,7 +62,7 @@ function smCategories () {
       smUtils.addToSitemap(smCategories, data, {
         route: config.routes.categories,
         changefreq: 'weekly',
-        priority: 0.5
+        priority: 0.8
       })
     })
     .then(function () {
@@ -81,7 +83,7 @@ function smStores () {
       return smUtils.addToSitemap(smStores, data, {
         route: config.routes.storeList,
         changefreq: 'weekly',
-        priority: 0.5
+        priority: 0.8
       })
     })
     .then(function () {
@@ -102,7 +104,7 @@ function smElBuenFin () {
       return smUtils.addToSitemap(smStores, data, {
         route: config.routes.elBuenFin,
         changefreq: 'weekly',
-        priority: 0.5
+        priority: 0.8
       })
     })
     .then(function () {
@@ -171,6 +173,14 @@ function smIndex () {
         }
         resolve(stat)
       })
+    }),
+    new Promise(function (resolve, reject) {
+      fs.stat(`${rootXml}/${elBuenFinName}.gz`, function (err, stat) {
+        if (err) {
+          reject(err)
+        }
+        resolve(stat)
+      })
     })
   ]
 
@@ -190,9 +200,14 @@ function smIndex () {
         <sitemap>
           <loc>${config.host}/${storesName}.gz</loc>
           <lastmod>${utils.getDate(results[2].mtime)}</lastmod>
-        </sitemap><sitemap>
+        </sitemap>
+        <sitemap>
           <loc>${config.host}/${categoriesName}.gz</loc>
           <lastmod>${utils.getDate(results[3].mtime)}</lastmod>
+        </sitemap>
+        <sitemap>
+          <loc>${config.host}/${elBuenFinName}.gz</loc>
+          <lastmod>${utils.getDate(results[4].mtime)}</lastmod>
         </sitemap>
         </sitemapindex>`
 

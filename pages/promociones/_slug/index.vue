@@ -4,7 +4,11 @@
       <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
           <header>
-            <h1>{{item.name}}</h1>
+            <h1>{{item.name}}
+              <v-btn error small light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
+              </v-btn>
+            </h1>
+            
           </header>
           <v-divider class="section-divider"></v-divider>
           <section class="promotion">
@@ -17,7 +21,9 @@
             <div class="promotion-content" v-html="item.content"></div>
          
             <p class="promotion-data">
-              <v-btn outline class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
+              <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
+              </v-btn>
+              <v-btn flat light class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas en {{item.stores[0].name}}
               </v-btn>
               <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
                   <span class="promotion-data__category" v-text="category.name"></span>
@@ -100,6 +106,14 @@ export default {
     OferNotExists,
     ShareButtons,
     OferItem
+  },
+  computed: {
+    isElBuenFin () {
+      let index = this.item.categories.findIndex(function (elem) {
+        return elem._id === 'el-buen-fin'
+      })
+      return index > -1
+    }
   },
   methods: {
     createMetas () {
@@ -193,6 +207,18 @@ h1 {
   margin-top: 0.5rem;
 }
 
+.el-buen-fin {
+  margin-left: 0;
+  text-transform: uppercase
+}
+
+h1 .el-buen-fin {
+  min-height: 0;
+  height: 28px;
+  padding: 5px;
+}
+
+
 .promotion {
   padding-top: 0.5rem;
   overflow:hidden;
@@ -210,13 +236,13 @@ h1 {
   }
 
   .promotion-data {
+  
     .taxonomy {
       color: #1976d2;
       font-weight:bold;
       text-transform:initial;
       margin-right:1rem;
       margin-left: 0;
-      margin-top: 0;
       &:hover, :visited {
         text-decoration: none;
       }
