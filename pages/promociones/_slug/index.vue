@@ -4,16 +4,10 @@
       <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
           <header>
-            <!-- encabezado-adaptable -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-3434008864168200"
-                 data-ad-slot="2635524670"
-                 data-ad-format="auto"></ins>
-            <script>
-            (window.adsbygoogle || []).push({})
-            </script>
-            <h1>{{item.name}}</h1>
+            <h1>{{item.name}}
+              <v-btn error small light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
+              </v-btn>
+            </h1>
           </header>
           <v-divider class="section-divider"></v-divider>
           <section class="promotion">
@@ -22,25 +16,27 @@
               <v-btn tag="a" :href="item.url" rel="nofollow noopener" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
               <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
               ></share-buttons>
+              <!-- pie-adaptable -->
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="ca-pub-3434008864168200"
+                   data-ad-slot="8124489226"
+                   data-ad-format="auto"></ins>
+              <script>
+              (window.adsbygoogle || []).push({})
+              </script>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
             <p class="promotion-data">
-              <v-btn outline class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas y promociones en {{item.stores[0].name}}
+              <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
+              </v-btn>
+              <v-btn flat light class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas en {{item.stores[0].name}}
               </v-btn>
               <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
                   <span class="promotion-data__category" v-text="category.name"></span>
                 </a>
             </p>
           </section>
-          <!-- pie-adaptable -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-3434008864168200"
-                 data-ad-slot="8124489226"
-                 data-ad-format="auto"></ins>
-            <script>
-            (window.adsbygoogle || []).push({})
-            </script>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
             <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
@@ -54,6 +50,15 @@
         </v-col>
         <v-col xs12 sm12 md3 lg3 xl3>
           <aside>
+            <!-- encabezado-adaptable -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3434008864168200"
+                 data-ad-slot="2635524670"
+                 data-ad-format="auto"></ins>
+            <script>
+            (window.adsbygoogle || []).push({})
+            </script>
             <v-list dense>
               <v-subheader>
                 <h3>Más {{config.txt.stores}}</h3>
@@ -117,6 +122,14 @@ export default {
     OferNotExists,
     ShareButtons,
     OferItem
+  },
+  computed: {
+    isElBuenFin () {
+      let index = this.item.categories.findIndex(function (elem) {
+        return elem._id === 'el-buen-fin'
+      })
+      return index > -1
+    }
   },
   methods: {
     createMetas () {
@@ -210,6 +223,18 @@ h1 {
   margin-top: 0.5rem;
 }
 
+.el-buen-fin {
+  margin-left: 0;
+  text-transform: uppercase
+}
+
+h1 .el-buen-fin {
+  min-height: 0;
+  height: 28px;
+  padding: 5px;
+}
+
+
 .promotion {
   padding-top: 0.5rem;
   overflow:hidden;
@@ -227,13 +252,13 @@ h1 {
   }
 
   .promotion-data {
+  
     .taxonomy {
       color: #1976d2;
       font-weight:bold;
       text-transform:initial;
       margin-right:1rem;
       margin-left: 0;
-      margin-top: 0;
       &:hover, :visited {
         text-decoration: none;
       }
