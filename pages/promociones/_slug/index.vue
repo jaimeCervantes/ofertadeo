@@ -18,7 +18,7 @@
               ></share-buttons>
               <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
               <!-- en-promocion-abajo-thumbnail -->
-              <ins class="adsbygoogle"
+              <ins class="adsbygoogle mobile-only"
                    style="display:block"
                    data-ad-client="ca-pub-3434008864168200"
                    data-ad-slot="3020453897"
