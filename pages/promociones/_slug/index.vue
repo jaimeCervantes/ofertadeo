@@ -16,15 +16,6 @@
               <v-btn tag="a" :href="item.url" rel="nofollow noopener" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
               <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
               ></share-buttons>
-              <!-- pie-adaptable -->
-              <ins class="adsbygoogle"
-                   style="display:block"
-                   data-ad-client="ca-pub-3434008864168200"
-                   data-ad-slot="8124489226"
-                   data-ad-format="auto"></ins>
-              <script>
-              (window.adsbygoogle || []).push({})
-              </script>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
             <p class="promotion-data">
@@ -59,6 +50,15 @@
             <script>
             (window.adsbygoogle || []).push({})
             </script>
+            <!-- pie-adaptable -->
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="ca-pub-3434008864168200"
+                   data-ad-slot="8124489226"
+                   data-ad-format="auto"></ins>
+              <script>
+              (window.adsbygoogle || []).push({})
+              </script>
             <v-list dense>
               <v-subheader>
                 <h3>Más {{config.txt.stores}}</h3>
