@@ -399,6 +399,7 @@ function smPages() {
 
   compoundSitemap.add({ url: '/', changefreq: 'daily', priority: 1.0, lastmodISO: modified });
   compoundSitemap.add({ url: '/el-buen-fin', changefreq: 'weekly', priority: 0.9, lastmodISO: modified });
+  compoundSitemap.add({ url: '/el-buen-fin/tiendas', changefreq: 'weekly', priority: 0.8, lastmodISO: modified });
 
   return getData({ collection: config.db.collections.pages }).then(function (data) {
     return smUtils.addToSitemap(compoundSitemap, data, {
