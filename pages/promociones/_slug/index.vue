@@ -16,6 +16,16 @@
               <v-btn tag="a" :href="item.url" rel="nofollow noopener" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
               <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
               ></share-buttons>
+              <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <!-- en-promocion-abajo-thumbnail -->
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="ca-pub-3434008864168200"
+                   data-ad-slot="3020453897"
+                   data-ad-format="auto"></ins>
+              <script>
+              (window.adsbygoogle || []).push({})
+              </script>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
             <p class="promotion-data">
