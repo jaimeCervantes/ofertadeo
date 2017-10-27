@@ -302,6 +302,12 @@ h1 .el-buen-fin {
     margin-bottom: 0.8rem;
   }
 }
+
+@media (min-width: 767px) {
+  .mobile-only {
+    display:none !important;
+  }  
+}
 </style>
 
 <style lang="scss">

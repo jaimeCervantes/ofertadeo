@@ -145,8 +145,8 @@ main {
   margin-top: 1rem;
 }
 
-@media(min-width: 767px) {
+@media (min-width: 767px) {
   .mobile-only {
-    display:none;
+    display:none !important;
   }  
 }
