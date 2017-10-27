@@ -23,7 +23,10 @@
                    data-ad-slot="3020453897"
                    data-ad-format="auto"></ins>
               <script>
-              (window.adsbygoogle || []).push({})
+                var mql = window.matchMedia('(min-width: 767px)')
+                if (mql.matches) {
+                  (window.adsbygoogle || []).push({})
+                }
               </script>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
