@@ -24,7 +24,7 @@
                    data-ad-format="auto"></ins>
               <script>
                 var mql = window.matchMedia('(min-width: 767px)')
-                if (mql.matches) {
+                if (!mql.matches) {
                   (window.adsbygoogle || []).push({})
                 }
               </script>
