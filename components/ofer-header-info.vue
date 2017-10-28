@@ -1,12 +1,13 @@
 <template>
   <div class="header-info">
     <slot name="content">
+      <h1 class="hidden-md-and-up">{{info.name}}</h1>
       <div v-if="info.name" class="content__info-section">
         <div class="img-container">
           <img :src="info.thumbnail" :alt="info.img_alt" :title="info.img_title" />
         </div>
         <div>
-          <h1 class="title content__title" v-html="info.h1"></h1>
+          <h1 class="title content__title hidden-sm-and-down" v-html="info.h1" v-if="info.h1"></h1>
           <v-btn tag="a" v-if="rel" :rel="rel" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="info.url_site" target="_blank" primary>Ir a {{info.name}}</v-btn>
           <slot name="social-network"></slot>
         </div>
@@ -43,6 +44,13 @@ export default {
   .btn {
     margin-left:0;
   }
+  
+  .btn .btn--raised {
+    @media (max-width:500px) {
+      padding:1px;
+    }
+  }
+
   .info-description {
     margin-top: 0.8rem;
   }
@@ -59,7 +67,10 @@ export default {
 
   .img-container {
     display: flex;
-    width:200px;
+    max-width:300px;
+    @media (min-width:500px) {
+      max-width:200px;
+    }
     align-items: center;
     justify-content:left;
     margin-right: 0.5rem;

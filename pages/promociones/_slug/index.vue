@@ -2,42 +2,50 @@
   <ofer-container>
     <article v-if="exists(item)">
       <v-row>
-        <v-col xs12 sm12 md9 lg9 xl10>
+        <v-col xs12 sm12 md9 lg9 xl9>
           <header>
-            <h1>{{item.name}}
-              <v-btn error small light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
-              </v-btn>
-            </h1>
-          </header>
-          <v-divider class="section-divider"></v-divider>
-          <section class="promotion">            
-            <div class="thumbnail ml-3">
-              <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
-              <v-btn tag="a" :href="item.url" rel="nofollow noopener" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
-              <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
-              ></share-buttons>
-            </div>
-            <div class="ad-right">
-              <!-- encabezado-adaptable -->
-              <ins class="adsbygoogle"
-                   style="display:block"
-                   data-ad-client="ca-pub-3434008864168200"
-                   data-ad-slot="2635524670"
-                   data-ad-format="auto"></ins>
-              <script>
-              (window.adsbygoogle || []).push({})
-              </script>
-            </div>
-            <div class="promotion-content" v-html="item.content"></div>
-            <p class="promotion-data">
-              <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
-              </v-btn>
-              <v-btn flat light class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas en {{item.stores[0].name}}
-              </v-btn>
+            <h1 class="hidden-md-and-up">{{item.name}}</h1>
+            <ofer-header-info :info="item">
+              <template slot="content">
+                <div  class="content__info-section">
+                  <div class="img-container">
+                    <img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title" />
+                  </div>
+                  <div>
+                    <h1 class="hidden-sm-and-down">{{item.name}}</h1>
+                    <div class="promotion-data">
+                      <div>
+                      <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">El Buen Fin {{year}}
+                      </v-btn>
+                      </div>
+                      <a class="taxonomy" :href="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas <strong>{{item.stores[0].name}}</strong>
+                      </a>
+                    </div>
+                      <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
+                      ></share-buttons>
+                      <a class="ir-a" tag="a" rel="nofollow noopener" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="item.url" target="_blank" primary>Ir a la oferta</a>
+                  </div>
+                </div>
+              </template>
+            </ofer-header-info>
+            <div class="promotion-data categories">
               <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
                   <span class="promotion-data__category" v-text="category.name"></span>
                 </a>
-            </p>
+            </div>
+          </header>
+          <v-divider class="section-divider"></v-divider>
+          <section class="promotion">
+            <!-- oferta-encabezado-adaptable -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3434008864168200"
+                 data-ad-slot="6336828471"
+                 data-ad-format="auto"></ins>
+            <script>
+            (window.adsbygoogle || []).push({});
+            </script>
+            <div class="promotion-content" v-html="item.content"></div>
           </section>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
@@ -49,27 +57,18 @@
               </v-col>
             </v-row>
           </section>
-          <!-- pie-adaptable -->
+          <!-- oferta-enmedio-adaptable -->
           <ins class="adsbygoogle"
                style="display:block"
                data-ad-client="ca-pub-3434008864168200"
-               data-ad-slot="8124489226"
+               data-ad-slot="2561358708"
                data-ad-format="auto"></ins>
           <script>
-          (window.adsbygoogle || []).push({})
+          (window.adsbygoogle || []).push({});
           </script>
         </v-col>
-        <v-col xs12 sm12 md3 lg3 xl2>
+        <v-col xs12 sm12 md3 lg3 xl3>
           <aside>
-            <!-- lateral-derecha-adaptable -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-3434008864168200"
-                 data-ad-slot="5983327456"
-                 data-ad-format="auto"></ins>
-            <script>
-            (window.adsbygoogle || []).push({})
-            </script>
             <v-list dense>
               <v-subheader>
                 <h3>Más {{config.txt.stores}}</h3>
@@ -98,6 +97,7 @@ import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferNotExists from '~/components/ofer-not-exists.vue'
 import ShareButtons from '~/components/share-buttons.vue'
 import OferItem from '~/components/ofer-item.vue'
+import OferHeaderInfo from '~/components/ofer-header-info.vue'
 
 export default {
   mixins: [OferCommon],
@@ -132,7 +132,8 @@ export default {
     OferCommon,
     OferNotExists,
     ShareButtons,
-    OferItem
+    OferItem,
+    OferHeaderInfo
   },
   computed: {
     isElBuenFin () {
@@ -236,7 +237,9 @@ h1 {
 
 .el-buen-fin {
   margin-left: 0;
-  text-transform: uppercase
+  @media (max-width:500px) {
+    padding:1px;
+  }
 }
 
 h1 .el-buen-fin {
@@ -245,51 +248,36 @@ h1 .el-buen-fin {
   padding: 5px;
 }
 
+.promotion, .promotion-content {
+  padding-top:0.5rem;
+}
 
-.promotion {
-  padding-top: 0.5rem;
-  overflow:hidden;
-  .thumbnail {
-    float:right;
-    text-align:center;
-    img {
-      display: block;
-      max-width: 200px;
-      margin: 0 auto;
-      @media(max-width: 600px) {
-        max-width:150px;
-      }
+.promotion-data {
+
+  .taxonomy {
+    padding: 5px;
+    padding-left: 0;
+    padding-right: 0;
+    display: flex;
+    color: #1976d2;
+    font-weight:bold;
+    text-transform:initial;
+    margin-right:1rem;
+    margin-left: 0;
+    display:inline-block;
+    &:hover, :visited {
+      text-decoration: none;
     }
   }
   
-  .ad-right {
-    float:right;
-    width: 100%;
-    min-height: 100px;
-  }
-
-  .promotion-data {
-  
-    .taxonomy {
-      color: #1976d2;
-      font-weight:bold;
-      text-transform:initial;
-      margin-right:1rem;
-      margin-left: 0;
-      &:hover, :visited {
-        text-decoration: none;
-      }
-    }
+  .taxonomy-gray {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-right: 10px;
+    color: #888;
     
-    .taxonomy-gray {
-      font-size: 1rem;
-      font-weight: normal;
-      margin-right: 10px;
-      text-transform: uppercase;
-      color: #888;
-      &:hover, :visited {
-        text-decoration: underline;
-      }
+    &:hover, :visited {
+      text-decoration: underline;
     }
   }
 }
@@ -308,6 +296,14 @@ h1 .el-buen-fin {
   h3 {
     margin-bottom: 0.8rem;
   }
+}
+
+.img-container {
+  max-height: 200px;
+}
+
+.categories {
+  margin-top: 5px;
 }
 </style>
 
