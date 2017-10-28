@@ -229,7 +229,6 @@ h1 .el-buen-fin {
   
   .promotion__info-header {
     display: flex;
-    flex-wrap: wrap;
     @media (max-width: 767px) {
       flex-direction: column;
     }
