@@ -47,6 +47,15 @@
             </script>
             <div class="promotion-content" v-html="item.content"></div>
           </section>
+          <!-- oferta-enmedio-adaptable -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-3434008864168200"
+               data-ad-slot="2561358708"
+               data-ad-format="auto"></ins>
+          <script>
+          (window.adsbygoogle || []).push({})
+          </script>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
             <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
@@ -57,15 +66,6 @@
               </v-col>
             </v-row>
           </section>
-          <!-- oferta-enmedio-adaptable -->
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-3434008864168200"
-               data-ad-slot="2561358708"
-               data-ad-format="auto"></ins>
-          <script>
-          (window.adsbygoogle || []).push({})
-          </script>
         </v-col>
         <v-col xs12 sm12 md3 lg3 xl3>
           <aside>
@@ -252,6 +252,10 @@ h1 .el-buen-fin {
   padding-top:0.5rem;
 }
 
+.promotion {
+  margin-bottom: 0.5rem;
+}
+
 .promotion-data {
 
   .taxonomy {
@@ -291,7 +295,7 @@ h1 .el-buen-fin {
 }
 
 .related-items {
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   clear:both;
   h3 {
     margin-bottom: 0.8rem;
