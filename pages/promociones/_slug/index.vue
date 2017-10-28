@@ -43,7 +43,7 @@
                  data-ad-slot="6336828471"
                  data-ad-format="auto"></ins>
             <script>
-            (window.adsbygoogle || []).push({});
+            (window.adsbygoogle || []).push({})
             </script>
             <div class="promotion-content" v-html="item.content"></div>
           </section>
@@ -64,7 +64,7 @@
                data-ad-slot="2561358708"
                data-ad-format="auto"></ins>
           <script>
-          (window.adsbygoogle || []).push({});
+          (window.adsbygoogle || []).push({})
           </script>
         </v-col>
         <v-col xs12 sm12 md3 lg3 xl3>
