@@ -4,8 +4,7 @@
       <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
           <header>
-            <h1>{{item.name}}
-            </h1>
+            <h1 class="hidden-md-and-up">{{item.name}}</h1>
             <ofer-header-info :info="item">
               <template slot="content">
                 <div  class="content__info-section">
@@ -13,24 +12,27 @@
                     <img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title" />
                   </div>
                   <div>
-                    <v-btn tag="a" rel="nofollow noopener" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="item.url" target="_blank" primary>Ir a la oferta</v-btn>
-                      <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
-                  ></share-buttons>
-                  <div class="promotion-data">
-                    <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
-                    </v-btn>
-                    <a class="taxonomy" :href="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas en {{item.stores[0].name}}
-                    </a>
+                    <h1 class="hidden-sm-and-down">{{item.name}}</h1>
                     <div class="promotion-data">
-                      <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
-                          <span class="promotion-data__category" v-text="category.name"></span>
-                        </a>
+                      <div>
+                      <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">El Buen Fin {{year}}
+                      </v-btn>
+                      </div>
+                      <a class="taxonomy" :href="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas {{item.stores[0].name}}
+                      </a>
                     </div>
-                  </div>
+                      <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
+                      ></share-buttons>
+                      <v-btn class="ir-a" tag="a" rel="nofollow noopener" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="item.url" target="_blank" primary>Ir a la oferta</v-btn>
                   </div>
                 </div>
               </template>
             </ofer-header-info>
+            <div class="promotion-data">
+              <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+                  <span class="promotion-data__category" v-text="category.name"></span>
+                </a>
+            </div>
           </header>
           <v-divider class="section-divider"></v-divider>
           <section class="promotion">
@@ -217,14 +219,14 @@ h1 {
 
 .el-buen-fin {
   margin-left: 0;
-  padding: 1px;
-  display: flex;
-  text-transform: uppercase
-   @media (max-width: 767px) {
-    padding-right: 6px;
-    padding-left: 6px;
-    margin-left: 0;
-    margin-right: 6px;
+  @media (max-width:500px) {
+    padding:1px;
+  }
+}
+
+.ir-a {
+  @media (max-width:500px) {
+    padding:1px;
   }
 }
 
@@ -261,8 +263,8 @@ h1 .el-buen-fin {
     font-size: 1rem;
     font-weight: normal;
     margin-right: 10px;
-    text-transform: uppercase;
     color: #888;
+    
     &:hover, :visited {
       text-decoration: underline;
     }
@@ -293,6 +295,10 @@ h1 .el-buen-fin {
   h3 {
     margin-bottom: 0.8rem;
   }
+}
+
+.img-container {
+  max-height: 200px;
 }
 </style>
 
