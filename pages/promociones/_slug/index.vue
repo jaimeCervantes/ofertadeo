@@ -10,21 +10,23 @@
             </h1>
           </header>
           <v-divider class="section-divider"></v-divider>
-          <section class="promotion">
-            <!-- encabezado-adaptable -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-3434008864168200"
-                 data-ad-slot="2635524670"
-                 data-ad-format="auto"></ins>
-            <script>
-            (window.adsbygoogle || []).push({})
-            </script>
+          <section class="promotion">            
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
               <v-btn tag="a" :href="item.url" rel="nofollow noopener" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
               <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
               ></share-buttons>
+            </div>
+            <div class="ad-right">
+              <!-- encabezado-adaptable -->
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="ca-pub-3434008864168200"
+                   data-ad-slot="2635524670"
+                   data-ad-format="auto"></ins>
+              <script>
+              (window.adsbygoogle || []).push({})
+              </script>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
             <p class="promotion-data">
@@ -258,6 +260,10 @@ h1 .el-buen-fin {
         max-width:150px;
       }
     }
+  }
+  
+  .ad-right {
+    float:right;
   }
 
   .promotion-data {
