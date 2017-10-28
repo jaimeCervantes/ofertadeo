@@ -264,6 +264,8 @@ h1 .el-buen-fin {
   
   .ad-right {
     float:right;
+    width: 100%;
+    min-height: 100px;
   }
 
   .promotion-data {
