@@ -5,30 +5,36 @@
         <v-col xs12 sm12 md9 lg9 xl9>
           <header>
             <h1>{{item.name}}
-              <v-btn error small light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
-              </v-btn>
             </h1>
-            
+            <ofer-header-info :info="item">
+              <template slot="content">
+                <div  class="content__info-section">
+                  <div class="img-container">
+                    <img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title" />
+                  </div>
+                  <div>
+                    <v-btn tag="a" rel="nofollow noopener" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="item.url" target="_blank" primary>Ir a la oferta</v-btn>
+                      <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
+                  ></share-buttons>
+                  <div class="promotion-data">
+                    <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
+                    </v-btn>
+                    <a class="taxonomy" :href="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas en {{item.stores[0].name}}
+                    </a>
+                    <div class="promotion-data">
+                      <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+                          <span class="promotion-data__category" v-text="category.name"></span>
+                        </a>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </template>
+            </ofer-header-info>
           </header>
           <v-divider class="section-divider"></v-divider>
           <section class="promotion">
-            <div class="thumbnail ml-3">
-              <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
-              <v-btn tag="a" :href="item.url" rel="nofollow noopener" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
-              <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
-              ></share-buttons>
-            </div>
             <div class="promotion-content" v-html="item.content"></div>
-         
-            <p class="promotion-data">
-              <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
-              </v-btn>
-              <v-btn flat light class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas en {{item.stores[0].name}}
-              </v-btn>
-              <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
-                  <span class="promotion-data__category" v-text="category.name"></span>
-                </a>
-            </p>
           </section>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
@@ -71,6 +77,7 @@ import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferNotExists from '~/components/ofer-not-exists.vue'
 import ShareButtons from '~/components/share-buttons.vue'
 import OferItem from '~/components/ofer-item.vue'
+import OferHeaderInfo from '~/components/ofer-header-info.vue'
 
 export default {
   mixins: [OferCommon],
@@ -105,7 +112,8 @@ export default {
     OferCommon,
     OferNotExists,
     ShareButtons,
-    OferItem
+    OferItem,
+    OferHeaderInfo
   },
   computed: {
     isElBuenFin () {
@@ -209,6 +217,8 @@ h1 {
 
 .el-buen-fin {
   margin-left: 0;
+  padding: 1px;
+  display: flex;
   text-transform: uppercase
 }
 
@@ -218,45 +228,33 @@ h1 .el-buen-fin {
   padding: 5px;
 }
 
+.promotion-data {
 
-.promotion {
-  padding-top: 0.5rem;
-  overflow:hidden;
-  .thumbnail {
-    float:right;
-    text-align:center;
-    img {
-      display: block;
-      max-width: 300px;
-      margin: 0 auto;
-      @media(max-width: 600px) {
-        max-width:200px;
-      }
+  .taxonomy {
+    padding: 5px;
+    padding-left: 0;
+    padding-right: 0;
+    display: flex;
+    color: #1976d2;
+    font-weight:bold;
+    text-transform:initial;
+    margin-right:1rem;
+    margin-left: 0;
+    display:inline-block;
+    margin-bottom: 5px;
+    &:hover, :visited {
+      text-decoration: none;
     }
   }
-
-  .promotion-data {
   
-    .taxonomy {
-      color: #1976d2;
-      font-weight:bold;
-      text-transform:initial;
-      margin-right:1rem;
-      margin-left: 0;
-      &:hover, :visited {
-        text-decoration: none;
-      }
-    }
-    
-    .taxonomy-gray {
-      font-size: 1rem;
-      font-weight: normal;
-      margin-right: 10px;
-      text-transform: uppercase;
-      color: #888;
-      &:hover, :visited {
-        text-decoration: underline;
-      }
+  .taxonomy-gray {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-right: 10px;
+    text-transform: uppercase;
+    color: #888;
+    &:hover, :visited {
+      text-decoration: underline;
     }
   }
 }
