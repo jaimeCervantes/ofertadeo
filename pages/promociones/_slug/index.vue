@@ -18,17 +18,17 @@
                       <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">El Buen Fin {{year}}
                       </v-btn>
                       </div>
-                      <a class="taxonomy" :href="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas {{item.stores[0].name}}
+                      <a class="taxonomy" :href="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas <strong>{{item.stores[0].name}}</strong>
                       </a>
                     </div>
                       <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
                       ></share-buttons>
-                      <v-btn class="ir-a" tag="a" rel="nofollow noopener" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="item.url" target="_blank" primary>Ir a la oferta</v-btn>
+                      <a class="ir-a" tag="a" rel="nofollow noopener" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="item.url" target="_blank" primary>Ir a la oferta</a>
                   </div>
                 </div>
               </template>
             </ofer-header-info>
-            <div class="promotion-data">
+            <div class="promotion-data categories">
               <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
                   <span class="promotion-data__category" v-text="category.name"></span>
                 </a>
@@ -224,16 +224,14 @@ h1 {
   }
 }
 
-.ir-a {
-  @media (max-width:500px) {
-    padding:1px;
-  }
-}
-
 h1 .el-buen-fin {
   min-height: 0;
   height: 28px;
   padding: 5px;
+}
+
+.promotion {
+  padding-top:0.5rem;
 }
 
 .promotion-data {
@@ -284,6 +282,10 @@ h1 .el-buen-fin {
 
 .img-container {
   max-height: 200px;
+}
+
+.categories {
+  margin-top: 5px;
 }
 </style>
 
