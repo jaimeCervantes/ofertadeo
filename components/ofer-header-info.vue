@@ -1,7 +1,7 @@
 <template>
   <div class="header-info">
     <slot name="content">
-      <h1 class="hidden-md-and-up">{{info.name}}</h1>
+      <h1 class="hidden-md-and-up">{{info.h1}}</h1>
       <div v-if="info.name" class="content__info-section">
         <div class="img-container">
           <img :src="info.thumbnail" :alt="info.img_alt" :title="info.img_title" />
