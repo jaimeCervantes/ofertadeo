@@ -11,6 +11,15 @@
           </header>
           <v-divider class="section-divider"></v-divider>
           <section class="promotion">
+            <!-- encabezado-adaptable -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3434008864168200"
+                 data-ad-slot="2635524670"
+                 data-ad-format="auto"></ins>
+            <script>
+            (window.adsbygoogle || []).push({})
+            </script>
             <div class="thumbnail ml-3">
               <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
               <v-btn tag="a" :href="item.url" rel="nofollow noopener" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
@@ -28,15 +37,6 @@
                 </a>
             </p>
           </section>
-          <!-- pie-adaptable -->
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-3434008864168200"
-               data-ad-slot="8124489226"
-               data-ad-format="auto"></ins>
-          <script>
-          (window.adsbygoogle || []).push({})
-          </script>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
             <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
@@ -47,14 +47,23 @@
               </v-col>
             </v-row>
           </section>
+          <!-- pie-adaptable -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-3434008864168200"
+               data-ad-slot="8124489226"
+               data-ad-format="auto"></ins>
+          <script>
+          (window.adsbygoogle || []).push({})
+          </script>
         </v-col>
         <v-col xs12 sm12 md3 lg3 xl2>
           <aside>
-            <!-- encabezado-adaptable -->
+            <!-- lateral-derecha-adaptable -->
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-3434008864168200"
-                 data-ad-slot="2635524670"
+                 data-ad-slot="5983327456"
                  data-ad-format="auto"></ins>
             <script>
             (window.adsbygoogle || []).push({})
