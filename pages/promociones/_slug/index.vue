@@ -4,32 +4,38 @@
       <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
           <header>
-            <div class="promotion__info-header">
-              <div class="thumbnail">
-                <a :href="item.img" target="_blank">
-                  <img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
-                </a>
-              </div>
-              <div class="promotion-data">
-                <h1>{{item.name}}</h1>
-                <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
-                </v-btn>
-                <v-btn flat light class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas en {{item.stores[0].name}}
-                </v-btn>
-                <div>
-                  <v-btn flat tag="a" light class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
-                    <span class="promotion-data__category" v-text="category.name"></span>
-                  </v-btn>
+            <h1>{{item.name}}
+            </h1>
+            <ofer-header-info :info="item">
+              <template slot="content">
+                <div  class="content__info-section">
+                  <div class="img-container">
+                    <img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title" />
+                  </div>
+                  <div>
+                    <v-btn tag="a" rel="nofollow noopener" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="item.url" target="_blank" primary>Ir a la oferta</v-btn>
+                      <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
+                  ></share-buttons>
+                  <div class="promotion-data">
+                    <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
+                    </v-btn>
+                    <a class="taxonomy" :href="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas en {{item.stores[0].name}}
+                    </a>
+                    <div class="promotion-data">
+                      <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+                          <span class="promotion-data__category" v-text="category.name"></span>
+                        </a>
+                    </div>
+                  </div>
+                  </div>
                 </div>
-                <div class="promotion-data__footer" >
-                  <v-btn tag="a" :href="item.url" rel="nofollow noopener" target="_blank" light primary class="ir-a btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
-                  <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">></share-buttons>
-                </div>
-              </div>
-            </div>
+              </template>
+            </ofer-header-info>
           </header>
           <v-divider class="section-divider"></v-divider>
-          <section class="promotion-content" v-html="item.content"></section>
+          <section class="promotion">
+            <div class="promotion-content" v-html="item.content"></div>
+          </section>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
             <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
@@ -71,6 +77,7 @@ import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferNotExists from '~/components/ofer-not-exists.vue'
 import ShareButtons from '~/components/share-buttons.vue'
 import OferItem from '~/components/ofer-item.vue'
+import OferHeaderInfo from '~/components/ofer-header-info.vue'
 
 export default {
   mixins: [OferCommon],
@@ -105,7 +112,8 @@ export default {
     OferCommon,
     OferNotExists,
     ShareButtons,
-    OferItem
+    OferItem,
+    OferHeaderInfo
   },
   computed: {
     isElBuenFin () {
@@ -209,6 +217,8 @@ h1 {
 
 .el-buen-fin {
   margin-left: 0;
+  padding: 1px;
+  display: flex;
   text-transform: uppercase
    @media (max-width: 767px) {
     padding-right: 6px;
@@ -224,24 +234,23 @@ h1 .el-buen-fin {
   padding: 5px;
 }
 
-.promotion {
-  overflow:hidden;
-  
-  .promotion__info-header {
+
+.promotion-data {
+
+  .taxonomy {
+    padding: 5px;
+    padding-left: 0;
+    padding-right: 0;
     display: flex;
-    @media (max-width: 767px) {
-      flex-direction: column;
-    }
-    align-items: center;
-    padding: 0;
-    .thumbnail {
-      margin-right: 10px;
-      img {
-        max-width: 180px;
-        @media(max-width: 767px) {
-          max-width:150px;
-        }
-      }
+    color: #1976d2;
+    font-weight:bold;
+    text-transform:initial;
+    margin-right:1rem;
+    margin-left: 0;
+    display:inline-block;
+    margin-bottom: 5px;
+    &:hover, :visited {
+      text-decoration: none;
     }
     
     .ir-a {
@@ -249,32 +258,14 @@ h1 .el-buen-fin {
     }
   }
   
-  .promotion-data {
-    .taxonomy {
-      color: #1976d2;
-      font-weight:bold;
-      text-transform:initial;
-      margin-left: 0;
-      margin-right: 6px;
-      padding-right: 6px;
-      padding-left: 6px;
-      &:hover, :visited {
-        text-decoration: none;
-      }
-    }
-    
-    .taxonomy-gray {
-      font-size: 1rem;
-      font-weight: normal;
-      margin-right: 6px;
-      text-transform: uppercase;
-      color: #888;
-      margin-left: 0;
-      padding-right: 6px;
-      padding-left: 6px;
-      &:hover, :visited {
-        text-decoration: underline;
-      }
+  .taxonomy-gray {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-right: 10px;
+    text-transform: uppercase;
+    color: #888;
+    &:hover, :visited {
+      text-decoration: underline;
     }
   }
   
@@ -311,7 +302,7 @@ h1 .el-buen-fin {
   margin-bottom: 2px;
   margin-top: 2px;
 }
-.promotion ul {
+.promotion-content ul {
   padding-left: 2rem;
   margin-bottom: 1rem;
   ul {
