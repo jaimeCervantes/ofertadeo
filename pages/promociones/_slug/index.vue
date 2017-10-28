@@ -16,18 +16,6 @@
               <v-btn tag="a" :href="item.url" rel="nofollow noopener" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
               <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
               ></share-buttons>
-              <!-- en-promocion-abajo-thumbnail -->
-              <ins class="adsbygoogle mobile-only"
-                   style="display:block"
-                   data-ad-client="ca-pub-3434008864168200"
-                   data-ad-slot="3020453897"
-                   data-ad-format="auto"></ins>
-              <script>
-                var mql = window.matchMedia('(min-width: 767px)')
-                if (!mql.matches) {
-                  (window.adsbygoogle || []).push({})
-                }
-              </script>
             </div>
             <div class="promotion-content" v-html="item.content"></div>
             <p class="promotion-data">
