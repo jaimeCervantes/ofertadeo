@@ -281,6 +281,10 @@ h1 .el-buen-fin {
     margin-bottom: 0.8rem;
   }
 }
+
+.img-container {
+  max-height: 200px;
+}
 </style>
 
 <style lang="scss">
