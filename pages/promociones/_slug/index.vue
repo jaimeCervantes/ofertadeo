@@ -248,7 +248,6 @@ h1 .el-buen-fin {
     margin-right:1rem;
     margin-left: 0;
     display:inline-block;
-    margin-bottom: 5px;
     &:hover, :visited {
       text-decoration: none;
     }
@@ -298,10 +297,6 @@ h1 .el-buen-fin {
 </style>
 
 <style lang="scss">
-.btn {
-  margin-bottom: 2px;
-  margin-top: 2px;
-}
 .promotion-content ul {
   padding-left: 2rem;
   margin-bottom: 1rem;
