@@ -1,35 +1,35 @@
 <template>
   <ofer-container>
-    <article v-if="exists(item)">
+    <article v-if="exists(item)" class="promotion">
       <v-row>
         <v-col xs12 sm12 md9 lg9 xl9>
           <header>
-            <h1>{{item.name}}
-              <v-btn error small light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
-              </v-btn>
-            </h1>
-            
+            <div class="promotion__info-header">
+              <div class="thumbnail">
+                <a :href="item.img" target="_blank">
+                  <img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
+                </a>
+              </div>
+              <div class="promotion-data">
+                <h1>{{item.name}}</h1>
+                <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
+                </v-btn>
+                <v-btn flat light class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas en {{item.stores[0].name}}
+                </v-btn>
+                <div>
+                  <v-btn flat tag="a" light class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
+                    <span class="promotion-data__category" v-text="category.name"></span>
+                  </v-btn>
+                </div>
+                <div class="promotion-data__footer" >
+                  <v-btn tag="a" :href="item.url" rel="nofollow noopener" target="_blank" light primary class="ir-a btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
+                  <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">></share-buttons>
+                </div>
+              </div>
+            </div>
           </header>
           <v-divider class="section-divider"></v-divider>
-          <section class="promotion">
-            <div class="thumbnail ml-3">
-              <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title"></a>
-              <v-btn tag="a" :href="item.url" rel="nofollow noopener" target="_blank" light primary class="btn--light-flat-pressed z-depth-2">Ir a la oferta</v-btn>
-              <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
-              ></share-buttons>
-            </div>
-            <div class="promotion-content" v-html="item.content"></div>
-         
-            <p class="promotion-data">
-              <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">EL Buen Fin {{year}}
-              </v-btn>
-              <v-btn flat light class="taxonomy" tag="a" :to="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas en {{item.stores[0].name}}
-              </v-btn>
-              <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
-                  <span class="promotion-data__category" v-text="category.name"></span>
-                </a>
-            </p>
-          </section>
+          <section class="promotion-content" v-html="item.content"></section>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
             <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
@@ -210,6 +210,12 @@ h1 {
 .el-buen-fin {
   margin-left: 0;
   text-transform: uppercase
+   @media (max-width: 767px) {
+    padding-right: 6px;
+    padding-left: 6px;
+    margin-left: 0;
+    margin-right: 6px;
+  }
 }
 
 h1 .el-buen-fin {
@@ -218,31 +224,41 @@ h1 .el-buen-fin {
   padding: 5px;
 }
 
-
 .promotion {
-  padding-top: 0.5rem;
   overflow:hidden;
-  .thumbnail {
-    float:right;
-    text-align:center;
-    img {
-      display: block;
-      max-width: 300px;
-      margin: 0 auto;
-      @media(max-width: 600px) {
-        max-width:200px;
+  
+  .promotion__info-header {
+    display: flex;
+    flex-wrap: wrap;
+    @media (max-width: 767px) {
+      flex-direction: column;
+    }
+    align-items: center;
+    padding: 0;
+    .thumbnail {
+      margin-right: 10px;
+      img {
+        max-width: 180px;
+        @media(max-width: 767px) {
+          max-width:150px;
+        }
       }
     }
+    
+    .ir-a {
+      margin-left: 0;
+    }
   }
-
-  .promotion-data {
   
+  .promotion-data {
     .taxonomy {
       color: #1976d2;
       font-weight:bold;
       text-transform:initial;
-      margin-right:1rem;
       margin-left: 0;
+      margin-right: 6px;
+      padding-right: 6px;
+      padding-left: 6px;
       &:hover, :visited {
         text-decoration: none;
       }
@@ -251,16 +267,29 @@ h1 .el-buen-fin {
     .taxonomy-gray {
       font-size: 1rem;
       font-weight: normal;
-      margin-right: 10px;
+      margin-right: 6px;
       text-transform: uppercase;
       color: #888;
+      margin-left: 0;
+      padding-right: 6px;
+      padding-left: 6px;
       &:hover, :visited {
         text-decoration: underline;
       }
     }
   }
+  
+  .promotion-data__footer {
+    // @media (max-width: 767px) {
+      display: flex;  
+    // }
+  }
 }
 
+
+.promotion-content {
+  padding-top: 0.5rem;
+}
 
 .list--dense {
   .list__item a {
@@ -279,6 +308,10 @@ h1 .el-buen-fin {
 </style>
 
 <style lang="scss">
+.btn {
+  margin-bottom: 2px;
+  margin-top: 2px;
+}
 .promotion ul {
   padding-left: 2rem;
   margin-bottom: 1rem;
