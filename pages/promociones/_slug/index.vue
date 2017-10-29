@@ -35,16 +35,16 @@
             </div>
           </header>
           <v-divider class="section-divider"></v-divider>
+          <!-- oferta-encabezado-adaptable -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-3434008864168200"
+               data-ad-slot="6336828471"
+               data-ad-format="auto"></ins>
+          <script>
+          (window.adsbygoogle || []).push({})
+          </script>
           <section class="promotion">
-            <!-- oferta-encabezado-adaptable -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-3434008864168200"
-                 data-ad-slot="6336828471"
-                 data-ad-format="auto"></ins>
-            <script>
-            (window.adsbygoogle || []).push({})
-            </script>
             <div class="promotion-content" v-html="item.content"></div>
           </section>
           <!-- oferta-enmedio-adaptable -->
@@ -248,12 +248,8 @@ h1 .el-buen-fin {
   padding: 5px;
 }
 
-.promotion, .promotion-content {
+.promotion-content {
   padding-top:0.5rem;
-}
-
-.promotion {
-  margin-bottom: 0.5rem;
 }
 
 .promotion-data {
