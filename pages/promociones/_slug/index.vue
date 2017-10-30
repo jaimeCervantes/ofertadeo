@@ -248,8 +248,14 @@ h1 .el-buen-fin {
   padding: 5px;
 }
 
-.promotion-content {
-  padding-top:0.5rem;
+@media(min-width: 768px) {
+  .promotion, .promotion-content {
+    padding-top:0.5rem;
+  }
+
+  .promotion {
+    margin-bottom: 0.5rem;
+  }
 }
 
 .promotion-data {
