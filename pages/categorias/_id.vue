@@ -99,7 +99,7 @@ export default {
     let url = `${urlCategories}/${this.id}`
 
     let metas = [
-      { hid: 'title', name: 'title', content: this.seo.title },
+      { hid: 'title', name: 'title', content: this.seo.meta_title },
       { hid: 'description', name: 'description', content: this.sliceTextFromHtmlByWord(this.info.content, this.config.seo.description.wordsLimit) },
       { hid: 'og:title', property: 'og:title', content: this.seo.meta_title },
       { hid: 'og:description', property: 'og:description', content: this.sliceTextFromHtmlByWord(this.info.content, this.config.seo.description.wordsLimit) },
@@ -120,7 +120,7 @@ export default {
     }
 
     return (this.info && this.info.name) ? {
-      title: `Descuentos, promociones y ofertas en ${this.info.name} | Ofertadeo`,
+      title: this.seo.title,
       meta: metas,
       link: [
         { rel: 'canonical', href: `${this.config.host}${this.config.routes.categoriesList}/${this.id}` }
