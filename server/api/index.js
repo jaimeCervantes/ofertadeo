@@ -15,6 +15,15 @@ let upload = require('./upload')
 let seo = require('./seo')
 let elBuenFin = require('./elBuenFin')
 
+// router.all('*', function(req, res, next) {
+//   console.log(req.path)
+
+//   //if is autthenticated got to next
+//   next() //to allow other middlewares to be executed
+
+//   //otherwise redirect
+// })
+
 home({ router: router, crud: crud, conn: conn, config: config })
 
 categories({

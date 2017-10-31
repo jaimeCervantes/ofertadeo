@@ -9,6 +9,13 @@ import rfs from 'rotating-file-stream'
 import path from 'path'
 import fs from 'fs'
 import sitemapSchedule from './utils/sitemaps/schedule'
+// For authentication
+import session from 'express-session'
+import passport from 'passport'
+import cookieParser from 'cookie-parser'
+import flash from 'connect-flash'
+import configPassport from './utils/passport/'
+import routes from './routes'
 
 const develop = !(process.env.NODE_ENV === 'production')
 const app = express()
@@ -34,13 +41,28 @@ if (!develop) {
   // app.use(preconditions())
   // morganFormat = 'dev'
 }
-app.use(bodyParser.json())
-// Import API Routes
-app.use('/api', api)
+
 app.use(morgan(morganFormat, { stream: accessLogStream }))
+
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cookieParser())
+app.use(session({ secret: "Cdovps_2017*" }))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
+
 // Security
 app.use(helmet())
 app.disable('x-powered-by')
+
+
+configPassport(passport)
+// Import API Routes
+app.use('/api', api)
+
+routes(app, passport)
 
 // Import and Set Nuxt.js options
 let nuxtConfig = require('../nuxt.config.js')
@@ -57,7 +79,6 @@ if (nuxtConfig.dev) {
   const builder = new Builder(nuxt)
   builder.build()
     .catch((error) => {
-      console.log('ERROR JAIME')
       console.error(error) // eslint-disable-line no-console
       process.exit(1)
     })

@@ -7,6 +7,7 @@
     <ofer-sidebar>
       <nav role="navigation">
         <v-list dense>
+          <v-btn error light tag="a" href="/ofer-admin/logout"><v-icon>highlight_off</v-icon></v-btn>
           <v-subheader class="white--text">
             <h3>{{config.txt.offers}}</h3>
           </v-subheader>
