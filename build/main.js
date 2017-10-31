@@ -631,11 +631,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_fs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_fs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__utils_sitemaps_schedule__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_express_session__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_express_session___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_express_session__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_passport__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_passport___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_passport__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_cookie_parser__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_cookie_parser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_cookie_parser__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_connect_flash__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_connect_flash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_connect_flash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__utils_passport___ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__routes__ = __webpack_require__(52);
 
 
 
 
 
+
+
+
+
+
+
+// For authentication
 
 
 
@@ -667,16 +684,29 @@ if (!develop) {
   // app.use(preconditions())
   // morganFormat = 'dev'
 }
-app.use(__WEBPACK_IMPORTED_MODULE_5_body_parser___default.a.json());
-// Import API Routes
-app.use('/api', __WEBPACK_IMPORTED_MODULE_4__api__["a" /* default */]);
+
 app.use(__WEBPACK_IMPORTED_MODULE_6_morgan___default()(morganFormat, { stream: accessLogStream }));
+
+app.use(__WEBPACK_IMPORTED_MODULE_5_body_parser___default.a.json());
+app.use(__WEBPACK_IMPORTED_MODULE_5_body_parser___default.a.urlencoded({ extended: false }));
+app.use(__WEBPACK_IMPORTED_MODULE_13_cookie_parser___default()());
+app.use(__WEBPACK_IMPORTED_MODULE_11_express_session___default()({ secret: "Cdovps_2017*" }));
+app.use(__WEBPACK_IMPORTED_MODULE_12_passport___default.a.initialize());
+app.use(__WEBPACK_IMPORTED_MODULE_12_passport___default.a.session());
+app.use(__WEBPACK_IMPORTED_MODULE_14_connect_flash___default()());
+
 // Security
 app.use(__WEBPACK_IMPORTED_MODULE_3_helmet___default()());
 app.disable('x-powered-by');
 
+Object(__WEBPACK_IMPORTED_MODULE_15__utils_passport___["a" /* default */])(__WEBPACK_IMPORTED_MODULE_12_passport___default.a);
+// Import API Routes
+app.use('/api', __WEBPACK_IMPORTED_MODULE_4__api__["a" /* default */]);
+
+Object(__WEBPACK_IMPORTED_MODULE_16__routes__["a" /* default */])(app, __WEBPACK_IMPORTED_MODULE_12_passport___default.a);
+
 // Import and Set Nuxt.js options
-var nuxtConfig = __webpack_require__(45);
+var nuxtConfig = __webpack_require__(53);
 nuxtConfig.dev = develop;
 
 // Init Nuxt.js
@@ -689,7 +719,6 @@ app.use(__WEBPACK_IMPORTED_MODULE_2_compression___default()()); // Compress all 
 if (nuxtConfig.dev) {
   var builder = new __WEBPACK_IMPORTED_MODULE_0_nuxt__["Builder"](nuxt);
   builder.build().catch(function (error) {
-    console.log('ERROR JAIME');
     console.error(error); // eslint-disable-line no-console
     process.exit(1);
   });
@@ -742,6 +771,15 @@ var stores = __webpack_require__(28);
 var upload = __webpack_require__(29);
 var seo = __webpack_require__(30);
 var elBuenFin = __webpack_require__(31);
+
+// router.all('*', function(req, res, next) {
+//   console.log(req.path)
+
+//   //if is autthenticated got to next
+//   next() //to allow other middlewares to be executed
+
+//   //otherwise redirect
+// })
 
 home({ router: router, crud: crud, conn: conn, config: config });
 
@@ -3180,6 +3218,147 @@ module.exports = schedule;
 
 /***/ }),
 /* 45 */
+/***/ (function(module, exports) {
+
+module.exports = require("express-session");
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports) {
+
+module.exports = require("passport");
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports) {
+
+module.exports = require("cookie-parser");
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports) {
+
+module.exports = require("connect-flash");
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_passport_local__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_passport_local___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_passport_local__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bcrypt__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_bcrypt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_bcrypt__);
+
+
+
+var admin = {
+   id: 'JGO2017*',
+   pwd: __WEBPACK_IMPORTED_MODULE_1_bcrypt___default.a.hashSync('Cdo_2017*', __WEBPACK_IMPORTED_MODULE_1_bcrypt___default.a.genSaltSync(), null),
+   userName: 'ofertadeo@gmail.com'
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (function (passport) {
+   // =========================================================================
+   // passport session setup ==================================================
+   // =========================================================================
+   // required for persistent login sessions
+   // passport needs ability to serialize and unserialize users out of session
+
+   // used to serialize the user for the session
+   passport.serializeUser(function (user, done) {
+      done(null, user.id);
+   });
+
+   // used to deserialize the user
+   passport.deserializeUser(function (id, done) {
+      done(null, admin);
+   });
+
+   // =========================================================================
+   // LOCAL LOGIN =============================================================
+   // =========================================================================
+   // we are using named strategies since we have one for login and one for signup
+   // by default, if there was no name, it would just be called 'local'
+
+   passport.use('local-login', new __WEBPACK_IMPORTED_MODULE_0_passport_local__["Strategy"]({
+      // by default, local strategy uses username and password, we will override with email
+      usernameField: 'email',
+      passwordField: 'password',
+      passReqToCallback: true // allows us to pass back the entire request to the callback
+   }, function (req, email, password, done) {
+      // callback with email and password from our form
+
+      // if no user is found, return the message
+      if (admin.userName !== email) {
+         return done(null, false, req.flash('loginMessage', 'Usuario no existe.')); // req.flash is the way to set flashdata using connect-flash
+      }
+
+      // if the user is found but the password is wrong
+      if (!__WEBPACK_IMPORTED_MODULE_1_bcrypt___default.a.compareSync(password, admin.pwd)) {
+         return done(null, false, req.flash('loginMessage', 'Contraseña incorrecta')); // create the loginMessage and save it to session as flashdata
+      }
+
+      // all is well, return successful user
+      return done(null, admin);
+   }));
+});;
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports) {
+
+module.exports = require("passport-local");
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports) {
+
+module.exports = require("bcrypt");
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = (function (app, passport) {
+	// process the login form
+	app.post('/ofer-admin/login', passport.authenticate('local-login', {
+		successRedirect: '/ofer-admin/', // redirect to the secure profile section
+		failureRedirect: '/ofer-admin/login', // redirect back to the signup page if there is an error
+		failureFlash: true // allow flash messages
+	}));
+
+	// =====================================
+	// ofer-admin SECTION =========================
+	// =====================================
+	// we will want this protected so you have to be logged in to visit
+	// we will use route middleware to verify this (the isLoggedIn function)
+	app.get('/ofer-admin/*', isLoggedIn);
+
+	// =====================================
+	// LOGOUT ==============================
+	// =====================================
+	app.get('/ofer-admin/logout', function (req, res) {
+		req.logout();
+		res.redirect('/ofer-admin/login');
+	});
+});
+
+// route middleware to make sure
+function isLoggedIn(req, res, next) {
+
+	// if user is authenticated in the session, carry on
+	if (req.isAuthenticated() || req.path === '/ofer-admin/login') {
+		return next();
+	}
+
+	// if they aren't redirect them to the home page
+	res.redirect('/ofer-admin/login');
+}
+
+/***/ }),
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = {
