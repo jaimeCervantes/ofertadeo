@@ -9,7 +9,7 @@
               <template slot="content">
                 <div  class="content__info-section">
                   <div class="img-container">
-                    <img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title" />
+                    <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title" /></a>
                   </div>
                   <div>
                     <h1 class="hidden-sm-and-down">{{item.name}}</h1>
