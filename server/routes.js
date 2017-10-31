@@ -11,7 +11,7 @@ export default function (app, passport) {
 	// =====================================
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
-	app.get('/ofer-admin/*', isLoggedIn);
+	app.get('/ofer-admin*', isLoggedIn);
 
 	// =====================================
 	// LOGOUT ==============================
