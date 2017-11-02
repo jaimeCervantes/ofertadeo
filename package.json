@@ -45,7 +45,7 @@
     "vue-material": "^0.7.1",
     "vue-social-sharing": "^2.2.3",
     "vue2-editor": "^2.0.24",
-    "vuetify": "^0.11.1",
+    "vuetify": "^0.16.9",
     "wagner-core": "^0.2.0",
     "xml": "^1.0.1"
   },

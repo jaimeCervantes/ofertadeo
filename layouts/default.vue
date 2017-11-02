@@ -1,14 +1,17 @@
 <template>
-<main itemscope itemprop="mainContentOfPage" itemtype="https://schema.org/WebPageElement" id="main">
+
   <v-app id="ofertadeo">
+    <ofer-sidebar/>
     <header itemscope="itemscope" itemtype="https://schema.org/WPHeader">
       <ofer-toolbar class="ofer-admin"></ofer-toolbar>
     </header>
-    <ofer-sidebar/>
-    <nuxt/>
+    <main itemscope itemprop="mainContentOfPage" itemtype="https://schema.org/WebPageElement" id="main">
+      <v-content>
+        <nuxt />
+      </v-content>
+    </main>
+    <ofer-footer id="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter"></ofer-footer>
   </v-app>
-  <ofer-footer id="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter"></ofer-footer>
-</main>
 </template>
 
 <script>

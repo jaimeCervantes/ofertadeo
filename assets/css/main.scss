@@ -3,25 +3,43 @@ $white: #fff;
 
 body {
   word-wrap: break-word;
-  padding-top:64px;
   height:100%;
 }
 
-a {
+a:not(.btn,.list__tile--link) {
   text-decoration: none;
-    &:hover {
-      text-decoration:underline;
-    }
+  &:hover {
+    text-decoration:underline;
+  }
 }
 
-header .breadcrumbs {
-  justify-content:left;
-  li:first-child a {
-    padding-left:0;
+header {
+  .breadcrumbs {
+    justify-content:left;
+    li:first-child a {
+      padding-left:0;
+    }
+    a.breadcrumbs__item {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
-  a.breadcrumbs__item {
-    padding-left: 0;
+
+  .btn {
+    margin-left: 0;
     padding-right: 0;
+  }
+
+  // For breadcumbs and other list
+  ul {
+    padding-left: 0;
+    margin-left: 0;
+    list-style:none;
+    li {
+      list-style:none;
+      padding-left:0;
+      margin-left: 0;
+    }
   }
 }
 
@@ -55,24 +73,8 @@ header .breadcrumbs {
 
 }
 
-#ofertadeo .toolbar {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-}
 
 .title { word-break: break-word; }
-
-.main-content {
-  padding: 1.5rem;
-}
-
-.content {
-  padding: 0.5rem;
-}
-
-.card__row--actions {
-  background-color: rgba(0,0,0,0.5);
-}
 
 .item {
   &__img {
@@ -132,15 +134,36 @@ h4, h4.title {
   }
 }
 
-main {
-  //to avoid flex css properties
-  display: block;
-}
-
-#main-list.row {
-  align-items: center;
-}
-
 .anuncio {
   margin-top: 1rem;
+}
+
+#sidebar-nav .list,
+.list--dense {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  font-weight:normal;
+  li.list__tile {
+    flex-basis: 50%;
+    padding-left: 0;
+    padding-right: 0;
+    color: #fff;
+    font-weight:normal;
+  }
+  
+  .list__tile--link {
+    width:100%;
+    padding: 0 12px;
+    font-weight:normal;
+  }
+}
+
+.close {
+  position: absolute;
+  right:5px;
+  cursor:pointer;
+  padding: 5px;
+  min-width: 35px;
+  width: 35px;
 }
