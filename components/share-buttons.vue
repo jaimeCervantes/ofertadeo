@@ -48,6 +48,7 @@ export default {
 </script>
 <style lang="scss">
   #social-sharing {
+    display: flex;
     .btn {
       width:30px;
       min-width:30px;

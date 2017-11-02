@@ -39,9 +39,9 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    '@assets/stylus/roboto-material-icons.styl',
     '@assets/stylus/main.styl',
-    '@assets/css/main.scss',
-    '@assets/stylus/roboto-material-icons.styl'
+    '@assets/css/main.scss'
   ],
   /*
   ** Add axios globally

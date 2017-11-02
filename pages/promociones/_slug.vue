@@ -4,39 +4,28 @@
       <v-layout row wrap>
         <v-flex xs12 sm12 md9 lg9 xl9>
           <header>
-            <h1 class="hidden-md-and-up">{{item.name}}</h1>
-            <ofer-header-info :info="item">
-              <template slot="content">
-                <div  class="content__info-section">
-                  <div class="img-container">
-                    <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title" /></a>
-                  </div>
-                  <div>
-                    <h1 class="hidden-sm-and-down">{{item.name}}</h1>
-                    <div class="promotion-data">
-                      <div>
-                      <v-btn error large light tag="a" class="el-buen-fin" v-if="isElBuenFin" :to="config.host + config.routes.elBuenFin">El Buen Fin {{year}}
-                      </v-btn>
-                      </div>
-                      <a class="taxonomy" :href="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas <strong>{{item.stores[0].name}}</strong>
-                      </a>
-                    </div>
-                      <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
-                      ></share-buttons>
-                      <a class="ir-a" tag="a" rel="nofollow noopener" :href="item.url" target="_blank" primary>Ir a la oferta</a>
-                  </div>
-                </div>
-              </template>
-            </ofer-header-info>
-            <div class="promotion-data categories">
+            <h1>{{item.name}}</h1>
+          </header>
+          <v-divider></v-divider>
+          <section class="promotion">
+            <div class="thumbnail">
+              <div class="img-container">
+                <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title" /></a>
+              </div>
+              <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
+                  ></share-buttons>
+              <a class="ir-a" tag="a" rel="nofollow noopener" :href="item.url" target="_blank" primary>Ir a la oferta</a>
+            </div>
+            <div class="promotion-content" v-html="item.content"></div>
+            <div class="promotion-data">
+             <v-btn error large dark class="el-buen-fin" v-if="isElBuenFin" :href="config.host + config.routes.elBuenFin">El Buen Fin {{year}}
+              </v-btn>
+              <a class="taxonomy" :href="config.host + config.routes.storeList + '/' + item.stores[0]._id">Ofertas <strong>{{item.stores[0].name}}</strong>
+              </a>
               <a class="taxonomy-gray" :href="config.host + config.routes.categories + '/' + category._id" v-for="(category,i) in item.categories" :key="i">
                   <span class="promotion-data__category" v-text="category.name"></span>
                 </a>
             </div>
-          </header>
-          <v-divider class="section-divider"></v-divider>
-          <section class="promotion">
-            <div class="promotion-content" v-html="item.content"></div>
           </section>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
@@ -55,13 +44,11 @@
               <v-subheader>
                 <h3>Más {{config.txt.stores}}</h3>
               </v-subheader>
-              <v-list-item  v-for="(store,i) in stores" :key="i">
-                <v-list-tile ripple tag="a" :href="config.host + config.routes.storeList + '/' + store._id" class="list__tile">
-                  <v-list-tile-content>
-                    <v-list-tile-title v-text="store.name" />
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list-item>
+              <v-list-tile v-for="(store,i) in stores" :key="i" ripple tag="a" :href="config.host + config.routes.storeList + '/' + store._id" class="list__tile">
+                <v-list-tile-content>
+                  <v-list-tile-title v-text="store.name" />
+                </v-list-tile-content>
+              </v-list-tile>
             </v-list>
           </aside>
         </v-flex>
@@ -214,77 +201,60 @@ h1 {
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
 }
-
-.el-buen-fin {
-  margin-left: 0;
-  @media (max-width:500px) {
-    padding:1px;
-  }
-}
-
-h1 .el-buen-fin {
-  min-height: 0;
-  height: 28px;
-  padding: 5px;
-}
-
 .promotion {
-  padding-top:0.5rem;
-}
-
-.promotion-data {
-
-  .taxonomy {
-    padding: 5px;
-    padding-left: 0;
-    padding-right: 0;
-    display: flex;
-    color: #1976d2;
-    font-weight:bold;
-    text-transform:initial;
-    margin-right:1rem;
-    margin-left: 0;
-    display:inline-block;
-    &:hover, :visited {
-      text-decoration: none;
+  padding-top: 0.5rem;
+  overflow:hidden;
+  .thumbnail {
+    float:right;
+    text-align:center;
+    img {
+      display: block;
+      max-width: 300px;
+      margin: 0 auto;
+      @media(max-width: 600px) {
+        max-width:200px;
+      }
     }
   }
-  
-  .taxonomy-gray {
-    font-size: 1rem;
-    font-weight: normal;
-    margin-right: 10px;
-    color: #888;
+
+  .promotion-data {
+    margin-bottom: 1rem;
+    clear: both;
+    .taxonomy {
+      color: #1976d2;
+      font-weight:bold;
+      text-transform:initial;
+      margin-right:initial;
+      margin-left: 0;
+      margin-right: 10px;
+      margin-top: 0;
+      &:hover, :visited {
+        text-decoration: none;
+      }
+    }
     
-    &:hover, :visited {
-      text-decoration: underline;
+    .taxonomy-gray {
+      font-size: 1rem;
+      &:first-letter {
+        text-transform: uppercase;
+      }
+      font-weight: normal;
+      margin-right: 10px;
+      color: #888;
+      &:hover, :visited {
+        text-decoration: underline;
+      }
     }
-  }
-}
-
-
-.list--dense {
-  .list__item a {
-    //text-decoration: underline;
-    color: #1976d2;
   }
 }
 
 .related-items {
-  margin-top: 1.5rem;
-  clear:both;
-  h3 {
-    margin-bottom: 0.8rem;
+    margin-top: 1rem;
+    clear:both;
+    h3 {
+      margin-bottom: 0.8rem;
+    }
   }
-}
-
-.img-container {
-  max-height: 200px;
-}
-
-.categories {
-  margin-top: 5px;
-}
 </style>
 
 <style>
