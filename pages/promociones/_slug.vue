@@ -249,16 +249,20 @@ h1 {
 }
 
 .related-items {
-    margin-top: 1rem;
-    clear:both;
-    h3 {
-      margin-bottom: 0.8rem;
-    }
+  margin-top: 1rem;
+  clear:both;
+  h3 {
+    margin-bottom: 0.8rem;
   }
+}
+
+.list{
+  background-color: #fafafa;
+}
 </style>
 
 <style>
-  .promotion ul {
+.promotion ul {
   padding-left: 2rem;
   margin-bottom: 1rem;
   ul {
