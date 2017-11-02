@@ -1,5 +1,5 @@
 <template>
-  <v-footer>
+  <v-footer app color="primary" dark>
       <div>
         <ul>
           <li><a href="/nosotros">Nosotros</a></li>
@@ -67,5 +67,10 @@ $white: #fff;
       width:30px;
     }
   }
+}
+ul {
+  list-style:none;
+  margin-left: 0;
+  padding-left: 0;
 }
 </style>

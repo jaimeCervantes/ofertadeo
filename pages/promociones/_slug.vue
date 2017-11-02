@@ -1,8 +1,8 @@
 <template>
-  <ofer-container>
+  <v-container grid-list-md fluid>
     <article v-if="exists(item)">
-      <v-row>
-        <v-col xs12 sm12 md9 lg9 xl9>
+      <v-layout row wrap>
+        <v-flex xs12 sm12 md9 lg9 xl9>
           <header>
             <h1 class="hidden-md-and-up">{{item.name}}</h1>
             <ofer-header-info :info="item">
@@ -23,7 +23,7 @@
                     </div>
                       <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
                       ></share-buttons>
-                      <a class="ir-a" tag="a" rel="nofollow noopener" v-tooltip:top="{ html: 'Ir a la tienda' }" :href="item.url" target="_blank" primary>Ir a la oferta</a>
+                      <a class="ir-a" tag="a" rel="nofollow noopener" :href="item.url" target="_blank" primary>Ir a la oferta</a>
                   </div>
                 </div>
               </template>
@@ -40,16 +40,16 @@
           </section>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
-            <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
+            <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
               <link itemprop="url" :href="config.host" />
-              <v-col class="mb-3" xs6 sm3 md3 lg3 xl3 v-for="(item,i) in relatedItems" :key="i">
+              <v-flex class="mb-3" xs6 sm3 md3 lg3 xl3 v-for="(item,i) in relatedItems" :key="i">
                 <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
                 </ofer-item>
-              </v-col>
-            </v-row>
+              </v-flex>
+            </v-layout>
           </section>
-        </v-col>
-        <v-col xs12 sm12 md3 lg3 xl3>
+        </v-flex>
+        <v-flex xs12 sm12 md3 lg3 xl3>
           <aside>
             <v-list dense>
               <v-subheader>
@@ -64,17 +64,16 @@
               </v-list-item>
             </v-list>
           </aside>
-        </v-col>
-      </v-row>
+        </v-flex>
+      </v-layout>
 
     </article>
     <ofer-not-exists v-else v-bind:title="notExistTitle"></ofer-not-exists>
-  </ofer-container>
+  </v-container>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
-import OferContainer from '~/components/ofer-container.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferNotExists from '~/components/ofer-not-exists.vue'
 import ShareButtons from '~/components/share-buttons.vue'
@@ -110,7 +109,6 @@ export default {
     data)
   },
   components: {
-    OferContainer,
     OferCommon,
     OferNotExists,
     ShareButtons,
@@ -289,8 +287,8 @@ h1 .el-buen-fin {
 }
 </style>
 
-<style lang="scss">
-.promotion ul {
+<style>
+  .promotion ul {
   padding-left: 2rem;
   margin-bottom: 1rem;
   ul {
