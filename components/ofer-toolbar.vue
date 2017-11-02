@@ -107,7 +107,12 @@ export default {
     .btn__content {
       padding-left: 2px;
       padding-right: 3px;
-    }  
+    }
+  }
+
+  .btn.logo .btn__content {
+    font-weight: bold;
+    font-size: 1.3rem;
   }
 
   .btn {
@@ -117,6 +122,7 @@ export default {
     .btn__content {
       padding-left: 2px;
       padding-right: 2px;
+      font-weight: normal;
     }
   }
 
