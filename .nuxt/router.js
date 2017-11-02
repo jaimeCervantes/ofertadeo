@@ -33,7 +33,7 @@ const _c686325c = () => import('../pages/ofer-admin/promociones/editar/_slug/ind
 const _431c25e8 = () => import('../pages/ofer-admin/tiendas/editar/_id/index.vue' /* webpackChunkName: "pages/ofer-admin/tiendas/editar/_id/index" */).then(m => m.default || m)
 const _3178e532 = () => import('../pages/ofer-admin/tiendas/_id.vue' /* webpackChunkName: "pages/ofer-admin/tiendas/_id" */).then(m => m.default || m)
 const _d0574b78 = () => import('../pages/ofer-admin/promociones/_slug/index.vue' /* webpackChunkName: "pages/ofer-admin/promociones/_slug/index" */).then(m => m.default || m)
-const _48aa5f83 = () => import('../pages/promociones/_slug/index.vue' /* webpackChunkName: "pages/promociones/_slug/index" */).then(m => m.default || m)
+const _42749900 = () => import('../pages/promociones/_slug.vue' /* webpackChunkName: "pages/promociones/_slug" */).then(m => m.default || m)
 const _87a063d0 = () => import('../pages/categorias/_id.vue' /* webpackChunkName: "pages/categorias/_id" */).then(m => m.default || m)
 const _845b07e4 = () => import('../pages/el-buen-fin/_id.vue' /* webpackChunkName: "pages/el-buen-fin/_id" */).then(m => m.default || m)
 const _4dff8db4 = () => import('../pages/tiendas/_id.vue' /* webpackChunkName: "pages/tiendas/_id" */).then(m => m.default || m)
@@ -224,7 +224,7 @@ export function createRouter () {
 		},
 		{
 			path: "/promociones/:slug",
-			component: _48aa5f83,
+			component: _42749900,
 			name: "promociones-slug"
 		},
 		{
