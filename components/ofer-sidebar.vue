@@ -11,7 +11,8 @@
       <v-list dense>
         <v-subheader class="white--text">
           <h3>{{config.txt.stores}}</h3>
-          <v-btn tag="a" :href="config.host + config.routes.storeList" color="primary" light>Ver todas</v-btn>
+          <v-btn flat tag="a" :href="config.host + config.routes.storeList" light>
+          <v-icon>store</v-icon>Ver todas</v-btn>
         </v-subheader>
         <v-list-tile v-for="(item,i) in config.stores" :key="i" ripple tag="a" :href="config.host + config.routes.storeList + '/' + item._id" class="list__tile">
           <v-list-tile-content>
@@ -23,7 +24,8 @@
         <v-divider/>
         <v-subheader class="white--text">
           <h3>{{config.txt.categories}}</h3>
-          <v-btn tag="a" :href="config.host + config.routes.categories" color="primary" light>Ver todas</v-btn>
+          <v-btn flat tag="a" :href="config.host + config.routes.categories" light>
+            <v-icon>sort</v-icon>Ver todas</v-btn>
         </v-subheader>
         <v-list-tile v-for="(item,i) in config.categories" :key="i" ripple :href="config.host + config.routes.categories + '/' + item._id" class="list__tile">
           <v-list-tile-content>
@@ -43,22 +45,21 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .list {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    hr, .subheader {
-      flex-basis: 100%;
-      margin-bottom: 5px;
-    }
-    
-    .subheader {
-      padding-left: 12px;
-      padding-right: 12px;
-      h3 {
-        margin-bottom: 0;
-        color: #fff;
-      }
+.list {
+  .subheader {
+    h3 {
+      margin-bottom: 0;
+      color: #fff;
     }
   }
+  
+  .list__tile--link {
+    width:100%;
+    padding: 0 12px;
+  }
+  
+  .list__tile__title {
+    font-weight:normal; 
+  }
+}
 </style>

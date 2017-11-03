@@ -3,7 +3,7 @@
     <slot name="header">
       <header class="row" v-if="breadcrumbs">
         <div class="breadcrumbs-info-section">
-          <v-breadcrumbs divider="">
+          <v-breadcrumbs divider="/">
             <v-breadcrumbs-item
               v-for="item in breadcrumbs" :key="item.href"
               :disabled="item.disabled"
