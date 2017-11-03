@@ -10,7 +10,7 @@
 
       <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <link itemprop="url" :href="config.host" />
-        <v-flex align-center xs6 sm4 md3 lg2 xl2 v-for="(item,i) in items" :key="i" >
+        <v-flex align-center justify-center xs6 sm4 md3 lg2 xl2 v-for="(item,i) in items" :key="i" >
           <ofer-item :item="item" :to-link="`${config.routes.main}/${item.slug}`" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
         </v-flex>
       </v-layout>

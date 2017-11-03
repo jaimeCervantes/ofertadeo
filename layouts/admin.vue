@@ -2,12 +2,153 @@
 <main>
   <v-app id="ofertadeo">
     <header>
-      <ofer-toolbar class="ofer"></ofer-toolbar>
+      <ofer-toolbar class="ofer-admin">
+        <v-btn class="menu-mobile hidden-sm-and-up" flat @click.stop="$store.commit('toggleSidebar')">
+        <v-icon>menu</v-icon> Menu
+        </v-btn>
+        <v-btn :href="config.host" flat class="logo">
+          <img src="/logo.png" alt="Logo" width="40"> Ofertadeo
+        </v-btn>
+        <v-menu
+          offset-y
+          open-on-hover
+          :close-on-content-click="false"
+          fixed
+          transition="slide-x-transition"
+        >
+          <v-btn class="hidden-xs-only" flat slot="activator">Ofertas<v-icon>arrow_drop_down</v-icon></v-btn>
+          <v-card>
+            <v-list dense>
+            <v-list-item>
+              <v-list-tile ripple :href="adminRoute + config.routes.main + '/nueva'" class="list__tile">
+                <v-list-tile-content>
+                  <v-list-tile-title>Nueva</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list-item>
+            <v-list-item>
+              <v-list-tile ripple :href="adminRoute + config.routes.main + '/editar'" class="list__tile">
+                <v-list-tile-content>
+                  <v-list-tile-title>Editar</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list-item>
+          </v-list>
+          </v-card>
+        </v-menu>
+        
+        <v-menu
+          offset-y
+          open-on-hover
+          :close-on-content-click="false"
+          fixed
+          transition="slide-x-transition"
+        >
+          <v-btn class="hidden-xs-only" flat slot="activator">El Buen Fin<v-icon>arrow_drop_down</v-icon></v-btn>
+          <v-card>
+            <v-list dense>
+            <v-list-item>
+              <v-list-tile ripple tag="a" :href="adminRoute + config.routes.elBuenFin + config.routes.storeList +'/nueva'" class="list__tile">
+                <v-list-tile-content>
+                  <v-list-tile-title>Nueva</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list-item>
+            <v-list-item>
+              <v-list-tile ripple tag="a" :href="adminRoute + config.routes.elBuenFin + config.routes.storeList +'/editar'" class="list__tile">
+                <v-list-tile-content>
+                  <v-list-tile-title>Editar</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list-item>
+            <v-list-item>
+              <v-list-tile ripple tag="a" :href="adminRoute + config.routes.elBuenFin + config.routes.storeList  + config.routes.seo" class="list__tile">
+                <v-list-tile-content>
+                  <v-list-tile-title>SEO</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list-item>
+          </v-list>
+          </v-card>
+        </v-menu>
+
+        <v-menu
+          offset-y
+          open-on-hover
+          :close-on-content-click="false"
+          fixed
+          transition="slide-x-transition"
+        >
+          <v-btn class="hidden-xs-only" flat slot="activator">Tiendas<v-icon>arrow_drop_down</v-icon></v-btn>
+          <v-card>
+            <v-list dense>
+              <v-list-item>
+                <v-list-tile ripple tag="a" :href="adminRoute + config.routes.storeList + '/nueva'" class="list__tile">
+                  <v-list-tile-content>
+                    <v-list-tile-title>Nueva</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list-item>
+              <v-list-item>
+                <v-list-tile ripple tag="a" :href="adminRoute + config.routes.storeList + '/editar'" class="list__tile">
+                  <v-list-tile-content>
+                    <v-list-tile-title>Editar</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list-item>
+              <v-list-item>
+                <v-list-tile ripple tag="a" :href="adminRoute + config.routes.seo + '/tiendas'" class="list__tile">
+                  <v-list-tile-content>
+                    <v-list-tile-title>SEO</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-menu>
+        <v-menu
+          offset-y
+          open-on-hover
+          :close-on-content-click="false"
+          fixed
+          transition="slide-x-transition"
+        >
+          <v-btn class="hidden-xs-only" flat slot="activator">Categorías<v-icon>arrow_drop_down</v-icon></v-btn>
+          <v-card>
+            <v-list dense>
+              <v-list-item>
+                <v-list-tile ripple tag="a" :href="adminRoute + config.routes.categories + '/nueva'" class="list__tile">
+                  <v-list-tile-content>
+                    <v-list-tile-title>Nueva</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list-item>
+              <v-list-item>
+                <v-list-tile ripple tag="a" :href="adminRoute + config.routes.categories + '/editar'" class="list__tile">
+                  <v-list-tile-content>
+                    <v-list-tile-title>Editar</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list-item>
+              <v-list-item>
+                <v-list-tile ripple tag="a" :href="adminRoute + config.routes.seo + '/categorias'" class="list__tile">
+                  <v-list-tile-content>
+                    <v-list-tile-title>SEO</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-menu>
+        <v-spacer></v-spacer>
+        <v-btn error icon href="/ofer-admin/logout">
+          <v-icon>close</v-icon>
+        </v-btn>
+      </ofer-toolbar>
     </header>
     <ofer-sidebar>
-      <nav role="navigation">
+        <v-btn flat dark class="close" @click.stop="$store.commit('toggleSidebar')"><v-icon>close</v-icon></v-btn>
         <v-list dense>
-          <v-btn error light tag="a" href="/ofer-admin/logout"><v-icon>highlight_off</v-icon></v-btn>
           <v-subheader class="white--text">
             <h3>{{config.txt.offers}}</h3>
           </v-subheader>
@@ -26,8 +167,6 @@
             </v-list-tile>
           </v-list-item>
         </v-list>
-      </nav>
-      <nav role="navigation">
         <v-list dense>
           <v-subheader class="white--text">
             <h3>{{config.txt.stores}}</h3>
@@ -54,8 +193,6 @@
             </v-list-tile>
           </v-list-item>
         </v-list>
-      </nav>
-      <nav role="navigation">
         <v-list dense>
           <v-subheader class="white--text">
             <h3>{{config.txt.categories}}</h3>
@@ -82,8 +219,6 @@
             </v-list-tile>
           </v-list-item>
         </v-list>
-      </nav>
-      <nav role="navigation">
         <v-list dense>
           <v-subheader class="white--text">
             <h3>{{config.txt.elBuenFin}}</h3>
@@ -110,10 +245,12 @@
             </v-list-tile>
           </v-list-item>
         </v-list>
-      </nav>
-      
     </ofer-sidebar>
-    <nuxt/>
+    <v-content>
+      <v-container fluid grid-list-md>
+        <nuxt/>
+      </v-container>
+    </v-content>
   </v-app>
   <ofer-footer></ofer-footer>
 </main>

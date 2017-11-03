@@ -43,6 +43,7 @@
 <style scoped lang="scss">
 $white: #fff;
 .footer {
+  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
   height: auto;

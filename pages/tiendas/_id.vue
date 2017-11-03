@@ -1,7 +1,17 @@
 <template>
-  <ofer-container :breadcrumbs="exists(info) ? breadcrumbs : null">
-    <template slot="info-section" v-if="exists(info)">
-      <ofer-header-info :info="seo" rel="nofollow noopener">
+  <v-container grid-list-md fluid>
+    <header>
+    <v-breadcrumbs divider="/" v-if="exists(breadcrumbs)">
+        <v-breadcrumbs-item
+          v-for="item in breadcrumbs" :key="item.href"
+          :disabled="item.disabled"
+          :href="item.href"
+          :target="item.target || '_self'"
+        >
+          {{ item.text }}
+        </v-breadcrumbs-item>
+      </v-breadcrumbs>
+      <ofer-header-info :info="seo" v-if="exists(info)" rel="nofollow noopener">
         <template slot="social-network">
           <share-buttons
             :url="`${config.host}${config.routes.storeList}/${id}`"
@@ -9,38 +19,30 @@
           ></share-buttons>
         </template>
       </ofer-header-info>
-    </template>
-    <template v-if="exists(info)" slot="content">
-      <div>
-        <ofer-expand
-          :content="info.content"
-          :expanded="expanded"
-          @on-expanded="changeExpanded">
-        </ofer-expand>
-        <v-divider class="section-divider" v-if="exists(info)"></v-divider>
-      </div>
-      <div class="middle-content">
-        <h2 v-html="seo.h2"></h2>
-        <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
-          <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-            <ofer-item :item="item" type="store" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
-          </v-col>
-        </v-row>
-      </div>
-      <div>
-        <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
-      </div>
-    </template>
-    <template v-else slot="content">
+      <ofer-expand
+        :content="info.content"
+        :expanded="expanded"
+        @on-expanded="changeExpanded">
+      </ofer-expand>
+    </header>
+    <v-divider class="section-divider" v-if="exists(info)"></v-divider>
+    <section v-if="exists(info)">
+      <h2 v-html="seo.h2"></h2>
+      <v-layout id="main-list" itemscope itemtype="http://schema.org/ItemList">
+        <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
+          <ofer-item :item="item" type="store" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
+        </v-flex>
+      </v-layout>
+      <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
+    </section>
+    <section v-else>
       <ofer-not-exists v-if="!exists(info)" v-bind:title="notExistTitle"></ofer-not-exists>
-    </template>
-  </ofer-container>
+    </section>
+  </v-container>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
-import OferContent from '~/components/ofer-content.vue'
-import OferContainer from '~/components/ofer-container.vue'
 import OferHeaderInfo from '~/components/ofer-header-info.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferSeo from '~/components/mixins/ofer-seo.vue'
@@ -75,8 +77,6 @@ export default {
     }
   },
   components: {
-    OferContent,
-    OferContainer,
     OferItem,
     OferMoreItems,
     OferHeaderInfo,
@@ -135,7 +135,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-  .info-content {
-    margin-bottom: 0.6rem;
+  section, .expand {
+    margin-top: 0.5rem;
   }
 </style>
