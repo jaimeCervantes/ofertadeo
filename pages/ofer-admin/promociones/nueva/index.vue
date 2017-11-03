@@ -1,54 +1,51 @@
 <template>
-  <ofer-content>
-    <template slot="content">
-      <v-row>
-        <h1>Crear nueva oferta</h1>
-        <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
-          <form id="new-offer" v-on:submit.prevent="send">
-            <v-text-field v-model.trim.lazy="promotion.name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field v-model="promotion.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
-            <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
-            <h3>Contenido</h3>
-            <vue-editor v-model="promotion.content"></vue-editor>
-            <v-text-field v-model="promotion.url" name="url" label="Url origen" required></v-text-field>
-            <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
-            <v-text-field v-model="promotion.title" name="title" label="Titulo, h1" required></v-text-field>
-            <v-text-field v-model="promotion.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
-            <v-text-field v-model="promotion.img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
-            <v-text-field v-model="promotion.img_title" name="img_title" label="Title (img)" required></v-text-field>
-            <v-text-field v-model="promotion.meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
-            <v-select
-              v-bind:items="categories"
-              v-model="categorySelected"
-              multiple
-              label="Categoría"
-              class="input-group--focused"
-              item-value="text"
-              required
-              autocomplete
-            ></v-select>
-            <v-select
-              v-bind:items="stores"
-              v-model="storeSelected"
-              multiple
-              label="Tiendas"
-              class="input-group--focused"
-              item-value="text"
-              required
-              autocomplete
-            ></v-select>
-            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Oferta</v-btn>
-          </form>
-        </v-col>
-      </v-row>
-    </template>
-  </ofer-content>
+  <div>
+    <v-layout column>
+      <h1>Crear nueva oferta</h1>
+      <v-flex xs12 sm12 md12 lg12 xl12>
+        <form id="new-offer" v-on:submit.prevent="send">
+          <v-text-field v-model.trim.lazy="promotion.name" name="name" label="Nombre" required></v-text-field>
+          <v-text-field v-model="promotion.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
+          <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
+          <h3>Contenido</h3>
+          <vue-editor v-model="promotion.content"></vue-editor>
+          <v-text-field v-model="promotion.url" name="url" label="Url origen" required></v-text-field>
+          <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
+          <v-text-field v-model="promotion.title" name="title" label="Titulo, h1" required></v-text-field>
+          <v-text-field v-model="promotion.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
+          <v-text-field v-model="promotion.img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
+          <v-text-field v-model="promotion.img_title" name="img_title" label="Title (img)" required></v-text-field>
+          <v-text-field v-model="promotion.meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
+          <v-select
+            v-bind:items="categories"
+            v-model="categorySelected"
+            multiple
+            label="Categoría"
+            class="input-group--focused"
+            item-value="text"
+            required
+            autocomplete
+          ></v-select>
+          <v-select
+            v-bind:items="stores"
+            v-model="storeSelected"
+            multiple
+            label="Tiendas"
+            class="input-group--focused"
+            item-value="text"
+            required
+            autocomplete
+          ></v-select>
+          <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Oferta</v-btn>
+        </form>
+      </v-flex>
+    </v-layout>
+  </div>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
 import slug from 'slug'
-import OferContent from '~/components/ofer-content.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferNotExists from '~/components/ofer-not-exists.vue'
 import FileUploader from '~/components/file-uploader.vue'
@@ -100,7 +97,6 @@ export default {
     return data
   },
   components: {
-    OferContent,
     OferCommon,
     OferNotExists,
     FileUploader,
