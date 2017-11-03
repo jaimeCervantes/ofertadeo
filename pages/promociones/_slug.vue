@@ -209,7 +209,7 @@ h1 {
     text-align:center;
     img {
       display: block;
-      max-width: 300px;
+      max-width: 200px;
       margin: 0 auto;
       @media(max-width: 600px) {
         max-width:200px;
@@ -258,6 +258,10 @@ h1 {
 
 .list{
   background-color: #fafafa;
+}
+
+#social-sharing {
+  justify-content: center;
 }
 </style>
 

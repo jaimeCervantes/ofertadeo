@@ -8,7 +8,7 @@
         </div>
         <div>
           <h1 class="title content__title hidden-sm-and-down" v-html="info.h1" v-if="info.h1"></h1>
-          <v-btn tag="a" v-if="rel" :rel="rel" :href="info.url_site" target="_blank" primary>Ir a {{info.name}}</v-btn>
+          <v-btn tag="a" flat v-if="rel" :rel="rel" :href="info.url_site" target="_blank">Ir a {{info.name}}</v-btn>
           <slot name="social-network"></slot>
         </div>
       </div>
