@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-md fluid>
+  <div>
     <header>
       <v-breadcrumbs divider="/" v-if="breadcrumbs">
         <v-breadcrumbs-item
@@ -37,7 +37,7 @@
         </div>
       </div>
     </section>
-  </v-container>
+  </div>
 </template>
 
 <script>

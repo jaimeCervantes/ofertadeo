@@ -221,6 +221,10 @@ h1 {
       margin-left: 0;
     }
   }
+  
+  .el-buen-fin {
+    margin-left: 0;
+  }
 
   .promotion-data {
     margin-bottom: 1rem;

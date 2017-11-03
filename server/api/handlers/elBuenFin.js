@@ -52,7 +52,7 @@ module.exports = function (spec) {
           }
         }),
         crudInst.getPagination({
-          query: { 'stores._id': req.params._id },
+          query: { 'stores._id': req.params._id, 'categories._id': elBuenFinCategory },
           collection: conf.db.collections.main
         }),
         crudInst.getItem({
@@ -124,14 +124,19 @@ module.exports = function (spec) {
             published: 1,
             modified: 1
           }
-        })
+        }),
+        crudInst.getPagination({
+          query: { 'stores._id': req.params._id, 'categories._id': elBuenFinCategory },
+          collection: conf.db.collections.main
+        }),
       ]
 
       Promise.all(iterable)
       .then(function (results) {
         res.json({
           stores: results[0],
-          offers: results[1]
+          offers: results[1],
+          pagination: results[2]
         })
       })
       .catch(function (error) {

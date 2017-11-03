@@ -35,7 +35,9 @@
             </ofer-item>
           </v-flex>
         </v-layout>
-        <v-btn primary large tag="a" :href="config.host + config.routes.elBuenFin + config.routes.storeList">Todas las tiendas</v-btn>
+        <div>
+          <v-btn primary large tag="a" :href="config.host + config.routes.elBuenFin + config.routes.storeList">Ver todas las tiendas</v-btn>
+        </div>
     </section>
     <section id="main-list" itemscope itemtype="http://schema.org/ItemList" v-if="offers.length > 0">
       <h2>Promociones y Ofertas del Buen Fin 2017</h2>
@@ -45,6 +47,7 @@
               </ofer-item>
           </v-flex>
         </v-layout>
+        <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
     </section>
   </v-container>
 </template>
@@ -54,6 +57,7 @@ import axios from '~/plugins/axios'
 import OferPaths from '~/components/mixins/ofer-paths.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferItem from '~/components/ofer-item.vue'
+import OferMoreItems from '~/components/ofer-more-items.vue'
 import OferExpand from '~/components/ofer-expand.vue'
 import OferHeaderInfo from '~/components/ofer-header-info.vue'
 
@@ -103,7 +107,8 @@ export default {
     OferItem,
     OferCommon,
     OferExpand,
-    OferHeaderInfo
+    OferHeaderInfo,
+    OferMoreItems
   },
   head () {
     let host = this.config.host
@@ -141,6 +146,10 @@ export default {
   
   #store-list {
     margin-bottom: 1rem;
+  }
+  
+  .btn:first-child {
+    margin-left: 0;
   }
 </style>
 <style>

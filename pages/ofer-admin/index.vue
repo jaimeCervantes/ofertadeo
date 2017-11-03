@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-md fluid>
+  <div>
     <header>
       <h1>Ofertas, promociones y descuentos en México</h1>
       <p>Descubre las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad como Walmart, Chedraui, Sams Club, Liverpool, Soriana, Cinepolis, Cinemex y muchas tiendas mas.  ✓ ¡Ahorra con ofertadeo!</p>
@@ -23,7 +23,7 @@
         </v-flex>
       </v-layout>
       <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
-  </v-container>
+  </div>
 </template>
 
 <script>
