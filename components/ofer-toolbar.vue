@@ -1,5 +1,6 @@
 <template>
   <v-toolbar app color="primary" dark fixed>
+    <slot>
       <v-btn class="menu-mobile hidden-sm-and-up" flat @click.stop="$store.commit('toggleSidebar')">
         <v-icon>menu</v-icon> Menu
       </v-btn>
@@ -76,6 +77,7 @@
           </v-card-actions>
         </v-card>
       </v-menu>
+      </slot>
     </v-toolbar>
 </template>
 

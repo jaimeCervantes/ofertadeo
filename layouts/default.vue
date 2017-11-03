@@ -3,7 +3,7 @@
   <v-app id="ofertadeo">
     <ofer-sidebar/>
     <header itemscope="itemscope" itemtype="https://schema.org/WPHeader">
-      <ofer-toolbar class="ofer-admin"></ofer-toolbar>
+      <ofer-toolbar></ofer-toolbar>
     </header>
     <main itemscope itemprop="mainContentOfPage" itemtype="https://schema.org/WebPageElement" id="main">
       <v-content>

@@ -26,16 +26,16 @@
         <div v-for="(letter,l) in items" :key="l">
           <h3 v-text="letter._id.toUpperCase()"></h3>
           <v-layout >
-            <v-flex class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in letter.stores" :key="i">
+            <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in letter.stores" :key="i">
               <ofer-item class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
                 <template slot="content">
-                  <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
+                  <div class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
                     <div class="pl-2 pr-2" itemprop="headline">
                       <a itemprop="name" :href="getItemLink(item._id)">
                         {{sliceTextFromHtml(item.name, 45)}}
                       </a>
                     </div>
-                  </v-card-row> 
+                  </div> 
                 </template>
               </ofer-item>
             </v-flex>
