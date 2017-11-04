@@ -9,6 +9,12 @@
           ></share-buttons>
         </template>
       </ofer-header-info>
+      <ofer-expand
+        :content="info.content"
+        :expanded="expanded"
+        @on-expanded="changeExpanded">
+      </ofer-expand>
+      <div class="anuncio">
         <!-- encabezado-adaptable -->
         <ins class="adsbygoogle"
              style="display:block"
@@ -18,11 +24,7 @@
         <script>
         (window.adsbygoogle || []).push({})
         </script>
-      <ofer-expand
-        :content="info.content"
-        :expanded="expanded"
-        @on-expanded="changeExpanded">
-      </ofer-expand>
+      </div>
     </header>
     <section v-if="exists(items)">
       <h2>{{seo.h2}}</h2>
@@ -140,11 +142,7 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
-  section {
-    margin-top: 0.5rem;
-  }
-  
+<style lang="stylus" scoped> 
   .expand {
     margin-top: 0.5rem;
   }

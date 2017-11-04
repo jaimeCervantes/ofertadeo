@@ -1,20 +1,20 @@
 <template>
   <v-container grid-list-md fluid>
     <article v-if="exists(item)">
+      <header>
+        <h1>{{item.name}}</h1>
+        <!-- oferta-encabezado-adaptable -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3434008864168200"
+             data-ad-slot="6336828471"
+             data-ad-format="auto"></ins>
+        <script>
+        (window.adsbygoogle || []).push({})
+        </script>
+      </header>
       <v-layout row wrap>
         <v-flex xs12 sm12 md9 lg9 xl9>
-          <header>
-            <h1>{{item.name}}</h1>
-            <!-- oferta-encabezado-adaptable -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-3434008864168200"
-                 data-ad-slot="6336828471"
-                 data-ad-format="auto"></ins>
-            <script>
-            (window.adsbygoogle || []).push({})
-            </script>
-          </header>
           <section class="promotion">
             <div class="thumbnail">
               <div class="img-container">
@@ -35,15 +35,17 @@
                 </a>
             </div>
           </section>
-          <!-- oferta-enmedio-adaptable -->
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-3434008864168200"
-               data-ad-slot="2561358708"
-               data-ad-format="auto"></ins>
-          <script>
-          (window.adsbygoogle || []).push({})
-          </script>
+          <div class="anuncio">
+            <!-- oferta-enmedio-adaptable -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3434008864168200"
+                 data-ad-slot="2561358708"
+                 data-ad-format="auto"></ins>
+            <script>
+            (window.adsbygoogle || []).push({})
+            </script>
+          </div>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
             <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
@@ -70,7 +72,6 @@
           </aside>
         </v-flex>
       </v-layout>
-
     </article>
     <ofer-not-exists v-else v-bind:title="notExistTitle"></ofer-not-exists>
   </v-container>
@@ -240,7 +241,7 @@ h1 {
   }
 
   .promotion-data {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     clear: both;
     .taxonomy {
       color: #1976d2;
