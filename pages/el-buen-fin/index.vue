@@ -1,55 +1,63 @@
 <template>
-  <ofer-content :breadcrumbs="breadcrumbs">
-    <template slot="info-section" v-if="exists(headerInfo)">
-      <ofer-header-info :info="headerInfo">
-      </ofer-header-info>
+  <v-container grid-list-md fluid>
+    <header>
+      <v-breadcrumbs divider="/" v-if="breadcrumbs">
+        <v-breadcrumbs-item
+          v-for="item in breadcrumbs" :key="item.href"
+          :disabled="item.disabled"
+          :href="item.href"
+          :target="item.target || '_self'"
+        >
+          {{ item.text }}
+        </v-breadcrumbs-item>
+      </v-breadcrumbs>
       <ofer-expand
         :content="content"
         :expanded="expanded"
         @on-expanded="changeExpanded"
         >
       </ofer-expand>
-    </template>
-    <template slot="content">
-      <div id="store-list" itemscope itemtype="http://schema.org/ItemList">
-        <h3>El Buen Fin 2017 Tiendas Populares</h3>
-          <v-row >
-            <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in stores" :key="i">
-              <ofer-item  class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
-                <template slot="content">
-                  <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
-                    <div class="pl-2 pr-2" itemprop="headline">
-                      <a itemprop="name" :href="getItemLink(item._id)">
-                        {{sliceTextFromHtml(item.name, 45)}}
-                      </a>
-                    </div>
-                  </v-card-row> 
-                </template>
+    </header>
+    <section id="store-list" itemscope itemtype="http://schema.org/ItemList">
+      <h3>El Buen Fin 2017 Tiendas Populares</h3>
+        <v-layout row wrap>
+          <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in stores" :key="i">
+            <ofer-item  class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+              <template slot="content">
+                <div class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
+                  <div class="pl-2 pr-2" itemprop="headline">
+                    <a itemprop="name" :href="getItemLink(item._id)">
+                      {{sliceTextFromHtml(item.name, 45)}}
+                    </a>
+                  </div>
+                </div> 
+              </template>
+            </ofer-item>
+          </v-flex>
+        </v-layout>
+        <div>
+          <v-btn primary large tag="a" :href="config.host + config.routes.elBuenFin + config.routes.storeList">Ver todas las tiendas</v-btn>
+        </div>
+    </section>
+    <section id="main-list" itemscope itemtype="http://schema.org/ItemList" v-if="offers.length > 0">
+      <h2>Promociones y Ofertas del Buen Fin 2017</h2>
+        <v-layout row wrap>
+          <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in offers" :key="i">
+              <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
               </ofer-item>
-            </v-col>
-          </v-row>
-          <v-btn primary large tag="a" :href="config.host + config.routes.elBuenFin + config.routes.storeList">Todas las tiendas</v-btn>
-      </div>
-
-      <div id="main-list" itemscope itemtype="http://schema.org/ItemList" v-if="offers.length > 0">
-        <h2>Promociones y Ofertas del Buen Fin 2017</h2>
-          <v-row >
-            <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in offers" :key="i">
-               <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
-          </ofer-item>
-            </v-col>
-          </v-row>
-      </div>
-    </template>
-  </ofer-content>
+          </v-flex>
+        </v-layout>
+        <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
+    </section>
+  </v-container>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
-import OferContent from '~/components/ofer-content.vue'
 import OferPaths from '~/components/mixins/ofer-paths.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferItem from '~/components/ofer-item.vue'
+import OferMoreItems from '~/components/ofer-more-items.vue'
 import OferExpand from '~/components/ofer-expand.vue'
 import OferHeaderInfo from '~/components/ofer-header-info.vue'
 
@@ -96,11 +104,11 @@ export default {
     }
   },
   components: {
-    OferContent,
     OferItem,
     OferCommon,
     OferExpand,
-    OferHeaderInfo
+    OferHeaderInfo,
+    OferMoreItems
   },
   head () {
     let host = this.config.host
@@ -138,6 +146,10 @@ export default {
   
   #store-list {
     margin-bottom: 1rem;
+  }
+  
+  .btn:first-child {
+    margin-left: 0;
   }
 </style>
 <style>

@@ -6,9 +6,9 @@
       
       <slot name="thumbnail">
         <a itemprop="url" :href="`${config.host}${toLink}`" :title="item.name">
-          <v-card-row v-if="item.thumbnail" class="item__img">
+          <div v-if="item.thumbnail" class="item__img">
             <img :class="type" :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
-          </v-card-row>
+          </div>
         </a>
       </slot>
       
@@ -29,21 +29,21 @@
       <span itemprop="dateModified" :content="getISODateStr(item.modified)"></span>
       
       <slot name="content">
-        <v-card-row class="item__name pl-2 pr-2 pt-1" v-if="item.name" itemprop="mainEntityOfPage">
+        <div class="item__name pl-2 pr-2 pt-1" v-if="item.name" itemprop="mainEntityOfPage">
           <div itemprop="headline">
             <a itemprop="name" :href="`${config.host}${toLink}`" :title="item.name">{{item.name}}</a>
           </div>
-        </v-card-row>
-        <v-card-row class="item__extract pl-2 pr-2 pt-1">
+        </div>
+        <div class="item__extract pl-2 pr-2 pt-1">
           <div v-html="sliceTextFromHtml(item.meta_description, config.seo.extract.charsLimit) + '...'"></div>
-        </v-card-row>
+        </div>
       </slot>
 
       <slot name="footer">
-        <v-card-row class="item__store pl-2 pr-2 pt-1" v-if="item.stores || item.categories">
+        <div class="item__store pl-2 pr-2 pt-1" v-if="item.stores || item.categories">
           <a v-if="type!=='store'" :href="getAdditionalLinks(type)" :title="item.stores[0].name">Ofertas {{item.stores[0].name}}</a>
           <a v-if="type==='store'" :href="getAdditionalLinks(type)" :title="item.categories[0].name">{{item.categories[0].name}}</a>
-        </v-card-row>
+        </div>
       </slot>
 
     </v-card>
@@ -73,11 +73,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card__row {
-  justify-content: center;
-}
-
 .item__img {
+  align-items: center;
   overflow:hidden;
   height: 200px!important;
   img {

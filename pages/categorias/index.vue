@@ -1,6 +1,16 @@
 <template>
-  <ofer-content :breadcrumbs="breadcrumbs">
-    <template slot="info-section">
+  <v-container grid-list-md fluid>
+    <header>
+      <v-breadcrumbs divider="/" v-if="breadcrumbs">
+        <v-breadcrumbs-item
+          v-for="item in breadcrumbs" :key="item.href"
+          :disabled="item.disabled"
+          :href="item.href"
+          :target="item.target || '_self'"
+        >
+          {{ item.text }}
+        </v-breadcrumbs-item>
+      </v-breadcrumbs>
       <h1 class="title">Ofertas, promociones y descuentos por Categorías.</h1>
       <h2 class="subheading">En esta sección encontrarás las mejores ofertas, promociones y descuentos de Categorías como Frutas y Verduras, Meses sin Intereses, Ventas Nocturnas y más ordenadas alfabéticamente.</h2>
       <!-- encabezado-adaptable -->
@@ -12,26 +22,27 @@
       <script>
       (window.adsbygoogle || []).push({})
       </script>
-    </template>
-    <template slot="content">
+    </header>
+    <v-divider></v-divider>
+    <section>
       <div id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <div v-for="(letter, j) in items" :key="j">
           <h3 v-text="letter._id.toUpperCase()"></h3>
-          <v-row >
-            <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item, i) in letter.categories" :key="i">
+          <v-layout row wrap>
+            <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item, i) in letter.categories" :key="i">
               <ofer-item class="mini" :item="item" :to-link="config.routes.categories + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
                 <template slot="content">
-                  <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
+                  <div class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
                     <div class="pl-2 pr-2" itemprop="headline">
                       <a itemprop="name" :href="getItemLink(item._id)">
                         {{item.name}}
                       </a>
                     </div>
-                  </v-card-row> 
+                  </div> 
                 </template>
               </ofer-item>
-            </v-col>
-          </v-row>          
+            </v-flex>
+          </v-layout>          
         </div>
       </div>
       <!-- pie-adaptable -->
@@ -43,13 +54,12 @@
       <script>
       (window.adsbygoogle || []).push({})
       </script>
-    </template>
-  </ofer-content>
+    </section>
+  </v-container>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
-import OferContent from '~/components/ofer-content.vue'
 import OferPaths from '~/components/mixins/ofer-paths.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferItem from '~/components/ofer-item.vue'
@@ -74,7 +84,6 @@ export default {
     }
   },
   components: {
-    OferContent,
     OferItem,
     OferCommon
   },

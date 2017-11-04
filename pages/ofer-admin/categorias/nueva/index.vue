@@ -1,33 +1,28 @@
 <template>
-  <ofer-content>
-    <template slot="content">
-      <v-row>
-        <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
-          <form id="new-offer" v-on:submit.prevent="send">
-            <v-text-field v-model.trim.lazy="category.name" name="name" label="Nombre" required></v-text-field>
-            <v-text-field v-model="category.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
-            <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
-            <vue-editor v-model="category.content"></vue-editor>
-            <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
-            <v-text-field v-model="category.title" name="Title" label="Titulo del navegador"></v-text-field>
-            <v-text-field v-model="category.h1" name="h1" label="Titulo, H1"></v-text-field>
-            <v-text-field v-model="category.h2" name="h2" label="Titulo, H2"></v-text-field>
-            <v-text-field v-model="category.meta_title" name="meta_title" label="Meta titulo"></v-text-field>
-            <v-text-field v-model="category.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
-            <v-text-field v-model="category.img_alt" name="img_alt" label="Alt (img)"></v-text-field>
-            <v-text-field v-model="category.img_title" name="img_title" label="Title (img)"></v-text-field>
-            <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Nueva Categoría</v-btn>
-          </form>
-        </v-col>
-      </v-row>
-    </template>
-  </ofer-content>
+  <v-layout>
+    <v-flex xs12 sm12 md12 lg12 xl12>
+      <form id="new-offer" v-on:submit.prevent="send">
+        <v-text-field v-model.trim.lazy="category.name" name="name" label="Nombre" required></v-text-field>
+        <v-text-field v-model="category.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
+        <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
+        <vue-editor v-model="category.content"></vue-editor>
+        <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
+        <v-text-field v-model="category.title" name="Title" label="Titulo del navegador"></v-text-field>
+        <v-text-field v-model="category.h1" name="h1" label="Titulo, H1"></v-text-field>
+        <v-text-field v-model="category.h2" name="h2" label="Titulo, H2"></v-text-field>
+        <v-text-field v-model="category.meta_title" name="meta_title" label="Meta titulo"></v-text-field>
+        <v-text-field v-model="category.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
+        <v-text-field v-model="category.img_alt" name="img_alt" label="Alt (img)"></v-text-field>
+        <v-text-field v-model="category.img_title" name="img_title" label="Title (img)"></v-text-field>
+        <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Nueva Categoría</v-btn>
+      </form>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
 import slug from 'slug'
-import OferContent from '~/components/ofer-content.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferNotExists from '~/components/ofer-not-exists.vue'
 import FileUploader from '~/components/file-uploader.vue'
@@ -74,7 +69,6 @@ export default {
     }
   },
   components: {
-    OferContent,
     OferCommon,
     OferNotExists,
     FileUploader,

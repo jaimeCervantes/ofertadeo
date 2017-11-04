@@ -1,6 +1,6 @@
 <template>
-  <ofer-content>
-    <template slot="info-section">
+  <v-container grid-list-md fluid>
+    <header>
       <h1>Ofertas, promociones y descuentos en México</h1>
       <p>Descubre las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad como Walmart, Chedraui, Sams Club, Liverpool, Soriana, Cinepolis, Cinemex y muchas tiendas mas.  ✓ ¡Ahorra con ofertadeo!</p>
       <!-- encabezado-adaptable -->
@@ -12,37 +12,34 @@
       <script>
       (window.adsbygoogle || []).push({})
       </script>
-    </template>
-    <template slot="content">
-      <h2>Lista de ofertas y promociones en México</h2>
-      <v-row id="main-list" itemscope itemtype="http://schema.org/ItemList">
-        <link itemprop="url" :href="config.host" />
-        <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-          <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
-          </ofer-item>
-        </v-col>
-      </v-row>
-    </template>
-    <template slot="more-content">
-      <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
-      <div class="anuncio">
-        <!-- pie-adaptable -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-3434008864168200"
-             data-ad-slot="8124489226"
-             data-ad-format="auto"></ins>
-        <script>
-        (window.adsbygoogle || []).push({})
-        </script>
-      </div>
-    </template>
-  </ofer-content>
+    </header>
+    <section>
+     <h2>Lista de ofertas y promociones en México</h2>
+    </section>
+
+    <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
+      <link itemprop="url" :href="config.host" />
+      <v-flex xs6 sm4 md3 lg2 xl2 v-for="(item,i) in items" :key="i" >
+        <ofer-item :item="item" :to-link="`${config.routes.main}/${item.slug}`" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
+      </v-flex>
+    </v-layout>
+    <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
+    <div class="anuncio">
+      <!-- pie-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="8124489226"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
+    </div>
+  </v-container>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
-import OferContent from '~/components/ofer-content.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferItem from '~/components/ofer-item.vue'
 import OferMoreItems from '~/components/ofer-more-items.vue'
@@ -59,10 +56,9 @@ export default {
     return data
   },
   components: {
-    OferContent,
+    OferCommon,
     OferItem,
-    OferMoreItems,
-    OferCommon
+    OferMoreItems
   },
   head () {
     let host = this.config.host
@@ -114,7 +110,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .title { margin-top: 0.5rem; }
-</style>

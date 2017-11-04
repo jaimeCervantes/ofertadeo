@@ -12,12 +12,12 @@ export default {
           if (previousPaths.length > 0) {
             href = previousPaths.reduce((accum, current) => {
               return accum + current + '/'
-            }, '/')
+            }, '')
             href += `${elem}`
           }
 
           if (index < (array.length - 1)) {
-            text += ' /'
+            text += ''
           }
 
           return {
@@ -29,7 +29,7 @@ export default {
         })
 
       paths.unshift({
-        text: 'Inicio /',
+        text: 'Inicio',
         href: config.host,
         disabled: false,
         target: '_self'

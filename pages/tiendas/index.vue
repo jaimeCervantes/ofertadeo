@@ -1,6 +1,16 @@
 <template>
-  <ofer-content :breadcrumbs="breadcrumbs">
-    <template slot="info-section">
+  <v-container grid-list-md fluid>
+    <header>
+      <v-breadcrumbs divider="/" v-if="breadcrumbs">
+        <v-breadcrumbs-item
+          v-for="item in breadcrumbs" :key="item.href"
+          :disabled="item.disabled"
+          :href="item.href"
+          :target="item.target || '_self'"
+        >
+          {{ item.text }}
+        </v-breadcrumbs-item>
+      </v-breadcrumbs>
       <h1>Ofertas, promociones y descuentos en Tiendas de México</h1>
       <h2 class="subheading">En esta sección encontrarás las mejores ofertas, promociones y descuentos de las principales tiendas de México ordenas alfabéticamente.</h2>
       <!-- encabezado-adaptable -->
@@ -12,46 +22,44 @@
       <script>
       (window.adsbygoogle || []).push({})
       </script>
-    </template>
-    <template slot="content">
-      <div id="main-list" itemscope itemtype="http://schema.org/ItemList">
-        <div v-for="(letter,l) in items" :key="l">
-          <h3 v-text="letter._id.toUpperCase()"></h3>
-          <v-row >
-            <v-col class="mt-3 mb-3" xs6 sm3 md3 lg2 xl2 v-for="(item,i) in letter.stores" :key="i">
-              <ofer-item class="mini" :item="item" :to-link="config.routes.storeList + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
-                <template slot="content">
-                  <v-card-row class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
-                    <div class="pl-2 pr-2" itemprop="headline">
-                      <a itemprop="name" :href="getItemLink(item._id)">
-                        {{sliceTextFromHtml(item.name, 45)}}
-                      </a>
-                    </div>
-                  </v-card-row> 
-                </template>
-              </ofer-item>
-            </v-col>
-          </v-row>
-        </div>
+    </header>
+    <v-divider></v-divider>
+    <section id="main-list" itemscope itemtype="http://schema.org/ItemList">
+      <div v-for="(letter,l) in items" :key="l">
+        <h3 v-text="letter._id.toUpperCase()"></h3>
+        <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
+          <v-flex xs6  sm3 md2 lg2 xl2 v-for="(item,i) in letter.stores" :key="i" >
+            <ofer-item :item="item" :to-link="config.routes.storeList + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i" class="mini">
+              <template slot="content">
+                <div class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
+                  <div class="pl-2 pr-2" itemprop="headline">
+                    <a itemprop="name" :href="getItemLink(item._id)">
+                      {{sliceTextFromHtml(item.name, 45)}}
+                    </a>
+                  </div>
+                </div> 
+              </template>
+            </ofer-item>
+          </v-flex>
+        </v-layout>
       </div>
-      <div class="anuncio">
-        <!-- pie-adaptable -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-3434008864168200"
-             data-ad-slot="8124489226"
-             data-ad-format="auto"></ins>
-        <script>
-        (window.adsbygoogle || []).push({})
-        </script>
-      </div>
-    </template>
-  </ofer-content>
+    </section>
+    <div class="anuncio">
+      <!-- pie-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="8124489226"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
+    </div>
+  </v-container>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
-import OferContent from '~/components/ofer-content.vue'
 import OferPaths from '~/components/mixins/ofer-paths.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferItem from '~/components/ofer-item.vue'
@@ -76,7 +84,6 @@ export default {
     }
   },
   components: {
-    OferContent,
     OferItem,
     OferCommon
   },

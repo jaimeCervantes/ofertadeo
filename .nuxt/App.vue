@@ -9,11 +9,11 @@
 import Vue from 'vue'
 import NuxtLoading from './components/nuxt-loading.vue'
 
+import '../assets/stylus/roboto-material-icons.styl'
+
 import '../assets/stylus/main.styl'
 
 import '../assets/css/main.scss'
-
-import '../assets/stylus/roboto-material-icons.styl'
 
 
 let layouts = {

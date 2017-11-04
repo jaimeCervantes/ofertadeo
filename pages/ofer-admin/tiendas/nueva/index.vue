@@ -1,8 +1,8 @@
 <template>
-  <ofer-content>
-    <template slot="content">
-      <v-row>
-        <v-col class="mt-3 mb-3" xs12 sm12 md12 lg12 xl12>
+  <div>
+      <v-layout>
+        <v-flex xs12 sm12 md12 lg12 xl12>
+          <h1>Nueva tienda</h1>
           <form id="new-offer" v-on:submit.prevent="send">
             <v-text-field v-model.trim.lazy="name" name="name" label="Nombre" required></v-text-field>
             <v-text-field v-model="store.slug" id="slug" :autofocus="!validation.slug.val" name="slug" label="Slug" required :error="!validation.slug.val"></v-text-field>
@@ -19,16 +19,14 @@
             <v-text-field v-model="store.img_title" name="img_title" label="Title (img)"></v-text-field>
             <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Tienda</v-btn>
           </form>
-        </v-col>
-      </v-row>
-    </template>
-  </ofer-content>
+        </v-flex>
+      </v-layout>
+  </div>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
 import slug from 'slug'
-import OferContent from '~/components/ofer-content.vue'
 import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferNotExists from '~/components/ofer-not-exists.vue'
 import FileUploader from '~/components/file-uploader.vue'
@@ -78,7 +76,6 @@ export default {
     }
   },
   components: {
-    OferContent,
     OferCommon,
     OferNotExists,
     FileUploader,

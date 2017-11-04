@@ -1,5 +1,5 @@
 <template>
-  <v-footer>
+  <v-footer app color="primary" dark>
       <div>
         <ul>
           <li><a href="/nosotros">Nosotros</a></li>
@@ -43,6 +43,7 @@
 <style scoped lang="scss">
 $white: #fff;
 .footer {
+  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
   height: auto;
@@ -67,5 +68,10 @@ $white: #fff;
       width:30px;
     }
   }
+}
+ul {
+  list-style:none;
+  margin-left: 0;
+  padding-left: 0;
 }
 </style>
