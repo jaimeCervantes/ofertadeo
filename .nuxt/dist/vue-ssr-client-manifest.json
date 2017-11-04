@@ -14,7 +14,7 @@
     "pages/ofer-admin/categorias/nueva/index.7d057842904b99bdd609.js",
     "pages/ofer-admin/categorias/editar/_id/index.3d03645a9ccff86d12f1.js",
     "pages/el-buen-fin/tiendas/index.03beaa51f52b0fb17e8b.js",
-    "pages/promociones/_slug.41edf89989fa76cd0024.js",
+    "pages/promociones/_slug.5e8c329aecc394f840e8.js",
     "layouts/admin.caad4891ae38e52a363f.js",
     "layouts/default.c7b7a41ba82c0451c8e2.js",
     "pages/ofer-admin/promociones/editar/index.d955594808c691414382.js",
@@ -35,10 +35,10 @@
     "pages/ofer-admin/login/index.f4528191c1dd2c02739f.js",
     "common.009e09bff30246bbb5ef.js",
     "app.f48de6a5d89a4d32483a.js",
-    "manifest.18e26e13fefb3b174654.js",
+    "manifest.9faf6d3185e85be6a410.js",
     "LICENSES",
-    "pages/tiendas/_id.c3c4b9d1b32ba8cd4b9b.js",
-    "pages/tiendas/_id.c3c4b9d1b32ba8cd4b9b.js.map",
+    "pages/tiendas/_id.8c36e6b264b762c08875.js",
+    "pages/tiendas/_id.8c36e6b264b762c08875.js.map",
     "pages/categorias/_id.e2bb9dc2f21e6c77df2f.js.map",
     "pages/el-buen-fin/index.079dc28919e392222aad.js.map",
     "pages/ofer-admin/tiendas/nueva/index.0ff262b0575f442022cd.js.map",
@@ -50,7 +50,7 @@
     "pages/ofer-admin/categorias/nueva/index.7d057842904b99bdd609.js.map",
     "pages/ofer-admin/categorias/editar/_id/index.3d03645a9ccff86d12f1.js.map",
     "pages/el-buen-fin/tiendas/index.03beaa51f52b0fb17e8b.js.map",
-    "pages/promociones/_slug.41edf89989fa76cd0024.js.map",
+    "pages/promociones/_slug.5e8c329aecc394f840e8.js.map",
     "layouts/admin.caad4891ae38e52a363f.js.map",
     "layouts/default.c7b7a41ba82c0451c8e2.js.map",
     "pages/ofer-admin/promociones/editar/index.d955594808c691414382.js.map",
@@ -71,12 +71,12 @@
     "pages/ofer-admin/login/index.f4528191c1dd2c02739f.js.map",
     "common.009e09bff30246bbb5ef.js.map",
     "app.f48de6a5d89a4d32483a.js.map",
-    "manifest.18e26e13fefb3b174654.js.map",
+    "manifest.9faf6d3185e85be6a410.js.map",
     "index.spa.html",
     "index.ssr.html"
   ],
   "initial": [
-    "manifest.18e26e13fefb3b174654.js",
+    "manifest.9faf6d3185e85be6a410.js",
     "common.009e09bff30246bbb5ef.js",
     "app.f48de6a5d89a4d32483a.js"
   ],
@@ -93,7 +93,7 @@
     "pages/ofer-admin/categorias/nueva/index.7d057842904b99bdd609.js",
     "pages/ofer-admin/categorias/editar/_id/index.3d03645a9ccff86d12f1.js",
     "pages/el-buen-fin/tiendas/index.03beaa51f52b0fb17e8b.js",
-    "pages/promociones/_slug.41edf89989fa76cd0024.js",
+    "pages/promociones/_slug.5e8c329aecc394f840e8.js",
     "layouts/admin.caad4891ae38e52a363f.js",
     "layouts/default.c7b7a41ba82c0451c8e2.js",
     "pages/ofer-admin/promociones/editar/index.d955594808c691414382.js",
@@ -112,7 +112,7 @@
     "pages/ofer-admin/seo/categorias/index.383b97977571a93f132b.js",
     "pages/ofer-admin/el-buen-fin/tiendas/seo/index.6a7ed00333e17ddb02b0.js",
     "pages/ofer-admin/login/index.f4528191c1dd2c02739f.js",
-    "pages/tiendas/_id.c3c4b9d1b32ba8cd4b9b.js"
+    "pages/tiendas/_id.8c36e6b264b762c08875.js"
   ],
   "modules": {
     "23559936": [

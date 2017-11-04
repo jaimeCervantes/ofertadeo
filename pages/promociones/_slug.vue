@@ -1,20 +1,11 @@
 <template>
   <v-container grid-list-md fluid>
     <article v-if="exists(item)">
-      <header>
-        <h1>{{item.name}}</h1>
-        <!-- oferta-encabezado-adaptable -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-3434008864168200"
-             data-ad-slot="6336828471"
-             data-ad-format="auto"></ins>
-        <script>
-        (window.adsbygoogle || []).push({})
-        </script>
-      </header>
       <v-layout row wrap>
         <v-flex xs12 sm12 md9 lg9 xl9>
+          <header>
+            <h1>{{item.name}}</h1>
+          </header>
           <section class="promotion">
             <div class="thumbnail">
               <div class="img-container">
@@ -59,6 +50,15 @@
         </v-flex>
         <v-flex xs12 sm12 md3 lg3 xl3>
           <aside>
+            <!-- oferta-encabezado-adaptable -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3434008864168200"
+                 data-ad-slot="6336828471"
+                 data-ad-format="auto"></ins>
+            <script>
+            (window.adsbygoogle || []).push({})
+            </script>
             <v-list dense>
               <v-subheader>
                 <h3>Más {{config.txt.stores}}</h3>
