@@ -20,7 +20,7 @@
     </header>
     <section id="store-list" itemscope itemtype="http://schema.org/ItemList">
       <h3>El Buen Fin 2017 Tiendas Populares</h3>
-        <v-layout column>
+        <v-layout row wrap>
           <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in stores" :key="i">
             <ofer-item  class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
               <template slot="content">
