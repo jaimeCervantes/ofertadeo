@@ -17,6 +17,15 @@
         @on-expanded="changeExpanded"
         >
       </ofer-expand>
+      <!-- encabezado-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="2635524670"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
     </header>
     <section id="store-list" itemscope itemtype="http://schema.org/ItemList">
       <h3>El Buen Fin 2017 Tiendas Populares</h3>
@@ -41,13 +50,24 @@
     </section>
     <section id="main-list" itemscope itemtype="http://schema.org/ItemList" v-if="offers.length > 0">
       <h2>Promociones y Ofertas del Buen Fin 2017</h2>
-        <v-layout row wrap>
-          <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in offers" :key="i">
-              <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
-              </ofer-item>
-          </v-flex>
-        </v-layout>
-        <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
+      <v-layout row wrap>
+        <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in offers" :key="i">
+            <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+            </ofer-item>
+        </v-flex>
+      </v-layout>
+      <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
+      <div class="anuncio">
+        <!-- pie-adaptable -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3434008864168200"
+             data-ad-slot="8124489226"
+             data-ad-format="auto"></ins>
+        <script>
+        (window.adsbygoogle || []).push({})
+        </script>
+      </div>
     </section>
   </v-container>
 </template>

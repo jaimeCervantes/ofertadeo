@@ -23,7 +23,6 @@
       (window.adsbygoogle || []).push({})
       </script>
     </header>
-    <v-divider></v-divider>
     <section id="main-list" itemscope itemtype="http://schema.org/ItemList">
       <div v-for="(letter,l) in items" :key="l">
         <h3 v-text="letter._id.toUpperCase()"></h3>

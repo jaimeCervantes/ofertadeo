@@ -13,7 +13,6 @@
       (window.adsbygoogle || []).push({})
       </script>
     </header>
-    <v-divider></v-divider>
     <section>
      <h2>Lista de ofertas y promociones en México</h2>
     </section>

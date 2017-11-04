@@ -15,7 +15,6 @@
             (window.adsbygoogle || []).push({})
             </script>
           </header>
-          <v-divider></v-divider>
           <section class="promotion">
             <div class="thumbnail">
               <div class="img-container">

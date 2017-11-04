@@ -34,7 +34,6 @@
       (window.adsbygoogle || []).push({})
       </script>
     </header>
-    <v-divider  v-if="exists(info)"></v-divider>
     <section v-if="exists(info)">
       <h2 v-html="seo.h2"></h2>
       <v-layout id="main-list" itemscope itemtype="http://schema.org/ItemList">

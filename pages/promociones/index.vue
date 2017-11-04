@@ -16,7 +16,6 @@
     <section>
      <h2>Lista de ofertas y promociones en México</h2>
     </section>
-
     <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
       <link itemprop="url" :href="config.host" />
       <v-flex xs6 sm4 md3 lg2 xl2 v-for="(item,i) in items" :key="i" >

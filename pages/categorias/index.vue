@@ -23,7 +23,6 @@
       (window.adsbygoogle || []).push({})
       </script>
     </header>
-    <v-divider></v-divider>
     <section>
       <div id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <div v-for="(letter, j) in items" :key="j">
@@ -45,15 +44,17 @@
           </v-layout>          
         </div>
       </div>
-      <!-- pie-adaptable -->
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-3434008864168200"
-           data-ad-slot="8124489226"
-           data-ad-format="auto"></ins>
-      <script>
-      (window.adsbygoogle || []).push({})
-      </script>
+      <div class="anuncio">
+        <!-- pie-adaptable -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3434008864168200"
+             data-ad-slot="8124489226"
+             data-ad-format="auto"></ins>
+        <script>
+        (window.adsbygoogle || []).push({})
+        </script>
+      </div>
     </section>
   </v-container>
 </template>
