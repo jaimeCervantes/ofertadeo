@@ -1,5 +1,4 @@
 <template>
-
   <v-app id="ofertadeo">
     <ofer-sidebar/>
     <header itemscope="itemscope" itemtype="https://schema.org/WPHeader">
