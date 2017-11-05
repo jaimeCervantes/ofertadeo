@@ -27,15 +27,6 @@
             </div>
           </section>
           <div class="anuncio">
-            <!-- oferta-enmedio-adaptable -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-3434008864168200"
-                 data-ad-slot="2561358708"
-                 data-ad-format="auto"></ins>
-            <script>
-            (window.adsbygoogle || []).push({})
-            </script>
           </div>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
@@ -50,15 +41,6 @@
         </v-flex>
         <v-flex xs12 sm12 md3 lg3 xl3>
           <aside>
-            <!-- oferta-encabezado-adaptable -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-3434008864168200"
-                 data-ad-slot="6336828471"
-                 data-ad-format="auto"></ins>
-            <script>
-            (window.adsbygoogle || []).push({})
-            </script>
             <v-list dense>
               <v-subheader>
                 <h3>Más {{config.txt.stores}}</h3>
