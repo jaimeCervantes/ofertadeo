@@ -18,21 +18,23 @@
           <v-text-field v-model="promotion.meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
           <v-select
             v-bind:items="categories"
-            v-model="categorySelected"
+            v-model="promotion.categories"
             multiple
             label="Categoría"
             class="input-group--focused"
-            item-value="text"
+            item-text="name"
+            return-object
             required
             autocomplete
           ></v-select>
           <v-select
             v-bind:items="stores"
-            v-model="storeSelected"
+            v-model="promotion.stores"
             multiple
             label="Tiendas"
             class="input-group--focused"
-            item-value="text"
+            item-text="name"
+            return-object
             required
             autocomplete
           ></v-select>
@@ -81,10 +83,10 @@ export default {
         content: '',
         img: '',
         img_data: {},
-        thumbnail: ''
+        thumbnail: '',
+        stores: '',
+        categories: ''
       },
-      categorySelected: [],
-      storeSelected: [],
       validation: {
         slug: {
           val: true
@@ -103,25 +105,6 @@ export default {
     VueEditor
   },
   methods: {
-    setTextPropertyForSelect (data) {
-      return data.map(function (elem) {
-        return { value: elem._id, text: elem.name }
-      })
-    },
-    setArrayValues (data, filterData) {
-      let elems = []
-
-      data.forEach(function (selected) {
-        for (let elem of filterData) {
-          if (elem.text === selected) {
-            elems.push({ _id: elem.value, name: elem.text })
-            break
-          }
-        }
-      })
-
-      return elems
-    },
     getImgs (resp) {
       this.promotion.img = resp.img
       this.promotion.thumbnail = resp.thumbnail
@@ -140,14 +123,13 @@ export default {
         alert('Asegurate de primero subir la imagen de la oferta')
         return
       }
-      if (!this.promotion.name || !this.promotion.url || !this.promotion.content || this.storeSelected.length === 0 || this.categorySelected.length === 0) {
+
+      if (!this.promotion.name || !this.promotion.url || !this.promotion.content || this.promotion.stores.length === 0 || this.promotion.categories.length === 0) {
         alert('Todavia te faltan datos importantes antes de guardar la oferta.')
         return
       }
       this.loading = true
       this.disabled = true
-      this.promotion.stores = this.setArrayValues(this.storeSelected, this.stores)
-      this.promotion.categories = this.setArrayValues(this.categorySelected, this.categories)
       axios.post(this.config.host + '/api/promotions/new', this.promotion)
         .then(function (res) {
           if (res.data.ok) {
@@ -175,10 +157,6 @@ export default {
         this.validation.slug.val = false
       }
     }
-  },
-  created () {
-    this.categories = this.setTextPropertyForSelect(this.categories)
-    this.stores = this.setTextPropertyForSelect(this.stores)
   },
   watch: {
     'promotion.name' (newName) {
