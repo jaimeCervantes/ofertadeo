@@ -108,10 +108,19 @@ export default {
         return { value: elem._id, text: elem.name }
       })
     },
-    setArrayValues (data) {
-      return data.map(function (elem) {
-        return { _id: elem.value, name: elem.text }
+    setArrayValues (data, filterData) {
+      let elems = []
+
+      data.forEach(function (selected) {
+        for (let elem of filterData) {
+          if (elem.text === selected) {
+            elems.push({ _id: elem.value, name: elem.text })
+            break
+          }
+        }
       })
+
+      return elems
     },
     getImgs (resp) {
       this.promotion.img = resp.img
@@ -137,8 +146,8 @@ export default {
       }
       this.loading = true
       this.disabled = true
-      this.promotion.stores = this.setArrayValues(this.storeSelected)
-      this.promotion.categories = this.setArrayValues(this.categorySelected)
+      this.promotion.stores = this.setArrayValues(this.storeSelected, this.stores)
+      this.promotion.categories = this.setArrayValues(this.categorySelected, this.categories)
       axios.post(this.config.host + '/api/promotions/new', this.promotion)
         .then(function (res) {
           if (res.data.ok) {
