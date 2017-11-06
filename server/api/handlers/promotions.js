@@ -171,8 +171,8 @@ module.exports = function (spec) {
         .then(function (results) {
           res.json({
             item: results[0],
-            allStores: results[1],
-            allCategories: results[2]
+            stores: results[1],
+            categories: results[2]
           })
         })
         .catch(function (error) {
