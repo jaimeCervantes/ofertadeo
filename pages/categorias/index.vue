@@ -34,17 +34,6 @@
                   </div> 
                 </template>
               </ofer-item>
-              <div v-if="i===3">
-                <!-- encabezado-adaptable -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-3434008864168200"
-                     data-ad-slot="2635524670"
-                     data-ad-format="auto"></ins>
-                <script>
-                (window.adsbygoogle || []).push({})
-                </script>
-              </div>
             </v-flex>
           </v-layout>          
         </div>
