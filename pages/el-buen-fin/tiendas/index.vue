@@ -20,6 +20,7 @@
         >
       </ofer-expand>
     </header>
+    <v-divider></v-divider>
     <div class="anuncio">
       <!-- encabezado-adaptable -->
       <ins class="adsbygoogle"
@@ -32,16 +33,16 @@
       </script>
     </div>
     <section>
-      <div id="main-list" itemscope itemtype="http://schema.org/ItemList">
+      <div id="main-list">
         <div v-for="(letter,l) in items" :key="l">
           <h3 v-text="letter._id.toUpperCase()"></h3>
           <v-layout >
             <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in letter.stores" :key="i">
-              <ofer-item class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+              <ofer-item class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id"  :position="i">
                 <template slot="content">
-                  <div class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
-                    <div class="pl-2 pr-2" itemprop="headline">
-                      <a itemprop="name" :href="getItemLink(item._id)">
+                  <div class="item__name" v-if="item.name">
+                    <div class="pl-2 pr-2">
+                      <a :href="getItemLink(item._id)">
                         {{sliceTextFromHtml(item.name, 45)}}
                       </a>
                     </div>

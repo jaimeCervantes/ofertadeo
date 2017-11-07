@@ -3,7 +3,7 @@
       temporary
       v-model="$store.state.sidebar"
       app
-       role="complementary" id="sidebar-nav" itemscope="itemscope" itemtype="https://schema.org/WPSideBar"
+       role="complementary"
        class="blue"
        dark
     >
@@ -11,9 +11,7 @@
         <v-btn flat dark class="close" @click.stop="$store.commit('toggleSidebar')"><v-icon>close</v-icon></v-btn>
         <v-list dense>
           <v-subheader class="white--text">
-            <h3>{{config.txt.elBuenFin}}</h3>
-            <v-btn flat :href="config.host + config.routes.elBuenFin" light>
-            <v-icon>store</v-icon>Ver Tiendas</v-btn>
+            <h3><a :href="config.host + config.routes.elBuenFin">{{config.txt.elBuenFin}}</a></h3>
           </v-subheader>
         </v-list>
         <v-list dense>

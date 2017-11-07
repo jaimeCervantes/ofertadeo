@@ -38,9 +38,9 @@
       </div>
     <section v-if="exists(info)">
       <h2 v-html="seo.h2"></h2>
-      <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
+      <v-layout row wrap id="main-list">
         <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
-          <ofer-item :item="item" type="store" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
+          <ofer-item :item="item" type="store" :to-link="config.routes.main + '/' + item.slug" :position="i"></ofer-item>
         </v-flex>
       </v-layout>
       <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>

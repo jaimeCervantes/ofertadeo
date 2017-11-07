@@ -4,7 +4,7 @@
       <v-btn class="menu-mobile hidden-sm-and-up" flat @click.stop="$store.commit('toggleSidebar')">
         <v-icon>menu</v-icon> Menu
       </v-btn>
-      <v-btn :href="config.host" flat class="logo">
+      <v-btn itemprop="url" :href="config.host" flat class="logo">
         <img src="/logo.png" alt="Logo" width="40"> Ofertadeo
       </v-btn>
       <v-btn class="hidden-xs-only" :href="config.host + config.routes.elBuenFin" flat>El Buen Fin</v-btn>

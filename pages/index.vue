@@ -3,9 +3,6 @@
     <header>
       <h1>Ofertas, promociones y descuentos en México</h1>
       <p>Descubre las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad como Walmart, Chedraui, Sams Club, Liverpool, Soriana, Cinepolis, Cinemex y muchas tiendas mas.  ✓ ¡Ahorra con ofertadeo!</p>
-      <div class="anuncio">
-
-      </div>
     </header>
     <div class="anuncio">
       <!-- encabezado-adaptable -->
@@ -19,10 +16,10 @@
       </script>
     </div>
     <h2>Lista de ofertas y promociones en México</h2> 
-    <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
+    <v-layout row wrap>
       <link itemprop="url" :href="config.host" />
       <v-flex align-center justify-center xs6 sm4 md3 lg2 xl2 v-for="(item,i) in items" :key="i" >
-        <ofer-item :item="item" :to-link="`${config.routes.main}/${item.slug}`" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
+        <ofer-item :item="item" :to-link="`${config.routes.main}/${item.slug}`" :position="i"></ofer-item>
       </v-flex>
     </v-layout>
     <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
@@ -81,32 +78,6 @@ export default {
       ],
       link: [
         { rel: 'canonical', href: host }
-      ],
-      script: [
-        {
-          innerHTML: JSON.stringify(
-            {
-              '@context': 'http://schema.org',
-              '@type': 'BreadcrumbList',
-              'itemListElement': [{
-                '@type': 'ListItem',
-                'position': 1,
-                'item': {
-                  '@id': host,
-                  'name': 'Ofertadeo'
-                }
-              },
-              {
-                '@type': 'ListItem',
-                'position': 2,
-                'item': {
-                  '@id': `${host}/promociones`,
-                  'name': 'Promociones'
-                }
-              }]
-            }),
-          type: 'application/ld+json'
-        }
       ]
     }
   }

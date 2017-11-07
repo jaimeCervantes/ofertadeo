@@ -26,25 +26,23 @@
       </script>
     </div>
     <section>
-      <div id="main-list" itemscope itemtype="http://schema.org/ItemList">
-        <div v-for="(letter, j) in items" :key="j">
-          <h3 v-text="letter._id.toUpperCase()"></h3>
-          <v-layout row wrap>
-            <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item, i) in letter.categories" :key="i">
-              <ofer-item class="mini" :item="item" :to-link="config.routes.categories + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
-                <template slot="content">
-                  <div class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
-                    <div class="pl-2 pr-2" itemprop="headline">
-                      <a itemprop="name" :href="getItemLink(item._id)">
-                        {{item.name}}
-                      </a>
-                    </div>
-                  </div> 
-                </template>
-              </ofer-item>
-            </v-flex>
-          </v-layout>          
-        </div>
+      <div v-for="(letter, j) in items" :key="j">
+        <h3 v-text="letter._id.toUpperCase()"></h3>
+        <v-layout row wrap>
+          <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item, i) in letter.categories" :key="i">
+            <ofer-item class="mini" :item="item" :to-link="config.routes.categories + '/' + item._id" :position="i">
+              <template slot="content">
+                <div class="item__name" v-if="item.name">
+                  <div class="pl-2 pr-2">
+                    <a :href="getItemLink(item._id)">
+                      {{item.name}}
+                    </a>
+                  </div>
+                </div> 
+              </template>
+            </ofer-item>
+          </v-flex>
+        </v-layout>          
       </div>
     </section>
     <div class="anuncio">

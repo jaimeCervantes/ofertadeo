@@ -11,6 +11,7 @@
           {{ item.text }}
         </v-breadcrumbs-item>
       </v-breadcrumbs>
+      <h1>{{config.txt.elBuenFin}}</h1>
       <ofer-expand
         :content="content"
         :expanded="expanded"
@@ -29,15 +30,16 @@
       (window.adsbygoogle || []).push({})
       </script>
     </div>
-    <section id="store-list" itemscope itemtype="http://schema.org/ItemList">
+    <v-divider />
+    <section>
       <h3>El Buen Fin 2017 Tiendas Populares</h3>
         <v-layout row wrap>
           <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in stores" :key="i">
-            <ofer-item  class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+            <ofer-item  class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" :position="i">
               <template slot="content">
-                <div class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
-                  <div class="pl-2 pr-2" itemprop="headline">
-                    <a itemprop="name" :href="getItemLink(item._id)">
+                <div class="item__name" v-if="item.name">
+                  <div class="pl-2 pr-2">
+                    <a :href="getItemLink(item._id)">
                       {{sliceTextFromHtml(item.name, 45)}}
                     </a>
                   </div>
@@ -50,11 +52,11 @@
           <v-btn primary large tag="a" :href="config.host + config.routes.elBuenFin + config.routes.storeList">Ver todas las tiendas</v-btn>
         </div>
     </section>
-    <section id="main-list" itemscope itemtype="http://schema.org/ItemList" v-if="offers.length > 0">
+    <section v-if="offers.length > 0">
       <h2>Promociones y Ofertas del Buen Fin 2017</h2>
       <v-layout row wrap>
         <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in offers" :key="i">
-            <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+            <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" :position="i">
             </ofer-item>
         </v-flex>
       </v-layout>
@@ -173,19 +175,25 @@ export default {
   .btn:first-child {
     margin-left: 0;
   }
-</style>
-<style>
+  
+  .info-content {
+    margin-bottom: 0.6rem;
+  }
+  
   .divider {
     background-color: #DA251D;
   }
-
+  
+  .expand, section {
+    margin-top: 0.5rem;
+  }
+  
   h1 {
     background-color: #DA251D;
     padding: 1rem;
+    margin-bottom: 0;
     color: white;
-  }
-
-  .expand {
-    margin-top: 0.5rem;
+    display: inline-block;
   }
 </style>
+

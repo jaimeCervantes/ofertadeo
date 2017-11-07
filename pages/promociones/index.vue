@@ -19,10 +19,10 @@
     <section>
      <h2>Lista de ofertas y promociones en México</h2>
     </section>
-    <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
+    <v-layout row wrap>
       <link itemprop="url" :href="config.host" />
       <v-flex xs6 sm4 md3 lg2 xl2 v-for="(item,i) in items" :key="i" >
-        <ofer-item :item="item" :to-link="`${config.routes.main}/${item.slug}`" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
+        <ofer-item :item="item" :to-link="`${config.routes.main}/${item.slug}`" :position="i"></ofer-item>
       </v-flex>
     </v-layout>
     <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
