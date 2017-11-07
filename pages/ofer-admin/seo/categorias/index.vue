@@ -6,7 +6,11 @@
         <v-text-field v-model="seo.h1" name="h1" label="Titulo h1" hint="Utiliza {name} para que se reemplace por la categorias actual  y {year} para el año actual" required></v-text-field>
         <v-text-field v-model="seo.h2" name="h2" label="Titulo h2" hint="Utiliza {name} para que se reemplace por la categorias actual  y {year} para el año actual" required></v-text-field>
         <v-text-field v-model="seo.meta_title" name="meta_title" label="Meta titulo" hint="Utiliza {name} para que se reemplace por la categorias actual  y {year} para el año actual" required></v-text-field>
-        <v-text-field v-model="seo.meta_description" name="meta_description" label="Meta description" hint="Utiliza {name} para que se reemplace por la categorias actual  y {year} para el año actual" multi-line required counter max="150"></v-text-field>
+        <v-text-field v-model="seo.meta_description" name="meta_description" label="Meta description" hint="Utiliza {name} para que se reemplace por la categorias actual  y {year} para el año actual" multi-line required
+          counter="150"
+          :rules="[(v) => v.length <= config.seo.description.charsLimit || '']">
+                
+        </v-text-field>
         <v-text-field v-model="seo.img_alt" name="img_alt" label="Alt (img)"></v-text-field>
         <v-text-field v-model="seo.img_title" name="img_title" label="Title (img)"></v-text-field>
         <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Guardar</v-btn>
