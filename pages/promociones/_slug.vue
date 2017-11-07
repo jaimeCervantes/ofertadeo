@@ -6,7 +6,7 @@
           <header>
             <h1>{{item.name}}</h1>
           </header>
-          <div class="anuncio">
+          <div class="anuncio offer">
             </script>
             <!-- oferta-encabezado-adaptable -->
             <ins class="adsbygoogle"
@@ -38,7 +38,7 @@
                 </a>
             </div>
           </section>
-          <div class="anuncio">
+          <div class="anuncio offer">
             </script>
             <!-- oferta-enmedio-adaptable -->
             <ins class="adsbygoogle"

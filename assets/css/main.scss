@@ -152,12 +152,26 @@ h4, h4.title {
     width: 960px;
   }
 
-  @media (min-width: 1025px) and (max-width: 1904px) {
+  @media (min-width: 1025px) {
     width: 1000px
   }
 
   @media (min-width: 1905px) {
     width: 1880px
+  }
+
+  &.offer {
+    @media (min-width: 960px) and (max-width: 1023px) {
+      width: 690px;
+    }
+
+    @media (min-width: 1024px) {
+      width: 1000px
+    }
+
+    @media (min-width: 1905px) {
+      width: 1200px
+    }
   }
 }
 
