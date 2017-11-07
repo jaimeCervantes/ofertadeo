@@ -34,6 +34,18 @@ export default {
   },
   head () {
     return {
+      head () {
+        return {
+          link: [
+            { rel: 'dns-prefetch' href: '//pagead2.googlesyndication.com' },
+            { rel: 'dns-prefetch' href: '//fonts.gstatic.com' },
+            { rel: 'dns-prefetch' href: '//www.google-analytics.com' },
+            { rel: 'dns-prefetch' href: '//googleads.g.doubleclick.net' },
+            { rel: 'dns-prefetch' href: '//www.google.com' },
+            { rel: 'dns-prefetch' href: '//www.googletagmanager.com' }
+          ]
+        }
+      },
       script: [
         { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=UA-100911510-1' },
         {
