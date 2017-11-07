@@ -3,21 +3,41 @@
     <header>
       <h1>Ofertas, promociones y descuentos en México</h1>
       <p>Descubre las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad como Walmart, Chedraui, Sams Club, Liverpool, Soriana, Cinepolis, Cinemex y muchas tiendas mas.  ✓ ¡Ahorra con ofertadeo!</p>
-      <div class="anuncio">
-
-      </div>
+      <v-layout class="anuncio">
+        <v-flex xs12 sm12 md12 lg12 xl12>
+          <!-- encabezado-adaptable -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-3434008864168200"
+               data-ad-slot="2635524670"
+               data-ad-format="auto"></ins>
+          <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </v-flex>
+      </v-layout >
     </header>
     <h2>Lista de ofertas y promociones en México</h2> 
     <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
       <link itemprop="url" :href="config.host" />
-      <v-flex align-center justify-center xs6 sm4 md3 lg2 xl2 v-for="(item,i) in items" :key="i" >
+      <v-flex xs6 sm4 md3 lg2 xl2 v-for="(item,i) in items" :key="i" >
         <ofer-item :item="item" :to-link="`${config.routes.main}/${item.slug}`" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i"></ofer-item>
       </v-flex>
     </v-layout>
     <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
-    <div class="anuncio">
-
-    </div>
+    <v-layout  class="anuncio">
+      <v-flex xs12 sm12 md12 lg12 xl12>
+        <!-- pie-adaptable -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3434008864168200"
+             data-ad-slot="8124489226"
+             data-ad-format="auto"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
