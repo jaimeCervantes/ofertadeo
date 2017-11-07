@@ -65,7 +65,7 @@ export default {
     categories: 'Categorías',
     stores: 'Tiendas',
     offers: 'Promociones',
-    elBuenFin: 'El Buen Fin'
+    elBuenFin: 'El Buen Fin ' + new Date().getFullYear()
   },
   publisher: {
     fb: 'https://www.facebook.com/ofertadeo',
