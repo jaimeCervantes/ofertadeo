@@ -26,7 +26,6 @@
           @on-expanded="changeExpanded">
         </ofer-expand>
       </header>
-      <v-divider></v-divider>
       <div class="anuncio">
         <!-- encabezado-adaptable -->
         <ins class="adsbygoogle"
@@ -38,6 +37,7 @@
         (window.adsbygoogle || []).push({})
         </script>
       </div>
+      <v-divider></v-divider>
       <section>
         <h2 v-html="seo.h2"></h2>
         <v-layout id="main-list">

@@ -20,7 +20,6 @@
         >
       </ofer-expand>
     </header>
-    <v-divider></v-divider>
     <div class="anuncio">
       <!-- encabezado-adaptable -->
       <ins class="adsbygoogle"
@@ -32,8 +31,9 @@
       (window.adsbygoogle || []).push({})
       </script>
     </div>
+    <v-divider></v-divider>
     <section>
-      <div id="main-list">
+      <div>
         <div v-for="(letter,l) in items" :key="l">
           <h3 v-text="letter._id.toUpperCase()"></h3>
           <v-layout >
