@@ -34,7 +34,6 @@ export default {
     { _id: 'liverpool', 'name': 'Liverpool', 'slug': 'liverpool' },
     { _id: 'fabricas-de-francia', 'name': 'Fábricas de Francia', 'slug': 'fabricas-de-francia' },
     { _id: 'sams-club', 'name': 'Sam\'s Club', 'slug': 'sams-club' },
-    { _id: 'fabricas-de-francia', name: 'Fabricas de Francia', 'slug': 'fabricas-de-francia' },
     { _id: 'elpalaciodehierro', name: 'Palacio de Hierro', 'slug': 'elpalaciodehierro' },
     { _id: 'suburbia', name: 'Suburbia', 'slug': 'suburbia' },
     { _id: 'cinemex', name: 'Cinemex', 'slug': 'cinemex' },

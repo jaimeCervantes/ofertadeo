@@ -17,6 +17,7 @@
           </v-subheader>
         </v-list>
         <v-list dense>
+          <v-divider/>
           <v-subheader class="white--text">
             <h3>{{config.txt.stores}}</h3>
             <v-btn flat :href="config.host + config.routes.storeList" light>
