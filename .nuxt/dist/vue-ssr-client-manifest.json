@@ -34,8 +34,8 @@
     "pages/ofer-admin/el-buen-fin/tiendas/seo/index.6a7ed00333e17ddb02b0.js",
     "pages/ofer-admin/login/index.f4528191c1dd2c02739f.js",
     "common.009e09bff30246bbb5ef.js",
-    "app.af46bead345d4ee16847.js",
-    "manifest.3752c0e52ffb7de28b80.js",
+    "app.3303cbd3194a0cbe4d36.js",
+    "manifest.702e980e5e4baac3efca.js",
     "LICENSES",
     "pages/tiendas/_id.ea6da2dffa684cf7f00b.js",
     "pages/tiendas/_id.ea6da2dffa684cf7f00b.js.map",
@@ -70,15 +70,15 @@
     "pages/ofer-admin/el-buen-fin/tiendas/seo/index.6a7ed00333e17ddb02b0.js.map",
     "pages/ofer-admin/login/index.f4528191c1dd2c02739f.js.map",
     "common.009e09bff30246bbb5ef.js.map",
-    "app.af46bead345d4ee16847.js.map",
-    "manifest.3752c0e52ffb7de28b80.js.map",
+    "app.3303cbd3194a0cbe4d36.js.map",
+    "manifest.702e980e5e4baac3efca.js.map",
     "index.spa.html",
     "index.ssr.html"
   ],
   "initial": [
-    "manifest.3752c0e52ffb7de28b80.js",
+    "manifest.702e980e5e4baac3efca.js",
     "common.009e09bff30246bbb5ef.js",
-    "app.af46bead345d4ee16847.js"
+    "app.3303cbd3194a0cbe4d36.js"
   ],
   "async": [
     "pages/el-buen-fin/_id.937e94e6d2fac3766353.js",
