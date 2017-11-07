@@ -9,7 +9,7 @@
         <nuxt />
       </v-content>
     </main>
-    <!-- <ofer-footer id="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter"></ofer-footer> -->
+    <ofer-footer id="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter"></ofer-footer>
   </v-app>
 </template>
 
