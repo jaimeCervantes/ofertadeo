@@ -5,33 +5,17 @@
       <slot name="header"></slot>
       
       <slot name="thumbnail">
-        <a itemprop="url" :href="`${config.host}${toLink}`" :title="item.name">
+        <a :href="`${config.host}${toLink}`" :title="item.name">
           <div v-if="item.thumbnail" class="item__img">
             <img :class="type" :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title">
           </div>
         </a>
       </slot>
-      
-      <span itemprop="position" :content="position+1"></span>
-      <span class="visually-hidden" itemscope itemprop="image" itemtype="http://schema.org/ImageObject">
-        <img :src="item.thumbnail" itemprop="url">
-        <span itemprop="width"  :content="item.img_data && item.img_data.width ? item.img_data.width: 200"></span>
-        <span itemprop="height" :content="item.img_data && item.img_data.height ? item.img_data.height: 200"></span>
-      </span>
-      <span itemprop="author" content="Ofertadeo"></span>
-      <span class="visually-hidden" itemscope itemprop="publisher" itemtype="http://schema.org/Organization">
-        <span itemprop="name" content="Ofertadeo"></span>
-        <span itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-        <img itemprop="url" :src="config.host + '/favicons/apple-touch-icon-60x60.png'" width="60" height="60">
-        </span>
-      </span>
-      <span itemprop="datePublished" :content="getISODateStr(item.published)"></span>
-      <span itemprop="dateModified" :content="getISODateStr(item.modified)"></span>
-      
+            
       <slot name="content">
-        <div class="item__name pl-2 pr-2 pt-1" v-if="item.name" itemprop="mainEntityOfPage">
-          <div itemprop="headline">
-            <a itemprop="name" :href="`${config.host}${toLink}`" :title="item.name">{{item.name}}</a>
+        <div class="item__name pl-2 pr-2 pt-1" v-if="item.name">
+          <div >
+            <a  :href="`${config.host}${toLink}`" :title="item.name">{{item.name}}</a>
           </div>
         </div>
         <div class="item__extract pl-2 pr-2 pt-1">

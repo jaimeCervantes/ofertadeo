@@ -1,6 +1,6 @@
 export default {
   categories: [
-    { '_id': 'abarrotes-y-alimentos', 'name': 'Abarrotes y alimentos', 'slug': 'abarrotes-y-alimentos' },
+    { '_id': 'el-buen-fin', 'name': 'El Buen Fin', 'slug': 'el-buen-fin' },
     { '_id': 'autos-y-motos', 'name': 'Autos y Motos', 'slug': 'autos-y-motos' },
     { '_id': 'bebes-y-ninos', 'name': 'Bebés y Niños', 'slug': 'bebes-y-ninos' },
     { '_id': 'carnes-y-pescados', 'name': 'Carnes y Pescados', 'slug': 'carnes-y-pescados' },
@@ -21,7 +21,7 @@ export default {
     { '_id': 'videojuegos', 'name': 'Videojuegos', 'slug': 'videojuegos' },
     { '_id': 'cupones', 'name': 'Cupones', 'slug': 'cupones' },
     { '_id': 'viajes', 'name': 'Viajes', 'slug': 'viajes' },
-    { '_id': 'el-buen-fin', 'name': 'El Buen Fin', 'slug': 'el-buen-fin' }
+    { '_id': 'abarrotes-y-alimentos', 'name': 'Abarrotes y alimentos', 'slug': 'abarrotes-y-alimentos' }
   ],
   stores: [
     { _id: 'bodega-aurrera', 'name': 'Bodega Aurrera', 'slug': 'bodega-aurrera' },

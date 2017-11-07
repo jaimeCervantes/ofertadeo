@@ -29,10 +29,10 @@
           </section>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>
-            <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
+            <v-layout row wrap id="main-list">
               <link itemprop="url" :href="config.host" />
               <v-flex class="mb-3" xs6 sm3 md3 lg3 xl3 v-for="(item,i) in relatedItems" :key="i">
-                <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+                <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" :position="i">
                 </ofer-item>
               </v-flex>
             </v-layout>
