@@ -13,8 +13,18 @@
       </v-breadcrumbs>
       <h1 class="title">Ofertas, promociones y descuentos por Categorías.</h1>
       <h2 class="subheading">En esta sección encontrarás las mejores ofertas, promociones y descuentos de Categorías como Frutas y Verduras, Meses sin Intereses, Ventas Nocturnas y más ordenadas alfabéticamente.</h2>
-
     </header>
+    <div class="anuncio">
+      <!-- encabezado-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="2635524670"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
+    </div>
     <section>
       <div id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <div v-for="(letter, j) in items" :key="j">
@@ -36,10 +46,19 @@
           </v-layout>          
         </div>
       </div>
-      <div class="anuncio">
-
-      </div>
     </section>
+    <div class="anuncio">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- pie-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="8124489226"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
+    </div>
   </v-container>
 </template>
 
