@@ -13,8 +13,18 @@
       </v-breadcrumbs>
       <h1>Ofertas, promociones y descuentos en Tiendas de México</h1>
       <h2 class="subheading">En esta sección encontrarás las mejores ofertas, promociones y descuentos de las principales tiendas de México ordenas alfabéticamente.</h2>
-
     </header>
+    <div class="anuncio">
+      <!-- encabezado-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="2635524670"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
+    </div>
     <section id="main-list" itemscope itemtype="http://schema.org/ItemList">
       <div v-for="(letter,l) in items" :key="l">
         <h3 v-text="letter._id.toUpperCase()"></h3>
@@ -36,7 +46,15 @@
       </div>
     </section>
     <div class="anuncio">
-
+      <!-- pie-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="8124489226"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
     </div>
   </v-container>
 </template>

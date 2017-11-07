@@ -24,8 +24,18 @@
         :expanded="expanded"
         @on-expanded="changeExpanded">
       </ofer-expand>
-
     </header>
+    <div class="anuncio">
+        <!-- encabezado-adaptable -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3434008864168200"
+             data-ad-slot="2635524670"
+             data-ad-format="auto"></ins>
+        <script>
+        (window.adsbygoogle || []).push({})
+        </script>
+      </div>
     <section v-if="exists(info)">
       <h2 v-html="seo.h2"></h2>
       <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
@@ -35,7 +45,15 @@
       </v-layout>
       <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq+id" txt="Cargar más ofertas"></ofer-more-items>
       <div class="anuncio">
-
+        <!-- pie-adaptable -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3434008864168200"
+             data-ad-slot="8124489226"
+             data-ad-format="auto"></ins>
+        <script>
+        (window.adsbygoogle || []).push({})
+        </script>
       </div>
     </section>
     <section v-else>

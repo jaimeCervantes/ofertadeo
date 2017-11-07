@@ -6,6 +6,18 @@
           <header>
             <h1>{{item.name}}</h1>
           </header>
+          <div class="anuncio">
+            </script>
+            <!-- oferta-encabezado-adaptable -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3434008864168200"
+                 data-ad-slot="6336828471"
+                 data-ad-format="auto"></ins>
+            <script>
+            (window.adsbygoogle || []).push({})
+            </script>
+          </div>
           <section class="promotion">
             <div class="thumbnail">
               <div class="img-container">
@@ -27,6 +39,16 @@
             </div>
           </section>
           <div class="anuncio">
+            </script>
+            <!-- oferta-enmedio-adaptable -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3434008864168200"
+                 data-ad-slot="2561358708"
+                 data-ad-format="auto"></ins>
+            <script>
+            (window.adsbygoogle || []).push({})
+            </script>
           </div>
           <section class="related-items" v-if="relatedItems.length > 0">
             <h3>Ofertas relacionadas</h3>

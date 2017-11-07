@@ -5,6 +5,17 @@
       <p>Descubre las mejores ofertas, promociones y descuentos en México de las principales tiendas de tu ciudad como Walmart, Chedraui, Sams Club, Liverpool, Soriana, Cinepolis, Cinemex y muchas tiendas mas.  ✓ ¡Ahorra con ofertadeo!</p>
 
     </header>
+    <div class="anuncio">
+        <!-- encabezado-adaptable -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3434008864168200"
+             data-ad-slot="2635524670"
+             data-ad-format="auto"></ins>
+        <script>
+        (window.adsbygoogle || []).push({})
+        </script>
+      </div>
     <section>
      <h2>Lista de ofertas y promociones en México</h2>
     </section>
@@ -16,7 +27,15 @@
     </v-layout>
     <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
     <div class="anuncio">
-      
+      <!-- pie-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="8124489226"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
     </div>
   </v-container>
 </template>

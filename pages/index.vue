@@ -7,6 +7,7 @@
 
       </div>
     </header>
+    
     <h2>Lista de ofertas y promociones en México</h2> 
     <v-layout row wrap id="main-list" itemscope itemtype="http://schema.org/ItemList">
       <link itemprop="url" :href="config.host" />
@@ -16,7 +17,15 @@
     </v-layout>
     <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
     <div class="anuncio">
-
+      <!-- pie-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="8124489226"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
     </div>
   </v-container>
 </template>
