@@ -16,9 +16,8 @@
         <h2 class="subheading">En esta sección encontrarás las mejores ofertas, promociones y descuentos de Categorías como Frutas y Verduras, Meses sin Intereses, Ventas Nocturnas y más ordenadas alfabéticamente.</h2>
       </header>
     </v-container>
-    <v-container>
-      <v-layout>
-        <v-flex xs12 sm12 md12 lg12 xl2 class="anuncio">
+    <v-container fluid>
+      <v-layout column>
           <!-- encabezado-adaptable -->
           <ins class="adsbygoogle"
                style="display:block"
@@ -28,7 +27,6 @@
           <script>
           (window.adsbygoogle || []).push({})
           </script>
-        </v-flex>
       </v-layout>
     </v-container>
     <v-container grid-list-md fluid>
@@ -55,9 +53,8 @@
         </div>
       </section>
     </v-container>
-    <v-container>
-      <v-layout>
-        <v-flex xs12 sm12 md12 lg12 xl2 class="anuncio">
+    <v-container fluid>
+      <v-layout column>
           <!-- pie-adaptable -->
           <ins class="adsbygoogle"
                style="display:block"
@@ -67,7 +64,6 @@
           <script>
           (window.adsbygoogle || []).push({})
           </script>
-        </v-flex>
       </v-layout>
     </v-container>
   </div>
