@@ -1,9 +1,27 @@
 export default {
   categories: [
-    { _id: 'frutas-y-verduras', name: 'Frutas y Verduras', slug: 'frutas-y-verduras' },
-    { _id: 'ropa-y-zapatos', name: 'Ropa y zapatos', slug: 'ropa-y-zapatos' },
-    { _id: 'abarrotes-y-alimentos', name: 'Abarrotes y alimentos', slug: 'abarrotes-y-alimentos' },
-    { _id: 'folletos-y-catalogos', name: 'Folletos y catálogos', slug: 'folletos-y-catalogos' }
+    { '_id': 'abarrotes-y-alimentos', 'name': 'Abarrotes y alimentos', 'slug': 'abarrotes-y-alimentos' },
+    { '_id': 'autos-y-motos', 'name': 'Autos y Motos', 'slug': 'autos-y-motos' },
+    { '_id': 'bebes-y-ninos', 'name': 'Bebés y Niños', 'slug': 'bebes-y-ninos' },
+    { '_id': 'carnes-y-pescados', 'name': 'Carnes y Pescados', 'slug': 'carnes-y-pescados' },
+    { '_id': 'celulares', 'name': 'Celulares', 'slug': 'celulares' },
+    { '_id': 'computadoras', 'name': 'Computadoras', 'slug': 'computadoras' },
+    { '_id': 'deportes-y-ejercicio', 'name': 'Deportes y ejercicio', 'slug': 'deportes-y-ejercicio' },
+    { '_id': 'entretenimiento', 'name': 'Entretenimiento', 'slug': 'entretenimiento' },
+    { '_id': 'folletos-y-catalogos', 'name': 'Folletos y Catalogos', 'slug': 'folletos-y-catalogos' },
+    { '_id': 'frutas-y-verduras', 'name': 'Frutas y Verduras', 'slug': 'frutas-y-verduras' },
+    { '_id': 'hogar-y-muebles', 'name': 'Hogar y muebles', 'slug': 'hogar-y-muebles' },
+    { '_id': 'restaurantes', 'name': 'Restaurantes', 'slug': 'restaurantes' },
+    { '_id': 'ropa-y-zapatos', 'name': 'Ropa y zapatos', 'slug': 'ropa-y-zapatos' },
+    { '_id': 'salud-y-belleza', 'name': 'Salud y Belleza', 'slug': 'salud-y-belleza' },
+    { '_id': 'servicios', 'name': 'Servicios', 'slug': 'servicios' },
+    { '_id': 'tecnologia', 'name': 'Tecnología', 'slug': 'tecnologia' },
+    { '_id': 'televisiones', 'name': 'Televisiones', 'slug': 'televisiones' },
+    { '_id': 'ventas-nocturnas', 'name': 'Ventas Nocturnas', 'slug': 'ventas-nocturnas' },
+    { '_id': 'videojuegos', 'name': 'Videojuegos', 'slug': 'videojuegos' },
+    { '_id': 'cupones', 'name': 'Cupones', 'slug': 'cupones' },
+    { '_id': 'viajes', 'name': 'Viajes', 'slug': 'viajes' },
+    { '_id': 'el-buen-fin', 'name': 'El Buen Fin', 'slug': 'el-buen-fin' }
   ],
   stores: [
     { _id: 'bodega-aurrera', 'name': 'Bodega Aurrera', 'slug': 'bodega-aurrera' },
