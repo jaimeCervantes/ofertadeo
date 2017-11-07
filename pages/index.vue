@@ -12,7 +12,7 @@
                data-ad-slot="2635524670"
                data-ad-format="auto"></ins>
           <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
+          (window.adsbygoogle || []).push({})
           </script>
         </v-flex>
       </v-layout >
@@ -34,7 +34,7 @@
              data-ad-slot="8124489226"
              data-ad-format="auto"></ins>
         <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
+        (window.adsbygoogle || []).push({})
         </script>
       </v-flex>
     </v-layout>
