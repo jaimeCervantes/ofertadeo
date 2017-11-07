@@ -14,9 +14,17 @@
       <h1 class="title">Ofertas, promociones y descuentos por Categorías.</h1>
       <h2 class="subheading">En esta sección encontrarás las mejores ofertas, promociones y descuentos de Categorías como Frutas y Verduras, Meses sin Intereses, Ventas Nocturnas y más ordenadas alfabéticamente.</h2>
     </header>
-    <div class="anuncio">
-      
-    </div>
+    <v-flex xs12 sm12 md12 lg12 xl2 class="anuncio">
+      <!-- encabezado-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="2635524670"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
+    </v-flex>
     <section>
       <div id="main-list" itemscope itemtype="http://schema.org/ItemList">
         <div v-for="(letter, j) in items" :key="j">
@@ -39,6 +47,17 @@
         </div>
       </div>
     </section>
+    <v-flex xs12 sm12 md12 lg12 xl2 class="anuncio">
+      <!-- pie-adaptable -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3434008864168200"
+           data-ad-slot="8124489226"
+           data-ad-format="auto"></ins>
+      <script>
+      (window.adsbygoogle || []).push({})
+      </script>
+    </v-flex>
   </v-container>
 </template>
 
