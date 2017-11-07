@@ -15,7 +15,15 @@
           <v-text-field v-model="promotion.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
           <v-text-field v-model="promotion.img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
           <v-text-field v-model="promotion.img_title" name="img_title" label="Title (img)" required></v-text-field>
-          <v-text-field v-model="promotion.meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
+          <v-text-field
+            v-model="promotion.meta_description"
+            name="meta_description"
+            label="Meta description"
+            multi-line required
+            counter="150"
+            :rules="[(v) => v.length <= config.seo.description.charsLimit || '']"
+            >
+            </v-text-field>
           <v-select
             v-bind:items="categories"
             v-model="promotion.categories"

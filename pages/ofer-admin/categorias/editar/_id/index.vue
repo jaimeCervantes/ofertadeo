@@ -10,7 +10,11 @@
         <v-text-field v-model="category.h1" name="h1" label="Titulo, H1"></v-text-field>
         <v-text-field v-model="category.h2" name="h2" label="Titulo, H2"></v-text-field>
         <v-text-field v-model="category.meta_title" name="meta_title" label="Meta titulo"></v-text-field>
-        <v-text-field v-model="category.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
+        <v-text-field v-model="category.meta_description" 
+          name="meta_description" label="Meta description" multi-line
+          counter="150"
+          :rules="[(v) => v.length <= config.seo.description.charsLimit || '']">
+        </v-text-field>
         <v-text-field v-model="category.img_alt" name="img_alt" label="Alt (img)"></v-text-field>
         <v-text-field v-model="category.img_title" name="img_title" label="Title (img)"></v-text-field>
         <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Editar Categoría</v-btn>
