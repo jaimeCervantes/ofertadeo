@@ -33,7 +33,22 @@ export default {
     { _id: 'heb', 'name': 'HEB', 'slug': 'heb' },
     { _id: 'liverpool', 'name': 'Liverpool', 'slug': 'liverpool' },
     { _id: 'fabricas-de-francia', 'name': 'Fábricas de Francia', 'slug': 'fabricas-de-francia' },
-    { _id: 'sams-club', 'name': 'Sam\'s Club', 'slug': 'sams-club' }
+    { _id: 'sams-club', 'name': 'Sam\'s Club', 'slug': 'sams-club' },
+    { _id: 'fabricas-de-francia', name: 'Fabricas de Francia', 'slug': 'fabricas-de-francia' },
+    { _id: 'elpalaciodehierro', name: 'Palacio de Hierro', 'slug': 'elpalaciodehierro' },
+    { _id: 'suburbia', name: 'Suburbia', 'slug': 'suburbia' },
+    { _id: 'cinemex', name: 'Cinemex', 'slug': 'cinemex' },
+    { _id: 'cinepolis', name: 'Cinepolis', 'slug': 'cinepolis' },
+    { _id: 'sears', name: 'Sears', 'slug': 'sears' },
+    { _id: 'officedepot', name: 'Office Depot', 'slug': 'officedepot' },
+    { _id: 'elektra', name: 'Elektra', 'slug': 'elektra' },
+    { _id: 'coppel', name: 'Coppel', 'slug': 'coppel' },
+    { _id: 'telcel', name: 'Telcel', 'slug': 'telcel' },
+    { _id: 'oxxo', name: 'OXXO', 'slug': 'oxxo' },
+    { _id: 'amazon', name: 'Amazon', 'slug': 'amazon' },
+    { _id: 'costco', name: 'Costco', 'slug': 'costco' },
+    { _id: 'farmacias-benavides', name: 'Farmacias Benavides', 'slug': 'farmacias-benavides' },
+    { _id: 'farmacias-guadalajara', name: 'Farmacias Guadalajara', 'slug': 'farmacias-guadalajara' }
   ],
   routes: {
     categories: '/categorias',

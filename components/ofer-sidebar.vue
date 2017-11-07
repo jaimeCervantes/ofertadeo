@@ -22,7 +22,7 @@
             <v-btn flat :href="config.host + config.routes.storeList" light>
             <v-icon>store</v-icon>Ver todas</v-btn>
           </v-subheader>
-          <v-list-tile v-for="(item,i) in config.stores" :key="i" ripple :href="config.host + config.routes.storeList + '/' + item._id" class="list__tile">
+          <v-list-tile v-for="(item,i) in stores" :key="i" ripple :href="config.host + config.routes.storeList + '/' + item._id" class="list__tile">
             <v-list-tile-content>
               <v-list-tile-title v-text="item.name" />
             </v-list-tile-content>
@@ -50,7 +50,10 @@
 import OferCommon from '~/components/mixins/ofer-common.vue'
 export default {
   mixins: [OferCommon],
-  props: ['opened']
+  props: ['opened'],
+  created () {
+    this.stores = this.config.stores.slice(0, this.config.stores.length / 2)
+  }
 }
 </script>
 
