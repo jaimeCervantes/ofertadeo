@@ -38,37 +38,6 @@ header {
   }
 }
 
-.md-sidenav {
-  .md-sidenav-content {
-    width: 256px;
-
-    .md-list-item-container {
-      padding:0;
-      margin: 0;
-    }
-
-    .md-button {
-      margin:0;
-      display: flex;
-      flex: 1;
-    }
-  }
-  
-  .md-title {
-    span {
-      display: inline-flex;
-      vertical-align: middle;
-    }
-  }
-
-  .md-list {
-    padding:0;
-    margin:0;
-  }
-
-}
-
-
 .title { word-break: break-word; }
 
 .item {
@@ -130,7 +99,8 @@ h4, h4.title {
 }
 
 .anuncio {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .list--dense {
