@@ -42,8 +42,8 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    '@assets/stylus/main.styl',
-    '@assets/css/main.scss'
+    '@assets/stylus/main.styl'
+    //, '@assets/css/main.scss'
   ],
   plugins: ['~/plugins/vuetify.js'],
   /*
