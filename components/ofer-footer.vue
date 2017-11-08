@@ -60,19 +60,18 @@ $white: #fff;
   }
 
   #follow {
-    list-style:none;
-    display: flex;
+    list-style:none !important;
+    display: flex !important;
     a.btn {
-      width:30px;
-      min-width:30px;
-      min-height:30px;
-      padding:0;
-      background-color: #fff;
-      margin-left: 5px;
-      margin-right: 5px;
+      width:30px !important;
+      min-width:30px !important;
+      min-height:30px !important;
+      padding:0 !important;
+      background-color: #fff !important;
+      margin-left: 5px !important;
+      margin-right: 5px !important;
       .btn__content {
-
-        min-width: 20px;
+        min-width: 20px !important;
       }
     }
     img {
