@@ -89,17 +89,17 @@ module.exports = function (spec) {
           pipeline: [
             { $sample: { size: 15 } },
             { $project: {
-                _id: 1,
-                name: 1,
-                slug: 1,
-                thumbnail: 1,
-                img: 1,
-                img_data: 1,
-                img_alt: 1,
-                img_title: 1,
-                published: 1,
-                modified: 1
-              }
+              _id: 1,
+              name: 1,
+              slug: 1,
+              thumbnail: 1,
+              img: 1,
+              img_data: 1,
+              img_alt: 1,
+              img_title: 1,
+              published: 1,
+              modified: 1
+            }
             }
           ]
         }),
@@ -128,25 +128,24 @@ module.exports = function (spec) {
         crudInst.getPagination({
           query: { 'stores._id': req.params._id, 'categories._id': elBuenFinCategory },
           collection: conf.db.collections.main
-        }),
+        })
       ]
 
       Promise.all(iterable)
-      .then(function (results) {
-        res.json({
-          stores: results[0],
-          offers: results[1],
-          pagination: results[2]
+        .then(function (results) {
+          res.json({
+            stores: results[0],
+            offers: results[1],
+            pagination: results[2]
+          })
         })
-      })
-      .catch(function (error) {
-        console.log(error)
-        res.json(error)
-      })
-      
+        .catch(function (error) {
+          console.log(error)
+          res.json(error)
+        })
     })
 
-    return that;
+    return that
   }
 
   function getStores () {
@@ -227,7 +226,7 @@ module.exports = function (spec) {
 
       Promise.all(iterable)
         .then(function (results) {
-          console.log(results);
+          console.log(results)
           res.json({
             item: results[0]
           })
@@ -329,28 +328,27 @@ module.exports = function (spec) {
         items_per_page: 1,
         projection: { _id: 1}
       })
-      .then(function (offer) {
-        console.log(offer)
-        if(offer && offer._id) {
+        .then(function (offer) {
+          console.log(offer)
+          if (offer && offer._id) {
+            res.json({
+              success: true
+            })
+
+            return
+          }
+
           res.json({
-            success: true
+            success: false
           })
-
-          return
-        }
-
-        res.json({
-          success: false
         })
-      })
-      .catch(function (error) {
-        console.log(error)
-        res.json(error)
-      })
-
+        .catch(function (error) {
+          console.log(error)
+          res.json(error)
+        })
     })
 
-    return that;
+    return that
   }
 
   that.save = save

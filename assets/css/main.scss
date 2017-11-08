@@ -121,11 +121,11 @@ h4, h4.title {
 }
 
 .btn {
-  min-height: 36px;
-  height: auto;
-  text-transform: none;
+  min-height: 36px !important;
+  height: auto !important;
+  text-transform: none !important;
   span {
-    white-space: initial;
+    white-space: initial !important;
   }
 }
 
@@ -205,15 +205,3 @@ h4, h4.title {
   }
 }
 
-.anuncio {
-  margin-top: 1rem;
-}
-
-.close {
-  position: absolute;
-  right:5px;
-  cursor:pointer;
-  padding: 5px;
-  min-width: 35px;
-  width: 35px;
-}

@@ -261,13 +261,7 @@ import '~/assets/stylus/main-admin.styl'
 import OferToolbar from '~/components/ofer-toolbar.vue'
 import OferSidebar from '~/components/ofer-sidebar.vue'
 import OferFooter from '~/components/ofer-footer.vue'
-
 import OferCommon from '~/components/mixins/ofer-common.vue'
-
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-
-Vue.use(Vuetify)
 
 export default {
   mixins: [OferCommon],

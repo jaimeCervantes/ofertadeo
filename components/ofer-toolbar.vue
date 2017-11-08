@@ -11,7 +11,7 @@
       <v-btn class="before-activator hidden-xs-only" :href="config.host + config.routes.storeList" flat>Tiendas</v-btn>
       <v-menu
         offset-y
-        open-on-hover
+        open-on-click
         :close-on-content-click="false"
         max-width="500"
         transition="slide-x-transition"
@@ -56,7 +56,7 @@
       <v-btn class="before-activator hidden-xs-only" :href="config.host + config.routes.categories" flat>Categorías</v-btn>
       <v-menu
         offset-y
-        open-on-hover
+        open-on-click
         :close-on-content-click="false"
         max-width="500"
         transition="slide-x-transition"

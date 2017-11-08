@@ -26,6 +26,7 @@
       (window.adsbygoogle || []).push({})
       </script>
     </div>
+    <v-divider></v-divider>
     <section v-if="exists(items)">
       <h2>{{seo.h2}}</h2>
       <v-layout row wrap>

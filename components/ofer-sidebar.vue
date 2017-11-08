@@ -4,7 +4,6 @@
       v-model="$store.state.sidebar"
       app
        role="complementary"
-       class="blue"
        dark
     >
       <slot>
@@ -57,6 +56,18 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+aside {
+  background-color:#2196f3!important;
+  .close {
+    position: absolute;
+    right:5px;
+    cursor:pointer;
+    padding: 5px;
+    min-width: 35px;
+    width: 35px;
+  }
+}
+
 .list {
   .subheader {
     h3 {

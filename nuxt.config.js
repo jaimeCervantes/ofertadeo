@@ -1,3 +1,5 @@
+const nodeExternals = require('webpack-node-externals')
+
 module.exports = {
   loading: {
     color: '#ff80ab',
@@ -36,7 +38,8 @@ module.exports = {
       { rel: 'dns-prefetch', href: '//www.google-analytics.com' },
       { rel: 'dns-prefetch', href: '//googleads.g.doubleclick.net' },
       { rel: 'dns-prefetch', href: '//www.google.com' },
-      { rel: 'dns-prefetch', href: '//www.googletagmanager.com' }
+      { rel: 'dns-prefetch', href: '//www.googletagmanager.com' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
     ],
     __dangerouslyDisableSanitizers: ['script']
   },
@@ -44,15 +47,26 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    '@assets/stylus/roboto-material-icons.styl',
     '@assets/stylus/main.styl',
     '@assets/css/main.scss'
   ],
+  plugins: ['~/plugins/vuetify.js'],
   /*
   ** Add axios globally
   */
   build: {
-    vendor: ['axios', '~/plugins/striptags.js'],
+    vendor: ['~/plugins/vuetify.js', 'axios', '~/plugins/striptags.js'],
+    babel: {
+      plugins: [
+        ['transform-imports', {
+          'vuetify': {
+            'transform': 'vuetify/es5/components/${member}',
+            'preventFullImport': true
+          }
+        }]
+      ]
+    },
+    extractCSS: true,
     /*
     ** Run ESLINT on save
     */
@@ -65,6 +79,25 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
+
+      if (ctx.isServer) {
+        config.externals = [
+          nodeExternals({
+            whitelist: [/^vuetify/]
+          })
+        ]
+      }
+
+      // config.module.rules.forEach(rule => {
+      //   if (rule.test.toString() === '/\\.styl(us)?$/') {
+      //     rule.use.push({
+      //       loader: 'vuetify-loader',
+      //       options: {
+      //         //theme: resolve('./assets/style/theme.styl')
+      //       }
+      //     })
+      //   }
+      // })
     }
   }
 }

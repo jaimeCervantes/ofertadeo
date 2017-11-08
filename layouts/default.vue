@@ -20,10 +20,6 @@ import OferToolbar from '~/components/ofer-toolbar.vue'
 import OferSidebar from '~/components/ofer-sidebar.vue'
 import OferFooter from '~/components/ofer-footer.vue'
 import VendorScripts from '~/components/vendor-scripts.vue'
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-
-Vue.use(Vuetify)
 
 export default {
   components: {
