@@ -48,7 +48,8 @@ module.exports = {
   */
   css: [
     '@assets/stylus/main.styl',
-    '@assets/css/main.scss'
+    '@assets/css/main.scss',
+    '@assets/stylus/roboto-material-icons.styl'
   ],
   plugins: ['~/plugins/vuetify.js'],
   /*
