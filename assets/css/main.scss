@@ -123,7 +123,7 @@ h4, h4.title {
 .btn {
   min-height: 36px;
   height: auto;
-  text-transform: none;
+  text-transform: none !important;
   span {
     white-space: initial;
   }
@@ -161,13 +161,4 @@ h4, h4.title {
       margin-bottom: 0;
     }
   }
-}
-
-.close {
-  position: absolute;
-  right:5px;
-  cursor:pointer;
-  padding: 5px;
-  min-width: 35px;
-  width: 35px;
 }

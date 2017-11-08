@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import '~/assets/css/main.scss'
 import OferToolbar from '~/components/ofer-toolbar.vue'
 import OferSidebar from '~/components/ofer-sidebar.vue'
 import OferFooter from '~/components/ofer-footer.vue'
