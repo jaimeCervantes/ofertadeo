@@ -84,21 +84,21 @@ module.exports = {
       if (ctx.isServer) {
         config.externals = [
           nodeExternals({
-            whitelist: [/^vuetify/]
+            whitelist: [/^vuetify/,/^quill/]
           })
         ]
       }
 
-      // config.module.rules.forEach(rule => {
-      //   if (rule.test.toString() === '/\\.styl(us)?$/') {
-      //     rule.use.push({
-      //       loader: 'vuetify-loader',
-      //       options: {
-      //         //theme: resolve('./assets/style/theme.styl')
-      //       }
-      //     })
-      //   }
-      // })
+      config.module.rules.forEach(rule => {
+        if (rule.test.toString() === '/\\.styl(us)?$/') {
+          rule.use.push({
+            loader: 'vuetify-loader',
+            options: {
+              //theme: resolve('./assets/style/theme.styl')
+            }
+          })
+        }
+      })
     }
   }
 }
