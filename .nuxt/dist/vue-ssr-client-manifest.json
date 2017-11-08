@@ -35,8 +35,8 @@
     "pages/ofer-admin/login/index.825f41e2baa54d93e9ab.js",
     "common.14b3eb4439726cc1ef4d.js",
     "app.68d17ff9d4c237c38774.js",
-    "manifest.2bb65383740bccb67fef.js",
-    "common.1e444521dffe74b9e7e2be212adfe5cb.css",
+    "manifest.9fbd63aec73263f93dfd.js",
+    "common.72e18a40689262dc6d189742ac2a32e9.css",
     "common.ad6f0667da38951cdd84e17c1b8be1e2.css",
     "LICENSES",
     "pages/tiendas/_id.5b8b4f70d02b2de6675d.js",
@@ -74,13 +74,13 @@
     "common.14b3eb4439726cc1ef4d.js.map",
     "common.ad6f0667da38951cdd84e17c1b8be1e2.css.map",
     "app.68d17ff9d4c237c38774.js.map",
-    "common.1e444521dffe74b9e7e2be212adfe5cb.css.map",
-    "manifest.2bb65383740bccb67fef.js.map",
+    "common.72e18a40689262dc6d189742ac2a32e9.css.map",
+    "manifest.9fbd63aec73263f93dfd.js.map",
     "index.spa.html",
     "index.ssr.html"
   ],
   "initial": [
-    "manifest.2bb65383740bccb67fef.js",
+    "manifest.9fbd63aec73263f93dfd.js",
     "common.14b3eb4439726cc1ef4d.js",
     "app.68d17ff9d4c237c38774.js"
   ],
