@@ -1,6 +1,6 @@
 const utils = require('../index.js')
 // const config = require('../../config.js')
-//let conf = config()
+// let conf = config()
 
 let csm = require('../sitemaps/create-sitemap.js')
 // const cudUtils = require('./utils')
@@ -31,7 +31,7 @@ let csm = require('../sitemaps/create-sitemap.js')
 // csm.categories();
 // csm.index();
 
-csm.elBuenFin();
+csm.elBuenFin()
 
 // var crudInst = utils.getCrud()
 // crudInst.then(function (crud) {
