@@ -16,6 +16,7 @@
         full-width
         left
         max-width="100%"
+        min-width="300"
         transition="slide-x-transition"
         v-model="menu"
       >
@@ -63,6 +64,7 @@
         full-width
         left
         max-width="100%"
+        min-width="300"
         transition="slide-x-transition"
         v-model="menuCat"
       >
