@@ -11,6 +11,7 @@
           {{ item.text }}
         </v-breadcrumbs-item>
       </v-breadcrumbs>
+      <h1>{{config.txt.elBuenFin}}</h1>
       <ofer-expand
         :content="content"
         :expanded="expanded"
@@ -18,14 +19,15 @@
         >
       </ofer-expand>
     </header>
-    <section id="store-list" itemscope itemtype="http://schema.org/ItemList">
+    <v-divider />
+    <section id="store-list">
       <h3>El Buen Fin 2017 Tiendas Populares</h3>
         <v-layout row wrap>
           <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in stores" :key="i">
-            <ofer-item  class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
+            <ofer-item  class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id" :position="i">
               <template slot="content">
-                <div class="item__name" v-if="item.name" itemprop="mainEntityOfPage">
-                  <div class="pl-2 pr-2" itemprop="headline">
+                <div class="item__name" v-if="item.name">
+                  <div class="pl-2 pr-2">
                     <a itemprop="name" :href="getItemLink(item._id)">
                       {{sliceTextFromHtml(item.name, 45)}}
                     </a>
@@ -151,19 +153,25 @@ export default {
   .btn:first-child {
     margin-left: 0;
   }
-</style>
-<style>
+  
+  .info-content {
+    margin-bottom: 0.6rem;
+  }
+  
   .divider {
     background-color: #DA251D;
   }
-
+  
+  .expand, section {
+    margin-top: 0.5rem;
+  }
+  
   h1 {
     background-color: #DA251D;
     padding: 1rem;
+    margin-bottom: 0;
     color: white;
-  }
-
-  .expand {
-    margin-top: 0.5rem;
+    display: inline-block;
   }
 </style>
+

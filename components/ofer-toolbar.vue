@@ -4,10 +4,10 @@
       <v-btn class="menu-mobile hidden-sm-and-up" flat @click.stop="$store.commit('toggleSidebar')">
         <v-icon>menu</v-icon> Menu
       </v-btn>
-      <v-btn :href="config.host" flat class="logo">
+      <v-btn itemprop="url" :href="config.host" flat class="logo">
         <img src="/logo.png" alt="Logo" width="40"> Ofertadeo
       </v-btn>
-      <v-btn class="hidden-xs-only" :href="config.host + config.routes.elBuenFin" flat>El Buen Fin</v-btn>
+      <v-btn class="hidden-xs-only" :href="config.host + config.routes.elBuenFin" flat>{{config.txt.elBuenFin}}</v-btn>
       <v-btn class="before-activator hidden-xs-only" :href="config.host + config.routes.storeList" flat>Tiendas</v-btn>
       <v-menu
         offset-y
@@ -22,10 +22,11 @@
           <v-list>
             <v-list-tile avatar :href="config.host + config.routes.elBuenFin">
               <v-list-tile-avatar>
-                <img src="https://www.ofertadeo.com/uploads/2017/10/26/logo-buen-fin-1_thumb.png" alt="John" width="55">
+                <img src="https://www.ofertadeo.com/uploads/2017/10/26/logo-buen-fin-1_thumb.png" alt="El 
+                Buen fin" width="55">
               </v-list-tile-avatar>
               <v-list-tile-content>
-                <v-list-tile-title>El buen fin {{new Date().getFullYear()}}</v-list-tile-title>
+                <v-list-tile-title>{{config.txt.elBuenFin}}</v-list-tile-title>
                 <v-list-tile-sub-title>Tiendas participantes</v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>

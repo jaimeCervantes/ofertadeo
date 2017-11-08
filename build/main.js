@@ -691,7 +691,7 @@ app.use(__WEBPACK_IMPORTED_MODULE_6_morgan___default()(morganFormat, { stream: a
 app.use(__WEBPACK_IMPORTED_MODULE_5_body_parser___default.a.json({ limit: '3mb' }));
 app.use(__WEBPACK_IMPORTED_MODULE_5_body_parser___default.a.urlencoded({ extended: false }));
 app.use(__WEBPACK_IMPORTED_MODULE_13_cookie_parser___default()());
-app.use(__WEBPACK_IMPORTED_MODULE_11_express_session___default()({ secret: "Cdovps_2017*" }));
+app.use(__WEBPACK_IMPORTED_MODULE_11_express_session___default()({ secret: 'Cdovps_2017*' }));
 app.use(__WEBPACK_IMPORTED_MODULE_12_passport___default.a.initialize());
 app.use(__WEBPACK_IMPORTED_MODULE_12_passport___default.a.session());
 app.use(__WEBPACK_IMPORTED_MODULE_14_connect_flash___default()());
@@ -2276,8 +2276,8 @@ module.exports = function (spec) {
       Promise.all(iterable).then(function (results) {
         res.json({
           item: results[0],
-          allStores: results[1],
-          allCategories: results[2]
+          stores: results[1],
+          categories: results[2]
         });
       }).catch(function (error) {
         res.json(error);
@@ -3258,55 +3258,54 @@ module.exports = require("connect-flash");
 
 
 var admin = {
-   id: 'JGO2017*',
-   pwd: __WEBPACK_IMPORTED_MODULE_1_bcrypt___default.a.hashSync('Cdo_2017*', __WEBPACK_IMPORTED_MODULE_1_bcrypt___default.a.genSaltSync(), null),
-   userName: 'ofertadeo@gmail.com'
+  id: 'JGO2017*',
+  pwd: __WEBPACK_IMPORTED_MODULE_1_bcrypt___default.a.hashSync('Cdo_2017*', __WEBPACK_IMPORTED_MODULE_1_bcrypt___default.a.genSaltSync(), null),
+  userName: 'ofertadeo@gmail.com'
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (function (passport) {
-   // =========================================================================
-   // passport session setup ==================================================
-   // =========================================================================
-   // required for persistent login sessions
-   // passport needs ability to serialize and unserialize users out of session
+  // =========================================================================
+  // passport session setup ==================================================
+  // =========================================================================
+  // required for persistent login sessions
+  // passport needs ability to serialize and unserialize users out of session
 
-   // used to serialize the user for the session
-   passport.serializeUser(function (user, done) {
-      done(null, user.id);
-   });
+  // used to serialize the user for the session
+  passport.serializeUser(function (user, done) {
+    done(null, user.id);
+  });
 
-   // used to deserialize the user
-   passport.deserializeUser(function (id, done) {
-      done(null, admin);
-   });
+  // used to deserialize the user
+  passport.deserializeUser(function (id, done) {
+    done(null, admin);
+  });
 
-   // =========================================================================
-   // LOCAL LOGIN =============================================================
-   // =========================================================================
-   // we are using named strategies since we have one for login and one for signup
-   // by default, if there was no name, it would just be called 'local'
+  // =========================================================================
+  // LOCAL LOGIN =============================================================
+  // =========================================================================
+  // we are using named strategies since we have one for login and one for signup
+  // by default, if there was no name, it would just be called 'local'
 
-   passport.use('local-login', new __WEBPACK_IMPORTED_MODULE_0_passport_local__["Strategy"]({
-      // by default, local strategy uses username and password, we will override with email
-      usernameField: 'email',
-      passwordField: 'password',
-      passReqToCallback: true // allows us to pass back the entire request to the callback
-   }, function (req, email, password, done) {
-      // callback with email and password from our form
+  passport.use('local-login', new __WEBPACK_IMPORTED_MODULE_0_passport_local__["Strategy"]({
+    // by default, local strategy uses username and password, we will override with email
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true // allows us to pass back the entire request to the callback
+  }, function (req, email, password, done) {
+    // callback with email and password from our form
+    // if no user is found, return the message
+    if (admin.userName !== email) {
+      return done(null, false, req.flash('loginMessage', 'Usuario no existe.')); // req.flash is the way to set flashdata using connect-flash
+    }
 
-      // if no user is found, return the message
-      if (admin.userName !== email) {
-         return done(null, false, req.flash('loginMessage', 'Usuario no existe.')); // req.flash is the way to set flashdata using connect-flash
-      }
+    // if the user is found but the password is wrong
+    if (!__WEBPACK_IMPORTED_MODULE_1_bcrypt___default.a.compareSync(password, admin.pwd)) {
+      return done(null, false, req.flash('loginMessage', 'Contraseña incorrecta')); // create the loginMessage and save it to session as flashdata
+    }
 
-      // if the user is found but the password is wrong
-      if (!__WEBPACK_IMPORTED_MODULE_1_bcrypt___default.a.compareSync(password, admin.pwd)) {
-         return done(null, false, req.flash('loginMessage', 'Contraseña incorrecta')); // create the loginMessage and save it to session as flashdata
-      }
-
-      // all is well, return successful user
-      return done(null, admin);
-   }));
+    // all is well, return successful user
+    return done(null, admin);
+  }));
 });;
 
 /***/ }),
@@ -3327,48 +3326,48 @@ module.exports = require("bcrypt");
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = (function (app, passport) {
+  var loginPath = '/ofer-admin/login';
+  var adminPath = '/ofer-admin';
+  var logoutPath = '/ofer-admin/logout';
+  // process the login form
+  app.post(loginPath + '/?', passport.authenticate('local-login', {
+    successRedirect: adminPath, // redirect to the secure profile section
+    failureRedirect: loginPath, // redirect back to the signup page if there is an error
+    failureFlash: true // allow flash messages
+  }));
 
-	var loginPath = '/ofer-admin/login';
-	var adminPath = '/ofer-admin';
-	var logoutPath = '/ofer-admin/logout';
-	// process the login form
-	app.post(loginPath + '/?', passport.authenticate('local-login', {
-		successRedirect: adminPath, // redirect to the secure profile section
-		failureRedirect: loginPath, // redirect back to the signup page if there is an error
-		failureFlash: true // allow flash messages
-	}));
+  // =====================================
+  // ofer-admin SECTION =========================
+  // =====================================
+  // we will want this protected so you have to be logged in to visit
+  // we will use route middleware to verify this (the isLoggedIn function)
+  app.get(adminPath + '*', isLoggedIn);
 
-	// =====================================
-	// ofer-admin SECTION =========================
-	// =====================================
-	// we will want this protected so you have to be logged in to visit
-	// we will use route middleware to verify this (the isLoggedIn function)
-	app.get(adminPath + '*', isLoggedIn);
+  // =====================================
+  // LOGOUT ==============================
+  // =====================================
+  app.get(logoutPath + '/?', function (req, res) {
+    req.logout();
+    res.redirect(loginPath);
+  });
 
-	// =====================================
-	// LOGOUT ==============================
-	// =====================================
-	app.get(logoutPath + '/?', function (req, res) {
-		req.logout();
-		res.redirect(loginPath);
-	});
+  // route middleware to make sure
+  function isLoggedIn(req, res, next) {
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated() || /^\/ofer-admin\/login\/{0,1}$/i.test(req.path)) {
+      return next();
+    }
 
-	// route middleware to make sure
-	function isLoggedIn(req, res, next) {
-
-		// if user is authenticated in the session, carry on
-		if (req.isAuthenticated() || /^\/ofer-admin\/login\/{0,1}$/i.test(req.path)) {
-			return next();
-		}
-
-		// if they aren't redirect them to the home page
-		res.redirect(loginPath);
-	}
+    // if they aren't redirect them to the home page
+    res.redirect(loginPath);
+  }
 });
 
 /***/ }),
 /* 53 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var nodeExternals = __webpack_require__(54);
 
 module.exports = {
   loading: {
@@ -3385,18 +3384,28 @@ module.exports = {
     },
     title: 'Ofertas, promociones y descuentos en México | Ofertadeo',
     meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { name: 'theme-color', content: '#1976d2' }, { name: 'msapplication-TileColor', content: '#2d89ef' }, { name: 'msapplication-TileImage', content: '/favicons/mstile-144x144.png' }, { name: 'msapplication-config', content: '/favicons/browserconfig.xml' }, { name: 'p:domain_verify', content: 'd22a77a044a4490ebd5019e778f4a37b' }, { name: 'google-site-verification', content: '-jN3QPeaXQTbgPBlyAXlXXh7qRSesWIpa3GC3ijTjJM' }, { name: 'msvalidate.01', content: '162D9E28E432D290B43E41702E108642' }],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicons/favicon.ico' }, { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicons/apple-touch-icon.png' }, { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicons/favicon-32x32.png' }, { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' }, { rel: 'manifest', href: '/favicons/manifest.json' }, { rel: 'mask-icon', href: '/favicons/safari-pinned-tab.svg', color: '#1976d2' }, { rel: 'shortcut icon', href: '/favicons/favicon.ico' }, { rel: 'dns-prefetch', href: '//www.google-analytics.com' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicons/favicon.ico' }, { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicons/apple-touch-icon.png' }, { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicons/favicon-32x32.png' }, { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' }, { rel: 'manifest', href: '/favicons/manifest.json' }, { rel: 'mask-icon', href: '/favicons/safari-pinned-tab.svg', color: '#1976d2' }, { rel: 'shortcut icon', href: '/favicons/favicon.ico' }, { rel: 'dns-prefetch', href: '//www.google-analytics.com' }, { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }],
     __dangerouslyDisableSanitizers: ['script']
   },
   /*
   ** Global CSS
   */
-  css: ['@assets/stylus/roboto-material-icons.styl', '@assets/stylus/main.styl', '@assets/css/main.scss'],
+  css: ['@assets/stylus/main.styl', '@assets/css/main.scss'],
+  plugins: ['~/plugins/vuetify.js'],
   /*
   ** Add axios globally
   */
   build: {
-    vendor: ['axios', '~/plugins/striptags.js'],
+    vendor: ['~/plugins/vuetify.js', 'axios', '~/plugins/striptags.js'],
+    babel: {
+      plugins: [['transform-imports', {
+        'vuetify': {
+          'transform': 'vuetify/es5/components/${member}',
+          'preventFullImport': true
+        }
+      }]]
+    },
+    extractCSS: true,
     /*
     ** Run ESLINT on save
     */
@@ -3409,9 +3418,32 @@ module.exports = {
           exclude: /(node_modules)/
         });
       }
+
+      if (ctx.isServer) {
+        config.externals = [nodeExternals({
+          whitelist: [/^vuetify/]
+        })];
+      }
+
+      config.module.rules.forEach(function (rule) {
+        if (rule.test.toString() === '/\\.styl(us)?$/') {
+          rule.use.push({
+            loader: 'vuetify-loader',
+            options: {
+              //theme: resolve('./assets/style/theme.styl')
+            }
+          });
+        }
+      });
     }
   }
 };
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports) {
+
+module.exports = require("webpack-node-externals");
 
 /***/ })
 /******/ ]);

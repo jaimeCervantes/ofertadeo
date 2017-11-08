@@ -47,7 +47,7 @@ app.use(morgan(morganFormat, { stream: accessLogStream }))
 app.use(bodyParser.json({ limit: '3mb'}))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(session({ secret: "Cdovps_2017*" }))
+app.use(session({ secret: 'Cdovps_2017*' }))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
@@ -55,7 +55,6 @@ app.use(flash())
 // Security
 app.use(helmet())
 app.disable('x-powered-by')
-
 
 configPassport(passport)
 // Import API Routes

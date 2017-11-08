@@ -14,24 +14,29 @@
             <v-text-field v-model="promotion.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
             <v-text-field v-model="promotion.img_alt" name="img_alt" label="Alt (img)" required></v-text-field>
             <v-text-field v-model="promotion.img_title" name="img_title" label="Title (img)" required></v-text-field>
-            <v-text-field v-model="promotion.meta_description" name="meta_description" label="Meta description" multi-line required counter max="150"></v-text-field>
+            <v-text-field v-model="promotion.meta_description" name="meta_description" label="Meta description" multi-line required
+            counter="150"
+            :rules="[(v) => v.length <= config.seo.description.charsLimit || '']"
+            ></v-text-field>
             <v-select
-              v-bind:items="allCategories"
-              v-model="categorySelected"
+              v-bind:items="categories"
+              v-model="promotion.categories"
               multiple
               label="Categoría"
               class="input-group--focused"
-              item-value="text"
+              item-text="name"
+              return-object
               required
               autocomplete
             ></v-select>
             <v-select
-              v-bind:items="allStores"
-              v-model="storeSelected"
+              v-bind:items="stores"
+              v-model="promotion.stores"
               multiple
               label="Tiendas"
               class="input-group--focused"
-              item-value="text"
+              item-text="name"
+              return-object
               required
               autocomplete
             ></v-select>
@@ -80,10 +85,10 @@ export default {
         content: '',
         img: '',
         img_data: {},
-        thumbnail: ''
+        thumbnail: '',
+        stores: '',
+        categories: ''
       },
-      categorySelected: [],
-      storeSelected: [],
       validation: {
         slug: {
           val: true
@@ -105,16 +110,6 @@ export default {
     VueEditor
   },
   methods: {
-    setTextPropertyForSelect (data) {
-      return data.map(function (elem) {
-        return { value: elem._id, text: elem.name }
-      })
-    },
-    setArrayValues (data) {
-      return data.map(function (elem) {
-        return { _id: elem.value, name: elem.text }
-      })
-    },
     getImgs (resp) {
       this.img = resp.img
       this.thumbnail = resp.thumbnail
@@ -138,14 +133,12 @@ export default {
         return
       }
 
-      if (this.categorySelected.length === 0 || this.categorySelected.length === 0) {
+      if (this.promotion.categories.length === 0 || this.promotion.stores.length === 0) {
         alert('Seleccionada al menos una categoria y una tienda')
       }
 
       this.loading = true
       this.disabled = true
-      this.promotion.stores = this.setArrayValues(this.storeSelected)
-      this.promotion.categories = this.setArrayValues(this.categorySelected)
       axios.post(this.config.host + '/api/promotions/edit/' + this.promotion.slug, this.promotion)
         .then(function (res) {
           if (res.data.ok) {
@@ -173,12 +166,6 @@ export default {
         this.validation.slug.val = false
       }
     }
-  },
-  created () {
-    this.allCategories = this.setTextPropertyForSelect(this.allCategories)
-    this.allStores = this.setTextPropertyForSelect(this.allStores)
-    this.categorySelected = this.setTextPropertyForSelect(this.promotion.categories)
-    this.storeSelected = this.setTextPropertyForSelect(this.promotion.stores)
   },
   head () {
     return {

@@ -13,7 +13,10 @@
             <v-text-field v-model="store.h1" name="h1" label="Titulo, H1"></v-text-field>
             <v-text-field v-model="store.h2" name="h2" label="Titulo, H2"></v-text-field>
             <v-text-field v-model="store.meta_title" name="meta_title" label="Meta titulo"></v-text-field>
-            <v-text-field v-model="store.meta_description" name="meta_description" label="Meta description" multi-line counter max="150"></v-text-field>
+            <v-text-field v-model="store.meta_description" name="meta_description" label="Meta description" multi-line
+              counter="150"
+              :rules="[(v) => v.length <= config.seo.description.charsLimit || '']">
+            </v-text-field>
             <v-text-field v-model="store.img_alt" name="img_alt" label="Alt (img)"></v-text-field>
             <v-text-field v-model="store.img_title" name="img_title" label="Title (img)"></v-text-field>
             <v-btn primary large :disabled="disabled" v-bind:loading="loading"type="submit">Crear Tienda</v-btn>
