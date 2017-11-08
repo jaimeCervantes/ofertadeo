@@ -39,7 +39,6 @@ module.exports = {
       { rel: 'dns-prefetch', href: '//googleads.g.doubleclick.net' },
       { rel: 'dns-prefetch', href: '//www.google.com' },
       { rel: 'dns-prefetch', href: '//www.googletagmanager.com' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
     ],
     __dangerouslyDisableSanitizers: ['script']
   },
