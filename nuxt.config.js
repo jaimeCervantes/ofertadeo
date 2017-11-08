@@ -42,8 +42,8 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    '@assets/stylus/main.styl'
-    //, '@assets/css/main.scss'
+    '@assets/stylus/main.styl',
+    '@assets/css/main.scss'
   ],
   plugins: ['~/plugins/vuetify.js'],
   /*
@@ -83,16 +83,16 @@ module.exports = {
         ]
       }
 
-      config.module.rules.forEach(rule => {
-        if (rule.test.toString() === '/\\.styl(us)?$/') {
-          rule.use.push({
-            loader: 'vuetify-loader',
-            options: {
-              //theme: resolve('./assets/style/theme.styl')
-            }
-          })
-        }
-      })
+      // config.module.rules.forEach(rule => {
+      //   if (rule.test.toString() === '/\\.styl(us)?$/') {
+      //     rule.use.push({
+      //       loader: 'vuetify-loader',
+      //       options: {
+      //         //theme: resolve('./assets/style/theme.styl')
+      //       }
+      //     })
+      //   }
+      // })
     }
   }
 }

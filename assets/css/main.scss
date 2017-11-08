@@ -121,11 +121,11 @@ h4, h4.title {
 }
 
 .btn {
-  min-height: 36px;
-  height: auto;
+  min-height: 36px !important;
+  height: auto !important;
   text-transform: none !important;
   span {
-    white-space: initial;
+    white-space: initial !important;
   }
 }
 
