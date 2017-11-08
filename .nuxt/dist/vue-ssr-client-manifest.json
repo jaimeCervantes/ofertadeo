@@ -15,8 +15,8 @@
     "pages/ofer-admin/categorias/editar/_id/index.ac263d85e114294089ed.js",
     "pages/el-buen-fin/tiendas/index.e5597e634598178499f8.js",
     "pages/promociones/_slug.6340f4e250a264713b0b.js",
-    "layouts/default.c87e8d1f29282a486f76.js",
-    "layouts/admin.09d4bd52bce81a884851.js",
+    "layouts/admin.5b302d790e8ab80a2151.js",
+    "layouts/default.85f186af25805799f1aa.js",
     "pages/ofer-admin/promociones/editar/index.6976ef1bca6a144534c4.js",
     "pages/ofer-admin/index.271cdaac302fb3844fea.js",
     "pages/promociones/index.10166d099fa7678aa0d2.js",
@@ -34,9 +34,9 @@
     "pages/ofer-admin/el-buen-fin/tiendas/seo/index.98b673c9575e2937622b.js",
     "pages/ofer-admin/login/index.825f41e2baa54d93e9ab.js",
     "common.14b3eb4439726cc1ef4d.js",
-    "app.da8b6d5d2b0b145e7d8a.js",
-    "manifest.82aa82db8dba7954f655.js",
-    "common.fcc9882afedffa35c55546dcfc700f45.css",
+    "app.54df2e041a824b555a47.js",
+    "manifest.b718528cfd62a9a76cd2.js",
+    "common.36a439cfe05fd2f38f0878151f3d21aa.css",
     "common.ad6f0667da38951cdd84e17c1b8be1e2.css",
     "LICENSES",
     "pages/tiendas/_id.1da9c58bb12b25592a47.js",
@@ -53,8 +53,8 @@
     "pages/ofer-admin/categorias/editar/_id/index.ac263d85e114294089ed.js.map",
     "pages/el-buen-fin/tiendas/index.e5597e634598178499f8.js.map",
     "pages/promociones/_slug.6340f4e250a264713b0b.js.map",
-    "layouts/default.c87e8d1f29282a486f76.js.map",
-    "layouts/admin.09d4bd52bce81a884851.js.map",
+    "layouts/admin.5b302d790e8ab80a2151.js.map",
+    "layouts/default.85f186af25805799f1aa.js.map",
     "pages/ofer-admin/promociones/editar/index.6976ef1bca6a144534c4.js.map",
     "pages/ofer-admin/index.271cdaac302fb3844fea.js.map",
     "pages/promociones/index.10166d099fa7678aa0d2.js.map",
@@ -73,16 +73,16 @@
     "pages/ofer-admin/login/index.825f41e2baa54d93e9ab.js.map",
     "common.14b3eb4439726cc1ef4d.js.map",
     "common.ad6f0667da38951cdd84e17c1b8be1e2.css.map",
-    "app.da8b6d5d2b0b145e7d8a.js.map",
-    "common.fcc9882afedffa35c55546dcfc700f45.css.map",
-    "manifest.82aa82db8dba7954f655.js.map",
+    "app.54df2e041a824b555a47.js.map",
+    "common.36a439cfe05fd2f38f0878151f3d21aa.css.map",
+    "manifest.b718528cfd62a9a76cd2.js.map",
     "index.spa.html",
     "index.ssr.html"
   ],
   "initial": [
-    "manifest.82aa82db8dba7954f655.js",
+    "manifest.b718528cfd62a9a76cd2.js",
     "common.14b3eb4439726cc1ef4d.js",
-    "app.da8b6d5d2b0b145e7d8a.js"
+    "app.54df2e041a824b555a47.js"
   ],
   "async": [
     "pages/el-buen-fin/_id.da19b473ca8674682813.js",
@@ -98,8 +98,8 @@
     "pages/ofer-admin/categorias/editar/_id/index.ac263d85e114294089ed.js",
     "pages/el-buen-fin/tiendas/index.e5597e634598178499f8.js",
     "pages/promociones/_slug.6340f4e250a264713b0b.js",
-    "layouts/default.c87e8d1f29282a486f76.js",
-    "layouts/admin.09d4bd52bce81a884851.js",
+    "layouts/admin.5b302d790e8ab80a2151.js",
+    "layouts/default.85f186af25805799f1aa.js",
     "pages/ofer-admin/promociones/editar/index.6976ef1bca6a144534c4.js",
     "pages/ofer-admin/index.271cdaac302fb3844fea.js",
     "pages/promociones/index.10166d099fa7678aa0d2.js",
@@ -119,15 +119,9 @@
     "pages/tiendas/_id.1da9c58bb12b25592a47.js"
   ],
   "modules": {
-    "15117010": [
-      32,
-      36,
-      70,
-      71
-    ],
     "20172486": [
-      14,
-      52
+      15,
+      53
     ],
     "23559936": [
       32,
@@ -291,6 +285,10 @@
       72,
       73
     ],
+    "2d20b4fe": [
+      14,
+      52
+    ],
     "1eb5cba7": [
       33,
       35,
@@ -371,7 +369,7 @@
       70,
       71
     ],
-    "0646198d": [
+    "8da86af4": [
       32,
       36,
       70,
@@ -455,7 +453,7 @@
       70,
       71
     ],
-    "03cbe8d7": [
+    "18c589e0": [
       32,
       36,
       70,
@@ -534,8 +532,8 @@
       71
     ],
     "a70a8dce": [
-      14,
-      52
+      15,
+      53
     ],
     "8f11d15c": [
       11,
@@ -586,6 +584,12 @@
       71
     ],
     "9da4977e": [
+      32,
+      36,
+      70,
+      71
+    ],
+    "c17093c2": [
       32,
       36,
       70,
@@ -659,7 +663,7 @@
       22,
       60
     ],
-    "795ea28c": [
+    "3abe2f21": [
       32,
       36,
       70,
@@ -703,15 +707,15 @@
       70,
       71
     ],
-    "47908f7c": [
+    "732b59a3": [
       33,
       35,
       72,
       73
     ],
     "acb97cd8": [
-      14,
-      52
+      15,
+      53
     ],
     "c022edf4": [
       16,
@@ -851,7 +855,7 @@
       70,
       71
     ],
-    "4f326c6e": [
+    "e2738f56": [
       32,
       36,
       70,
@@ -919,7 +923,7 @@
       72,
       73
     ],
-    "92983de2": [
+    "03137c48": [
       32,
       36,
       70,
@@ -941,7 +945,7 @@
       70,
       71
     ],
-    "01ec51c0": [
+    "1c84b80e": [
       32,
       36,
       70,
@@ -954,8 +958,8 @@
       71
     ],
     "fccbc5b2": [
-      14,
-      52
+      15,
+      53
     ],
     "0bb255b1": [
       28,
@@ -991,7 +995,7 @@
       30,
       68
     ],
-    "652d98ee": [
+    "9186c8d6": [
       32,
       36,
       70,
@@ -1118,8 +1122,8 @@
       49
     ],
     "329aec65": [
-      14,
-      52
+      15,
+      53
     ],
     "2d3a03b6": [
       32,
@@ -1145,7 +1149,7 @@
       70,
       71
     ],
-    "2a1a52b9": [
+    "582a7e40": [
       32,
       36,
       70,
@@ -1157,7 +1161,7 @@
       70,
       71
     ],
-    "e5555580": [
+    "1d92abf9": [
       32,
       36,
       70,
@@ -1221,7 +1225,7 @@
       72,
       73
     ],
-    "7c3b2f94": [
+    "74c8192f": [
       32,
       36,
       70,
@@ -1466,14 +1470,14 @@
       73
     ],
     "0688da46": [
-      14,
-      52
+      15,
+      53
     ],
     "79ef50ec": [
       3,
       41
     ],
-    "cfda5e16": [
+    "285027ae": [
       32,
       36,
       70,
@@ -1495,7 +1499,7 @@
       4,
       42
     ],
-    "2b4d9ea2": [
+    "7a968768": [
       32,
       36,
       70,
@@ -1516,8 +1520,10 @@
       57
     ],
     "1633eef0": [
-      14,
-      52
+      33,
+      35,
+      72,
+      73
     ],
     "ddcfd132": [
       32,
@@ -1567,19 +1573,13 @@
       70,
       71
     ],
-    "19feae58": [
-      32,
-      36,
-      70,
-      71
-    ],
     "cce0f942": [
       32,
       36,
       70,
       71
     ],
-    "a441d292": [
+    "3e1c6d70": [
       32,
       36,
       70,
@@ -1775,10 +1775,6 @@
       70,
       71
     ],
-    "15e07f10": [
-      14,
-      52
-    ],
     "6b70f92d": [
       32,
       36,
@@ -1954,8 +1950,8 @@
       71
     ],
     "40b77573": [
-      15,
-      53
+      14,
+      52
     ],
     "22de6bf2": [
       27,
@@ -1993,7 +1989,7 @@
       70,
       71
     ],
-    "157926ca": [
+    "afadc4d8": [
       32,
       36,
       70,
@@ -2042,10 +2038,6 @@
       36,
       70,
       71
-    ],
-    "881a772a": [
-      15,
-      53
     ],
     "f73df2c8": [
       32,
@@ -2166,14 +2158,14 @@
       71
     ],
     "c5e549de": [
-      15,
-      53
+      14,
+      52
     ],
     "26772ca2": [
       7,
       45
     ],
-    "97ae4cf4": [
+    "4977dcff": [
       32,
       36,
       70,
@@ -2185,13 +2177,13 @@
       70,
       71
     ],
-    "de752606": [
+    "b5524eb8": [
       32,
       36,
       70,
       71
     ],
-    "23425f1d": [
+    "2d9b5404": [
       32,
       36,
       70,
@@ -2252,8 +2244,8 @@
       43
     ],
     "4c602f22": [
-      15,
-      53
+      14,
+      52
     ],
     "41b96ff9": [
       17,
@@ -2265,15 +2257,15 @@
       70,
       71
     ],
-    "740906c8": [
+    "78e12d95": [
       32,
       36,
       70,
       71
     ],
-    "5dea140c": [
-      15,
-      53
+    "1af946e1": [
+      14,
+      52
     ],
     "7e4d4e2b": [
       32,
@@ -2384,8 +2376,8 @@
       71
     ],
     "b3157c58": [
-      15,
-      53
+      14,
+      52
     ],
     "d304998a": [
       2,
@@ -2479,6 +2471,12 @@
       8,
       46
     ],
+    "19feae58": [
+      32,
+      36,
+      70,
+      71
+    ],
     "18665c2b": [
       10,
       48
@@ -2496,8 +2494,8 @@
       71
     ],
     "1b1bf5ed": [
-      15,
-      53
+      14,
+      52
     ],
     "0e9ae75c": [
       33,

@@ -11,6 +11,8 @@ import NuxtLoading from './components/nuxt-loading.vue'
 
 import '../assets/stylus/main.styl'
 
+import '../assets/css/main.scss'
+
 
 let layouts = {
 
