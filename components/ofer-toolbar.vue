@@ -14,9 +14,10 @@
         open-on-click
         :close-on-content-click="false"
         full-width
+        absolute
         left
         max-width="100%"
-        min-width="300"
+        min-width="550"
         transition="slide-x-transition"
         v-model="menu"
       >
@@ -62,9 +63,10 @@
         open-on-click
         :close-on-content-click="false"
         full-width
+        absolute
         left
         max-width="100%"
-        min-width="300"
+        min-width="550"
         transition="slide-x-transition"
         v-model="menuCat"
       >
