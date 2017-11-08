@@ -34,9 +34,9 @@
     "pages/ofer-admin/el-buen-fin/tiendas/seo/index.e4405da4facb75462bd9.js",
     "pages/ofer-admin/login/index.825f41e2baa54d93e9ab.js",
     "common.14b3eb4439726cc1ef4d.js",
-    "app.efa13ba29e006973e4c2.js",
-    "manifest.2c7af798ce9ad8248e4e.js",
-    "common.3d04c5036ca3df0d241391c626d205f1.css",
+    "app.58570caa80dfce2fc1e1.js",
+    "manifest.ab5e2653da05cedca62a.js",
+    "common.1e444521dffe74b9e7e2be212adfe5cb.css",
     "common.ad6f0667da38951cdd84e17c1b8be1e2.css",
     "LICENSES",
     "pages/tiendas/_id.17fffe5827a5b3b323de.js",
@@ -73,16 +73,16 @@
     "pages/ofer-admin/login/index.825f41e2baa54d93e9ab.js.map",
     "common.14b3eb4439726cc1ef4d.js.map",
     "common.ad6f0667da38951cdd84e17c1b8be1e2.css.map",
-    "app.efa13ba29e006973e4c2.js.map",
-    "common.3d04c5036ca3df0d241391c626d205f1.css.map",
-    "manifest.2c7af798ce9ad8248e4e.js.map",
+    "app.58570caa80dfce2fc1e1.js.map",
+    "common.1e444521dffe74b9e7e2be212adfe5cb.css.map",
+    "manifest.ab5e2653da05cedca62a.js.map",
     "index.spa.html",
     "index.ssr.html"
   ],
   "initial": [
-    "manifest.2c7af798ce9ad8248e4e.js",
+    "manifest.ab5e2653da05cedca62a.js",
     "common.14b3eb4439726cc1ef4d.js",
-    "app.efa13ba29e006973e4c2.js"
+    "app.58570caa80dfce2fc1e1.js"
   ],
   "async": [
     "pages/el-buen-fin/_id.948bc895ed46fc177f8a.js",
@@ -168,6 +168,12 @@
       36,
       70,
       71
+    ],
+    "70335968": [
+      33,
+      35,
+      72,
+      73
     ],
     "83905206": [
       32,
@@ -2471,12 +2477,6 @@
       8,
       46
     ],
-    "19feae58": [
-      32,
-      36,
-      70,
-      71
-    ],
     "18665c2b": [
       10,
       48
@@ -2502,6 +2502,12 @@
       35,
       72,
       73
+    ],
+    "19feae58": [
+      32,
+      36,
+      70,
+      71
     ],
     "5e32d1be": [
       32,
