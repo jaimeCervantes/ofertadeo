@@ -14,6 +14,8 @@
         open-on-click
         :close-on-content-click="false"
         full-width
+        left
+        max-width="100%"
         transition="slide-x-transition"
         v-model="menu"
       >
@@ -59,6 +61,8 @@
         open-on-click
         :close-on-content-click="false"
         full-width
+        left
+        max-width="100%"
         transition="slide-x-transition"
         v-model="menuCat"
       >
@@ -151,7 +155,7 @@ export default {
     flex-direction: row;
     font-weight:normal;
     li.list__tile {
-      flex-basis: 25%;
+      flex-basis: 20%;
       padding-left: 0;
       padding-right: 0;
       color: #fff;
