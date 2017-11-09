@@ -1,6 +1,8 @@
 <template>
   <v-navigation-drawer
+      temporary
       v-model="$store.state.sidebar"
+      app
        role="complementary"
        dark
     >
