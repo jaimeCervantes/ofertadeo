@@ -8,8 +8,8 @@
         <img src="/logo.png" alt="Logo" width="40"> Ofertadeo
       </v-btn>
       <v-btn :href="config.host + config.routes.elBuenFin" flat>{{config.txt.elBuenFin}}</v-btn>
-      <v-btn class="before-activator hidden-xs-only" :href="config.host + config.routes.storeList" flat>Tiendas</v-btn>
-      <v-btn class="before-activator hidden-xs-only" :href="config.host + config.routes.categories" flat>Categorías</v-btn>
+      <v-btn class="hidden-xs-only" :href="config.host + config.routes.storeList" flat>Tiendas</v-btn>
+      <v-btn class="hidden-xs-only" :href="config.host + config.routes.categories" flat>Categorías</v-btn>
       </slot>
     </v-toolbar>
 </template>
@@ -51,12 +51,12 @@ export default {
   }
 
   .btn {
-    margin-left: 0px;
-    margin-right: 5px;
+    // margin-left: 0px;
+    // margin-right: 5px;
     max-width: 200px;
     .btn__content {
-      padding-left: 2px;
-      padding-right: 2px;
+      //padding-left: 2px;
+      //padding-right: 2px;
       font-weight: normal;
     }
   }
