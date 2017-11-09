@@ -1,7 +1,7 @@
 <template>
   
     <v-app id="ofertadeo">
-      <ofer-sidebar id="sidebar-nav" itemscope="itemscope" itemtype="https://schema.org/WPSideBar"/>
+      <!-- <ofer-sidebar id="sidebar-nav" itemscope="itemscope" itemtype="https://schema.org/WPSideBar"/> -->
       <header id="ofer-header" itemscope="itemscope" itemtype="https://schema.org/WPHeader">
         <ofer-toolbar role="navigation" id="main-nav" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement"></ofer-toolbar>
       </header>
