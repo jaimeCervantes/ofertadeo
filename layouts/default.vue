@@ -31,7 +31,7 @@ export default {
   head () {
     return {
       script: [
-        { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=UA-100911510-1' },
+        { defer: true, src: 'https://www.googletagmanager.com/gtag/js?id=UA-100911510-1' },
         {
           innerHTML: `window.dataLayer = window.dataLayer || [];
                       function gtag(){dataLayer.push(arguments);}
@@ -39,7 +39,7 @@ export default {
 
                       gtag('config', 'UA-100911510-1');`
         },
-        { async: true, src: '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js' },
+        { defer: true, src: '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js' },
         {
           innerHTML: `(adsbygoogle = window.adsbygoogle || []).push({
                         google_ad_client: "ca-pub-3434008864168200",
