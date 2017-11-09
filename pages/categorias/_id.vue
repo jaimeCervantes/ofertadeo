@@ -16,7 +16,7 @@
       </ofer-expand>
     </header>
     <v-divider></v-divider>
-    <section v-if="exists(items)">
+    <section v-if="exists(info)">
       <h2>{{seo.h2}}</h2>
       <v-layout row wrap id="main-list">
         <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">

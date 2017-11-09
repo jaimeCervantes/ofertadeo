@@ -11,12 +11,12 @@ import {
   VIcon,
   VList,
   VMenu,
-  VNavigationDrawer,
+  // VNavigationDrawer,
   VSelect,
   VSubheader,
   VTextField,
-  VToolbar,
-  transitions
+  VToolbar
+  // ,transitions
 } from 'vuetify'
 
 Vue.use(Vuetify, {
@@ -32,11 +32,11 @@ Vue.use(Vuetify, {
     VIcon,
     VList,
     VMenu,
-    VNavigationDrawer,
+    // VNavigationDrawer,
     VSelect,
     VSubheader,
     VTextField,
-    VToolbar,
-    transitions
+    VToolbar
+    // ,transitions
   }
 })

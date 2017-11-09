@@ -1,15 +1,140 @@
 <template>
   <v-toolbar app color="primary" dark fixed>
     <slot>
-      <v-btn class="menu-mobile hidden-sm-and-up" flat @click.stop="$store.commit('toggleSidebar')">
-        <v-icon>menu</v-icon> Menu
+      <input type="checkbox" class="drawer-toggle" id="drawer-toggle" name="drawer-toggle"/>
+      <label 
+        class="drawer-toggle-label btn btn--flat btn--raised menu-mobile hidden-sm-and-up" 
+        for="drawer-toggle">
+        <div class="btn__content">
+          <v-icon>menu</v-icon> Menu
+        </div>
+      </label>
+      <div id="drawer-menu">
+        <input type="checkbox" class="drawer-toggle" name="drawer-toggle"/>
+        <label 
+        class="close drawer-toggle-label btn btn--flat btn--raised menu-mobile hidden-sm-and-up" 
+        for="drawer-toggle">
+          <div class="btn__content">
+            <v-icon>close</v-icon>
+          </div>
+        </label>
+        <v-list dark dense>
+          <v-list-tile :href="config.host + config.routes.elBuenFin" class="list__tile">
+            <v-list-tile-content>
+              <v-list-tile-title>{{config.txt.elBuenFin}}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <v-list dark dense>
+          <v-divider/>
+          <v-subheader class="white--text">
+            <h3>{{config.txt.stores}}</h3>
+            <v-btn flat :href="config.host + config.routes.storeList" light>
+            <v-icon>store</v-icon>Ver todas</v-btn>
+          </v-subheader>
+          <v-list-tile v-for="(item,i) in stores" :key="i" ripple :href="config.host + config.routes.storeList + '/' + item._id" class="list__tile">
+            <v-list-tile-content>
+              <v-list-tile-title v-text="item.name" />
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <v-list dark dense>
+          <v-divider/>
+          <v-subheader class="white--text">
+            <h3>{{config.txt.categories}}</h3>
+            <v-btn flat :href="config.host + config.routes.categories" light>
+              <v-icon>sort</v-icon>Ver todas</v-btn>
+          </v-subheader>
+          <v-list-tile v-for="(item,i) in config.categories" :key="i" ripple :href="config.host + config.routes.categories + '/' + item._id" class="list__tile">
+            <v-list-tile-content>
+              <v-list-tile-title v-text="item.name" />
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </div>
       </v-btn>
       <v-btn itemprop="url" :href="config.host" flat class="logo">
         <img src="/logo.png" alt="Logo" width="40"> Ofertadeo
       </v-btn>
       <v-btn class="hidden-xs-only" :href="config.host + config.routes.elBuenFin" flat>{{config.txt.elBuenFin}}</v-btn>
       <v-btn class="before-activator hidden-xs-only" :href="config.host + config.routes.storeList" flat>Tiendas</v-btn>
+      <v-menu
+        offset-y
+        open-on-click
+        :close-on-content-click="false"
+        full-width
+        absolute
+        left
+        max-width="100%"
+        min-width="550"
+        transition="slide-x-transition"
+        v-model="menu"
+      >
+        <v-btn class="hidden-xs-only" icon flat slot="activator"><v-icon>arrow_drop_down</v-icon></v-btn>
+        <v-card class="toolbar__dropdown-menu">
+          <v-list>
+            <v-list-tile avatar :href="config.host + config.routes.elBuenFin">
+              <v-list-tile-avatar>
+                <img src="https://www.ofertadeo.com/uploads/2017/10/26/logo-buen-fin-1_thumb.png" alt="El 
+                Buen fin" width="55">
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>{{config.txt.elBuenFin}}</v-list-tile-title>
+                <v-list-tile-sub-title>Tiendas participantes</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn
+                  icon
+                >
+                  <v-icon>loyalty</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list>
+          <v-divider></v-divider>
+          <v-list dense>
+            <v-list-tile v-for="(item,i) in config.stores" :key="i" ripple tag="a" :href="config.host + config.routes.storeList + '/' + item._id" class="list__tile">
+              <v-list-tile-content>
+                <v-list-tile-title v-text="item.name" />
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn :href="config.host + config.routes.storeList" flat color="primary" dark><v-icon>store</v-icon>Ver todas</v-btn>
+            <v-btn flat @click="menu = false"><v-icon>close</v-icon>Cerrar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-menu>
       <v-btn class="before-activator hidden-xs-only" :href="config.host + config.routes.categories" flat>Categorías</v-btn>
+      <v-menu
+        offset-y
+        open-on-click
+        :close-on-content-click="false"
+        full-width
+        absolute
+        left
+        max-width="100%"
+        min-width="550"
+        transition="slide-x-transition"
+        v-model="menuCat"
+      >
+        <v-btn class="hidden-xs-only" icon flat slot="activator"><v-icon>arrow_drop_down</v-icon></v-btn>
+        <v-card class="toolbar__dropdown-menu">
+          <v-list dense>
+            <v-list-tile v-for="(item,i) in config.categories" :key="i" ripple tag="a" :href="config.host + config.routes.categories + '/' + item._id" class="list__tile">
+              <v-list-tile-content>
+                <v-list-tile-title v-text="item.name" />
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn :href="config.host + config.routes.categories" flat color="primary" dark><v-icon>sort</v-icon>Ver todas</v-btn>
+            <v-btn flat @click="menuCat = false"><v-icon>close</v-icon>Cerrar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-menu>
       </slot>
     </v-toolbar>
 </template>
@@ -29,11 +154,76 @@ export default {
       menu: false,
       menuCat: false
     }
+  },
+  created () {
+    this.stores = this.config.stores.slice(0, this.config.stores.length / 2)
   }
 }
 </script>
 <style lang="scss">
 .toolbar {
+  .drawer-toggle {
+    position: absolute;
+    opacity: 0;
+    &:checked ~ .drawer-toggle-label { 
+      height: 100%; 
+      background-color: rgba(255,255,255,0.3) !important; 
+    }
+    &:checked ~ #drawer-menu { 
+      left: 0; 
+    } 
+  }
+
+  #drawer-toggle-label { 
+    cursor: pointer;
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+  }
+
+  #drawer-menu {
+    -webkit-box-sizing: border-box; 
+    -moz-box-sizing: border-box; 
+    -o-box-sizing: border-box; 
+    box-sizing: border-box; 
+    /* adds animation for all transitions */ 
+    -webkit-transition: .25s ease-in-out; 
+    -moz-transition: .25s ease-in-out; 
+    -o-transition: .25s ease-in-out; 
+    transition: .25s ease-in-out; 
+    margin: 0; 
+    padding: 0;
+    -webkit-text-size-adjust: none; 
+
+    position: fixed;
+    top: 0;
+    left:-320px;
+    height: 100%; 
+    width: 320px;
+    overflow-x: hidden;
+    overflow-y: scroll; 
+    -webkit-overflow-scrolling: touch;
+    z-index: 100;
+    background-color:#2196f3;
+    color: white;
+    .list {
+      background-color:#2196f3;
+      color: white;
+    }
+
+    .close {
+      position: absolute;
+      right:5px;
+      cursor:pointer;
+      padding: 5px;
+      min-width: 35px;
+      width: 35px;
+    }
+  }
+
   .btn.logo,
   .btn.menu-mobile {
     min-width: 30px;
@@ -83,7 +273,7 @@ export default {
     flex-direction: row;
     font-weight:normal;
     li.list__tile {
-      flex-basis: 33.33%;
+      flex-basis: 20%;
       padding-left: 0;
       padding-right: 0;
       color: #fff;

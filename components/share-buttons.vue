@@ -51,15 +51,15 @@ export default {
     display: flex;
     align-items: center;
     .btn {
-      width:30px;
-      min-width:30px;
-      min-height:30px;
-      padding:0;
-      background-color: #fff;
-      border-radius: 0;
-      margin-left: 0;
+      width:30px !important;
+      min-width:30px !important;
+      min-height:30px !important;
+      padding:0 !important;
+      background-color: #fff !important;
+      border-radius: 0 !important;
+      margin-left: 0 !important;
       img {
-        width: 30px;
+        width: 30px !important;
       }
     }
   }

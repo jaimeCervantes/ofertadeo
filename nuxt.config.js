@@ -33,8 +33,7 @@ module.exports = {
       { rel: 'manifest', href: '/favicons/manifest.json' },
       { rel: 'mask-icon', href: '/favicons/safari-pinned-tab.svg', color: '#1976d2' },
       { rel: 'shortcut icon', href: '/favicons/favicon.ico' },
-      { rel: 'dns-prefetch', href: '//www.google-analytics.com' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
+      { rel: 'dns-prefetch', href: '//www.google-analytics.com' }
     ],
     __dangerouslyDisableSanitizers: ['script']
   },
@@ -43,7 +42,8 @@ module.exports = {
   */
   css: [
     '@assets/stylus/main.styl',
-    '@assets/css/main.scss'
+    '@assets/css/main.scss',
+    '@assets/stylus/roboto-material-icons.styl'
   ],
   plugins: ['~/plugins/vuetify.js'],
   /*
@@ -78,21 +78,21 @@ module.exports = {
       if (ctx.isServer) {
         config.externals = [
           nodeExternals({
-            whitelist: [/^vuetify/]
+            whitelist: [/^vuetify/,/^quill/]
           })
         ]
       }
 
-      // config.module.rules.forEach(rule => {
-      //   if (rule.test.toString() === '/\\.styl(us)?$/') {
-      //     rule.use.push({
-      //       loader: 'vuetify-loader',
-      //       options: {
-      //         //theme: resolve('./assets/style/theme.styl')
-      //       }
-      //     })
-      //   }
-      // })
+      config.module.rules.forEach(rule => {
+        if (rule.test.toString() === '/\\.styl(us)?$/') {
+          rule.use.push({
+            loader: 'vuetify-loader',
+            options: {
+              //theme: resolve('./assets/style/theme.styl')
+            }
+          })
+        }
+      })
     }
   }
 }
