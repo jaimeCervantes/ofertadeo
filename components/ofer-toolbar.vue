@@ -56,7 +56,7 @@
       <v-btn itemprop="url" :href="config.host" flat class="logo">
         <img src="/logo.png" alt="Logo" width="40"> Ofertadeo
       </v-btn>
-      <v-btn class="hidden-xs-only" :href="config.host + config.routes.elBuenFin" flat>{{config.txt.elBuenFin}}</v-btn>
+      <v-btn class="el-buen-fin hidden-xs-only" :href="config.host + config.routes.elBuenFin" flat>{{config.txt.elBuenFin}}</v-btn>
       <v-btn class="before-activator hidden-xs-only" :href="config.host + config.routes.storeList" flat>Tiendas</v-btn>
       <v-menu
         offset-y
@@ -263,6 +263,11 @@ export default {
       padding-left: 0;
       padding-right: 0;
     }
+  }
+
+  .el-buen-fin {
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }
 
