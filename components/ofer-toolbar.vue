@@ -1,91 +1,15 @@
 <template>
   <v-toolbar app color="primary" dark fixed>
     <slot>
-      <v-btn class="menu-mobile hidden-sm-and-up" flat @click.stop="$store.commit('toggleSidebar')">
+      <v-btn class="menu-mobile" flat @click.stop="$store.commit('toggleSidebar')">
         <v-icon>menu</v-icon> Menu
       </v-btn>
       <v-btn itemprop="url" :href="config.host" flat class="logo">
         <img src="/logo.png" alt="Logo" width="40"> Ofertadeo
       </v-btn>
       <v-btn class="hidden-xs-only" :href="config.host + config.routes.elBuenFin" flat>{{config.txt.elBuenFin}}</v-btn>
-      <v-btn class="before-activator hidden-xs-only" :href="config.host + config.routes.storeList" flat>Tiendas</v-btn>
-      <v-menu
-        offset-y
-        open-on-click
-        :close-on-content-click="false"
-        full-width
-        absolute
-        left
-        max-width="100%"
-        min-width="550"
-        transition="slide-x-transition"
-        v-model="menu"
-      >
-        <v-btn class="hidden-xs-only" icon flat slot="activator"><v-icon>arrow_drop_down</v-icon></v-btn>
-        <v-card class="toolbar__dropdown-menu">
-          <v-list>
-            <v-list-tile avatar :href="config.host + config.routes.elBuenFin">
-              <v-list-tile-avatar>
-                <img src="https://www.ofertadeo.com/uploads/2017/10/26/logo-buen-fin-1_thumb.png" alt="El 
-                Buen fin" width="55">
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>{{config.txt.elBuenFin}}</v-list-tile-title>
-                <v-list-tile-sub-title>Tiendas participantes</v-list-tile-sub-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn
-                  icon
-                >
-                  <v-icon>loyalty</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-          </v-list>
-          <v-divider></v-divider>
-          <v-list dense>
-            <v-list-tile v-for="(item,i) in config.stores" :key="i" ripple tag="a" :href="config.host + config.routes.storeList + '/' + item._id" class="list__tile">
-              <v-list-tile-content>
-                <v-list-tile-title v-text="item.name" />
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn :href="config.host + config.routes.storeList" flat color="primary" dark><v-icon>store</v-icon>Ver todas</v-btn>
-            <v-btn flat @click="menu = false"><v-icon>close</v-icon>Cerrar</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-menu>
-      <v-btn class="before-activator hidden-xs-only" :href="config.host + config.routes.categories" flat>Categorías</v-btn>
-      <v-menu
-        offset-y
-        open-on-click
-        :close-on-content-click="false"
-        full-width
-        absolute
-        left
-        max-width="100%"
-        min-width="550"
-        transition="slide-x-transition"
-        v-model="menuCat"
-      >
-        <v-btn class="hidden-xs-only" icon flat slot="activator"><v-icon>arrow_drop_down</v-icon></v-btn>
-        <v-card class="toolbar__dropdown-menu">
-          <v-list dense>
-            <v-list-tile v-for="(item,i) in config.categories" :key="i" ripple tag="a" :href="config.host + config.routes.categories + '/' + item._id" class="list__tile">
-              <v-list-tile-content>
-                <v-list-tile-title v-text="item.name" />
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn :href="config.host + config.routes.categories" flat color="primary" dark><v-icon>sort</v-icon>Ver todas</v-btn>
-            <v-btn flat @click="menuCat = false"><v-icon>close</v-icon>Cerrar</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-menu>
+      <v-btn :href="config.host + config.routes.storeList" flat>Tiendas</v-btn>
+      <v-btn :href="config.host + config.routes.categories" flat>Categorías</v-btn>
       </slot>
     </v-toolbar>
 </template>
