@@ -49,7 +49,6 @@
               </ofer-item>
           </v-flex>
         </v-layout>
-        {{JSON.stringify(pagination)}}
         <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq + '/items'" txt="Cargar más ofertas"></ofer-more-items>
     </section>
   </v-container>
