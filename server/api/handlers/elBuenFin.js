@@ -126,7 +126,7 @@ module.exports = function (spec) {
           }
         }),
         crudInst.getPagination({
-          query: { 'stores._id': req.params._id, 'categories._id': elBuenFinCategory },
+          query: { 'categories._id': elBuenFinCategory },
           collection: conf.db.collections.main
         })
       ]
