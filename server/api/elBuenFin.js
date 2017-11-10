@@ -16,6 +16,7 @@ module.exports = function (params) {
         })
           .getById()
           .getIndex()
+          .getItems()
           .getFormData()
           .existsBySlug()
           .getStores()
