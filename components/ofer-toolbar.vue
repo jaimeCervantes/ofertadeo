@@ -109,7 +109,7 @@
       </div>
 
       <v-toolbar-items>
-        <v-btn class="before-activator" :href="config.host + config.routes.categories" flat>Categorías</v-btn>
+        <v-btn class="before-activator hidden-xs-only" :href="config.host + config.routes.categories" flat>Categorías</v-btn>
       </v-toolbar-items>
       
       <label for="menu-categories" @click="closeStoresMenu()" class="toggle-menu btn btn--flat btn--raised btn--icon hidden-xs-only">
@@ -204,7 +204,6 @@ export default {
     opacity: 0;
      &:checked + .hidden-menu {
       top: 50px;
-      left:0;
       opacity: 1;
     }
   }
@@ -298,10 +297,10 @@ export default {
 
   .hidden-menu {
     // display:none;
-    width: 100%;
+    width: 98%;
     position: absolute;
-    
-    top: -1000px;
+    left: 1%;
+    top: -600px;
     z-index: 10;
     opacity: 0;
   }
