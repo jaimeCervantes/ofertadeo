@@ -135,8 +135,58 @@ module.exports = function (spec) {
         .then(function (results) {
           res.json({
             stores: results[0],
-            offers: results[1],
+            items: results[1],
             pagination: results[2]
+          })
+        })
+        .catch(function (error) {
+          console.log(error)
+          res.json(error)
+        })
+    })
+
+    return that
+  }
+
+  function getItems () {
+    let crudInst = spec.crud
+    let conf = spec.config
+    spec.router.get('/el-buen-fin/items', function (req, res) {
+      let page = req.query.page ? Number(req.query.page) : 0
+      let iterable = [
+        crudInst.getItems({
+          collection: conf.db.collections.main,
+          query: { 'categories._id': elBuenFinCategory },
+          items_per_page: conf.db.itemsPerPage,
+          skip: conf.db.itemsPerPage * page,
+          sort: { published: -1 },
+          projection: {
+            name: 1,
+            thumbnail: 1,
+            elBuenFin: 1,
+            slug: 1,
+            meta_description: 1,
+            img: 1,
+            img_data: 1,
+            img_alt: 1,
+            img_title: 1,
+            categories: 1,
+            stores: 1,
+            published: 1,
+            modified: 1
+          }
+        }),
+        crudInst.getPagination({
+          query: { 'categories._id': elBuenFinCategory },
+          collection: conf.db.collections.main
+        })
+      ]
+
+      Promise.all(iterable)
+        .then(function (results) {
+          res.json({
+            items: results[0],
+            pagination: results[1]
           })
         })
         .catch(function (error) {
@@ -354,6 +404,7 @@ module.exports = function (spec) {
   that.save = save
   that.getById = getById
   that.getIndex = getIndex
+  that.getItems = getItems
   that.getStores = getStores
   that.getFormData = getFormData
   that.existsBySlug = existsBySlug

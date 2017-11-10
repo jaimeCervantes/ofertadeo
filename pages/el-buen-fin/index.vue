@@ -41,15 +41,16 @@
           <v-btn primary large tag="a" :href="config.host + config.routes.elBuenFin + config.routes.storeList">Ver todas las tiendas</v-btn>
         </div>
     </section>
-    <section id="main-list" itemscope itemtype="http://schema.org/ItemList" v-if="offers.length > 0">
+    <section id="main-list" itemscope itemtype="http://schema.org/ItemList" v-if="items.length > 0">
       <h2>Promociones y Ofertas del Buen Fin 2017</h2>
         <v-layout row wrap>
-          <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in offers" :key="i">
+          <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in items" :key="i">
               <ofer-item :item="item" :to-link="config.routes.main + '/' + item.slug" itemprop="itemListElement" itemscope itemtype="http://schema.org/Article" :position="i">
               </ofer-item>
           </v-flex>
         </v-layout>
-        <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq" txt="Cargar más ofertas"></ofer-more-items>
+        {{JSON.stringify(pagination)}}
+        <ofer-more-items @more-items="concatItems" :pagination="pagination" :url="urlReq + '/items'" txt="Cargar más ofertas"></ofer-more-items>
     </section>
   </v-container>
 </template>
@@ -61,7 +62,6 @@ import OferCommon from '~/components/mixins/ofer-common.vue'
 import OferItem from '~/components/ofer-item.vue'
 import OferMoreItems from '~/components/ofer-more-items.vue'
 import OferExpand from '~/components/ofer-expand.vue'
-import OferHeaderInfo from '~/components/ofer-header-info.vue'
 
 var urlReq = OferCommon.props.config.default().host + '/api/el-buen-fin'
 
@@ -109,7 +109,6 @@ export default {
     OferItem,
     OferCommon,
     OferExpand,
-    OferHeaderInfo,
     OferMoreItems
   },
   head () {
