@@ -3078,7 +3078,6 @@ module.exports = function (spec) {
       })];
 
       Promise.all(iterable).then(function (results) {
-        console.log(results);
         res.json({
           item: results[0]
         });
@@ -3172,7 +3171,6 @@ module.exports = function (spec) {
         items_per_page: 1,
         projection: { _id: 1 }
       }).then(function (offer) {
-        console.log(offer);
         if (offer && offer._id) {
           res.json({
             success: true
