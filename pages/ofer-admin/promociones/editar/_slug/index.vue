@@ -9,6 +9,8 @@
             <div class="error" v-if="!validation.slug.val">El slug generado ya esta ocupado, cambialo</div>
             <vue-editor v-model="promotion.content"></vue-editor>
             <v-text-field v-model="promotion.url" name="url" label="Url origen" required></v-text-field>
+            <div>{{promotion.img}}</div>
+            <div>{{promotion.img_data}}</div>
             <file-uploader is-img @on-uploaded="getImgs" @on-imageLoaded="getImageData"></file-uploader>
             <v-text-field v-model="promotion.title" name="title" label="Titulo, h1" required></v-text-field>
             <v-text-field v-model="promotion.meta_title" name="meta_title" label="Meta titulo" required></v-text-field>
@@ -111,11 +113,11 @@ export default {
   },
   methods: {
     getImgs (resp) {
-      this.img = resp.img
-      this.thumbnail = resp.thumbnail
+      this.promotion.img = resp.img
+      this.promotion.thumbnail = resp.thumbnail
     },
     getImageData (data) {
-      this.img_data = data
+      this.promotion.img_data = data
     },
     send () {
       var that = this
