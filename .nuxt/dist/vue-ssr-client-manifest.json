@@ -1,8 +1,8 @@
 {
   "publicPath": "/_nuxt/",
   "all": [
-    "pages/el-buen-fin/_id.2255d1fd7398d8d058d2.js.map",
-    "pages/el-buen-fin/_id.2255d1fd7398d8d058d2.js",
+    "pages/el-buen-fin/_id.e629b29f5cad448ef54c.js.map",
+    "pages/el-buen-fin/_id.e629b29f5cad448ef54c.js",
     "pages/categorias/_id.4902a20ee1b51a23158e.js",
     "pages/ofer-admin/tiendas/nueva/index.bdb2d3d8dd51c01ce2ca.js",
     "pages/ofer-admin/tiendas/editar/_id/index.aaaf3cf96921f6616aad.js",
@@ -35,7 +35,7 @@
     "pages/ofer-admin/login/index.825f41e2baa54d93e9ab.js",
     "common.5d5b36f4bf99f486045f.js",
     "app.f00ba62dc8399c336789.js",
-    "manifest.da4f301f00014a3dc9e6.js",
+    "manifest.54b3ab7f7dbc805e3e6c.js",
     "common.d2f74b0fb25aaf3db4912f47ea7cd2ea.css",
     "common.a18531bf8c99acff195cdc9061bf5baf.css",
     "LICENSES",
@@ -75,17 +75,17 @@
     "common.a18531bf8c99acff195cdc9061bf5baf.css.map",
     "app.f00ba62dc8399c336789.js.map",
     "common.d2f74b0fb25aaf3db4912f47ea7cd2ea.css.map",
-    "manifest.da4f301f00014a3dc9e6.js.map",
+    "manifest.54b3ab7f7dbc805e3e6c.js.map",
     "index.spa.html",
     "index.ssr.html"
   ],
   "initial": [
-    "manifest.da4f301f00014a3dc9e6.js",
+    "manifest.54b3ab7f7dbc805e3e6c.js",
     "common.5d5b36f4bf99f486045f.js",
     "app.f00ba62dc8399c336789.js"
   ],
   "async": [
-    "pages/el-buen-fin/_id.2255d1fd7398d8d058d2.js",
+    "pages/el-buen-fin/_id.e629b29f5cad448ef54c.js",
     "pages/categorias/_id.4902a20ee1b51a23158e.js",
     "pages/ofer-admin/tiendas/nueva/index.bdb2d3d8dd51c01ce2ca.js",
     "pages/ofer-admin/tiendas/editar/_id/index.aaaf3cf96921f6616aad.js",
