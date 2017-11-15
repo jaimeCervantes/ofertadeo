@@ -36,7 +36,7 @@
       <div>
         <div v-for="(letter,l) in items" :key="l">
           <h3 v-text="letter._id.toUpperCase()"></h3>
-          <v-layout >
+          <v-layout row wrap>
             <v-flex xs6 sm3 md3 lg2 xl2 v-for="(item,i) in letter.stores" :key="i">
               <ofer-item class="mini" :item="item" :to-link="config.routes.elBuenFin + '/' + item._id"  :position="i">
                 <template slot="content">
