@@ -216,13 +216,7 @@ h1 {
       }
     }
   }
-  
-  .promotion-content {
-    img {
-      max-width: 100%;
-    }
-  }
-  
+    
   .el-buen-fin {
     margin-left: 0;
   }
@@ -288,5 +282,9 @@ h1 {
     padding-top:1px;
     padding-bottom:1px;
   }
+}
+
+.promotion-content img {
+  max-width: 100%;
 }
 </style>
