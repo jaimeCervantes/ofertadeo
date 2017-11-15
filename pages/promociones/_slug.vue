@@ -217,6 +217,12 @@ h1 {
     }
   }
   
+  .promotion-content {
+    img {
+      max-width: 100%;
+    }
+  }
+  
   .el-buen-fin {
     margin-left: 0;
   }
