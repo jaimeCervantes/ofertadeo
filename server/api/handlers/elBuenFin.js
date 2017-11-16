@@ -87,7 +87,7 @@ module.exports = function (spec) {
         crudInst.aggregate({
           collection: conf.db.collections.elBuenFin,
           pipeline: [
-            { $sample: { size: 15 } },
+            { $sample: { size: 12 } },
             { $project: {
               _id: 1,
               name: 1,

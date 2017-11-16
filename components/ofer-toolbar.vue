@@ -70,9 +70,9 @@
       <div class="hidden-menu">
         <v-card class="toolbar__dropdown-menu">
           <v-list>
-            <v-list-tile avatar :href="config.host + config.routes.elBuenFin">
+            <v-list-tile avatar :href="config.host + config.routes.elBuenFin + config.routes.storeList">
               <v-list-tile-avatar>
-                <img src="https://www.ofertadeo.com/uploads/2017/10/26/logo-buen-fin-1_thumb.png" alt="El 
+                <img style="margin-right:10px;" src="https://www.ofertadeo.com/uploads/2017/10/26/logo-buen-fin-1_thumb.png" alt="El 
                 Buen fin" width="55">
               </v-list-tile-avatar>
               <v-list-tile-content>
