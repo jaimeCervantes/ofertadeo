@@ -2915,7 +2915,7 @@ module.exports = function (spec) {
       var page = req.query.page ? Number(req.query.page) : 0;
       var iterable = [crudInst.aggregate({
         collection: conf.db.collections.elBuenFin,
-        pipeline: [{ $sample: { size: 15 } }, { $project: {
+        pipeline: [{ $sample: { size: 12 } }, { $project: {
             _id: 1,
             name: 1,
             slug: 1,
