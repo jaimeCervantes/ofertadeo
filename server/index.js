@@ -44,7 +44,7 @@ if (!develop) {
 
 app.use(morgan(morganFormat, { stream: accessLogStream }))
 
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '3mb'}))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(session({ secret: 'Cdovps_2017*' }))
