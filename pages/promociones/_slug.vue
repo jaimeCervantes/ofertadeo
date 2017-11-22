@@ -10,7 +10,7 @@
           <section class="promotion">
             <div class="thumbnail">
               <div class="img-container">
-                <a :href="item.img" target="_blank"><img :src="item.thumbnail" :alt="item.img_alt" :title="item.img_title" /></a>
+                <img v-img :src="item.img" :alt="item.img_alt" :title="item.img_title" />
               </div>
               <share-buttons :url="`${config.host}${config.routes.main}/${item.slug}`"  :media="item.img" twitter-user="ofertadeo" :title="item.name">
                   ></share-buttons>
@@ -66,6 +66,10 @@ import OferNotExists from '~/components/ofer-not-exists.vue'
 import ShareButtons from '~/components/share-buttons.vue'
 import OferItem from '~/components/ofer-item.vue'
 import OferHeaderInfo from '~/components/ofer-header-info.vue'
+import Vue from 'vue'
+import VueImg from 'v-img'
+
+Vue.use(VueImg)
 
 export default {
   mixins: [OferCommon],
