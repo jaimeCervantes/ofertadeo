@@ -42,6 +42,7 @@
     "slug": "^0.9.1",
     "source-map-support": "^0.4.15",
     "striptags": "^3.0.1",
+    "v-img": "^0.1.9",
     "vue-material": "^0.7.1",
     "vue-social-sharing": "^2.2.3",
     "vue2-editor": "^2.0.24",

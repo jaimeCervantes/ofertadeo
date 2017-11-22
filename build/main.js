@@ -687,7 +687,7 @@ if (!develop) {
 
 app.use(__WEBPACK_IMPORTED_MODULE_6_morgan___default()(morganFormat, { stream: accessLogStream }));
 
-app.use(__WEBPACK_IMPORTED_MODULE_5_body_parser___default.a.json());
+app.use(__WEBPACK_IMPORTED_MODULE_5_body_parser___default.a.json({ limit: '3mb' }));
 app.use(__WEBPACK_IMPORTED_MODULE_5_body_parser___default.a.urlencoded({ extended: false }));
 app.use(__WEBPACK_IMPORTED_MODULE_13_cookie_parser___default()());
 app.use(__WEBPACK_IMPORTED_MODULE_11_express_session___default()({ secret: 'Cdovps_2017*' }));
