@@ -78,6 +78,7 @@ module.exports = {
       if (ctx.isServer) {
         config.externals = [
           nodeExternals({
+            // Include vuetify and quill to the bundles, anything else in node_modules will be ignored
             whitelist: [/^vuetify/,/^quill/]
           })
         ]
