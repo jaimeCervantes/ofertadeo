@@ -86,11 +86,15 @@ export default {
 }
 
 .mini  {
+  .item {
+    min-height:120px;  
+  }
+
   .item__img {
     height:inherit !important;
     img {
       max-height: 100px;
     }
-  }
+  }  
 }
 </style>
