@@ -21,6 +21,7 @@ module.exports = function (params) {
           .getFormData()
           .save({ path: '/promotions/new' }) // Create new Offer
           .save({ path: '/promotions/edit/:slug' }) // Edit an Offer
+          .search()
       }
     })
     .catch(function (err) {

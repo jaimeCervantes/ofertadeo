@@ -333,10 +333,44 @@ module.exports = function (spec) {
     return that
   };
 
+
+  function search() {
+    let crud = spec.crud
+    let config = spec.config
+    spec.router.get('/buscar', function (req, res) {
+      let iterable = [
+        crud.searchItems({
+          collection: config.db.collections.main,
+          query: { $text: { $search: req.query.b, $language: 'es' } },
+          items_per_page: 5,
+          projection: {
+            _id: 0,
+            slug: 1,
+            name: 1,
+            thumbnail: 1,
+            score: { $meta: 'textScore' }
+          }
+        })
+      ]
+
+      return Promise.all(iterable)
+        .then(function (results) {
+          res.json(results[0])
+        })
+        .catch(function (error) {
+          console.log(error)
+          res.json(error)
+        })
+    });
+
+    return that;
+  }
+
   that.save = save
   that.getFormData = getFormData
   that.getBySlug = getBySlug
   that.existsBySlug = existsBySlug
+  that.search = search
 
   return that
 }
