@@ -1785,7 +1785,8 @@ module.exports = function (params) {
         feed: params.feed,
         pn: params.pn
       }).getBySlug().existsBySlug().getFormData().save({ path: '/promotions/new' }) // Create new Offer
-      .save({ path: '/promotions/edit/:slug' }); // Edit an Offer
+      .save({ path: '/promotions/edit/:slug' }) // Edit an Offer
+      .search();
     }
   }).catch(function (err) {
     // some configuration to notify no database connection working
@@ -2421,10 +2422,39 @@ module.exports = function (spec) {
     return that;
   };
 
+  function search() {
+    var crud = spec.crud;
+    var config = spec.config;
+    spec.router.get('/buscar', function (req, res) {
+      var iterable = [crud.searchItems({
+        collection: config.db.collections.main,
+        query: { $text: { $search: req.query.b, $language: 'es' } },
+        items_per_page: 5,
+        projection: {
+          _id: 0,
+          slug: 1,
+          name: 1,
+          thumbnail: 1,
+          score: { $meta: 'textScore' }
+        }
+      })];
+
+      return Promise.all(iterable).then(function (results) {
+        res.json(results[0]);
+      }).catch(function (error) {
+        console.log(error);
+        res.json(error);
+      });
+    });
+
+    return that;
+  }
+
   that.save = save;
   that.getFormData = getFormData;
   that.getBySlug = getBySlug;
   that.existsBySlug = existsBySlug;
+  that.search = search;
 
   return that;
 };
@@ -3464,6 +3494,7 @@ module.exports = {
 
       if (ctx.isServer) {
         config.externals = [nodeExternals({
+          // Include vuetify and quill to the bundles, anything else in node_modules will be ignored
           whitelist: [/^vuetify/, /^quill/]
         })];
       }
